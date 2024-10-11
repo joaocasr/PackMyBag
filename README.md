@@ -7,3 +7,28 @@
 ## Modelo de Domínio atual
 
 <img src="/modeling/Domain Model.jpg" width="550px" />
+
+## Diagrama de Arquitetura
+
+<img src="/modeling/Diagrama de Arquitetura.jpg" width="550px" />
+
+
+## Diagrama de Classes Catalogo
+
+<img src="/modeling/CatalogoService.jpg" width="550px" />
+
+## Diagrama de Classes Encomendas
+
+<img src="/modeling/EncomendasService.jpg" width="550px" />
+
+## Diagrama de Classes Utilizadores
+
+<img src="/modeling/UtilizadoresServico.jpg" width="550px" />
+
+## Diagrama de Classes Cesto
+
+<img src="/modeling/CestoService.jpg" width="550px" />
+
+## Diagrama de Classes Notificacoes
+
+<img src="/modeling/NotificacoesService.jpg" width="550px" />
