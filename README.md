@@ -10,7 +10,7 @@
 
 ## Diagrama de Arquitetura
 
-<img src="/modeling/Diagrama de Arquitetura.jpg" width="550px" />
+<img src="/modeling/Diagrama de Arquitetura.jpg" width="700px" />
 
 
 ## Diagrama de Classes Catalogo
@@ -21,9 +21,14 @@
 
 <img src="/modeling/EncomendaService.jpg" width="600px" />
 
-## Diagrama de Classes Utilizadores
+## Diagrama de Classes Favoritos
 
-<img src="/modeling/UtilizadoresService.jpg" width="600px" />
+<img src="/modeling/FavoritosService.jpg" width="600px" />
+
+
+## Diagrama de Classes Recomendacoes
+
+<img src="/modeling/RecomendacoesService.jpg" width="600px" />
 
 ## Diagrama de Classes Cesto
 
