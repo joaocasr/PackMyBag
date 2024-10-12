@@ -19,11 +19,11 @@
 
 ## Diagrama de Classes Encomendas
 
-<img src="/modeling/EncomendasService.jpg" width="550px" />
+<img src="/modeling/EncomendaService.jpg" width="550px" />
 
 ## Diagrama de Classes Utilizadores
 
-<img src="/modeling/UtilizadoresServico.jpg" width="550px" />
+<img src="/modeling/UtilizadoresService.jpg" width="550px" />
 
 ## Diagrama de Classes Cesto
 
