@@ -15,20 +15,20 @@
 
 ## Diagrama de Classes Catalogo
 
-<img src="/modeling/CatalogoService.jpg" width="550px" />
+<img src="/modeling/CatalogoService.jpg" width="600px" />
 
 ## Diagrama de Classes Encomendas
 
-<img src="/modeling/EncomendaService.jpg" width="550px" />
+<img src="/modeling/EncomendaService.jpg" width="600px" />
 
 ## Diagrama de Classes Utilizadores
 
-<img src="/modeling/UtilizadoresService.jpg" width="550px" />
+<img src="/modeling/UtilizadoresService.jpg" width="600px" />
 
 ## Diagrama de Classes Cesto
 
-<img src="/modeling/CestoService.jpg" width="550px" />
+<img src="/modeling/CestoService.jpg" width="600px" />
 
 ## Diagrama de Classes Notificacoes
 
-<img src="/modeling/NotificacoesService.jpg" width="550px" />
+<img src="/modeling/NotificacoesService.jpg" width="600px" />
