@@ -23,6 +23,6 @@ VALUES
 (4, 3),
 (5, 3);"
 
+docker exec -it postgres psql -U postgres -d catalogo -c "SELECT setval('"catalogoservice_item_iditem_seq"', (SELECT MAX(iditem) FROM item));"
 
-
-
+docker exec -it postgres psql -U postgres -d catalogo -c "SELECT setval('"catalogoservice_loja_idloja_seq"', (SELECT MAX(idloja) from loja));"

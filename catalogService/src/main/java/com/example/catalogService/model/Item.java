@@ -29,8 +29,8 @@ public class Item implements Serializable {
 	
 	@Column(name="IDItem", nullable=false, length=10)	
 	@Id	
-	@GeneratedValue(generator="CATALOGOSERVICE_ITEM_IDITEM_GENERATOR")	
-	@org.hibernate.annotations.GenericGenerator(name="CATALOGOSERVICE_ITEM_IDITEM_GENERATOR", strategy="native")	
+	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator="CATALOGOSERVICE_ITEM_IDITEM_GENERATOR")
+	@SequenceGenerator(name="CATALOGOSERVICE_ITEM_IDITEM_GENERATOR",sequenceName = "CATALOGOSERVICE_ITEM_IDITEM_SEQ")
 	private int IDItem;
 	
 	@ManyToOne(targetEntity=Loja.class, fetch=FetchType.LAZY)

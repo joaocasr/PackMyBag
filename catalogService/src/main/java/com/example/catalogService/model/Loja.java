@@ -21,11 +21,10 @@ import jakarta.persistence.*;
 public class Loja implements Serializable {
 	public Loja() {
 	}
-	
 	@Column(name="IDLoja", nullable=false, length=10)	
 	@Id	
-	@GeneratedValue(generator="CATALOGOSERVICE_LOJA_IDLOJA_GENERATOR")	
-	@org.hibernate.annotations.GenericGenerator(name="CATALOGOSERVICE_LOJA_IDLOJA_GENERATOR", strategy="native")	
+	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator="CATALOGOSERVICE_LOJA_IDLOJA_GENERATOR")
+	@SequenceGenerator(name="CATALOGOSERVICE_LOJA_IDLOJA_GENERATOR", sequenceName = "CATALOGOSERVICE_LOJA_IDLOJA_SEQ")
 	private int IDLoja;
 	
 	@Column(name="Nome", nullable=true, length=255)	

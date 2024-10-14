@@ -2,10 +2,8 @@ package com.example.catalogService.controllers;
 
 import com.example.catalogService.dto.CatalogoItemDTO;
 import com.example.catalogService.dto.PecaInsertDTO;
-import com.example.catalogService.exceptions.NoCatalogItemsException;
-import com.example.catalogService.exceptions.NoCatalogItemsGenderException;
-import com.example.catalogService.exceptions.NoCatalogItemsPriceException;
-import com.example.catalogService.model.Item;
+import com.example.catalogService.dto.SetInsertDTO;
+import com.example.catalogService.exceptions.*;
 import com.example.catalogService.services.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -70,9 +68,23 @@ public class ItemController {
     }
 
     @PostMapping("/addItem/Peca")
-    public void addItemShop(@RequestBody PecaInsertDTO itemBody){
-        itemService.saveItem(itemBody);
+    public ResponseEntity<?> addPecaShop(@RequestBody PecaInsertDTO itemBody){
+        try {
+            itemService.savePeca(itemBody);
+            return ResponseEntity.ok().body("Peca added with sucess!");
+        } catch (ItemCodeAlreadyExists e) {
+            return new ResponseEntity<>(new ErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage()), HttpStatus.BAD_REQUEST);
+        }
+    }
 
+    @PostMapping("/addItem/Set")
+    public ResponseEntity<?> addSetShop(@RequestBody SetInsertDTO itemBody){
+        try {
+            itemService.saveSet(itemBody);
+            return ResponseEntity.ok().body("Set added with sucess!");
+        } catch (ItemCodeAlreadyExists e) {
+            return new ResponseEntity<>(new ErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage()), HttpStatus.BAD_REQUEST);
+        }
     }
 
 }

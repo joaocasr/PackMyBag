@@ -14,6 +14,8 @@
 package com.example.catalogService.model;
 
 import java.io.Serializable;
+import java.util.HashSet;
+
 import jakarta.persistence.*;
 @Entity
 @org.hibernate.annotations.Proxy(lazy=false)
@@ -32,7 +34,14 @@ public class Set extends Item implements Serializable {
 	@org.hibernate.annotations.Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE, org.hibernate.annotations.CascadeType.LOCK})	
 	@org.hibernate.annotations.LazyCollection(org.hibernate.annotations.LazyCollectionOption.TRUE)	
 	private java.util.Set pecas = new java.util.HashSet();
-	
+
+	public Set(int nrpecas, java.util.Set pecas,
+			   Loja loja, String codigo, String designacao, double preco, int nraquisicoes, String estilo, String cor, String tamanho, String genero, String disponibilidade, String imagem){
+		super(loja, codigo, designacao, preco, nraquisicoes, estilo, cor, tamanho, genero, disponibilidade, imagem);
+		this.nrPecas = nrpecas;
+		this.pecas = new HashSet(pecas);
+	}
+
 	public void setNrPecas(int value) {
 		this.nrPecas = value;
 	}

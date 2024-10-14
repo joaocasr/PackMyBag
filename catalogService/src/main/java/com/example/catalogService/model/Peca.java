@@ -38,6 +38,11 @@ public class Peca extends Item implements Serializable {
 		this.sets = new HashSet();
 	}
 
+	public Peca(Loja loja, String codigo, String designacao, double preco, int nraquisicoes, String estilo, String cor, String tamanho, String genero, String disponibilidade, String imagem,java.util.Set sets) {
+		super(loja, codigo, designacao, preco, nraquisicoes, estilo, cor, tamanho, genero, disponibilidade, imagem);
+		this.sets = sets;
+	}
+
 	public void setSets(java.util.Set value) {
 		this.sets = value;
 	}

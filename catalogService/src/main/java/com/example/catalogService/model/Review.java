@@ -24,8 +24,8 @@ public class Review implements Serializable {
 	
 	@Column(name="IdReview", nullable=false, length=10)	
 	@Id	
-	@GeneratedValue(generator="CATALOGOSERVICE_REVIEW_IDREVIEW_GENERATOR")	
-	@org.hibernate.annotations.GenericGenerator(name="CATALOGOSERVICE_REVIEW_IDREVIEW_GENERATOR", strategy="native")	
+	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator="CATALOGOSERVICE_REVIEW_IDREVIEW_GENERATOR")
+	@SequenceGenerator(name="CATALOGOSERVICE_REVIEW_IDREVIEW_GENERATOR", sequenceName = "CATALOGOSERVICE_REVIEW_IDREVIEW_SEQ")
 	private int idReview;
 	
 	@ManyToOne(targetEntity=Cliente.class, fetch=FetchType.LAZY)

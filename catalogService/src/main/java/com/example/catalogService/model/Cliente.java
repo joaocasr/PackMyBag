@@ -24,8 +24,8 @@ public class Cliente implements Serializable {
 	
 	@Column(name="IDCliente", nullable=false, length=10)	
 	@Id	
-	@GeneratedValue(generator="CATALOGOSERVICE_CLIENTE_IDCLIENTE_GENERATOR")	
-	@org.hibernate.annotations.GenericGenerator(name="CATALOGOSERVICE_CLIENTE_IDCLIENTE_GENERATOR", strategy="native")	
+	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator="CATALOGOSERVICE_CLIENTE_IDCLIENTE_GENERATOR")
+	@SequenceGenerator(name="CATALOGOSERVICE_CLIENTE_IDCLIENTE_GENERATOR",sequenceName = "CATALOGOSERVICE_CLIENTE_IDCLIENTE_SEQ")
 	private int IDCliente;
 	
 	@Column(name="Nome", nullable=true, length=255)	
