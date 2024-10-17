@@ -1,5 +1,6 @@
 package com.example.favoritosService.services;
 
+import com.example.favoritosService.dto.ClienteDTO;
 import com.example.favoritosService.dto.FavoritoItemDTO;
 import com.example.favoritosService.dto.FavoritoItemInsertDTO;
 import com.example.favoritosService.dto.FavoritoItemRemoveDTO;
@@ -33,14 +34,9 @@ public class FavoritosService {
         return c != null;
     }
 
-    private boolean checkIfItemCodeAlreadyExists(String username, String code){
-        Cliente c = clienteFavoritosRepository.getClienteByUsername(username);
-        return c.getFavoritos().stream().map(Item::getCodigo).anyMatch(x -> x.equals(code));
-    }
 
-
-    public List<FavoritoItemDTO> getUserFavourites(String username,int page,int number) throws NoCatalogItemsException {
-        return clienteFavoritosRepository.getFavItemsByUsername(username,PageRequest.of(page, number)).stream().map(x->favoritoItemMapper.toFavoritoItemDTO(x)).collect(Collectors.toList());
+    public List<FavoritoItemDTO> getUserFavourites(ClienteDTO clienteDTO, int page, int number) throws NoCatalogItemsException {
+        return clienteFavoritosRepository.getFavItemsByUsername(clienteDTO.getUsername(), PageRequest.of(page, number)).stream().map(x->favoritoItemMapper.toFavoritoItemDTO(x)).collect(Collectors.toList());
     }
 
     public List<FavoritoItemDTO> getPerGenderItems(String username, String tipo) throws NoCatalogItemsGenderException {

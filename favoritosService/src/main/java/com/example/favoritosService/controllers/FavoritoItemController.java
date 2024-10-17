@@ -1,5 +1,6 @@
 package com.example.favoritosService.controllers;
 
+import com.example.favoritosService.dto.ClienteDTO;
 import com.example.favoritosService.dto.FavoritoItemDTO;
 import com.example.favoritosService.dto.FavoritoItemInsertDTO;
 import com.example.favoritosService.dto.FavoritoItemRemoveDTO;
@@ -63,7 +64,7 @@ public class FavoritoItemController {
         }
     }
 
-    @DeleteMapping("/removeItem")
+    @PostMapping("/removeItem")
     public ResponseEntity<?> removePecaFavorite(@RequestBody FavoritoItemRemoveDTO itemBody){
         try {
             favItemService.removeFavorito(itemBody);
@@ -73,10 +74,10 @@ public class FavoritoItemController {
         }
     }
 
-    @GetMapping("/{username}")
-    public List<FavoritoItemDTO> getUserFavsByPage(@PathVariable String username,@RequestParam int page, @RequestParam int number){
+    @GetMapping("/")
+    public List<FavoritoItemDTO> getUserFavsByPage(@RequestBody ClienteDTO clienteDTO, @RequestParam int page, @RequestParam int number){
         try{
-            return favItemService.getUserFavourites(username,page,number);
+            return favItemService.getUserFavourites(clienteDTO,page,number);
         }catch (NoCatalogItemsException n){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,n.getMessage());
         }

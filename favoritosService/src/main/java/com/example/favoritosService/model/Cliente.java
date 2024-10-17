@@ -85,8 +85,8 @@ public class Cliente implements Serializable {
 		this.favoritos.add(i);
 	}
 
-	public void removeFavorite(String codigo){
-		this.favoritos = this.favoritos.stream().filter(x->!x.getCodigo().equals(codigo)).collect(Collectors.toSet());
+	public void removeFavorite(String code){
+		this.favoritos.removeIf(x->x.getCodigo().equals(code));
 	}
 
 	/*
