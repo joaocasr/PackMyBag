@@ -14,6 +14,8 @@
 package com.example.favoritosService.model;
 
 import java.io.Serializable;
+import java.util.HashSet;
+
 import jakarta.persistence.*;
 
 
@@ -25,7 +27,16 @@ import jakarta.persistence.*;
 @Inheritance(strategy=InheritanceType.JOINED)
 @DiscriminatorValue("Item")
 public class Item implements Serializable {
+
 	public Item() {
+		this.codigo = codigo;
+		this.designacao = designacao;
+		this.preco = preco;
+		this.cor = cor;
+		this.tamanho = tamanho;
+		this.genero = genero;
+		this.disponibilidade = disponibilidade;
+		this.imagem = imagem;
 	}
 	
 	@Column(name="IDItem", nullable=false, length=10)	
@@ -54,6 +65,9 @@ public class Item implements Serializable {
 	
 	@Column(name="Genero", nullable=true, length=255)	
 	private String genero;
+
+	@Column(name="Imagem", nullable=true, length=255)
+	private String imagem;
 	
 	private void setIDItem(int value) {
 		this.IDItem = value;
@@ -125,6 +139,14 @@ public class Item implements Serializable {
 	
 	public String toString() {
 		return String.valueOf(getIDItem());
+	}
+
+	public void setImagem(String value) {
+		this.imagem = value;
+	}
+
+	public String getImagem() {
+		return imagem;
 	}
 	
 }

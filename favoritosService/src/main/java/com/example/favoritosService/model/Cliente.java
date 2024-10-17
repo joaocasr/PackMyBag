@@ -15,6 +15,7 @@ package com.example.favoritosService.model;
 
 import java.io.Serializable;
 import jakarta.persistence.*;
+import org.springframework.data.domain.PageRequest;
 
 
 @Entity
@@ -44,7 +45,7 @@ public class Cliente implements Serializable {
 	@org.hibernate.annotations.Cascade({org.hibernate.annotations.CascadeType.ALL})	
 	@JoinColumns({ @JoinColumn(name="ClienteIDCliente", nullable=false) })	
 	@org.hibernate.annotations.LazyCollection(org.hibernate.annotations.LazyCollectionOption.TRUE)
-	private java.util.Set favoritos = new java.util.HashSet();
+	private java.util.Set<Item> favoritos = new java.util.HashSet();
 	
 	private void setIDCliente(int value) {
 		this.IDCliente = value;
@@ -82,17 +83,61 @@ public class Cliente implements Serializable {
 		return email;
 	}
 	
-	public void setFavoritos(java.util.Set value) {
+	public void setFavoritos(java.util.Set<Item> value) {
 		this.favoritos = value;
 	}
 	
-	public java.util.Set getFavoritos() {
+	public java.util.Set<Item> getFavoritos() {
 		return favoritos;
 	}
-	
 	
 	public String toString() {
 		return String.valueOf(getIDCliente());
 	}
-	
+
+	public void addFavorite(Item i){
+		this.favoritos.add(i);
+	}
+
+	public void removeFavorite(Item i){
+		this.favoritos.remove(i);
+	}
+
+	/*
+	// filtrar fav por genero
+	public java.util.Set<String> getFavItemsByGender(String gender){
+		for(String code : this.getFavoritos()){
+			if
+		}
+		return null;
+	}
+
+	// filtrar favoritos por preço
+	public java.util.Set<String> getFavItemsByPrice(int min, @Param("max") int max, PageRequest pageable){
+		this.getFavoritos().
+	}
+
+	// filtrar fav por tamanho
+	@Query("select c.favoritos as f FROM Cliente c where f.tamanho= :tamanho")
+	Page<Item> getFavItemsBySize(@Param("tamanho") String tamanho, PageRequest pageable);
+
+	// filtrar fav por genero e preço
+	@Query("select c.favoritos as f FROM Cliente c where f.preco>= :min AND f.preco<= :max AND f.genero= :gender")
+	Page<Item> getFavItemsByPriceandGender(@Param("min") int min, @Param("max") int max, @Param("gender") String gender, PageRequest pageable);
+
+	// filtrar fav por genero e tamanho
+	@Query("select c.favoritos as f FROM Cliente c where f.tamanho= :tamanho AND f.genero= :gender")
+	Page<Item> getFavItemsBySizeandGender(@Param("tamanho") String tamanho, @Param("gender") String gender, PageRequest pageable);
+
+	// filtrar fav por tamanho e preço
+	@Query("select c.favoritos as f FROM Cliente c where f.preco>= :min AND f.preco<= :max AND f.tamanho= :tamanho")
+	Page<Item> getFavItemsByPriceandSize(@Param("min") int min, @Param("max") int max, @Param("tamanho") String gender, PageRequest pageable);
+
+	// usar todos os filtros para fav
+	@Query("select c.favoritos as f FROM Cliente c where f.preco>= :min AND f.preco<= :max AND f.tamanho= :tamanho AND f.genero= :gender")
+	Page<Item> getFavItemsByPriceSizeGender(@Param("min") int min, @Param("max") int max, @Param("tamanho") String tamanho, @Param("gender") String gender, PageRequest pageable);
+
+	@Query("select c.favoritos as f FROM Cliente c where f.codigo= :code AND c.username= :username")
+	Set<Item> getFavItemsByCode(@Param("username") String username, @Param("code") String code);
+	*/
 }
