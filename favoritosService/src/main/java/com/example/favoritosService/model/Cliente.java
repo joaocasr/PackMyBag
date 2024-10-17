@@ -14,6 +14,9 @@
 package com.example.favoritosService.model;
 
 import java.io.Serializable;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import jakarta.persistence.*;
 import org.springframework.data.domain.PageRequest;
 
@@ -31,58 +34,41 @@ public class Cliente implements Serializable {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="FAVORITOSSERVICE_CLIENTE_IDCLIENTE_GENERATOR")
 	@SequenceGenerator(name="FAVORITOSSERVICE_CLIENTE_IDCLIENTE_GENERATOR", sequenceName="FAVORITOSSERVICE_CLIENTE_IDCLIENTE_SEQ")
 	private int IDCliente;
-	
-	@Column(name="Nome", nullable=true, length=255)	
-	private String nome;
-	
-	@Column(name="Username", nullable=true, length=255)	
+
+	@Column(name="Username", nullable=true, length=255)
 	private String username;
-	
-	@Column(name="Email", nullable=true, length=255)	
-	private String email;
-	
+
 	@OneToMany(orphanRemoval=true, targetEntity=Item.class)
 	@org.hibernate.annotations.Cascade({org.hibernate.annotations.CascadeType.ALL})	
 	@JoinColumns({ @JoinColumn(name="ClienteIDCliente", nullable=false) })	
 	@org.hibernate.annotations.LazyCollection(org.hibernate.annotations.LazyCollectionOption.TRUE)
 	private java.util.Set<Item> favoritos = new java.util.HashSet();
-	
+
+	public Cliente(String username, Set<Item> favoritos) {
+		this.username = username;
+		this.favoritos = favoritos;
+	}
+
 	private void setIDCliente(int value) {
 		this.IDCliente = value;
 	}
-	
+
 	public int getIDCliente() {
 		return IDCliente;
 	}
-	
+
 	public int getORMID() {
 		return getIDCliente();
 	}
-	
-	public void setNome(String value) {
-		this.nome = value;
-	}
-	
-	public String getNome() {
-		return nome;
-	}
-	
+
 	public void setUsername(String value) {
 		this.username = value;
 	}
-	
+
 	public String getUsername() {
 		return username;
 	}
-	
-	public void setEmail(String value) {
-		this.email = value;
-	}
-	
-	public String getEmail() {
-		return email;
-	}
-	
+
 	public void setFavoritos(java.util.Set<Item> value) {
 		this.favoritos = value;
 	}
@@ -99,8 +85,8 @@ public class Cliente implements Serializable {
 		this.favoritos.add(i);
 	}
 
-	public void removeFavorite(Item i){
-		this.favoritos.remove(i);
+	public void removeFavorite(String codigo){
+		this.favoritos = this.favoritos.stream().filter(x->!x.getCodigo().equals(codigo)).collect(Collectors.toSet());
 	}
 
 	/*

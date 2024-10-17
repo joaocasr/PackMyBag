@@ -1,7 +1,8 @@
 package com.example.favoritosService.controllers;
 
 import com.example.favoritosService.dto.FavoritoItemDTO;
-import com.example.favoritosService.dto.FavoritoPecaInsertDTO;
+import com.example.favoritosService.dto.FavoritoItemInsertDTO;
+import com.example.favoritosService.dto.FavoritoItemRemoveDTO;
 import com.example.favoritosService.exceptions.*;
 import com.example.favoritosService.services.FavoritosService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,23 +22,6 @@ public class FavoritoItemController {
     @Autowired
     public FavoritoItemController(FavoritosService favoritosService){this.favItemService=favoritosService;}
 
-    @GetMapping("/")
-    public List<FavoritoItemDTO> getItemsByPage(@RequestParam int page, @RequestParam int number){
-        try{
-            return favItemService.getItemsByPage(page,number);
-        }catch (NoCatalogItemsException n){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND,n.getMessage());
-        }
-    }
-
-    @GetMapping("/all")
-    public List<FavoritoItemDTO> getAllItems(){
-        try{
-            return favItemService.getAllItems();
-        }catch (NoCatalogItemsException n){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND,n.getMessage());
-        }
-    }
 
     @GetMapping("/genero/{gender}")
     //public List<FavoritoItemDTO> getPerGenderItems(@RequestParam int page, @RequestParam int number,@PathVariable String gender){
@@ -69,8 +53,8 @@ public class FavoritoItemController {
         }
     }
 
-    @PostMapping("/addItem/Peca")
-    public ResponseEntity<?> addPecaFavorite(@RequestBody FavoritoPecaInsertDTO itemBody){
+    @PostMapping("/addItem")
+    public ResponseEntity<?> addItemFavorite(@RequestBody FavoritoItemInsertDTO itemBody){
         try {
             favItemService.addFavorito(itemBody);
             return ResponseEntity.ok().body("New favorite added with sucess!");
@@ -79,8 +63,8 @@ public class FavoritoItemController {
         }
     }
 
-    @PostMapping("/removeItem/Peca")
-    public ResponseEntity<?> removePecaFavorite(@RequestBody FavoritoPecaInsertDTO itemBody){
+    @DeleteMapping("/removeItem")
+    public ResponseEntity<?> removePecaFavorite(@RequestBody FavoritoItemRemoveDTO itemBody){
         try {
             favItemService.removeFavorito(itemBody);
             return ResponseEntity.ok().body("Favorite removed with sucess!");
@@ -88,6 +72,16 @@ public class FavoritoItemController {
             return new ResponseEntity<>(new ErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage()), HttpStatus.BAD_REQUEST);
         }
     }
+
+    @GetMapping("/{username}")
+    public List<FavoritoItemDTO> getUserFavsByPage(@PathVariable String username,@RequestParam int page, @RequestParam int number){
+        try{
+            return favItemService.getUserFavourites(username,page,number);
+        }catch (NoCatalogItemsException n){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,n.getMessage());
+        }
+    }
+
 
 }
 

@@ -3,16 +3,14 @@ package com.example.favoritosService.dto;
 public class FavoritoItemDTO {
     private String designacao;
     private double preco;
-    private String cor;
     private String imagem;
-    private String genero;
+    private String tipo;
 
-    public FavoritoItemDTO(String designacao, double preco, String cor, String imagem, String genero) {
+    public FavoritoItemDTO(String designacao, double preco, String imagem,String tipo) {
         this.designacao = designacao;
         this.preco = preco;
-        this.cor = cor;
         this.imagem = imagem;
-        this.genero = genero;
+        this.tipo = tipo;
     }
 
     public String getDesignacao() {
@@ -31,14 +29,6 @@ public class FavoritoItemDTO {
         this.preco = preco;
     }
 
-    public String getCor() {
-        return cor;
-    }
-
-    public void setCor(String cor) {
-        this.cor = cor;
-    }
-
     public String getImagem() {
         return imagem;
     }
@@ -47,11 +37,11 @@ public class FavoritoItemDTO {
         this.imagem = imagem;
     }
 
-    public String getGenero() {
-        return genero;
+    public String getTipo() {
+        return tipo;
     }
 
-    public void setGenero(String genero) {
-        this.genero = genero;
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 }

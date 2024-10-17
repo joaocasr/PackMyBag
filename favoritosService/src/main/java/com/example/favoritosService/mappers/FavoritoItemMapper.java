@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 public class FavoritoItemMapper {
 
     public FavoritoItemDTO toFavoritoItemDTO(Item item){
-        return new FavoritoItemDTO(item.getDesignacao(), item.getPreco(), item.getCor(), item.getImagem(), item.getGenero());
+        return new FavoritoItemDTO(item.getDesignacao(), item.getPreco(), item.getImagem(), item.getTipo());
     }
 
 

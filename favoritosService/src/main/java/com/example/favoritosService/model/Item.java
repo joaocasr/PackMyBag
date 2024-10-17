@@ -27,48 +27,74 @@ import jakarta.persistence.*;
 @Inheritance(strategy=InheritanceType.JOINED)
 @DiscriminatorValue("Item")
 public class Item implements Serializable {
-
-	public Item() {
-		this.codigo = codigo;
-		this.designacao = designacao;
-		this.preco = preco;
-		this.cor = cor;
-		this.tamanho = tamanho;
-		this.genero = genero;
-		this.disponibilidade = disponibilidade;
-		this.imagem = imagem;
-	}
 	
 	@Column(name="IDItem", nullable=false, length=10)	
 	@Id	
 	@GeneratedValue(generator="FAVORITOSSERVICE_ITEM_IDITEM_GENERATOR")	
 	@org.hibernate.annotations.GenericGenerator(name="FAVORITOSSERVICE_ITEM_IDITEM_GENERATOR", strategy="native")	
 	private int IDItem;
-	
-	@Column(name="Codigo", nullable=true, length=255)	
+
+	@Column(name="Codigo", nullable=true, length=255)
 	private String codigo;
-	
-	@Column(name="Designacao", nullable=true, length=255)	
+
+	@Column(name="Designacao", nullable=true, length=255)
 	private String designacao;
-	
-	@Column(name="Preco", nullable=true)	
+
+	@Column(name="Preco", nullable=true)
 	private double preco;
-	
-	@Column(name="Cor", nullable=true, length=255)	
-	private String cor;
-	
-	@Column(name="Tamanho", nullable=true, length=255)	
-	private String tamanho;
-	
-	@Column(name="Disponibilidade", nullable=true, length=255)	
+
+	@Column(name="Disponibilidade", nullable=true, length=255)
 	private String disponibilidade;
-	
-	@Column(name="Genero", nullable=true, length=255)	
-	private String genero;
+
+	@Column(name="Tipo", nullable=true, length=255)
+	private String tipo;
 
 	@Column(name="Imagem", nullable=true, length=255)
 	private String imagem;
-	
+
+	@Column(name="Subclasse", nullable=true, length=255)
+	private String subclasse;
+
+	@Column(name="Dimensao", nullable=true, length=255)
+	private String dimensao;
+
+
+	public Item() {
+
+	}
+
+	public Item(String codigo, String designacao, double preco, String disponibilidade, String tipo, String imagem, String subclasse, String dimensao) {
+		this.codigo = codigo;
+		this.designacao = designacao;
+		this.preco = preco;
+		this.disponibilidade = disponibilidade;
+		this.tipo = tipo;
+		this.imagem = imagem;
+		this.subclasse = subclasse;
+		this.dimensao = dimensao;
+	}
+
+
+	public String getDimensao() {
+		return dimensao;
+	}
+
+	public void setDimensao(String dimensao) {
+		this.dimensao = dimensao;
+	}
+
+	public String getSubclasse() {
+		return subclasse;
+	}
+
+	public void setSubclasse(String subclasse) {
+		this.subclasse = subclasse;
+	}
+
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
+	}
+
 	private void setIDItem(int value) {
 		this.IDItem = value;
 	}
@@ -104,23 +130,7 @@ public class Item implements Serializable {
 	public double getPreco() {
 		return preco;
 	}
-	
-	public void setCor(String value) {
-		this.cor = value;
-	}
-	
-	public String getCor() {
-		return cor;
-	}
-	
-	public void setTamanho(String value) {
-		this.tamanho = value;
-	}
-	
-	public String getTamanho() {
-		return tamanho;
-	}
-	
+
 	public void setDisponibilidade(String value) {
 		this.disponibilidade = value;
 	}
@@ -130,11 +140,11 @@ public class Item implements Serializable {
 	}
 	
 	public void setGenero(String value) {
-		this.genero = value;
+		this.tipo = value;
 	}
 	
-	public String getGenero() {
-		return genero;
+	public String getTipo() {
+		return tipo;
 	}
 	
 	public String toString() {
