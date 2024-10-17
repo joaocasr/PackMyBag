@@ -26,7 +26,12 @@ public class Calcado extends Item implements Serializable {
 	
 	@Column(name="Numero", nullable=false, length=10)	
 	private int numero;
-	
+
+	public Calcado(Loja loja, String codigo, String designacao, double preco, int nraquisicoes, String estilo, String cor, String tipo, String disponibilidade, String imagem, int nrdisponiveis, int numero) {
+		super(loja, codigo, designacao, preco, nraquisicoes, estilo, cor, tipo, disponibilidade, imagem, nrdisponiveis);
+		this.numero = numero;
+	}
+
 	public void setNumero(int value) {
 		this.numero = value;
 	}

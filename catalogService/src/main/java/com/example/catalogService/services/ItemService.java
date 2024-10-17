@@ -1,18 +1,14 @@
 package com.example.catalogService.services;
 
-import com.example.catalogService.dto.CatalogoItemDTO;
-import com.example.catalogService.dto.SetInsertDTO;
-import com.example.catalogService.dto.PecaInsertDTO;
-import com.example.catalogService.exceptions.ItemCodeAlreadyExists;
-import com.example.catalogService.exceptions.NoCatalogItemsException;
-import com.example.catalogService.exceptions.NoCatalogItemsGenderException;
-import com.example.catalogService.exceptions.NoCatalogItemsPriceException;
+import com.example.catalogService.dto.*;
+import com.example.catalogService.exceptions.*;
 import com.example.catalogService.mappers.ItemMapper;
+import com.example.catalogService.model.*;
 import com.example.catalogService.model.Set;
-import com.example.catalogService.model.Peca;
-import com.example.catalogService.model.Loja;
+import com.example.catalogService.repositories.ClientRepository;
 import com.example.catalogService.repositories.ItemRepository;
 import com.example.catalogService.repositories.LojaRepository;
+import com.example.catalogService.repositories.ReviewRepository;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
@@ -23,12 +19,16 @@ import java.util.stream.Collectors;
 public class ItemService {
 
     private ItemRepository itemRepository;
+    private ReviewRepository reviewRepository;
     private LojaRepository lojaRepository;
+    private ClientRepository clientRepository;
     private ItemMapper itemMapper;
 
-    public ItemService(ItemRepository itemRepository, LojaRepository lojaRepository, ItemMapper itemMapper){
+    public ItemService(ItemRepository itemRepository,ReviewRepository reviewRepository, LojaRepository lojaRepository, ClientRepository clientRepository,ItemMapper itemMapper){
         this.itemRepository = itemRepository;
+        this.reviewRepository = reviewRepository;
         this.lojaRepository = lojaRepository;
+        this.clientRepository = clientRepository;
         this.itemMapper = itemMapper;
     }
 
@@ -62,6 +62,23 @@ public class ItemService {
         return itemRepository.getShopItems(idloja,PageRequest.of(page, number)).stream().map(x->itemMapper.toCatalogoItemDTO(x)).collect(Collectors.toList());
     }
 
+    public FullDetailedItemDTO getItem(int id) throws InexistentItemException {
+        Optional<Item> item  = itemRepository.findById(id);
+        if(item.isEmpty()) throw new InexistentItemException(id);
+        Item full = null;
+        Item i = item.get();
+        if(i instanceof Peca ){
+            full = new Peca(i.getLoja(),i.getCodigo(),i.getDesignacao(),i.getPreco(),i.getNraquisicoes(),i.getEstilo(),i.getCor(),((Peca) i).getTamanho(),i.getTipo(),i.getDisponibilidade(),i.getImagem(),((Peca) i).getSets(),i.getNrDisponiveis());
+        }
+        if(i instanceof Set ){
+            full= new Set(((Set) i).getNrPecas(),((Set) i).getPecas(),i.getLoja(),i.getCodigo(),i.getDesignacao(),i.getPreco(),i.getNraquisicoes(),i.getEstilo(),i.getCor(),((Set) i).getTamanho(),i.getTipo(),i.getDisponibilidade(),i.getImagem());
+        }
+        if(i instanceof Calcado ){
+            full= new Calcado(i.getLoja(),i.getCodigo(),i.getDesignacao(),i.getPreco(),i.getNraquisicoes(),i.getEstilo(),i.getCor(),i.getTipo(),i.getDisponibilidade(),i.getImagem(),i.getNrDisponiveis(),((Calcado) i).getNumero());
+        }
+        return itemMapper.toFullCatalogoDTO(full);
+    }
+
     public void savePeca(PecaInsertDTO item) throws ItemCodeAlreadyExists{
         if(checkIfItemCodeAlreadyExists(item.getCodigo(),item.getIdLoja())) throw new ItemCodeAlreadyExists(item.getCodigo());
         Optional<Loja> loja = this.lojaRepository.findById(item.getIdLoja());
@@ -70,7 +87,7 @@ public class ItemService {
             for(String c:item.getCores()){
                 cor.append(c).append("/");
             }
-            itemRepository.save(new Peca(loja.get(),item.getCodigo(),item.getDesignacao(),item.getPreco(),0,item.getEstilo(),cor.substring(0,cor.length()-1),item.getTamanho(),item.getTipo(),item.getDisponibilidade(),item.getImagem()));
+            itemRepository.save(new Peca(loja.get(),item.getCodigo(),item.getDesignacao(),item.getPreco(),0,item.getEstilo(),cor.substring(0,cor.length()-1),item.getTamanho(),item.getTipo(),item.getDisponibilidade(),item.getImagem(), item.getNrdisponiveis()));
         }
     }
 
@@ -108,4 +125,30 @@ public class ItemService {
             }
         }
     }
+
+    public void insertReview(InsertReviewDTO insertReviewDTO,int itemID) throws InexistentItemException {
+        Optional<Item> i = itemRepository.findById(itemID);
+        if(i.isEmpty()) throw new InexistentItemException(itemID);
+        Item item = i.get();
+        Cliente c = clientRepository.getClienteByUsername(insertReviewDTO.getUsername());
+        if(c==null) {
+            c = new Cliente(insertReviewDTO.getName(),insertReviewDTO.getUsername(),insertReviewDTO.getProfileImg());
+            clientRepository.save(c);
+        }
+        Review r = new Review(c,insertReviewDTO.getRating(), insertReviewDTO.getTimestamp(),insertReviewDTO.getTexto());
+        if(item.getCriticas().stream().map(x->x.getAutor().getUsername()).anyMatch(x->x.equals(insertReviewDTO.getUsername()))){
+            Review oldreview = item.getCriticas().stream().filter(x->x.getAutor().getUsername().equals(insertReviewDTO.getUsername())).findFirst().get();
+            oldreview.setClassificacao(insertReviewDTO.getRating());
+            oldreview.setDescricao(insertReviewDTO.getTexto());
+            oldreview.setData(insertReviewDTO.getTimestamp());
+            item.adicionaReview(oldreview);
+            reviewRepository.save(oldreview);
+            itemRepository.save(item);
+        }else{
+            item.adicionaReview(r);
+            reviewRepository.save(r);
+            itemRepository.save(item);
+        }
+    }
+
 }

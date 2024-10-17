@@ -36,14 +36,14 @@ public class Peca extends Item implements Serializable {
 	@org.hibernate.annotations.LazyCollection(org.hibernate.annotations.LazyCollectionOption.TRUE)	
 	private java.util.Set sets = new java.util.HashSet();
 
-	public Peca(Loja loja, String codigo, String designacao, double preco, int nraquisicoes, String estilo, String cor, String tamanho, String genero, String disponibilidade, String imagem) {
-		super(loja, codigo, designacao, preco, nraquisicoes, estilo, cor, genero, disponibilidade, imagem,1);
+	public Peca(Loja loja, String codigo, String designacao, double preco, int nraquisicoes, String estilo, String cor, String tamanho, String tipo, String disponibilidade, String imagem,int nrdisponiveis) {
+		super(loja, codigo, designacao, preco, nraquisicoes, estilo, cor, tipo, disponibilidade, imagem,nrdisponiveis);
 		this.tamanho = tamanho;
 		this.sets = new HashSet();
 	}
 
-	public Peca(Loja loja, String codigo, String designacao, double preco, int nraquisicoes, String estilo, String cor, String tamanho, String genero, String disponibilidade, String imagem,java.util.Set sets) {
-		super(loja, codigo, designacao, preco, nraquisicoes, estilo, cor, genero, disponibilidade, imagem,1);
+	public Peca(Loja loja, String codigo, String designacao, double preco, int nraquisicoes, String estilo, String cor, String tamanho, String tipo, String disponibilidade, String imagem,java.util.Set sets,int nrdisponiveis) {
+		super(loja, codigo, designacao, preco, nraquisicoes, estilo, cor, tipo, disponibilidade, imagem,nrdisponiveis);
 		this.tamanho = tamanho;
 		this.sets = sets;
 	}

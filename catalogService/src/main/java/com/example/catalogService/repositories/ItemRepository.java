@@ -30,7 +30,7 @@ public interface ItemRepository extends JpaRepository<Item,Integer> {
     @Query("select i from Item i where i.loja.IDLoja= :idLoja")
     Page<Item> getShopItems(@Param("idLoja") int idLoja, PageRequest pageable);
 
-//    @Query("update Peca p set p.sets = :conjuntos where p.codigo= :codigo and p.loja.IDLoja= :idLoja")
-//    void updatePeca(@Param("codigo") String codigo, @Param("idLoja") int idLoja, @Param("conjuntos") Set<com.example.catalogService.model.Set> conjuntos);
+    @Query("select i from Item i where i.codigo= :codigo")
+    Item getItemByCode(@Param("codigo") String codigo);
 
 }

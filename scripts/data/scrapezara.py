@@ -61,7 +61,7 @@ for page in pages:
     disponibilidade="In Stock"
     tipo="Male"
 
-    if(str(page).__contains__("Homem")):
+    if(str(page).__contains__("Mulher")):
         tipo="Female"
     if(str(page).__contains__("Crianca")):
         tipo="Child"

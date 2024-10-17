@@ -71,7 +71,7 @@ public class Item implements Serializable {
 	@org.hibernate.annotations.Cascade({org.hibernate.annotations.CascadeType.ALL})	
 	@JoinColumns({ @JoinColumn(name="ItemIDItem", nullable=false) })	
 	@org.hibernate.annotations.LazyCollection(org.hibernate.annotations.LazyCollectionOption.TRUE)	
-	private java.util.Set criticas = new java.util.HashSet();
+	private java.util.Set<Review> criticas = new java.util.HashSet();
 
 	public Item(Loja loja, String codigo, String designacao, double preco, int nraquisicoes, String estilo, String cor, String tipo, String disponibilidade, String imagem, int nrdisponiveis) {
 		this.loja = loja;
@@ -188,14 +188,21 @@ public class Item implements Serializable {
 		return loja;
 	}
 
-	public void setCriticas(java.util.Set value) {
+	public void setCriticas(java.util.Set<Review> value) {
 		this.criticas = value;
 	}
 
-	public java.util.Set getCriticas() {
+	public java.util.Set<Review> getCriticas() {
 		return criticas;
 	}
 
+	public void removeReview(String username){
+		this.criticas.removeIf(x->x.getAutor().getUsername().equals(username));
+	}
+
+	public void adicionaReview(Review review){
+		this.criticas.add(review);
+	}
 
 	public String toString() {
 		return String.valueOf(getIDItem());

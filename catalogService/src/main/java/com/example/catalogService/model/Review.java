@@ -41,7 +41,14 @@ public class Review implements Serializable {
 	
 	@Column(name="Data", nullable=true, length=255)	
 	private String data;
-	
+
+	public Review(Cliente autor, int classificacao, String data, String descricao) {
+		this.autor = autor;
+		this.classificacao = classificacao;
+		this.data = data;
+		this.descricao = descricao;
+	}
+
 	private void setIdReview(int value) {
 		this.idReview = value;
 	}

@@ -33,13 +33,16 @@ public class Cliente implements Serializable {
 	
 	@Column(name="Username", nullable=true, length=255)	
 	private String username;
-	
-	@Column(name="Email", nullable=true, length=255)	
-	private String email;
-	
+
 	@Column(name="ProfileImg", nullable=true, length=255)	
 	private String profileImg;
-	
+
+	public Cliente(String nome, String username, String profileImg) {
+		this.nome = nome;
+		this.username = username;
+		this.profileImg = profileImg;
+	}
+
 	private void setIDCliente(int value) {
 		this.IDCliente = value;
 	}
@@ -67,15 +70,7 @@ public class Cliente implements Serializable {
 	public String getUsername() {
 		return username;
 	}
-	
-	public void setEmail(String value) {
-		this.email = value;
-	}
-	
-	public String getEmail() {
-		return email;
-	}
-	
+
 	public void setProfileImg(String value) {
 		this.profileImg = value;
 	}

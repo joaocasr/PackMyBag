@@ -39,8 +39,8 @@ public class Set extends Item implements Serializable {
 	private java.util.Set pecas = new java.util.HashSet();
 
 	public Set(int nrpecas, java.util.Set pecas,
-			   Loja loja, String codigo, String designacao, double preco, int nraquisicoes, String estilo, String cor, String tamanho, String genero, String disponibilidade, String imagem){
-		super(loja, codigo, designacao, preco, nraquisicoes, estilo, cor, genero, disponibilidade, imagem,1);
+			   Loja loja, String codigo, String designacao, double preco, int nraquisicoes, String estilo, String cor, String tamanho, String tipo, String disponibilidade, String imagem){
+		super(loja, codigo, designacao, preco, nraquisicoes, estilo, cor, tipo, disponibilidade, imagem,1);
 		this.nrPecas = nrpecas;
 		this.tamanho = tamanho;
 		this.pecas = new HashSet(pecas);

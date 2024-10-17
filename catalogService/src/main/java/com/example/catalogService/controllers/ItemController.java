@@ -1,6 +1,7 @@
 package com.example.catalogService.controllers;
 
 import com.example.catalogService.dto.CatalogoItemDTO;
+import com.example.catalogService.dto.InsertReviewDTO;
 import com.example.catalogService.dto.PecaInsertDTO;
 import com.example.catalogService.dto.SetInsertDTO;
 import com.example.catalogService.exceptions.*;
@@ -37,6 +38,25 @@ public class ItemController {
             return itemService.getAllItems();
         }catch (NoCatalogItemsException n){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,n.getMessage());
+        }
+    }
+
+    @GetMapping("/items/{id}")
+    public ResponseEntity<?> showItemDetails(@PathVariable int id){
+        try{
+            return ResponseEntity.ok(itemService.getItem(id));
+        }catch (InexistentItemException i){
+            return new ResponseEntity<>(new ErrorResponse(HttpStatus.NOT_FOUND,i.getMessage()),HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PostMapping("/items/{id}/review")
+    public ResponseEntity<?> adicionaReview(@RequestBody InsertReviewDTO insertReviewDTO, @PathVariable int id){
+        try{
+            itemService.insertReview(insertReviewDTO,id);
+            return ResponseEntity.ok("adicionado com sucesso!");
+        }catch (InexistentItemException i){
+            return new ResponseEntity<>(new ErrorResponse(HttpStatus.NOT_FOUND,i.getMessage()),HttpStatus.NOT_FOUND);
         }
     }
 

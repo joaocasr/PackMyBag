@@ -1,17 +1,31 @@
 package com.example.catalogService.dto;
 
 public class CatalogoItemDTO {
+    private int IDitem;
     private String designacao;
     private double preco;
     private String cor;
     private String imagem;
     private String tipo;
 
-    public CatalogoItemDTO(String designacao, double preco, String cor, String imagem, String tipo) {
+    public CatalogoItemDTO(int id,String designacao, double preco, String cor, String imagem, String tipo) {
+        this.IDitem = id;
         this.designacao = designacao;
         this.preco = preco;
         this.cor = cor;
         this.imagem = imagem;
+        this.tipo = tipo;
+    }
+
+    public int getIDitem() {
+        return IDitem;
+    }
+
+    public void setIDitem(int IDitem) {
+        this.IDitem = IDitem;
+    }
+
+    public void setTipo(String tipo) {
         this.tipo = tipo;
     }
 
