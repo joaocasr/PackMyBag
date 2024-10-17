@@ -15,20 +15,20 @@ import java.util.Set;
 @Repository
 public interface ItemRepository extends JpaRepository<Item,Integer> {
 
-    @Query("select i FROM Item i where i.genero= :gender")
-    Page<Item> getItemsByGender(@Param("gender") String gender, PageRequest pageable);
+    @Query("select i FROM Item i where i.tipo= :tipo")
+    Page<Item> getItemsByType(@Param("tipo") String tipo, PageRequest pageable);
 
     @Query("select i FROM Item i where i.preco>= :min AND i.preco<= :max")
     Page<Item> getItemsByPrice(@Param("min") int min, @Param("max") int max, PageRequest pageable);
 
-    @Query("select i FROM Item i where i.preco>= :min AND i.preco<= :max AND i.genero= :gender")
-    Page<Item> getItemsByPriceandGender(@Param("min") int min, @Param("max") int max, @Param("gender") String gender, PageRequest pageable);
+    @Query("select i FROM Item i where i.preco>= :min AND i.preco<= :max AND i.tipo= :tipo")
+    Page<Item> getItemsByPriceandType(@Param("min") int min, @Param("max") int max, @Param("tipo") String tipo, PageRequest pageable);
 
     @Query("select i FROM Item i where i.codigo= :code and i.loja.IDLoja= :idLoja")
     Set<Item> getItemsByCodeShop(@Param("code") String code,@Param("idLoja") int idLoja);
 
     @Query("select i from Item i where i.loja.IDLoja= :idLoja")
-    Set<Item> getShopItems(@Param("idLoja") int idLoja);
+    Page<Item> getShopItems(@Param("idLoja") int idLoja, PageRequest pageable);
 
 //    @Query("update Peca p set p.sets = :conjuntos where p.codigo= :codigo and p.loja.IDLoja= :idLoja")
 //    void updatePeca(@Param("codigo") String codigo, @Param("idLoja") int idLoja, @Param("conjuntos") Set<com.example.catalogService.model.Set> conjuntos);

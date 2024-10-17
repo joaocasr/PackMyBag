@@ -40,19 +40,28 @@ public class ItemController {
         }
     }
 
-    @GetMapping("/genero/{gender}")
-    public List<CatalogoItemDTO> getPerGenderItems(@RequestParam int page, @RequestParam int number,@PathVariable String gender){
+    @GetMapping("/lojas/{lojaid}")
+    public List<CatalogoItemDTO> getItemsfromShop(@PathVariable int lojaid,@RequestParam int page, @RequestParam int number){
         try{
-            return itemService.getPerGenderItems(page,number,gender);
+            return itemService.getItemsFromShop(lojaid,page,number);
+        }catch (NoCatalogItemsException n){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,n.getMessage());
+        }
+    }
+
+    @GetMapping("/type/{type}")
+    public List<CatalogoItemDTO> getPerTypeItems(@RequestParam int page, @RequestParam int number,@PathVariable String type){
+        try{
+            return itemService.getPerTypeItems(page,number,type);
         }catch (NoCatalogItemsGenderException n){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,n.getMessage());
         }
     }
 
-    @GetMapping("/genero/{gender}/price")
-    public List<CatalogoItemDTO> getPerPriceandGenderItems(@RequestParam int min, @RequestParam int max,@PathVariable String gender,@RequestParam int page, @RequestParam int number){
+    @GetMapping("/type/{type}/price")
+    public List<CatalogoItemDTO> getPerPriceandTypeItems(@RequestParam int min, @RequestParam int max,@PathVariable String type,@RequestParam int page, @RequestParam int number){
         try{
-            return itemService.getPerPriceandGenderItems(page,number, min, max,gender);
+            return itemService.getPerPriceandTypeItems(page,number, min, max,type);
         }catch (NoCatalogItemsGenderException n){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,n.getMessage());
         }

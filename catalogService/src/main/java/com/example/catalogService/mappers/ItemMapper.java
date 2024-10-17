@@ -7,6 +7,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class ItemMapper {
     public CatalogoItemDTO toCatalogoItemDTO(Item item){
-        return new CatalogoItemDTO(item.getDesignacao(),item.getPreco(),item.getCor(),item.getImagem(), item.getGenero());
+        return new CatalogoItemDTO(item.getDesignacao(),item.getPreco(),item.getCor(),item.getImagem(), item.getTipo());
     }
 }

@@ -44,20 +44,23 @@ public class ItemService {
         return itemRepository.findAll(PageRequest.of(page, number)).stream().map(x->itemMapper.toCatalogoItemDTO(x)).collect(Collectors.toList());
     }
 
-    public List<CatalogoItemDTO> getPerGenderItems(int page, int number,String gender) throws NoCatalogItemsGenderException {
-        return itemRepository.getItemsByGender(gender,PageRequest.of(page, number)).stream().map(x->itemMapper.toCatalogoItemDTO(x)).collect(Collectors.toList());
+    public List<CatalogoItemDTO> getPerTypeItems(int page, int number,String type) throws NoCatalogItemsGenderException {
+        return itemRepository.getItemsByType(type,PageRequest.of(page, number)).stream().map(x->itemMapper.toCatalogoItemDTO(x)).collect(Collectors.toList());
     }
 
     public List<CatalogoItemDTO> getPerPriceItems(int page, int number,int min, int max) throws NoCatalogItemsPriceException {
         return itemRepository.getItemsByPrice(min,max,PageRequest.of(page, number)).stream().map(x->itemMapper.toCatalogoItemDTO(x)).collect(Collectors.toList());
     }
 
-    public List<CatalogoItemDTO> getPerPriceandGenderItems(int page, int number,int min, int max,String gender) throws NoCatalogItemsGenderException {
-        return itemRepository.getItemsByPriceandGender(min,max,gender,PageRequest.of(page, number)).stream().map(x->itemMapper.toCatalogoItemDTO(x)).collect(Collectors.toList());
+    public List<CatalogoItemDTO> getPerPriceandTypeItems(int page, int number,int min, int max,String type) throws NoCatalogItemsGenderException {
+        return itemRepository.getItemsByPriceandType(min,max,type,PageRequest.of(page, number)).stream().map(x->itemMapper.toCatalogoItemDTO(x)).collect(Collectors.toList());
     }
 
     // criar metodo para devolver itens de uma loja, o técnico dessa loja só poderá criar sets com essas pecas da loja a que está associado
-    //public List<CatalogoItemDTO> getItemsofShop(idLoja)
+    //public List<CatalogoItemDTO> getItemsFromShop(idLoja)
+    public List<CatalogoItemDTO>  getItemsFromShop(int idloja,int page, int number) throws NoCatalogItemsException{
+        return itemRepository.getShopItems(idloja,PageRequest.of(page, number)).stream().map(x->itemMapper.toCatalogoItemDTO(x)).collect(Collectors.toList());
+    }
 
     public void savePeca(PecaInsertDTO item) throws ItemCodeAlreadyExists{
         if(checkIfItemCodeAlreadyExists(item.getCodigo(),item.getIdLoja())) throw new ItemCodeAlreadyExists(item.getCodigo());
@@ -65,9 +68,9 @@ public class ItemService {
         if(loja.isPresent()){
             StringBuilder cor = new StringBuilder();
             for(String c:item.getCores()){
-                cor.append(c).append(",");
+                cor.append(c).append("/");
             }
-            itemRepository.save(new Peca(loja.get(),item.getCodigo(),item.getDesignacao(),item.getPreco(),0,item.getEstilo(),cor.substring(0,cor.length()-1),item.getTamanho(),item.getGenero(),item.getDisponibilidade(),item.getImagem()));
+            itemRepository.save(new Peca(loja.get(),item.getCodigo(),item.getDesignacao(),item.getPreco(),0,item.getEstilo(),cor.substring(0,cor.length()-1),item.getTamanho(),item.getTipo(),item.getDisponibilidade(),item.getImagem()));
         }
     }
 
@@ -76,21 +79,26 @@ public class ItemService {
         Optional<Loja> loja = this.lojaRepository.findById(item.getIdLoja());
 
         if(loja.isPresent()) {
-
             java.util.Set<Peca> pecas = new HashSet();
             for (String codigo : item.getCodigoPecas()) {
                 Peca peca = (Peca) this.itemRepository.getItemsByCodeShop(codigo, item.getIdLoja()).stream().toList().get(0);
                 pecas.add(peca);
             }
-            List<String> cores = pecas.stream().map(x->x.getCor().split(",")).flatMap(Arrays::stream).toList().stream().distinct().toList();
-            System.out.println("cores");
-            System.out.println(cores);
+            List<String> separadas = new ArrayList<>();
+            List<String> cores = new ArrayList<>();
+            for( Peca p : pecas){
+                if(p.getCor().contains("/")) {
+                    separadas = pecas.stream().map(x -> x.getCor().split("/")).flatMap(Arrays::stream).toList().stream().distinct().toList();
+                    cores.addAll(separadas);
+                }
+                else cores.add(p.getCor());
+            }
             StringBuilder cor = new StringBuilder();
             for(String c : cores){
-                cor.append(c).append(",");
+                cor.append(c).append("/");
             }
             Set conjunto = new Set(pecas.size(), pecas,
-                    loja.get(),item.getCodigo(),item.getDesignacao(),item.getPreco(),0,item.getEstilo(),cor.substring(0,cor.length()-1),item.getTamanho(),item.getGenero(),item.getDisponibilidade(),item.getImagem());
+                    loja.get(),item.getCodigo(),item.getDesignacao(),item.getPreco(),0,item.getEstilo(),cor.substring(0,cor.length()-1),item.getTamanho(),item.getTipo(),item.getDisponibilidade(),item.getImagem());
             itemRepository.save(conjunto);
             for(Peca p:pecas){
                 java.util.Set conjuntos = p.getSets();

@@ -29,7 +29,10 @@ public class Set extends Item implements Serializable {
 	
 	@Column(name="NrPecas", nullable=false, length=10)	
 	private int nrPecas;
-	
+
+	@Column(name="Tamanho", nullable=true, length=255)
+	private String tamanho;
+
 	@ManyToMany(mappedBy="sets", targetEntity=Peca.class)
 	@org.hibernate.annotations.Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE, org.hibernate.annotations.CascadeType.LOCK})	
 	@org.hibernate.annotations.LazyCollection(org.hibernate.annotations.LazyCollectionOption.TRUE)	
@@ -37,8 +40,9 @@ public class Set extends Item implements Serializable {
 
 	public Set(int nrpecas, java.util.Set pecas,
 			   Loja loja, String codigo, String designacao, double preco, int nraquisicoes, String estilo, String cor, String tamanho, String genero, String disponibilidade, String imagem){
-		super(loja, codigo, designacao, preco, nraquisicoes, estilo, cor, tamanho, genero, disponibilidade, imagem);
+		super(loja, codigo, designacao, preco, nraquisicoes, estilo, cor, genero, disponibilidade, imagem,1);
 		this.nrPecas = nrpecas;
+		this.tamanho = tamanho;
 		this.pecas = new HashSet(pecas);
 	}
 
@@ -48,6 +52,14 @@ public class Set extends Item implements Serializable {
 	
 	public int getNrPecas() {
 		return nrPecas;
+	}
+
+	public void setTamanho(String value) {
+		this.tamanho = value;
+	}
+
+	public String getTamanho() {
+		return tamanho;
 	}
 	
 	public void setPecas(java.util.Set value) {

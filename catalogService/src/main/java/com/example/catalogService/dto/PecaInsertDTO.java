@@ -9,19 +9,19 @@ public class PecaInsertDTO {
     private String estilo;
     private Set<String> cores;
     private String tamanho;
-    private String genero;
+    private String tipo;
     private String disponibilidade;
     private String imagem;
     private int idLoja;
 
-    public PecaInsertDTO(String codigo, String designacao, double preco, String estilo, Set<String> cores, String tamanho, String genero, String disponibilidade, String imagem, int idloja) {
+    public PecaInsertDTO(String codigo, String designacao, double preco, String estilo, Set<String> cores, String tamanho, String tipo, String disponibilidade, String imagem, int idloja) {
         this.codigo = codigo;
         this.designacao = designacao;
         this.preco = preco;
         this.estilo = estilo;
         this.cores = cores;
         this.tamanho = tamanho;
-        this.genero = genero;
+        this.tipo = tipo;
         this.disponibilidade = disponibilidade;
         this.imagem = imagem;
         this.idLoja = idloja;
@@ -91,12 +91,12 @@ public class PecaInsertDTO {
         this.disponibilidade = disponibilidade;
     }
 
-    public String getGenero() {
-        return genero;
+    public String getTipo() {
+        return tipo;
     }
 
-    public void setGenero(String genero) {
-        this.genero = genero;
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 
     public int getIdLoja() {

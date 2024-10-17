@@ -9,7 +9,7 @@ public class SetInsertDTO {
     private double preco;
     private String estilo;
     private String tamanho;
-    private String genero;
+    private String tipo;
     private String disponibilidade;
     private String imagem;
     private int idLoja;
@@ -19,13 +19,13 @@ public class SetInsertDTO {
         this.codigoPecas = new HashSet<>();
     }
 
-    public SetInsertDTO(String codigo, String designacao, double preco, String estilo, String tamanho, String genero, String disponibilidade, String imagem, int idloja, Set<String> pecas) {
+    public SetInsertDTO(String codigo, String designacao, double preco, String estilo, String tamanho, String tipo, String disponibilidade, String imagem, int idloja, Set<String> pecas) {
         this.codigo = codigo;
         this.designacao = designacao;
         this.preco = preco;
         this.estilo = estilo;
         this.tamanho = tamanho;
-        this.genero = genero;
+        this.tipo = tipo;
         this.disponibilidade = disponibilidade;
         this.imagem = imagem;
         this.idLoja = idloja;
@@ -96,12 +96,12 @@ public class SetInsertDTO {
         this.disponibilidade = disponibilidade;
     }
 
-    public String getGenero() {
-        return genero;
+    public String getTipo() {
+        return tipo;
     }
 
-    public void setGenero(String genero) {
-        this.genero = genero;
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 
     public int getIdLoja() {

@@ -5,14 +5,14 @@ public class CatalogoItemDTO {
     private double preco;
     private String cor;
     private String imagem;
-    private String genero;
+    private String tipo;
 
-    public CatalogoItemDTO(String designacao, double preco, String cor, String imagem, String genero) {
+    public CatalogoItemDTO(String designacao, double preco, String cor, String imagem, String tipo) {
         this.designacao = designacao;
         this.preco = preco;
         this.cor = cor;
         this.imagem = imagem;
-        this.genero = genero;
+        this.tipo = tipo;
     }
 
     public String getDesignacao() {
@@ -47,11 +47,11 @@ public class CatalogoItemDTO {
         this.imagem = imagem;
     }
 
-    public String getGenero() {
-        return genero;
+    public String getTipo() {
+        return tipo;
     }
 
-    public void setGenero(String genero) {
-        this.genero = genero;
+    public void getTipo(String genero) {
+        this.tipo = genero;
     }
 }

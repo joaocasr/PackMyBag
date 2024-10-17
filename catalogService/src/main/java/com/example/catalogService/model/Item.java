@@ -15,7 +15,6 @@ package com.example.catalogService.model;
 
 import java.io.Serializable;
 import java.util.HashSet;
-import java.util.Set;
 
 import jakarta.persistence.*;
 @Entity
@@ -56,25 +55,25 @@ public class Item implements Serializable {
 	@Column(name="Cor", nullable=true, length=255)	
 	private String cor;
 	
-	@Column(name="Tamanho", nullable=true, length=255)	
-	private String tamanho;
-	
-	@Column(name="Genero", nullable=true, length=255)	
-	private String genero;
+	@Column(name="Tipo", nullable=true, length=255)
+	private String tipo;
 	
 	@Column(name="Disponibilidade", nullable=true, length=255)	
 	private String disponibilidade;
 	
 	@Column(name="Imagem", nullable=true, length=255)	
 	private String imagem;
-	
+
+	@Column(name="NrDisponiveis", nullable=false, length=10)
+	private int nrDisponiveis;
+
 	@OneToMany(orphanRemoval=true, targetEntity=Review.class)
 	@org.hibernate.annotations.Cascade({org.hibernate.annotations.CascadeType.ALL})	
 	@JoinColumns({ @JoinColumn(name="ItemIDItem", nullable=false) })	
 	@org.hibernate.annotations.LazyCollection(org.hibernate.annotations.LazyCollectionOption.TRUE)	
 	private java.util.Set criticas = new java.util.HashSet();
 
-	public Item(Loja loja, String codigo, String designacao, double preco, int nraquisicoes, String estilo, String cor, String tamanho, String genero, String disponibilidade, String imagem) {
+	public Item(Loja loja, String codigo, String designacao, double preco, int nraquisicoes, String estilo, String cor, String tipo, String disponibilidade, String imagem, int nrdisponiveis) {
 		this.loja = loja;
 		this.codigo = codigo;
 		this.designacao = designacao;
@@ -82,122 +81,122 @@ public class Item implements Serializable {
 		this.nraquisicoes = nraquisicoes;
 		this.estilo = estilo;
 		this.cor = cor;
-		this.tamanho = tamanho;
-		this.genero = genero;
+		this.tipo = tipo;
 		this.disponibilidade = disponibilidade;
 		this.imagem = imagem;
+		this.nrDisponiveis = nrdisponiveis;
 		this.criticas = new HashSet();
 	}
 
 	private void setIDItem(int value) {
 		this.IDItem = value;
 	}
-	
+
 	public int getIDItem() {
 		return IDItem;
 	}
-	
+
 	public int getORMID() {
 		return getIDItem();
 	}
-	
+
 	public void setCodigo(String value) {
 		this.codigo = value;
 	}
-	
+
 	public String getCodigo() {
 		return codigo;
 	}
-	
+
 	public void setDesignacao(String value) {
 		this.designacao = value;
 	}
-	
+
 	public String getDesignacao() {
 		return designacao;
 	}
-	
+
 	public void setPreco(double value) {
 		this.preco = value;
 	}
-	
+
 	public double getPreco() {
 		return preco;
 	}
-	
+
 	public void setNraquisicoes(int value) {
 		this.nraquisicoes = value;
 	}
-	
+
 	public int getNraquisicoes() {
 		return nraquisicoes;
 	}
-	
+
 	public void setEstilo(String value) {
 		this.estilo = value;
 	}
-	
+
 	public String getEstilo() {
 		return estilo;
 	}
-	
+
 	public void setCor(String value) {
 		this.cor = value;
 	}
-	
+
 	public String getCor() {
 		return cor;
 	}
-	
-	public void setTamanho(String value) {
-		this.tamanho = value;
+
+	public void setTipo(String value) {
+		this.tipo = value;
 	}
-	
-	public String getTamanho() {
-		return tamanho;
+
+	public String getTipo() {
+		return tipo;
 	}
-	
-	public void setGenero(String value) {
-		this.genero = value;
-	}
-	
-	public String getGenero() {
-		return genero;
-	}
-	
+
 	public void setDisponibilidade(String value) {
 		this.disponibilidade = value;
 	}
-	
+
 	public String getDisponibilidade() {
 		return disponibilidade;
 	}
-	
+
 	public void setImagem(String value) {
 		this.imagem = value;
 	}
-	
+
 	public String getImagem() {
 		return imagem;
 	}
-	
+
+	public void setNrDisponiveis(int value) {
+		this.nrDisponiveis = value;
+	}
+
+	public int getNrDisponiveis() {
+		return nrDisponiveis;
+	}
+
 	public void setLoja(Loja value) {
 		this.loja = value;
 	}
-	
+
 	public Loja getLoja() {
 		return loja;
 	}
-	
+
 	public void setCriticas(java.util.Set value) {
 		this.criticas = value;
 	}
-	
+
 	public java.util.Set getCriticas() {
 		return criticas;
 	}
-	
-	
+
+
 	public String toString() {
 		return String.valueOf(getIDItem());
 	}
