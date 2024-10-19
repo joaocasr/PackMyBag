@@ -1,11 +1,9 @@
 package com.example.catalogService.controllers;
 
-import com.example.catalogService.dto.CatalogoItemDTO;
-import com.example.catalogService.dto.InsertReviewDTO;
-import com.example.catalogService.dto.PecaInsertDTO;
-import com.example.catalogService.dto.SetInsertDTO;
+import com.example.catalogService.dto.*;
 import com.example.catalogService.exceptions.*;
 import com.example.catalogService.services.ItemService;
+import com.example.catalogService.services.ProducerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,9 +17,13 @@ import java.util.List;
 public class ItemController {
 
     private final ItemService itemService;
+    private final ProducerService producerService;
 
     @Autowired
-    public ItemController(ItemService itemService){this.itemService=itemService;}
+    public ItemController(ItemService itemService, ProducerService producerService){
+        this.itemService=itemService;
+        this.producerService=producerService;
+    }
 
     @GetMapping("/")
     public List<CatalogoItemDTO> getItemsByPage(@RequestParam int page, @RequestParam int number){
@@ -49,6 +51,12 @@ public class ItemController {
             return new ResponseEntity<>(new ErrorResponse(HttpStatus.NOT_FOUND,i.getMessage()),HttpStatus.NOT_FOUND);
         }
     }
+
+    @GetMapping("/items/{id}/reviews")
+    public List<ReviewDTO> getReviews(@PathVariable int id, @RequestParam int page, @RequestParam int number){
+        return itemService.getReviews(id,page,number);
+    }
+
 
     @PostMapping("/items/{id}/review")
     public ResponseEntity<?> adicionaReview(@RequestBody InsertReviewDTO insertReviewDTO, @PathVariable int id){
@@ -115,6 +123,12 @@ public class ItemController {
             return new ResponseEntity<>(new ErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage()), HttpStatus.BAD_REQUEST);
         }
     }
+
+    @PutMapping("/editItem")
+    public void editItem(@RequestBody ItemUpdate itemUpdate){
+        producerService.sendMessage(itemUpdate);
+    }
+
 
 }
 

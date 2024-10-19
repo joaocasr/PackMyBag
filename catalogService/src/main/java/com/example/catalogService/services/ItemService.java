@@ -37,7 +37,7 @@ public class ItemService {
     }
 
     public List<CatalogoItemDTO> getAllItems() throws NoCatalogItemsException {
-        return itemRepository.findAll(PageRequest.of(0, 12)).stream().map(x->itemMapper.toCatalogoItemDTO(x)).collect(Collectors.toList());
+        return itemRepository.findAll().stream().map(x->itemMapper.toCatalogoItemDTO(x)).collect(Collectors.toList());
     }
 
     public List<CatalogoItemDTO> getItemsByPage(int page,int number) throws NoCatalogItemsException {
@@ -67,6 +67,7 @@ public class ItemService {
         if(item.isEmpty()) throw new InexistentItemException(id);
         Item full = null;
         Item i = item.get();
+        int nrreviews = i.getCriticas().size();
         if(i instanceof Peca ){
             full = new Peca(i.getLoja(),i.getCodigo(),i.getDesignacao(),i.getPreco(),i.getNraquisicoes(),i.getEstilo(),i.getCor(),((Peca) i).getTamanho(),i.getTipo(),i.getDisponibilidade(),i.getImagem(),((Peca) i).getSets(),i.getNrDisponiveis());
         }
@@ -76,7 +77,7 @@ public class ItemService {
         if(i instanceof Calcado ){
             full= new Calcado(i.getLoja(),i.getCodigo(),i.getDesignacao(),i.getPreco(),i.getNraquisicoes(),i.getEstilo(),i.getCor(),i.getTipo(),i.getDisponibilidade(),i.getImagem(),i.getNrDisponiveis(),((Calcado) i).getNumero());
         }
-        return itemMapper.toFullCatalogoDTO(full);
+        return itemMapper.toFullCatalogoDTO(full,nrreviews);
     }
 
     public void savePeca(PecaInsertDTO item) throws ItemCodeAlreadyExists{
@@ -149,6 +150,10 @@ public class ItemService {
             reviewRepository.save(r);
             itemRepository.save(item);
         }
+    }
+
+    public List<ReviewDTO> getReviews(int id, int page, int number) {
+        return itemRepository.getReviews(id,PageRequest.of(page,number)).stream().map(x->itemMapper.toReviewDTO(x)).toList();
     }
 
 }

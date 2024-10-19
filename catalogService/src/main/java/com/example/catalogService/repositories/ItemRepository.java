@@ -1,6 +1,7 @@
 package com.example.catalogService.repositories;
 
 import com.example.catalogService.model.Item;
+import com.example.catalogService.model.Review;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -32,5 +33,8 @@ public interface ItemRepository extends JpaRepository<Item,Integer> {
 
     @Query("select i from Item i where i.codigo= :codigo")
     Item getItemByCode(@Param("codigo") String codigo);
+
+    @Query("select i.criticas from Item i where i.IDItem = :id")
+    Page<Review> getReviews(@Param("id") int id, PageRequest pageable);
 
 }

@@ -1,7 +1,5 @@
 package com.example.catalogService.dto;
 
-import java.util.Date;
-
 public class InsertReviewDTO {
     private String username;
     private String name;

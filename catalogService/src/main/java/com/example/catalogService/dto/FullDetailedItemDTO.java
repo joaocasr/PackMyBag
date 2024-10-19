@@ -14,10 +14,9 @@ public class FullDetailedItemDTO {
     private String tamanho;
     private String disponibilidade;
     private int nrReviews;
-    private List<Review> criticas;
 
 
-    public FullDetailedItemDTO(int id,String designacao, double preco, String cor, String imagem, String tipo, String tamanho, String disponibilidade, int nrReviews, List<Review> criticas) {
+    public FullDetailedItemDTO(int id,String designacao, double preco, String cor, String imagem, String tipo, String tamanho, String disponibilidade, int nrReviews) {
         this.IDItem = id;
         this.designacao = designacao;
         this.preco = preco;
@@ -27,7 +26,6 @@ public class FullDetailedItemDTO {
         this.tamanho = tamanho;
         this.disponibilidade = disponibilidade;
         this.nrReviews = nrReviews;
-        this.criticas = criticas;
     }
 
     public int getIDItem() {
@@ -102,11 +100,4 @@ public class FullDetailedItemDTO {
         this.tamanho = tamanho;
     }
 
-    public List<Review> getCriticas() {
-        return criticas;
-    }
-
-    public void setCriticas(List<Review> criticas) {
-        this.criticas = criticas;
-    }
 }
