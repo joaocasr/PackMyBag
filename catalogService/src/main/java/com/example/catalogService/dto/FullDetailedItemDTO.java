@@ -1,7 +1,5 @@
 package com.example.catalogService.dto;
 
-import com.example.catalogService.model.Review;
-
 import java.util.List;
 
 public class FullDetailedItemDTO {
@@ -14,9 +12,14 @@ public class FullDetailedItemDTO {
     private String tamanho;
     private String disponibilidade;
     private int nrReviews;
+    private List<RelacionadosDTO> relacionados;
+    //lista de sets em que a peca está presente ou pecas que constitui o set
 
 
-    public FullDetailedItemDTO(int id,String designacao, double preco, String cor, String imagem, String tipo, String tamanho, String disponibilidade, int nrReviews) {
+    public FullDetailedItemDTO() {
+    }
+
+    public FullDetailedItemDTO(int id, String designacao, double preco, String cor, String imagem, String tipo, String tamanho, String disponibilidade, int nrReviews, List<RelacionadosDTO> relacionados ) {
         this.IDItem = id;
         this.designacao = designacao;
         this.preco = preco;
@@ -26,6 +29,7 @@ public class FullDetailedItemDTO {
         this.tamanho = tamanho;
         this.disponibilidade = disponibilidade;
         this.nrReviews = nrReviews;
+        this.relacionados = relacionados;
     }
 
     public int getIDItem() {
@@ -100,4 +104,11 @@ public class FullDetailedItemDTO {
         this.tamanho = tamanho;
     }
 
+    public List<RelacionadosDTO> getRelacionados() {
+        return relacionados;
+    }
+
+    public void setRelacionados(List<RelacionadosDTO> relacionados) {
+        this.relacionados = relacionados;
+    }
 }

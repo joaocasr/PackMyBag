@@ -58,7 +58,7 @@ public class ItemController {
     }
 
 
-    @PostMapping("/items/{id}/review")
+    @PostMapping("/items/{id}/addreview")
     public ResponseEntity<?> adicionaReview(@RequestBody InsertReviewDTO insertReviewDTO, @PathVariable int id){
         try{
             itemService.insertReview(insertReviewDTO,id);
@@ -67,6 +67,17 @@ public class ItemController {
             return new ResponseEntity<>(new ErrorResponse(HttpStatus.NOT_FOUND,i.getMessage()),HttpStatus.NOT_FOUND);
         }
     }
+
+    @DeleteMapping("/items/{id}/delreview/{username}")
+    public ResponseEntity<?> removeReview(@PathVariable int id, @PathVariable String username){
+        try{
+            itemService.removeReview(id,username);
+            return ResponseEntity.ok("removido com sucesso!");
+        }catch (InexistentItemException i){
+            return new ResponseEntity<>(new ErrorResponse(HttpStatus.NOT_FOUND,i.getMessage()),HttpStatus.NOT_FOUND);
+        }
+    }
+
 
     @GetMapping("/lojas/{lojaid}")
     public List<CatalogoItemDTO> getItemsfromShop(@PathVariable int lojaid,@RequestParam int page, @RequestParam int number){
@@ -122,6 +133,22 @@ public class ItemController {
         } catch (ItemCodeAlreadyExists e) {
             return new ResponseEntity<>(new ErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage()), HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @PostMapping("/addItem/Calcado")
+    public ResponseEntity<?> addCalcadoShop(@RequestBody CalcadoInsertDTO itemBody){
+        try {
+            itemService.saveCalcado(itemBody);
+            return ResponseEntity.ok().body("Calçado added with sucess!");
+        } catch (ItemCodeAlreadyExists e) {
+            return new ResponseEntity<>(new ErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage()), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+
+    @DeleteMapping("/deleteItem")
+    public void deleteItem(@RequestBody RemoveItemDTO removeItemDTO) throws InexistentItemException {
+        itemService.removeItem(removeItemDTO);
     }
 
     @PutMapping("/editItem")

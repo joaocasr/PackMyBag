@@ -127,6 +127,39 @@ public class ItemService {
         }
     }
 
+    public void saveCalcado(CalcadoInsertDTO calcadoInsertDTO) throws ItemCodeAlreadyExists {
+        if(checkIfItemCodeAlreadyExists(calcadoInsertDTO.getCodigo(),calcadoInsertDTO.getIdLoja())) throw new ItemCodeAlreadyExists(calcadoInsertDTO.getCodigo());
+        Optional<Loja> loja = this.lojaRepository.findById(calcadoInsertDTO.getIdLoja());
+        if(loja.isPresent()){
+            StringBuilder cor = new StringBuilder();
+            for(String c:calcadoInsertDTO.getCores()){
+                cor.append(c).append("/");
+            }
+            itemRepository.save(new Calcado(loja.get(),calcadoInsertDTO.getCodigo(),calcadoInsertDTO.getDesignacao(),calcadoInsertDTO.getPreco(),0,calcadoInsertDTO.getEstilo(),cor.substring(0,cor.length()-1),calcadoInsertDTO.getTipo(),calcadoInsertDTO.getDisponibilidade(),calcadoInsertDTO.getImagem(), calcadoInsertDTO.getNrdisponiveis(), calcadoInsertDTO.getTamanho()));
+        }
+
+    }
+
+    public void removeItem(RemoveItemDTO removeItemDTO) throws InexistentItemException{
+        if(!checkIfItemCodeAlreadyExists(removeItemDTO.getCode(),removeItemDTO.getLojaid())) throw new InexistentItemException(-1);
+        java.util.Set<Item> items = itemRepository.getItemsByCodeShop(removeItemDTO.getCode(),removeItemDTO.getLojaid());
+        Item i = items.stream().toList().get(0);
+        if(i instanceof Peca){
+            for(Set s : ((Peca) i).getSets()){
+                s.removePeca(i.getCodigo());
+                itemRepository.save(s);
+            }
+        }
+        if(i instanceof Set){
+            for(Peca p : ((Set) i).getPecas()){
+                p.removeSet(i.getCodigo());
+                itemRepository.save(p);
+            }
+        }
+        itemRepository.deleteItemCodeShop(i.getCodigo(),i.getLoja().getIDLoja());
+    }
+
+
     public void insertReview(InsertReviewDTO insertReviewDTO,int itemID) throws InexistentItemException {
         Optional<Item> i = itemRepository.findById(itemID);
         if(i.isEmpty()) throw new InexistentItemException(itemID);
@@ -156,4 +189,11 @@ public class ItemService {
         return itemRepository.getReviews(id,PageRequest.of(page,number)).stream().map(x->itemMapper.toReviewDTO(x)).toList();
     }
 
+    public void removeReview(int id , String username) throws InexistentItemException {
+        Optional<Item> i = itemRepository.findById(id);
+        if(i.isEmpty()) throw new InexistentItemException(id);
+        Item item = i.get();
+        Review r = item.getCriticas().stream().filter(x->x.getAutor().getUsername().equals(username)).toList().get(0);
+        reviewRepository.deleteReviewById(r.getIdReview());
+    }
 }

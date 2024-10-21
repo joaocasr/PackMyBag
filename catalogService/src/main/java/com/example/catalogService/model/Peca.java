@@ -34,7 +34,7 @@ public class Peca extends Item implements Serializable {
 	@org.hibernate.annotations.Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE, org.hibernate.annotations.CascadeType.LOCK})	
 	@JoinTable(name="Set_Peca", joinColumns={ @JoinColumn(name="PecaItemIDItem") }, inverseJoinColumns={ @JoinColumn(name="SetItemIDItem") })	
 	@org.hibernate.annotations.LazyCollection(org.hibernate.annotations.LazyCollectionOption.TRUE)	
-	private java.util.Set sets = new java.util.HashSet();
+	private java.util.Set<Set> sets = new java.util.HashSet();
 
 	public Peca(Loja loja, String codigo, String designacao, double preco, int nraquisicoes, String estilo, String cor, String tamanho, String tipo, String disponibilidade, String imagem,int nrdisponiveis) {
 		super(loja, codigo, designacao, preco, nraquisicoes, estilo, cor, tipo, disponibilidade, imagem,nrdisponiveis);
@@ -56,15 +56,18 @@ public class Peca extends Item implements Serializable {
 		return tamanho;
 	}
 
-	public void setSets(java.util.Set value) {
+	public void setSets(java.util.Set<Set> value) {
 		this.sets = value;
 	}
 	
-	public java.util.Set getSets() {
+	public java.util.Set<Set> getSets() {
 		return sets;
 	}
 	
-	
+	public void removeSet(String codigo){
+		this.sets.removeIf(x->x.getCodigo().equals(codigo));
+	}
+
 	public String toString() {
 		return super.toString();
 	}

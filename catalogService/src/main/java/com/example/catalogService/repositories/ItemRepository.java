@@ -2,7 +2,6 @@ package com.example.catalogService.repositories;
 
 import com.example.catalogService.model.Item;
 import com.example.catalogService.model.Review;
-import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,6 +9,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Set;
 
@@ -36,5 +36,10 @@ public interface ItemRepository extends JpaRepository<Item,Integer> {
 
     @Query("select i.criticas from Item i where i.IDItem = :id")
     Page<Review> getReviews(@Param("id") int id, PageRequest pageable);
+
+    @Transactional
+    @Modifying
+    @Query("delete FROM Item i where i.codigo = :codigo and i.loja.IDLoja=:idloja")
+    void deleteItemCodeShop(@Param("codigo") String codigo, @Param("idloja") int idloja);
 
 }

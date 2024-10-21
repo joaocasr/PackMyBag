@@ -2,9 +2,13 @@ package com.example.catalogService.mappers;
 
 import com.example.catalogService.dto.CatalogoItemDTO;
 import com.example.catalogService.dto.FullDetailedItemDTO;
+import com.example.catalogService.dto.RelacionadosDTO;
 import com.example.catalogService.dto.ReviewDTO;
 import com.example.catalogService.model.*;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Component
@@ -15,11 +19,18 @@ public class ItemMapper {
 
     public FullDetailedItemDTO toFullCatalogoDTO(Item item,int nrreviews){
         String tamanho="";
-        if(item instanceof Peca) tamanho = ((Peca) item).getTamanho();
-        if(item instanceof Set) tamanho = ((Set) item).getTamanho();
+        List<RelacionadosDTO> relacionados = new ArrayList<>();
+        if(item instanceof Peca){
+            tamanho = ((Peca) item).getTamanho();
+            relacionados = ((Peca) item).getSets().stream().limit(4).map(x->new RelacionadosDTO(x.getDesignacao(),x.getImagem(),x.getIDItem())).toList();
+        }
+        if(item instanceof Set) {
+            tamanho = ((Set) item).getTamanho();
+            relacionados = ((Set) item).getPecas().stream().limit(4).map(x->new RelacionadosDTO(x.getDesignacao(),x.getImagem(),x.getIDItem())).toList();
+        }
         if(item instanceof Calcado) tamanho = String.valueOf(((Calcado) item).getNumero());
 
-        return new FullDetailedItemDTO(item.getORMID(),item.getDesignacao(),item.getPreco(),item.getCor(),item.getImagem(), item.getTipo(), tamanho,item.getDisponibilidade(),nrreviews);
+        return new FullDetailedItemDTO(item.getORMID(),item.getDesignacao(),item.getPreco(),item.getCor(),item.getImagem(), item.getTipo(), tamanho,item.getDisponibilidade(),nrreviews,relacionados);
     }
 
     public ReviewDTO toReviewDTO(Review review){
