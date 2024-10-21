@@ -59,3 +59,136 @@ module.exports.adicionaReview = (id,username,nome,profileImg,texto,timestamp,rat
         throw err;
     })
 }
+
+module.exports.removeReview = (id,username) => {
+    return axios.delete(`${ap}/items/${id}/delreview/${username}`).then(resp=>{
+        return resp.data;
+    }).catch(err=>{
+        throw err
+    })
+}
+
+module.exports.getItemsByShop = (idloja,page,number) =>{
+    return axios.get(`${ap}/lojas/${idloja}?page=${page}&number=${number}`)
+    .then(items =>{
+        return items.data;
+    }).catch(err=>{
+        throw err;
+    })
+}
+
+module.exports.getItemsByType = (type,page,number) =>{
+    return axios.get(`${ap}/type/${type}?page=${page}&number=${number}`)
+    .then(items =>{
+        return items.data;
+    }).catch(err=>{
+        throw err;
+    })
+}
+
+module.exports.getPerPriceandTypeItems = (type,min,max,page,number) =>{
+    return axios.get(`${ap}/type/${type}/price?min=${min}&max=${max}&page=${page}&number=${number}`)
+    .then(items =>{
+        return items.data;
+    }).catch(err=>{
+        throw err;
+    })
+}
+
+module.exports.getPerPriceItems = (min,max,page,number) =>{
+    return axios.get(`${ap}/price?min=${min}&max=${max}&page=${page}&number=${number}`)
+    .then(items =>{
+        return items.data;
+    }).catch(err=>{
+        throw err;
+    })
+}
+
+module.exports.adicionaPeca = (codigo,designacao,
+    preco,estilo,cores,tamanho,tipo,disponibilidade,imagem,
+    idLoja,nrdisponiveis) => {
+    
+    return axios.post(`${ap}/addItem/Peca`,
+        {
+            "codigo":codigo,
+            "designacao":designacao,
+            "preco":preco,
+            "estilo":estilo,
+            "cores":cores,
+            "tamanho":tamanho,
+            "tipo":tipo,
+            "disponibilidade":disponibilidade,
+            "imagem":imagem,
+            "idLoja":idLoja,
+            "nrdisponiveis":nrdisponiveis
+        }, 
+        {
+            headers: {
+                'Content-Type': 'application/json;charset=UTF-8',
+            }
+        }
+    ).then(resp=>{
+        return resp.data
+    }).catch(err=>{
+        throw err;
+    })
+}
+
+module.exports.adicionaSet = (codigo,designacao,
+    preco,estilo,tamanho,tipo,disponibilidade,imagem,
+    idLoja,codigoPecas) => {
+    
+    return axios.post(`${ap}/addItem/Set`,
+        {
+            "codigo":codigo,
+            "designacao":designacao,
+            "preco":preco,
+            "estilo":estilo,
+            "tamanho":tamanho,
+            "tipo":tipo,
+            "disponibilidade":disponibilidade,
+            "imagem":imagem,
+            "idLoja":idLoja,
+            "codigoPecas":codigoPecas
+        }, 
+        {
+            headers: {
+                'Content-Type': 'application/json;charset=UTF-8',
+            }
+        }
+    ).then(resp=>{
+        return resp.data
+    }).catch(err=>{
+        throw err;
+    })
+}
+
+module.exports.adicionaCalcado = (codigo,designacao,
+    preco,estilo,cores,tamanho,tipo,disponibilidade,imagem,
+    idLoja,nrdisponiveis) => {
+    
+    return axios.post(`${ap}/addItem/Set`,
+        {
+            "codigo":codigo,
+            "designacao":designacao,
+            "preco":preco,
+            "estilo":estilo,
+            "cores":cores,
+            "tamanho":tamanho,
+            "tipo":tipo,
+            "disponibilidade":disponibilidade,
+            "imagem":imagem,
+            "idLoja":idLoja,
+            "nrdisponiveis":nrdisponiveis
+        }, 
+        {
+            headers: {
+                'Content-Type': 'application/json;charset=UTF-8',
+            }
+        }
+    ).then(resp=>{
+        return resp.data
+    }).catch(err=>{
+        throw err;
+    })
+}
