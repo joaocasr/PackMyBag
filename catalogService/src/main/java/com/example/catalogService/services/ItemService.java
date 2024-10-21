@@ -140,8 +140,8 @@ public class ItemService {
 
     }
 
-    public void removeItem(RemoveItemDTO removeItemDTO) throws InexistentItemException{
-        if(!checkIfItemCodeAlreadyExists(removeItemDTO.getCode(),removeItemDTO.getLojaid())) throw new InexistentItemException(-1);
+    public void removeItem(RemoveItemDTO removeItemDTO) throws InexistentItemCodeException{
+        if(!checkIfItemCodeAlreadyExists(removeItemDTO.getCode(), removeItemDTO.getLojaid())) throw new InexistentItemCodeException(removeItemDTO.getCode());
         java.util.Set<Item> items = itemRepository.getItemsByCodeShop(removeItemDTO.getCode(),removeItemDTO.getLojaid());
         Item i = items.stream().toList().get(0);
         if(i instanceof Peca){

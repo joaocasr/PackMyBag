@@ -147,8 +147,13 @@ public class ItemController {
 
 
     @DeleteMapping("/deleteItem")
-    public void deleteItem(@RequestBody RemoveItemDTO removeItemDTO) throws InexistentItemException {
-        itemService.removeItem(removeItemDTO);
+    public ResponseEntity<?> deleteItem(@RequestBody RemoveItemDTO removeItemDTO) throws InexistentItemCodeException {
+        try{
+            itemService.removeItem(removeItemDTO);
+            return ResponseEntity.ok("item eliminado com sucesso!");
+        }catch (InexistentItemCodeException i){
+            return new ResponseEntity<>(new ErrorResponse(HttpStatus.NOT_FOUND,i.getMessage()),HttpStatus.NOT_FOUND);
+        }
     }
 
     @PutMapping("/editItem")

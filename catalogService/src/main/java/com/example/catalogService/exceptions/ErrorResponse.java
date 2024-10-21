@@ -10,18 +10,18 @@ public class ErrorResponse {
     private Date timestamp;
 
     @JsonFormat(shape = JsonFormat.Shape.NUMBER_INT)
-    private int code;
+    private int status;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING)
-    private String status;
+    private String statusMsg;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private String message;
 
     public ErrorResponse(HttpStatus httpStatus, String message) {
         this.timestamp = new Date();
-        this.code = httpStatus.value();
-        this.status = httpStatus.name();
+        this.status = httpStatus.value();
+        this.statusMsg = httpStatus.name();
         this.message = message;
     }
 

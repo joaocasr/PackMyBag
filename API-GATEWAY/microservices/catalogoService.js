@@ -6,8 +6,12 @@ module.exports.getItemsByPage = (page,number) => {
         return resp.data;
     })
     .catch(err => {
-        throw err;
-    });
+        if (err.response) {
+            throw { error: err.response.data };
+        }else {
+            throw err
+        }
+      });
 }
 
 module.exports.getAllItems = () => {
@@ -15,8 +19,12 @@ module.exports.getAllItems = () => {
         return resp.data;
     })
     .catch(err => {
-        throw err;
-    });
+        if (err.response) {
+            throw { error: err.response.data };
+        }else {
+            throw err
+        }
+      });
 }
 
 module.exports.showItemDetails = (id) => {
@@ -24,7 +32,11 @@ module.exports.showItemDetails = (id) => {
         return resp.data;
     })
     .catch(err => {
-        throw err;
+        if (err.response) {
+            throw { error: err.response.data };
+        }else {
+            throw err
+        }
     });
 }
 
@@ -33,13 +45,17 @@ module.exports.getReviews = (id,page,number) => {
         return resp.data;
     })
     .catch(err => {
-        throw err;
+        if (err.response) {
+            throw { error: err.response.data };
+        }else {
+            throw err
+        }
     });
 }
 
 module.exports.adicionaReview = (id,username,nome,profileImg,texto,timestamp,rating) => {
     
-    return axios.post(`${ap}/items/${id}/review`,
+    return axios.post(`${ap}/items/${id}/addreview`,
         {
             "username":username,
             "name":nome,
@@ -56,7 +72,11 @@ module.exports.adicionaReview = (id,username,nome,profileImg,texto,timestamp,rat
     ).then(resp=>{
         return resp.data
     }).catch(err=>{
-        throw err;
+        if (err.response) {
+            throw { error: err.response.data };
+        }else {
+            throw err
+        }
     })
 }
 
@@ -64,7 +84,11 @@ module.exports.removeReview = (id,username) => {
     return axios.delete(`${ap}/items/${id}/delreview/${username}`).then(resp=>{
         return resp.data;
     }).catch(err=>{
-        throw err
+        if (err.response) {
+            throw { error: err.response.data };
+        }else {
+            throw err
+        }
     })
 }
 
@@ -73,7 +97,12 @@ module.exports.getItemsByShop = (idloja,page,number) =>{
     .then(items =>{
         return items.data;
     }).catch(err=>{
-        throw err;
+        if (err.response) {
+            throw { error: err.response.data };
+        }else {
+            throw err
+        }
+
     })
 }
 
@@ -82,7 +111,11 @@ module.exports.getItemsByType = (type,page,number) =>{
     .then(items =>{
         return items.data;
     }).catch(err=>{
-        throw err;
+        if (err.response) {
+            throw { error: err.response.data };
+        }else {
+            throw err
+        }
     })
 }
 
@@ -91,7 +124,11 @@ module.exports.getPerPriceandTypeItems = (type,min,max,page,number) =>{
     .then(items =>{
         return items.data;
     }).catch(err=>{
-        throw err;
+        if (err.response) {
+            throw { error: err.response.data };
+        }else {
+            throw err
+        }
     })
 }
 
@@ -100,7 +137,11 @@ module.exports.getPerPriceItems = (min,max,page,number) =>{
     .then(items =>{
         return items.data;
     }).catch(err=>{
-        throw err;
+        if (err.response) {
+            throw { error: err.response.data };
+        }else {
+            throw err
+        }
     })
 }
 
@@ -130,7 +171,11 @@ module.exports.adicionaPeca = (codigo,designacao,
     ).then(resp=>{
         return resp.data
     }).catch(err=>{
-        throw err;
+        if (err.response) {
+            throw { error: err.response.data };
+        }else {
+            throw err
+        }
     })
 }
 
@@ -159,7 +204,11 @@ module.exports.adicionaSet = (codigo,designacao,
     ).then(resp=>{
         return resp.data
     }).catch(err=>{
-        throw err;
+        if (err.response) {
+            throw { error: err.response.data };
+        }else {
+            throw err
+        }
     })
 }
 
@@ -167,7 +216,7 @@ module.exports.adicionaCalcado = (codigo,designacao,
     preco,estilo,cores,tamanho,tipo,disponibilidade,imagem,
     idLoja,nrdisponiveis) => {
     
-    return axios.post(`${ap}/addItem/Set`,
+    return axios.post(`${ap}/addItem/Calcado`,
         {
             "codigo":codigo,
             "designacao":designacao,
@@ -189,6 +238,37 @@ module.exports.adicionaCalcado = (codigo,designacao,
     ).then(resp=>{
         return resp.data
     }).catch(err=>{
-        throw err;
+        if (err.response) {
+            throw { error: err.response.data };
+        }else {
+            throw err
+        }
+    })
+}
+
+
+module.exports.removeItem = (code,lojaid) => {
+    
+    data = {
+        "code":code,
+        "lojaid":lojaid
+        }
+    headers = {
+        headers: {
+            'Content-Type': 'application/json;charset=UTF-8',
+        }
+    }
+    return axios.delete(`${ap}/deleteItem`,
+        {
+            data,
+            headers
+        }).then(resp=>{
+        return resp.data
+    }).catch(err=>{
+        if (err.response) {
+            throw { error: err.response.data };
+        }else {
+            throw err
+        }
     })
 }

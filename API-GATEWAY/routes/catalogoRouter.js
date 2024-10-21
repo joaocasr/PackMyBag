@@ -9,7 +9,7 @@ router.get("/", function(req, res, next) {
   catalogoService.getItemsByPage(page, number).then(items => {
       res.jsonp(items);
   }).catch(err => {
-      res.status(err.status).jsonp({ error: err.error });
+    res.status(err.error.status).jsonp(err);
   });
 });
 
@@ -18,7 +18,7 @@ router.get("/all", function(req, res, next) {
   catalogoService.getAllItems().then(items => {
       res.jsonp(items);
   }).catch(err => {
-    res.status(err.status).jsonp({ error: err.error });
+    res.status(err.error.status).jsonp(err);
   });
 });
 
@@ -27,7 +27,7 @@ router.get("/items/:id", function(req, res, next) {
   catalogoService.showItemDetails(req.params.id).then(items => {
       res.jsonp(items);
   }).catch(err => {
-    res.status(err.status).jsonp({ error: err.message });
+    res.status(err.error.status).jsonp(err);
   });
 });
 
@@ -38,7 +38,7 @@ router.get("/items/:id/reviews", function(req, res, next) {
   catalogoService.getReviews(req.params.id,page,number).then(items => {
       res.jsonp(items);
   }).catch(err => {
-    res.status(err.status).jsonp({ error: err.message });
+    res.status(err.error.status).jsonp(err);
   });
 });  
 
@@ -55,7 +55,7 @@ router.post("/items/:id/addreview", function(req, res, next) {
   ).then(items => {
       res.jsonp(items);
   }).catch(err => {
-      res.status(err.status).jsonp({ error: err.message });
+    res.status(err.error.status).jsonp(err);
   });
 });  
 
@@ -66,7 +66,7 @@ router.delete("/items/:id/delreview/:username",function(req,res,next){
   catalogoService.removeReview(id,username).then(resp=>{
     res.jsonp(resp);
   }).catch(err=>{
-    res.status(err.status).jsonp({ error: err.message });
+    res.status(err.error.status).jsonp(err);
   })
 });
 
@@ -78,7 +78,7 @@ router.get("/lojas/:lojaid",function(req,res,next){
   catalogoService.getItemsByShop(lojaid,page,number).then(items=>{
     res.jsonp(items)
   }).catch(err=>{
-    res.status(err.status).jsonp({error:err.message});
+    res.status(err.error.status).jsonp(err);
   })
 })
 
@@ -90,7 +90,7 @@ router.get("/type/:type",function(req,res,next){
   catalogoService.getItemsByType(type,page,number).then(items=>{
     res.jsonp(items)
   }).catch(err=>{
-    res.status(err.status).jsonp({error:err.message});
+    res.status(err.error.status).jsonp(err);
   })
 })
 
@@ -105,7 +105,7 @@ router.get("/type/:type/price",function(req,res,next){
   catalogoService.getPerPriceandTypeItems(type,min,max,page,number).then(items=>{
     res.jsonp(items)
   }).catch(err=>{
-    res.status(err.status).jsonp({error:err.message});
+    res.status(err.error.status).jsonp(err);
   })
 })
 
@@ -118,10 +118,11 @@ router.get("/price",function(req,res,next){
   catalogoService.getPerPriceItems(min,max,page,number).then(items=>{
     res.jsonp(items)
   }).catch(err=>{
-    res.status(err.status).jsonp({error:err.message});
+    res.status(err.error.status).jsonp(err);
   })
 })
 
+/*Adicionar item Peça*/
 router.post("/addItem/Peca", function(req, res, next) {
   const codigo = req.body.codigo;
   const designacao = req.body.designacao;
@@ -139,11 +140,12 @@ router.post("/addItem/Peca", function(req, res, next) {
     idLoja,nrdisponiveis).then(resp => {
       res.jsonp(resp);
   }).catch(err => {
-      res.status(err.status).jsonp({ error: err.message });
+    res.status(err.error.status).jsonp(err);
   });
 });  
 
 
+/*Adicionar item Set*/
 router.post("/addItem/Set", function(req, res, next) {
   const codigo = req.body.codigo;
   const designacao = req.body.designacao;
@@ -160,11 +162,12 @@ router.post("/addItem/Set", function(req, res, next) {
     idLoja,codigoPecas).then(resp => {
       res.jsonp(resp);
   }).catch(err => {
-      res.status(err.status).jsonp({ error: err.message });
+    res.status(err.error.status).jsonp(err);
   });
 });
 
 
+/*Adicionar item Calcado*/
 router.post("/addItem/Calcado", function(req, res, next) {
   const codigo = req.body.codigo;
   const designacao = req.body.designacao;
@@ -182,8 +185,19 @@ router.post("/addItem/Calcado", function(req, res, next) {
     idLoja,nrdisponiveis).then(resp => {
       res.jsonp(resp);
   }).catch(err => {
-      res.status(err.status).jsonp({ error: err.message });
+    res.status(err.error.status).jsonp(err);
   });
+});
+
+/*Remover item*/
+router.delete("/deleteItem",function(req,res,next){
+  const code = req.body.code;
+  const lojaid = req.body.lojaid;
+  catalogoService.removeItem(code,lojaid).then(resp=>{
+    res.jsonp(resp);
+  }).catch(err=>{
+    res.status(err.error.status).jsonp(err);
+  })
 });
 
 module.exports = router;
