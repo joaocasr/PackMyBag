@@ -12,6 +12,7 @@ import com.example.favoritosService.model.Cliente;
 import com.example.favoritosService.model.Item;
 import com.example.favoritosService.mappers.FavoritoItemMapper;
 import com.example.favoritosService.repositories.ClienteFavoritosRepository;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
@@ -39,9 +40,10 @@ public class FavoritosService {
         return clienteFavoritosRepository.getFavItemsByUsername(clienteDTO.getUsername(), PageRequest.of(page, number)).stream().map(x->favoritoItemMapper.toFavoritoItemDTO(x)).collect(Collectors.toList());
     }
 
-    public List<FavoritoItemDTO> getPerGenderItems(String username, String tipo) throws NoCatalogItemsGenderException {
+    public List<FavoritoItemDTO> getPerGenderItems(String username, String tipo, int page, int number) throws NoCatalogItemsGenderException {
         List<Item> res = new ArrayList<>();
-        Set<Item> favoritos = clienteFavoritosRepository.getFavItemsByUsername_Set(username);
+        //Set<Item> favoritos = clienteFavoritosRepository.getFavItemsByUsername_Set(username);
+        Page<Item> favoritos = clienteFavoritosRepository.getFavItemsByUsername(username,PageRequest.of(page, number));
         for(Item i : favoritos){
             if(i.getTipo().equals(tipo)){
                 res.add(i);
@@ -50,9 +52,10 @@ public class FavoritosService {
         return res.stream().map(x->favoritoItemMapper.toFavoritoItemDTO(x)).collect(Collectors.toList());
     }
 
-    public List<FavoritoItemDTO> getPerPriceItems(String username, int min, int max) throws NoCatalogItemsPriceException {
+    public List<FavoritoItemDTO> getPerPriceItems(String username, int min, int max, int page, int number) throws NoCatalogItemsPriceException {
         List<Item> res = new ArrayList<>();
-        Set<Item> favoritos = clienteFavoritosRepository.getFavItemsByUsername_Set(username);
+        //Set<Item> favoritos = clienteFavoritosRepository.getFavItemsByUsername_Set(username);
+        Page<Item> favoritos = clienteFavoritosRepository.getFavItemsByUsername(username, PageRequest.of(page, number));
         for(Item i : favoritos){
             if(min <= i.getPreco() && i.getPreco() <= max){
                 res.add(i);
@@ -61,9 +64,10 @@ public class FavoritosService {
         return res.stream().map(x->favoritoItemMapper.toFavoritoItemDTO(x)).collect(Collectors.toList());
     }
 
-    public List<FavoritoItemDTO> getPerSizeItems(String username, String dimensoes) throws NoCatalogItemsPriceException {
+    public List<FavoritoItemDTO> getPerSizeItems(String username, String dimensoes, int page, int number) throws NoCatalogItemsPriceException {
         List<Item> res = new ArrayList<>();
-        Set<Item> favoritos = clienteFavoritosRepository.getFavItemsByUsername_Set(username);
+        //Set<Item> favoritos = clienteFavoritosRepository.getFavItemsByUsername_Set(username);
+        Page<Item> favoritos = clienteFavoritosRepository.getFavItemsByUsername(username, PageRequest.of(page, number));
         for(Item i : favoritos){
             if(i.getSubclasse().toLowerCase(Locale.ROOT).equals("calcado") && isNumeric(dimensoes) && i.getDimensao().equals(dimensoes)){
                 res.add(i);

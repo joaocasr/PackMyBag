@@ -24,31 +24,31 @@ public class FavoritoItemController {
     public FavoritoItemController(FavoritosService favoritosService){this.favItemService=favoritosService;}
 
 
-    @GetMapping("/genero/{gender}")
+    @GetMapping("/genero/{username}")
     //public List<FavoritoItemDTO> getPerGenderItems(@RequestParam int page, @RequestParam int number,@PathVariable String gender){
-    public List<FavoritoItemDTO> getPerGenderItems(@RequestBody String username, @PathVariable String gender){
+    public List<FavoritoItemDTO> getPerGenderItems(@PathVariable String username, @RequestParam String gender, @RequestParam int page, @RequestParam int number){
         try{
-            return favItemService.getPerGenderItems(username, gender);
+            return favItemService.getPerGenderItems(username, gender,page, number);
         }catch (NoCatalogItemsGenderException n){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,n.getMessage());
         }
     }
 
-    @GetMapping("/size")
+    @GetMapping("/price/{username}")
     //public List<FavoritoItemDTO> getPerPriceItems(@RequestParam int page, @RequestParam int number,@RequestParam int min, @RequestParam int max){
-    public List<FavoritoItemDTO> getPerPriceItems(@RequestBody String username, @RequestParam int min, @RequestParam int max){
+    public List<FavoritoItemDTO> getPerPriceItems(@PathVariable String username, @RequestParam int min, @RequestParam int max, @RequestParam int page, @RequestParam int number){
         try{
-            return favItemService.getPerPriceItems(username, min, max);
+            return favItemService.getPerPriceItems(username, min, max, page, number);
         }catch (NoCatalogItemsPriceException n){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,n.getMessage());
         }
     }
 
-    @GetMapping("/price")
+    @GetMapping("/size/{username}")
     //public List<FavoritoItemDTO> getPerPriceItems(@RequestParam int page, @RequestParam int number,@RequestParam int min, @RequestParam int max){
-    public List<FavoritoItemDTO> getPerSizeItems(@RequestBody String username, @RequestParam String size){
+    public List<FavoritoItemDTO> getPerSizeItems(@PathVariable String username, @RequestParam String size, @RequestParam int page, @RequestParam int number){
         try{
-            return favItemService.getPerSizeItems(username, size);
+            return favItemService.getPerSizeItems(username, size, page, number);
         }catch (NoCatalogItemsPriceException n){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,n.getMessage());
         }
