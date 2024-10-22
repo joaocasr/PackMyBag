@@ -29,8 +29,8 @@ public class ItemMapper {
             relacionados = ((Set) item).getPecas().stream().limit(4).map(x->new RelacionadosDTO(x.getDesignacao(),x.getImagem(),x.getIDItem())).toList();
         }
         if(item instanceof Calcado) tamanho = String.valueOf(((Calcado) item).getNumero());
-
-        return new FullDetailedItemDTO(item.getORMID(),item.getDesignacao(),item.getPreco(),item.getCor(),item.getImagem(), item.getTipo(), tamanho,item.getDisponibilidade(),nrreviews,relacionados);
+        Loja j = item.getLoja();
+        return new FullDetailedItemDTO(item.getORMID(),item.getDesignacao(),item.getPreco(),item.getCor(),item.getImagem(), item.getTipo(), tamanho,item.getDisponibilidade(),nrreviews,relacionados,j);
     }
 
     public ReviewDTO toReviewDTO(Review review){

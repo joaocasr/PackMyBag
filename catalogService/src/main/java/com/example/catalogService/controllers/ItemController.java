@@ -7,6 +7,7 @@ import com.example.catalogService.services.ProducerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -162,5 +163,14 @@ public class ItemController {
     }
 
 
+    @PostMapping("/disponibilidade/")
+    public ResponseEntity<?> decreaseAvailability(@RequestBody EncomendaDTO encomendaDTO) throws ItemUnavailableException {
+        try{
+            itemService.decreaseAvailability(encomendaDTO);
+            return ResponseEntity.ok("Encomenda pode ser feita com sucesso.");
+        }catch (ItemUnavailableException i){
+            return new ResponseEntity<>(new ErrorResponse(HttpStatus.NOT_FOUND,i.getMessage()),HttpStatus.NOT_FOUND);
+        }
+    }
 }
 

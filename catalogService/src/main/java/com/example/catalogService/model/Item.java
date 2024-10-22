@@ -22,7 +22,7 @@ import jakarta.persistence.*;
 @Table(name="Item")
 @Inheritance(strategy=InheritanceType.JOINED)
 @DiscriminatorValue("Item")
-public class Item implements Serializable {
+public class Item extends BaseEntity implements Serializable {
 	public Item() {
 	}
 	

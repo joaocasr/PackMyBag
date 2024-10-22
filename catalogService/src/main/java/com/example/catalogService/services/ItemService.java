@@ -9,7 +9,10 @@ import com.example.catalogService.repositories.ClientRepository;
 import com.example.catalogService.repositories.ItemRepository;
 import com.example.catalogService.repositories.LojaRepository;
 import com.example.catalogService.repositories.ReviewRepository;
+
+import org.hibernate.StaleObjectStateException;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -161,27 +164,31 @@ public class ItemService {
 
 
     public void insertReview(InsertReviewDTO insertReviewDTO,int itemID) throws InexistentItemException {
-        Optional<Item> i = itemRepository.findById(itemID);
-        if(i.isEmpty()) throw new InexistentItemException(itemID);
-        Item item = i.get();
-        Cliente c = clientRepository.getClienteByUsername(insertReviewDTO.getUsername());
-        if(c==null) {
-            c = new Cliente(insertReviewDTO.getName(),insertReviewDTO.getUsername(),insertReviewDTO.getProfileImg());
-            clientRepository.save(c);
-        }
-        Review r = new Review(c,insertReviewDTO.getRating(), insertReviewDTO.getTimestamp(),insertReviewDTO.getTexto());
-        if(item.getCriticas().stream().map(x->x.getAutor().getUsername()).anyMatch(x->x.equals(insertReviewDTO.getUsername()))){
-            Review oldreview = item.getCriticas().stream().filter(x->x.getAutor().getUsername().equals(insertReviewDTO.getUsername())).findFirst().get();
-            oldreview.setClassificacao(insertReviewDTO.getRating());
-            oldreview.setDescricao(insertReviewDTO.getTexto());
-            oldreview.setData(insertReviewDTO.getTimestamp());
-            item.adicionaReview(oldreview);
-            reviewRepository.save(oldreview);
-            itemRepository.save(item);
-        }else{
-            item.adicionaReview(r);
-            reviewRepository.save(r);
-            itemRepository.save(item);
+        try {
+            Optional<Item> i = itemRepository.findById(itemID);
+            if (i.isEmpty()) throw new InexistentItemException(itemID);
+            Item item = i.get();
+            Cliente c = clientRepository.getClienteByUsername(insertReviewDTO.getUsername());
+            if (c == null) {
+                c = new Cliente(insertReviewDTO.getName(), insertReviewDTO.getUsername(), insertReviewDTO.getProfileImg());
+                clientRepository.save(c);
+            }
+            Review r = new Review(c, insertReviewDTO.getRating(), insertReviewDTO.getTimestamp(), insertReviewDTO.getTexto());
+            if (item.getCriticas().stream().map(x -> x.getAutor().getUsername()).anyMatch(x -> x.equals(insertReviewDTO.getUsername()))) {
+                Review oldreview = item.getCriticas().stream().filter(x -> x.getAutor().getUsername().equals(insertReviewDTO.getUsername())).findFirst().get();
+                oldreview.setClassificacao(insertReviewDTO.getRating());
+                oldreview.setDescricao(insertReviewDTO.getTexto());
+                oldreview.setData(insertReviewDTO.getTimestamp());
+                item.adicionaReview(oldreview);
+                reviewRepository.save(oldreview);
+                itemRepository.save(item);
+            } else {
+                item.adicionaReview(r);
+                reviewRepository.save(r);
+                itemRepository.save(item);
+            }
+        }catch (StaleObjectStateException | ObjectOptimisticLockingFailureException e) {
+            insertReview(insertReviewDTO, itemID);
         }
     }
 
@@ -190,10 +197,44 @@ public class ItemService {
     }
 
     public void removeReview(int id , String username) throws InexistentItemException {
-        Optional<Item> i = itemRepository.findById(id);
-        if(i.isEmpty()) throw new InexistentItemException(id);
-        Item item = i.get();
-        Review r = item.getCriticas().stream().filter(x->x.getAutor().getUsername().equals(username)).toList().get(0);
-        reviewRepository.deleteReviewById(r.getIdReview());
+        try{
+            Optional<Item> i = itemRepository.findById(id);
+            if(i.isEmpty()) throw new InexistentItemException(id);
+            Item item = i.get();
+            Review r = item.getCriticas().stream().filter(x->x.getAutor().getUsername().equals(username)).toList().get(0);
+            reviewRepository.deleteReviewById(r.getIdReview());
+        }catch (StaleObjectStateException | ObjectOptimisticLockingFailureException e) {
+            removeReview(id, username);
+        }
+    }
+
+    public void decreaseAvailability(EncomendaDTO encomendaDTO) throws ItemUnavailableException,ObjectOptimisticLockingFailureException {
+        try{
+            checkAvailability(encomendaDTO);
+        }
+        catch (ObjectOptimisticLockingFailureException o){
+            checkAvailability(encomendaDTO);
+        }
+    }
+
+    public void checkAvailability(EncomendaDTO encomendaDTO) throws ItemUnavailableException{
+        List<Item> itemsToUpdate = new ArrayList<>();
+        for (ItemEncomenda itemEncomenda : encomendaDTO.getItens()) {
+            java.util.Set<Item> items = itemRepository.getItemsByCodeShop(itemEncomenda.getCodigo(),itemEncomenda.getIdloja());
+            Item i = items.stream().toList().get(0);
+            int nr = i.getNrDisponiveis();
+
+            if (nr < itemEncomenda.getQuantidade()) {
+                throw new ItemUnavailableException(i.getDesignacao(), i.getCodigo(), i.getLoja().getNome());
+            }
+            i.setNrDisponiveis(nr - itemEncomenda.getQuantidade());
+            if (i.getNrDisponiveis() == 0) {
+                i.setDisponibilidade("Not Available");
+            }
+            itemsToUpdate.add(i);
+        }
+        if(itemsToUpdate.size()==encomendaDTO.getItens().size()){
+            itemRepository.saveAll(itemsToUpdate);
+        }
     }
 }

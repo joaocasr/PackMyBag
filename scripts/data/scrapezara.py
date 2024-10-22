@@ -29,7 +29,7 @@ peca =[]
 setc =[]
 set_peca =[]
 
-citem = f"""INSERT INTO item (iditem, codigo, cor, designacao, disponibilidade, estilo, imagem, nr_disponiveis, nraquisicoes, preco, tipo, lojaidloja)
+citem = f"""INSERT INTO item (iditem, version, codigo, cor, designacao, disponibilidade, estilo, imagem, nr_disponiveis, nraquisicoes, preco, tipo, lojaidloja)
 VALUES\n"""
 cset = f"""\n\nINSERT INTO set (nr_pecas, tamanho, itemiditem)
 VALUES\n"""
@@ -112,7 +112,7 @@ for page in pages:
 
         nr_disponiveis=random.randint(1,3)
         codigo="P"+str(id)
-        item=f"({id},'{codigo}','{cor}','{nome}','{disponibilidade}','{estilo}','{imagem}',{nr_disponiveis},0,{preco},'{tipo}',1)"
+        item=f"({id}, 1, '{codigo}','{cor}','{nome}','{disponibilidade}','{estilo}','{imagem}',{nr_disponiveis},0,{preco},'{tipo}',1)"
         items.append(item)
 
     for i in items:    

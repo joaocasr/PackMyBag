@@ -2,15 +2,18 @@ package com.example.catalogService.repositories;
 
 import com.example.catalogService.model.Item;
 import com.example.catalogService.model.Review;
+import jakarta.persistence.LockModeType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
 import java.util.Set;
 
 @Repository
@@ -26,7 +29,7 @@ public interface ItemRepository extends JpaRepository<Item,Integer> {
     Page<Item> getItemsByPriceandType(@Param("min") int min, @Param("max") int max, @Param("tipo") String tipo, PageRequest pageable);
 
     @Query("select i FROM Item i where i.codigo= :code and i.loja.IDLoja= :idLoja")
-    Set<Item> getItemsByCodeShop(@Param("code") String code,@Param("idLoja") int idLoja);
+    Set<Item> getItemsByCodeShop(@Param("code") String code, @Param("idLoja") int idLoja);
 
     @Query("select i from Item i where i.loja.IDLoja= :idLoja")
     Page<Item> getShopItems(@Param("idLoja") int idLoja, PageRequest pageable);
