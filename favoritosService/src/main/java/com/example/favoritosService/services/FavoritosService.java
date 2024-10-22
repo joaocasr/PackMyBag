@@ -36,8 +36,8 @@ public class FavoritosService {
     }
 
 
-    public List<FavoritoItemDTO> getUserFavourites(ClienteDTO clienteDTO, int page, int number) throws NoCatalogItemsException {
-        return clienteFavoritosRepository.getFavItemsByUsername(clienteDTO.getUsername(), PageRequest.of(page, number)).stream().map(x->favoritoItemMapper.toFavoritoItemDTO(x)).collect(Collectors.toList());
+    public List<FavoritoItemDTO> getUserFavourites(String username, int page, int number) throws NoCatalogItemsException {
+        return clienteFavoritosRepository.getFavItemsByUsername(username, PageRequest.of(page, number)).stream().map(x->favoritoItemMapper.toFavoritoItemDTO(x)).collect(Collectors.toList());
     }
 
     public List<FavoritoItemDTO> getPerGenderItems(String username, String tipo, int page, int number) throws NoCatalogItemsGenderException {

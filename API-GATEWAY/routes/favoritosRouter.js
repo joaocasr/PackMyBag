@@ -2,27 +2,6 @@ var express = require('express');
 var router = express.Router();
 const favoritosService = require('../microservices/favoritosService')
 
-/*Get Items By Page*/
-router.get("/", function(req, res, next) {
-  const page = req.query.page;
-  const number = req.query.number;
-  favoritosService.getUserFavsByPage(page, number).then(items => {
-      res.jsonp(items);
-  }).catch(err => {
-    res.status(err.error.status).jsonp(err);
-  });
-});
-
-/*Get All Items*/
-/*
-router.get("/all", function(req, res, next) {
-  catalogoService.getAllItems().then(items => {
-      res.jsonp(items);
-  }).catch(err => {
-    res.status(err.error.status).jsonp(err);
-  });
-});*/
-
 
 /*Obter itens por genero*/
 router.get("/genero/:username",function(req,res,next){
@@ -96,11 +75,23 @@ router.delete("/removeItem",function(req,res,next){
   const username = req.body.username;
   const itemCode = req.body.itemCode;
 
-  catalogoService.removeItem(username,itemCode).then(resp=>{
+  favoritosService.removeItem(username,itemCode).then(resp=>{
     res.jsonp(resp);
   }).catch(err=>{
     res.status(err.error.status).jsonp(err);
   })
+});
+
+/*Get Items By Page*/
+router.get("/:username", function(req, res, next) {
+  const page = req.query.page;
+  const number = req.query.number;
+  const username = req.params.username;
+  favoritosService.getUserFavsByPage(username,page, number).then(items => {
+      res.jsonp(items);
+  }).catch(err => {
+    res.status(err.error.status).jsonp(err);
+  });
 });
 
 module.exports = router;

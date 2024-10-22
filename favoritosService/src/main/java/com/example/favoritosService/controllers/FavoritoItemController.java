@@ -64,7 +64,7 @@ public class FavoritoItemController {
         }
     }
 
-    @PostMapping("/removeItem")
+    @DeleteMapping("/removeItem")
     public ResponseEntity<?> removePecaFavorite(@RequestBody FavoritoItemRemoveDTO itemBody){
         try {
             favItemService.removeFavorito(itemBody);
@@ -74,10 +74,10 @@ public class FavoritoItemController {
         }
     }
 
-    @GetMapping("/")
-    public List<FavoritoItemDTO> getUserFavsByPage(@RequestBody ClienteDTO clienteDTO, @RequestParam int page, @RequestParam int number){
+    @GetMapping("/{username}")
+    public List<FavoritoItemDTO> getUserFavsByPage(@PathVariable String username, @RequestParam int page, @RequestParam int number){
         try{
-            return favItemService.getUserFavourites(clienteDTO,page,number);
+            return favItemService.getUserFavourites(username,page,number);
         }catch (NoCatalogItemsException n){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,n.getMessage());
         }

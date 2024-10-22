@@ -1,5 +1,5 @@
 var axios = require('axios')
-const ap = "http://localhost:8081/api/favoritos"
+const ap = "http://localhost:8083/api/favoritos"
 
 /*
 
@@ -20,7 +20,7 @@ module.exports.getAllItems = () => {
 */
 
 module.exports.getPerGenderItems = (username, gender, page, number) => {
-    return axios.get(`${ap}/genero/${username}?genero=${gender}&page=${page}&number=${number}`).then(resp => {
+    return axios.get(`${ap}/genero/${username}?gender=${gender}&page=${page}&number=${number}`).then(resp => {
         return resp.data;
     })
     .catch(err => {
@@ -34,7 +34,7 @@ module.exports.getPerGenderItems = (username, gender, page, number) => {
 
 
 module.exports.getPerSizeItems = (username, size, page, number) =>{
-    return axios.get(`${ap}/genero/${username}?size=${size}&page=${page}&number=${number}`).then(resp => {
+    return axios.get(`${ap}/size/${username}?size=${size}&page=${page}&number=${number}`).then(resp => {
         return resp.data;
     })
         .catch(err => {
@@ -90,7 +90,7 @@ module.exports.addItemFavorite = (codigo, username, designacao, preco, disponibi
 }
 
 
-module.exports.removePecaFavorite = (username, itemCode) => {
+module.exports.removeItem = (username, itemCode) => {
     
     data = {
         "username":username,
@@ -116,8 +116,8 @@ module.exports.removePecaFavorite = (username, itemCode) => {
     })
 }
 
-module.exports.getUserFavsByPage = (page,number) => {
-    return axios.get(`${ap}/?page=${page}&number=${number}`).then(resp => {
+module.exports.getUserFavsByPage = (username,page,number) => {
+    return axios.get(`${ap}/${username}?page=${page}&number=${number}`).then(resp => {
         return resp.data;
     })
         .catch(err => {
