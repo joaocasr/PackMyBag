@@ -1,7 +1,9 @@
-package main.java.com.exemplo.encomendaService.model;
+package com.exemplo.encomendaService.model;
 
 import java.io.Serializable;
-import javax.persistence.*;
+import java.util.Set;
+import jakarta.persistence.*;
+
 @Entity
 //@org.hibernate.annotations.Proxy(lazy=false)
 @Table(name="Encomenda")
@@ -15,10 +17,10 @@ public class Encomenda implements Serializable {
 	@SequenceGenerator(name="ENCOMENDASERVICE_ENCOMENDA_IDENCOMENDA_GENERATOR",sequenceName = "ENCOMENDASERVICE_ENCOMENDA_IDENCOMENDA_SEQ")
 	private int IDEncomenda;
 	
-	@ManyToOne(targetEntity=main.java.com.exemplo.encomendaService.model.Cliente.class, fetch=FetchType.LAZY)	
+	@ManyToOne(targetEntity=com.exemplo.encomendaService.model.Cliente.class, fetch=FetchType.LAZY)	
 	//@org.hibernate.annotations.Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE, org.hibernate.annotations.CascadeType.LOCK, org.hibernate.annotations.CascadeType.DELETE})	
 	@JoinColumns(value={ @JoinColumn(name="ClienteIDCliente", referencedColumnName="IDCliente", nullable=false) }, foreignKey=@ForeignKey(name="FKEncomenda932418"))	
-	private main.java.com.exemplo.encomendaService.model.Cliente cliente;
+	private com.exemplo.encomendaService.model.Cliente cliente;
 	
 	@Column(name="CodigoEncomenda", nullable=true, length=255)	
 	private String codigoEncomenda;
@@ -93,19 +95,19 @@ public class Encomenda implements Serializable {
 		return status;
 	}
 	
-	public void setCliente(main.java.com.exemplo.encomendaService.model.Cliente value) {
+	public void setCliente(com.exemplo.encomendaService.model.Cliente value) {
 		this.cliente = value;
 	}
 	
-	public main.java.com.exemplo.encomendaService.model.Cliente getCliente() {
+	public com.exemplo.encomendaService.model.Cliente getCliente() {
 		return cliente;
 	}
 	
-	public void setItems(java.util.Set value) {
+	public void setItems(Set value) {
 		this.items = value;
 	}
 	
-	public java.util.Set getItems() {
+	public Set getItems() {
 		return items;
 	}
 	

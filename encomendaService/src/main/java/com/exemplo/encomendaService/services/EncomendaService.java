@@ -1,10 +1,15 @@
-package main.java.com.exemplo.encomendaService.services;
-import main.java.com.exemplo.encomendaService.dto.EncomendaDTO;
-import main.java.com.exemplo.encomendaService.mapper.EncomendaMapper;
-import main.java.com.exemplo.encomendaService.model.Cliente;
-import main.java.com.exemplo.encomendaService.model.Encomenda;
-import main.java.com.exemplo.encomendaService.repositories.EncomendaRepository;
+package com.exemplo.encomendaService.services;
+import com.exemplo.encomendaService.dto.EncomendaDTO;
+import com.exemplo.encomendaService.mapper.EncomendaMapper;
+import com.exemplo.encomendaService.model.Cliente;
+import com.exemplo.encomendaService.model.Encomenda;
+import com.exemplo.encomendaService.repositories.EncomendaRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
 
 @Service
 public class EncomendaService {

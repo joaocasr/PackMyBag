@@ -1,4 +1,9 @@
-package main.java.com.exemplo.encomendaService.mapper;
+package com.exemplo.encomendaService.mapper;
+
+import org.springframework.stereotype.Component;
+
+import com.exemplo.encomendaService.dto.EncomendaDTO;
+import com.exemplo.encomendaService.model.Encomenda;
 
 @Component
 public class EncomendaMapper {
@@ -6,7 +11,7 @@ public class EncomendaMapper {
     // Converter Entidade Encomenda para DTO
     public EncomendaDTO toDTO(Encomenda encomenda) {
         EncomendaDTO dto = new EncomendaDTO();
-        dto.setIdEncomenda(encomenda.getIdEncomenda());
+        dto.setIdEncomenda(encomenda.getORMID());
         dto.setClienteEmail(encomenda.getCliente().getEmail());
         dto.setCodigoEncomenda(encomenda.getCodigoEncomenda());
         dto.setDataEntrega(encomenda.getDataEntrega());

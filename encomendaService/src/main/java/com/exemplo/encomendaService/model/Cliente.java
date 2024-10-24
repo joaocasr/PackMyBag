@@ -1,7 +1,9 @@
-package main.java.com.exemplo.encomendaService.model;
+package com.exemplo.encomendaService.model;
 
 import java.io.Serializable;
-import javax.persistence.*;
+//import javax.persistence.*;
+import jakarta.persistence.*;
+
 @Entity
 //@org.hibernate.annotations.Proxy(lazy=false)
 @Table(name="Cliente")

@@ -1,4 +1,4 @@
-package main.java.com.exemplo.encomendaService.dto;
+package com.exemplo.encomendaService.dto;
 
 import java.time.LocalDate;
 

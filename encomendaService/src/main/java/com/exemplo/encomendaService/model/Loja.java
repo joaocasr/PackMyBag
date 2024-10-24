@@ -1,7 +1,9 @@
-package main.java.com.exemplo.encomendaService.model;
+package com.exemplo.encomendaService.model;
 
 import java.io.Serializable;
-import javax.persistence.*;
+import jakarta.persistence.*;
+import java.util.Set;
+
 @Entity
 //@org.hibernate.annotations.Proxy(lazy=false)
 @Table(name="Loja")
@@ -26,7 +28,7 @@ public class Loja implements Serializable {
 	@Column(name="Localizacao", nullable=true, length=255)	
 	private String localizacao;
 	
-	@OneToMany(targetEntity=main.java.com.exemplo.encomendaService.model.Encomenda.class)	
+	@OneToMany(targetEntity=com.exemplo.encomendaService.model.Encomenda.class)	
 	@org.hibernate.annotations.Cascade({org.hibernate.annotations.CascadeType.ALL})	
 	@JoinColumns({ @JoinColumn(name="LojaIDLoja", nullable=false) })	
 	@org.hibernate.annotations.LazyCollection(org.hibernate.annotations.LazyCollectionOption.TRUE)	
@@ -68,14 +70,13 @@ public class Loja implements Serializable {
 		return localizacao;
 	}
 	
-	public void setEncomendas(java.util.Set value) {
+	public void setEncomendas(Set value) {
 		this.encomendas = value;
 	}
 	
-	public java.util.Set getEncomendas() {
+	public Set getEncomendas() {
 		return encomendas;
 	}
-	
 	
 	public String toString() {
 		return String.valueOf(getIDLoja());

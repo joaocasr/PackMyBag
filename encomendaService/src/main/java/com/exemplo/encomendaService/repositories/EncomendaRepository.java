@@ -1,10 +1,13 @@
-package main.java.com.exemplo.encomendaService.repositories;
+package com.exemplo.encomendaService.repositories;
 
-import com.exemplo.encomenda.model.Encomenda;
+import com.exemplo.encomendaService.model.Encomenda;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+
+import java.util.List;
+import java.time.LocalDate;
 
 
 @Repository

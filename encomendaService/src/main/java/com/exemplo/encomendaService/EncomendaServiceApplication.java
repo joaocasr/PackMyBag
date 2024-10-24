@@ -1,4 +1,4 @@
-package main.java.com.exemplo.encomendaService;
+package com.exemplo.encomendaService;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

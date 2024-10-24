@@ -1,7 +1,7 @@
-package main.java.com.exemplo.encomendaService.controllers;
+package com.exemplo.encomendaService.controllers;
 
-import com.exemplo.encomenda.dto.EncomendaDTO;
-import com.exemplo.encomenda.service.EncomendaService;
+import com.exemplo.encomendaService.dto.EncomendaDTO;
+import com.exemplo.encomendaService.services.EncomendaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

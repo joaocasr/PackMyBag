@@ -1,4 +1,4 @@
-package main.java.com.exemplo.encomendaService.config;
+package com.exemplo.encomendaService.config;
 
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
