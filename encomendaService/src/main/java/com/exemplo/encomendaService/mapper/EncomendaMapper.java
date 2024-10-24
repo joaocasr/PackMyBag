@@ -21,7 +21,7 @@ public class EncomendaMapper {
         encomenda.setCodigoEncomenda(dto.getCodigoEncomenda());
         encomenda.setDataEntrega(dto.getDataEntrega());
         encomenda.setStatus(dto.getStatus());
-        encomenda.setCliente(cliente);  // Cliente já carregado
+        encomenda.setCliente(cliente); 
         return encomenda;
     }
 }
