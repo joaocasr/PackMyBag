@@ -10,10 +10,10 @@ public class ProducerService {
     public final static String TOPIC = "ItemUpdate";
 
     @Autowired
-    public KafkaTemplate<String , Object> kafkaTemplate;
+    public KafkaTemplate<String , String> kafkaTemplate;
 
     public void sendMessage(ItemUpdate item){
-        System.out.println("kafka: " + item.toString());
-        this.kafkaTemplate.send(TOPIC, item);
+        System.out.println(item.toString());
+        this.kafkaTemplate.send(TOPIC, item.toString());
     }
 }

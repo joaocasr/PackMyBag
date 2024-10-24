@@ -6,8 +6,10 @@ var logger = require('morgan');
 const cors = require('cors')
 var catalogoRouter = require('./routes/catalogoRouter');
 var favoritosRouter = require('./routes/favoritosRouter');
+var notificacoesRouter = require('./routes/notificacoesRouter');
 const { APIcatalogo } = require('./public/javascripts/entrypoints')
 const { APIfavoritos } = require('./public/javascripts/entrypoints')
+const { APINotificacoes } = require('./public/javascripts/entrypoints')
 
 var app = express();
 
@@ -19,7 +21,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(APIcatalogo, catalogoRouter);
-app.use(APIfavoritos, favoritosRouter)
+app.use(APIfavoritos, favoritosRouter);
+app.use(APINotificacoes, notificacoesRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -33,7 +36,6 @@ app.use(function(err, req, res, next) {
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
   res.status(err.status || 500);
-  res.message(err.message)
 });
 
 module.exports = app;

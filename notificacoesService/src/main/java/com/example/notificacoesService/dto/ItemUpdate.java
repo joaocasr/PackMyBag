@@ -1,4 +1,4 @@
-package com.example.catalogService.dto;
+package com.example.notificacoesService.dto;
 
 public class ItemUpdate {
     private String code;
