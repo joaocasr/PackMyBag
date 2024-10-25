@@ -17,10 +17,10 @@ public class Encomenda implements Serializable {
 	@SequenceGenerator(name="ENCOMENDASERVICE_ENCOMENDA_IDENCOMENDA_GENERATOR",sequenceName = "ENCOMENDASERVICE_ENCOMENDA_IDENCOMENDA_SEQ")
 	private int IDEncomenda;
 	
-	@ManyToOne(targetEntity=com.exemplo.encomendaService.model.Cliente.class, fetch=FetchType.LAZY)	
+	@ManyToOne(targetEntity=Cliente.class, fetch=FetchType.LAZY)	
 	//@org.hibernate.annotations.Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE, org.hibernate.annotations.CascadeType.LOCK, org.hibernate.annotations.CascadeType.DELETE})	
 	@JoinColumns(value={ @JoinColumn(name="ClienteIDCliente", referencedColumnName="IDCliente", nullable=false) }, foreignKey=@ForeignKey(name="FKEncomenda932418"))	
-	private com.exemplo.encomendaService.model.Cliente cliente;
+	private Cliente cliente;
 	
 	@Column(name="CodigoEncomenda", nullable=true, length=255)	
 	private String codigoEncomenda;
@@ -37,7 +37,7 @@ public class Encomenda implements Serializable {
 	@Column(name="Status", nullable=true, length=255)	
 	private String status;
 	
-	@OneToMany(orphanRemoval=true, targetEntity=main.java.com.exemplo.encomendaService.model.Item.class)	
+	@OneToMany(orphanRemoval=true, targetEntity=Item.class)	
 	@org.hibernate.annotations.Cascade({org.hibernate.annotations.CascadeType.ALL})	
 	@JoinColumns({ @JoinColumn(name="EncomendaIDEncomenda", nullable=false) })	
 	@org.hibernate.annotations.LazyCollection(org.hibernate.annotations.LazyCollectionOption.TRUE)	

@@ -13,7 +13,7 @@ public class Item implements Serializable {
 	@Id	
 	@GeneratedValue(generator="ENCOMENDASERVICE_ITEM_IDITEM_GENERATOR")	
 	//@org.hibernate.annotations.GenericGenerator(name="ENCOMENDASERVICE_ITEM_IDITEM_GENERATOR", strategy="native")	
-	@SequenceGenerator(name="ENCOMENDAERVICE_ITEM_IDITEM_GENERATOR", sequenceName = "ENCOMENDASERVICE_ITEM_IDITEM_SEQ")
+	@SequenceGenerator(name="ENCOMENDASERVICE_ITEM_IDITEM_GENERATOR", sequenceName = "ENCOMENDASERVICE_ITEM_IDITEM_SEQ")
 	private int IDItem;
 	
 	@Column(name="Codigo", nullable=true, length=255)	

@@ -8,25 +8,28 @@ import com.exemplo.encomendaService.model.Encomenda;
 @Component
 public class EncomendaMapper {
 
-    // Converter Entidade Encomenda para DTO
-    public EncomendaDTO toDTO(Encomenda encomenda) {
+    // Converte de Entidade para DTO
+    public static EncomendaDTO toDTO(Encomenda encomenda) {
         EncomendaDTO dto = new EncomendaDTO();
-        dto.setIdEncomenda(encomenda.getORMID());
-        dto.setClienteEmail(encomenda.getCliente().getEmail());
+        dto.setIdEncomenda(encomenda.getIDEncomenda());
         dto.setCodigoEncomenda(encomenda.getCodigoEncomenda());
         dto.setDataEntrega(encomenda.getDataEntrega());
+        dto.setDevolucao(encomenda.getDevolucao());
+        dto.setLocalEntrega(encomenda.getLocalEntrega());
         dto.setStatus(encomenda.getStatus());
+        dto.setClienteId(encomenda.getCliente().getIDCliente());
         return dto;
     }
 
-    // Converter DTO para Entidade Encomenda
-    public Encomenda toEntity(EncomendaDTO dto, Cliente cliente) {
+    // Converte de DTO para Entidade
+    public static Encomenda toEntity(EncomendaDTO dto) {
         Encomenda encomenda = new Encomenda();
-        encomenda.setIdEncomenda(dto.getIdEncomenda());
         encomenda.setCodigoEncomenda(dto.getCodigoEncomenda());
         encomenda.setDataEntrega(dto.getDataEntrega());
+        encomenda.setDevolucao(dto.getDevolucao());
+        encomenda.setLocalEntrega(dto.getLocalEntrega());
         encomenda.setStatus(dto.getStatus());
-        encomenda.setCliente(cliente); 
+        // Precisa de setar o cliente separadamente (relacionamento ManyToOne)
         return encomenda;
     }
 }

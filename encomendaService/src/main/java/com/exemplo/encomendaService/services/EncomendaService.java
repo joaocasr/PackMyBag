@@ -10,38 +10,32 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-
 @Service
 public class EncomendaService {
 
-    //@Autowired // isto faz o mesmo que EncomendaRepository encomendaRepository = new EncomendaRepository();
     private EncomendaRepository encomendaRepository;
 
-    //@Autowired
-    private EncomendaMapper encomendaMapper;  // Injeção do Mapper
+    // Criar ou atualizar encomenda
+    public EncomendaDTO saveEncomenda(EncomendaDTO encomendaDTO) {
+        Encomenda encomenda = EncomendaMapper.toEntity(encomendaDTO);
+        encomenda = encomendaRepository.save(encomenda);
+        return EncomendaMapper.toDTO(encomenda);
+    }
 
-    // Buscar todas as encomendas como DTOs
-    public List<EncomendaDTO> getAllEncomendas() {
-        return encomendaRepository.findAll()
-                .stream()
-                .map(encomendaMapper::toDTO)  // Usando o mapper para converter para DTO
+    // Buscar encomenda por ID
+    public EncomendaDTO findEncomendaById(int id) {
+        Optional<Encomenda> encomenda = encomendaRepository.findById(id);
+        return encomenda.map(EncomendaMapper::toDTO).orElse(null);
+    }
+
+    // Buscar todas as encomendas
+    public List<EncomendaDTO> findAllEncomendas() {
+        return encomendaRepository.findAll().stream()
+                .map(EncomendaMapper::toDTO)
                 .collect(Collectors.toList());
     }
 
-    // Buscar uma encomenda específica pelo ID
-    public Optional<EncomendaDTO> getEncomendaById(int id) {
-        return encomendaRepository.findById(id)
-                .map(encomendaMapper::toDTO);  // Usando o mapper para converter para DTO
-    }
-
-    // Salvar uma nova encomenda (recebe um DTO e converte para entidade)
-    public EncomendaDTO saveEncomenda(EncomendaDTO encomendaDTO, Cliente cliente) {
-        Encomenda encomenda = encomendaMapper.toEntity(encomendaDTO, cliente);  // Usando o mapper para converter para entidade
-        Encomenda savedEncomenda = encomendaRepository.save(encomenda);
-        return encomendaMapper.toDTO(savedEncomenda);  // Convertendo a entidade salva para DTO
-    }
-
-    // Excluir encomenda
+    // Deletar encomenda por ID
     public void deleteEncomenda(int id) {
         encomendaRepository.deleteById(id);
     }
