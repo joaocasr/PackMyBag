@@ -3,9 +3,8 @@ import '../assets/navbar.css'
 </script>
 
 <template>
-<main>  	
   	<div class="navbar">
-    		<div class="header">
+    		<div class="myheader">
       			<div class="logo-parent">
         				<div class="logo">
           					<b class="exclusive">
@@ -13,7 +12,7 @@ import '../assets/navbar.css'
         				</div>
         				<div class="home-parent">
           					<div class="home">
-            						<div class="sign-up">Home</div>
+            						<div class="home">Home</div>
           					</div>
           					<div class="stylists1">
             						<div class="stylists1">Stylists</div>
@@ -47,10 +46,6 @@ import '../assets/navbar.css'
     		<img class="logo-sideways-icon" alt="" src="/NavBarIMG/logo-sideways.png">
     		
   	</div>
-
-  	
-
-</main>
 </template>
 <script>
 export default {

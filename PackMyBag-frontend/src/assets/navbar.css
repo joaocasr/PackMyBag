@@ -25,7 +25,7 @@ body {
 }
 
 .home {
-    padding-top:45px;
+    padding-top:23px;
     width: 100px;
     height: 120px;
 }
@@ -34,7 +34,7 @@ body {
     cursor: pointer;
 }
 .stylists1 {
-    padding-top:22px;
+    padding-top:45px;
     width: 100px;
     height: 120px;
 }
@@ -68,7 +68,7 @@ body {
     cursor: pointer;
 }
 .about{
-    padding-top:22px;
+    padding-top:23px;
     width: 100px;
     height: 120px;
 }
@@ -79,12 +79,11 @@ body {
 
 .home-parent {
     display: flex;
-    align-items: stretch;
     position: relative;
     flex-direction: row;
     align-items: flex-start;
     justify-content: flex-start;
-    gap: 40px;
+    padding-left: 100px;
     text-align: center;
     font-size: 16px;
     font-family: Poppins;
@@ -94,8 +93,7 @@ body {
     flex-direction: row;
     align-items: flex-start;
     justify-content: flex-start;
-    gap: 160px;
-    margin:0px;
+    gap: 60px;
 }
 .what-are-you {
     position: relative;
@@ -243,7 +241,7 @@ body {
     padding-right: 60px;
 }
 
-.header {
+.myheader {
     position: absolute;
     top: 0px;
     left: 179px;
@@ -275,6 +273,7 @@ body {
     left:0;
     top:0;
     font-family: Inter;
+    z-index: 100;
 }
 
 
