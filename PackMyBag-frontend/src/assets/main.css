@@ -1,12 +1,23 @@
 @import './base.css';
 
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  font-weight: normal;
+.background-container {
+  max-width: 100%; /* Largura máxima do fundo */
+  width: 100%; /* Para ocupar 100% da largura disponível */
+  margin: 0 auto; /* Centraliza o contêiner */
 }
 
+#app {
+  max-width: 100%;
+  margin: 0 auto;
+  padding-right: 10rem;
+  padding-left: 10rem;
+  font-weight: normal;
+  background-color: white; /* Cor de fundo */
+}
+
+
+
+/*
 a,
 .green {
   text-decoration: none;
@@ -32,4 +43,6 @@ a,
     grid-template-columns: 1fr 1fr;
     padding: 0 2rem;
   }
+    
 }
+*/
