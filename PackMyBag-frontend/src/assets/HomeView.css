@@ -50,6 +50,7 @@ main{
     display: inline-block;
     width: 247px;
     height: 40px;
+    color:#000;
 }
 .cutwork-poplin-dress-container1 {
     position: absolute;
@@ -60,6 +61,7 @@ main{
     display: inline-block;
     width: 241px;
     height: 28px;
+    color:#000;
 }
 .cutwork-poplin-dress-container2 {
     position: absolute;
@@ -70,6 +72,7 @@ main{
     display: inline-block;
     width: 267px;
     height: 21px;
+    color:#000;
 }
 .cutwork-poplin-dress-container3 {
     position: absolute;
@@ -80,6 +83,7 @@ main{
     display: inline-block;
     width: 246px;
     height: 28px;
+    color:#000;
 }
 .cutwork-poplin-dress-1000-parent {
     position: absolute;
@@ -259,8 +263,8 @@ main{
 }
 .fullcataloguebtn {
     position: relative;
-    top: 1900px;
-    left: 649px;
+    top: 400px;
+    left: 870px;
     border-radius: 40px;
     background-color: #fff;
     border: 1px solid #000;
@@ -271,35 +275,37 @@ main{
     cursor: pointer;
     font-size: 23px;
     font-family: 'Port Lligat Slab';
+    color:#000;
+    padding-left: 13px;
 }
 .how-it-works {
     position: relative;
     top: 56px;
-    left: 649px;
+    left: -3px;
     font-size: 30px;
 }
 .return {
     position: absolute;
     top: 211px;
-    left: 1239px;
+    left: 1647px;
     text-align: left;
 }
 .browse {
     position: absolute;
     top: 211px;
-    left: 196px;
+    left: 425px;
     text-align: left;
 }
 .rent {
     position: absolute;
     top: 211px;
-    left: 569px;
+    left: 869px;
     text-align: left;
 }
 .explore-our-vast {
     position: absolute;
     top: 258px;
-    left: 79px;
+    left: 299px;
     font-size: 18px;
     font-weight: 200;
     display: inline-block;
@@ -308,7 +314,7 @@ main{
 .return-the-items {
     position: absolute;
     top: 255px;
-    left: 1118px;
+    left: 1518px;
     font-size: 18px;
     font-weight: 200;
     display: inline-block;
@@ -317,7 +323,7 @@ main{
 .choose-your-favorite {
     position: absolute;
     top: 254px;
-    left: 441px;
+    left: 741px;
     font-size: 18px;
     font-weight: 200;
     display: inline-block;
@@ -326,7 +332,7 @@ main{
 .image-icon {
     position: absolute;
     top: 138px;
-    left: 209px;
+    left: 425px;
     width: 48.2px;
     height: 50px;
     object-fit: cover;
@@ -334,7 +340,7 @@ main{
 .image-1-icon {
     position: absolute;
     top: 138px;
-    left: 567px;
+    left: 869px;
     width: 50px;
     height: 50px;
     object-fit: cover;
@@ -342,7 +348,7 @@ main{
 .image-26-icon {
     position: absolute;
     top: 138px;
-    left: 1247px;
+    left: 1647px;
     width: 50px;
     height: 50px;
     object-fit: cover;
@@ -350,7 +356,7 @@ main{
 .pick-up-at {
     position: absolute;
     top: 255px;
-    left: 803px;
+    left: 1103px;
     font-size: 18px;
     font-weight: 200;
     display: inline-block;
@@ -360,7 +366,7 @@ main{
 .pick-up {
     position: absolute;
     top: 211px;
-    left: 896px;
+    left: 1203px;
     display: inline-block;
     text-align: left;
     width: 77px;
@@ -384,7 +390,7 @@ main{
     top: 35.84%;
     right: 37.73%;
     bottom: 51.17%;
-    left: 59.03%;
+    left: 57%;
     max-width: 100%;
     overflow: hidden;
     max-height: 100%;
@@ -392,13 +398,14 @@ main{
 }
 .howitworksbanner {
     position: relative;
-    top: 2000px;
+    top: 500px;
     left: 0px;
     width: 100%;
     height: 385px;
     text-align: center;
     font-size: 20px;
     margin: 0 auto;
+    color: #000;
 }
 .underline-icon {
     width: 1535px;
@@ -545,7 +552,7 @@ main{
 .imagem-1-icon {
     position: absolute;
     top: 147px;
-    left: 322px;
+    left: 542px;
     width: 50px;
     height: 48.5px;
     object-fit: cover;
@@ -553,7 +560,7 @@ main{
 .imagem-3-icon {
     position: absolute;
     top: 140px;
-    left: 742px;
+    left: 1039px;
     width: 50px;
     height: 58.8px;
     object-fit: cover;
@@ -561,7 +568,7 @@ main{
 .imagem-2-icon {
     position: absolute;
     top: 147px;
-    left: 1136px;
+    left: 1529px;
     width: 50px;
     height: 44.5px;
     object-fit: cover;
@@ -569,31 +576,31 @@ main{
 .sustainable-fashion {
     position: absolute;
     top: 40px;
-    left: 609px;
+    left: 929px;
     font-size: 30px;
 }
 .circular-economy {
     position: absolute;
     top: 212px;
-    left: 1066px;
+    left: 1466px;
     font-size: 22px;
 }
 .eco-friendly {
     position: absolute;
     top: 215px;
-    left: 284px;
+    left: 500px;
     font-size: 20px;
 }
 .water-conservation {
     position: absolute;
     top: 215px;
-    left: 669px;
+    left: 969px;
     font-size: 20px;
 }
 .reduce-clothing-waste {
     position: absolute;
     top: 265px;
-    left: 191px;
+    left: 391px;
     font-weight: 200;
     text-align: center;
     display: inline-block;
@@ -602,7 +609,7 @@ main{
 .participate-in-a {
     position: absolute;
     top: 265px;
-    left: 1007px;
+    left: 1407px;
     font-weight: 200;
     text-align: center;
     display: inline-block;
@@ -611,7 +618,7 @@ main{
 .help-save-water {
     position: absolute;
     top: 265px;
-    left: 613px;
+    left: 913px;
     font-weight: 200;
     text-align: center;
     display: inline-block;
@@ -619,13 +626,14 @@ main{
 }
 .sustainablebanner {
     position: relative;
-    top: 2284px;
+    top: 980px;
     left: 0px;
     background-color: #f0fdf4;
-    width: 1535px;
+    width: 100%;
     height: 385px;
     overflow: hidden;
     margin: 0 auto; 
+    color: #000;
 }
 .icon {
     position: absolute;
@@ -638,7 +646,7 @@ main{
 .clothing-rental-for-container {
     position: absolute;
     top: 250px;
-    left: 700px;
+    left: 750px;
     width: 500px;
     line-height: 50px;
     color:#4d4d4d;
@@ -646,7 +654,7 @@ main{
 .explore-collection {
     position: absolute;
     top: 500px;
-    left: 850px;
+    left: 900px;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 40px;
     background-color: #fff;
@@ -660,13 +668,13 @@ main{
     border:0;
     padding-top: 20px;
     padding-bottom: 30px;
-    padding-left: 24px;
+    padding-left: 35px;
 }
 
 .icon1 {
     position: absolute;
     top: -16px;
-    left: 911px;
+    left: 1011px;
     width: 442px;
     height: 460px;
     object-fit: cover;
@@ -688,7 +696,7 @@ main{
 .hire-a-stylist {
     position: absolute;
     top: 47px;
-    left: 676px;
+    left: 976px;
 }
 .send-a-form {
     position: absolute;
@@ -749,7 +757,7 @@ main{
 .send-a-form-for-just-parent {
     position: absolute;
     top: 125px;
-    left: 546px;
+    left: 836px;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 20px;
     background-color: #fff;
@@ -760,13 +768,15 @@ main{
 }
 .membershipplan {
     position: absolute;
-    top: 1740px;
+    top: 2000px;
+    left: 0px;
     background-color: #f9fafb;
-    width: 1535px;
+    width: 100%;
     height: 544px;
     overflow: hidden;
     font-size: 30px;
     margin: 0 auto;
+    color: #000;
 }
 .home {
     width: 48px;

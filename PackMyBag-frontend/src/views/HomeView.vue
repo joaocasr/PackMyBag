@@ -1,4 +1,5 @@
 <script setup>
+import FooterComponent from '@/components/FooterComponent.vue';
 import '../assets/HomeView.css'
 import NavBarComponent from '@/components/NavBarComponent.vue';
 </script>
@@ -119,8 +120,25 @@ import NavBarComponent from '@/components/NavBarComponent.vue';
 				</div>
 				</div>
 			</div>
+			<div class="sustainablebanner">
+					<img class="imagem-1-icon" alt="" src="/HomeViewIMG/imagem 1.png">
+
+					<img class="imagem-3-icon" alt="" src="/HomeViewIMG/imagem 3.png">
+
+					<img class="imagem-2-icon" alt="" src="/HomeViewIMG/imagem 2.png">
+
+					<b class="sustainable-fashion">Sustainable Fashion</b>
+					<b class="circular-economy">Circular Economy</b>
+					<b class="eco-friendly">Eco-Friendly</b>
+					<b class="water-conservation">Water Conservation</b>
+					<div class="reduce-clothing-waste">Reduce clothing waste and your carbon footprint.</div>
+					<div class="participate-in-a">Participate in a more sustainable fashion cycle.</div>
+					<div class="help-save-water">Help save water used in clothing production.</div>
+			</div>
+				<FooterComponent></FooterComponent>
 		</main>
 </template>
+
 <script>
 export default {
 	components:{
