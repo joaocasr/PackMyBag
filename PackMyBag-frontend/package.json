@@ -9,11 +9,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@vueform/slider": "^2.1.10",
     "vue": "^3.5.12",
     "vue-router": "^4.4.5"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.1.4",
-    "vite": "^5.4.10"
+    "vite": "^5.4.10",
+    "vue3-select-component": "^0.6.1"
   }
 }

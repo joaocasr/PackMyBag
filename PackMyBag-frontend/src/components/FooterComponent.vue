@@ -3,7 +3,7 @@ import '../assets/footer.css'
 </script>
 
 <template>
-  	<div class="footer">
+  	<footer class="footer">
     		<div class="footer1">
       			<div class="underline-parent">
         				<img class="underline-icon" alt="" src="/FooterIMG/UnderLine.svg">
@@ -46,7 +46,7 @@ import '../assets/footer.css'
         				</div>
       			</div>
     		</div>
-  	</div>
+  	</footer>
 </template>
 
 <script>

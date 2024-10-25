@@ -1,5 +1,4 @@
 main{
-    height:8000px;
     background-color: white;
 }
 .image-12-icon {
@@ -46,7 +45,7 @@ main{
     top: 0px;
     left: 0px;
     letter-spacing: 0.15em;
-    line-height: 10px;
+    line-height: 20px;
     display: inline-block;
     width: 247px;
     height: 40px;
@@ -54,10 +53,9 @@ main{
 }
 .cutwork-poplin-dress-container1 {
     position: absolute;
-    top: 4px;
     left: 915px;
     letter-spacing: 0.15em;
-    line-height: 10px;
+    line-height: 20px;
     display: inline-block;
     width: 241px;
     height: 28px;
@@ -76,10 +74,9 @@ main{
 }
 .cutwork-poplin-dress-container3 {
     position: absolute;
-    top: 4px;
     left: 606px;
     letter-spacing: 0.15em;
-    line-height: 10px;
+    line-height: 20px;
     display: inline-block;
     width: 246px;
     height: 28px;
@@ -241,7 +238,7 @@ main{
 }
 .group-parent {
     position: absolute;
-    top: 443px;
+    top: 473px;
     left: 97px;
     width: 968.6px;
     height: 22px;
@@ -264,7 +261,7 @@ main{
 .fullcataloguebtn {
     position: relative;
     top: 400px;
-    left: 870px;
+    left: 840px;
     border-radius: 40px;
     background-color: #fff;
     border: 1px solid #000;
@@ -390,7 +387,7 @@ main{
     top: 35.84%;
     right: 37.73%;
     bottom: 51.17%;
-    left: 57%;
+    left: 63%;
     max-width: 100%;
     overflow: hidden;
     max-height: 100%;
@@ -439,7 +436,7 @@ main{
     top: 374px;
     left: 0px;
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
-    width: 1540px;
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -469,6 +466,8 @@ main{
     display: inline-block;
     height: 31px;
     flex-shrink: 0;
+    left: -150px;
+    top: 50px;
 }
 .logo-parent {
     display: flex;
@@ -544,7 +543,7 @@ main{
     left: 0px;
     background-color: #f7f7f7;
     width: 1535px;
-    height: 440px;
+    height: 340px;
     font-size: 16px;
     color: #fff;
     font-family: Poppins;
@@ -778,39 +777,7 @@ main{
     margin: 0 auto;
     color: #000;
 }
-.home {
-    width: 48px;
-    position: relative;
-    height: 24px;
-}
-.stylists1 {
-    position: absolute;
-    top: 0%;
-    left: -6.25%;
-    line-height: 24px;
-}
-.catalogue1 {
-    position: absolute;
-    top: 0%;
-    left: -13.64%;
-    line-height: 24px;
-}
-.catalogue {
-    width: 66px;
-    position: relative;
-    height: 24px;
-}
-.sign-up {
-    position: absolute;
-    top: 0%;
-    left: 0%;
-    line-height: 24px;
-}
-.signup {
-    width: 61px;
-    position: relative;
-    height: 24px;
-}
+
 .home-parent {
     display: flex;
     flex-direction: row;
@@ -905,18 +872,7 @@ main{
     flex-shrink: 0;
     cursor: pointer;
 }
-.cart1-icon {
-    position: absolute;
-    height: 75%;
-    width: 75%;
-    top: 25%;
-    right: 21.88%;
-    bottom: 0%;
-    left: 3.13%;
-    max-width: 100%;
-    overflow: hidden;
-    max-height: 100%;
-}
+
 .div2 {
     position: absolute;
     height: 100%;
@@ -925,207 +881,5 @@ main{
     left: 31.25%;
     line-height: 18px;
     display: inline-block;
-}
-.ellipse-group {
-    position: absolute;
-    height: 53.13%;
-    width: 50%;
-    top: 3.13%;
-    right: 3.13%;
-    bottom: 43.75%;
-    left: 46.88%;
-}
-.cart1-with-buy {
-    width: 32px;
-    position: relative;
-    height: 32px;
-    cursor: pointer;
-}
-.accountsettings-icon {
-    width: 32px;
-    position: relative;
-    height: 32px;
-}
-.wishlist-parent {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    gap: 16px;
-    text-align: center;
-    color: #fafafa;
-}
-.search-component-set-parent {
-    width: 395px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 24px;
-    font-size: 12px;
-    font-family: Poppins;
-}
-.header {
-    position: absolute;
-    top: 0px;
-    left: 179px;
-    width: 1170px;
-    height: 121px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 130px;
-}
-.logo-sideways-icon {
-    position: absolute;
-    top: 9px;
-    left: 34px;
-    width: 177px;
-    height: 103px;
-    object-fit: cover;
-}
-.navbar {
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    background-color: #f7f7f7;
-    width: 1540px;
-    height: 121px;
-    overflow: hidden;
-    font-size: 24px;
-}
-.homepage {
-    width: 100%;
-    height: 5000px;
-    position: absolute;
-    left:0;
-    right:0;
-    background-color: #fff;
-    height: auto;
-    overflow: hidden;
-    text-align: left;
-    font-size: 18px;
-    color: #000;
-    font-family: Inter;
-}
-
-
-.log-out {
-    position: absolute;
-    top: 10px;
-    left: 13px;
-}
-.log-out-wrapper {
-    position: absolute;
-    height: 20%;
-    width: 100%;
-    top: 0%;
-    right: 0%;
-    bottom: 80%;
-    left: 0%;
-    background-color: #fff;
-    border: 1px solid #c1c1c1;
-    box-sizing: border-box;
-    overflow: hidden;
-}
-.my-notifications {
-    position: absolute;
-    top: 10px;
-    left: 16px;
-    display: inline-block;
-    width: 98px;
-    height: 20px;
-}
-.my-notifications-wrapper {
-    position: absolute;
-    height: 20%;
-    width: 100%;
-    top: 20%;
-    right: 0%;
-    bottom: 60%;
-    left: 0%;
-    background-color: #fff;
-    border: 1px solid #c1c1c1;
-    box-sizing: border-box;
-    overflow: hidden;
-    cursor: pointer;
-}
-.my-favorite-items {
-    position: absolute;
-    top: 10px;
-    left: 16px;
-    display: inline-block;
-    width: 106px;
-    height: 20px;
-}
-.my-favorite-items-wrapper {
-    position: absolute;
-    height: 20%;
-    width: 100%;
-    top: 80%;
-    right: 0%;
-    bottom: 0%;
-    left: 0%;
-    background-color: #fff;
-    border: 1px solid #c1c1c1;
-    box-sizing: border-box;
-    overflow: hidden;
-    cursor: pointer;
-}
-.all-my-orders {
-    position: absolute;
-    top: 10px;
-    left: 16px;
-    display: inline-block;
-    width: 78px;
-    height: 20px;
-}
-.all-my-orders-wrapper {
-    position: absolute;
-    height: 20%;
-    width: 100%;
-    top: 60%;
-    right: 0%;
-    bottom: 20%;
-    left: 0%;
-    background-color: #fff;
-    border: 1px solid #c1c1c1;
-    box-sizing: border-box;
-    overflow: hidden;
-}
-.my-reviews {
-    position: absolute;
-    top: 10px;
-    left: 16px;
-    display: inline-block;
-    width: 68px;
-    height: 20px;
-}
-.my-reviews-wrapper {
-    position: absolute;
-    height: 20%;
-    width: 100%;
-    top: 40%;
-    right: 0%;
-    bottom: 40%;
-    left: 0%;
-    background-color: #fff;
-    border: 1px solid #c1c1c1;
-    box-sizing: border-box;
-    overflow: hidden;
-    cursor: pointer;
-}
-.dropdownprofile {
-    width: 172px;
-    position: relative;
-    height: 200px;
-    max-width: 90%;
-    max-height: 90%;
-    overflow: auto;
-    text-align: left;
-    font-size: 16px;
-    color: #000;
-    font-family: Abel;
 }
 

@@ -1,7 +1,3 @@
-<script setup>
-import '../assets/navbar.css'
-</script>
-
 <template>
   	<div class="navbar">
     		<div class="myheader">
@@ -12,19 +8,19 @@ import '../assets/navbar.css'
         				</div>
         				<div class="home-parent">
           					<div class="home">
-            						<div class="home">Home</div>
+            						<div class="home"><a href="/">Home</a></div>
           					</div>
           					<div class="stylists1">
-            						<div class="stylists1">Stylists</div>
+            						<div class="stylists1"><a href="/stylists">Stylists</a></div>
           					</div>
           					<div class="catalogue">
-            						<div class="catalogue1">Catalogue</div>
+            						<div class="catalogue1"><a href="/catalogue">Catalogue</a></div>
           					</div>
           					<div class="about">
-            						<div class="about">About</div>
+            						<div class="about"><a href="/about">About</a></div>
           					</div>
           					<div class="signup">
-            						<div class="signup">Sign Up</div>
+            						<div class="signup"><a href="/signup">Sign Up</a></div>
           					</div>
         				</div>
       			</div>
@@ -40,7 +36,6 @@ import '../assets/navbar.css'
             						<img class="cart1-icon" alt="" src="/NavBarIMG/Cart1.svg">
             						
           					</div>
-          					
         				</div>
     		</div>
     		<img class="logo-sideways-icon" alt="" src="/NavBarIMG/logo-sideways.png">
@@ -56,3 +51,6 @@ export default {
     }
 }
 </script>
+<style lang="css" scoped>
+@import '../assets/navbar.css';
+</style>

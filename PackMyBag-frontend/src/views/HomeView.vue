@@ -1,13 +1,6 @@
-<script setup>
-import FooterComponent from '@/components/FooterComponent.vue';
-import '../assets/HomeView.css'
-import NavBarComponent from '@/components/NavBarComponent.vue';
-</script>
-
-
 <template>
 		<main>
-				<NavBarComponent></NavBarComponent>
+			<NavBarComponent></NavBarComponent>
 			<div class="homeimage">
 				<img class="icon" alt="" src="/HomeViewIMG/1104046 1.png">
 				<div class="clothing-rental-for-container">
@@ -85,9 +78,7 @@ import NavBarComponent from '@/components/NavBarComponent.vue';
 					</div>
 					</div>
 				</div>
-			<div class="fullcataloguebtn" id="fullcataloguebtnContainer">
-				<div class="full-catalogue">FULL CATALOGUE</div>
-			</div>
+				<button class="fullcataloguebtn">FULL CATALOGUE</button>/>
 			<div class="howitworksbanner">
 				<div class="worksbanner-v2">
 				<b class="how-it-works"> How It Works</b>
@@ -140,10 +131,15 @@ import NavBarComponent from '@/components/NavBarComponent.vue';
 </template>
 
 <script>
+import NavBarComponent from '@/components/NavBarComponent.vue';
+import FooterComponent from '@/components/FooterComponent.vue';
 export default {
 	components:{
-		NavBarComponent
+		NavBarComponent,
+		FooterComponent
 	}
 }
 </script>
-
+<style lang="css" scoped>
+@import '../assets/HomeView.css';
+</style>

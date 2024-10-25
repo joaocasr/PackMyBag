@@ -37,6 +37,7 @@
     justify-content: flex-start;
     gap: 16px;
     opacity: 0.4;
+    right:0;
 }
 .exclusive {
     position: absolute;
@@ -130,7 +131,7 @@
     width: 100%;
     position: relative;
     background-color: #f7f7f7;
-    height: 440px;
+    height: 340px;
     text-align: left;
     font-size: 16px;
     color: #fff;
