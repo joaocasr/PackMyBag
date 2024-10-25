@@ -1,0 +1,63 @@
+<script setup>
+import '../assets/navbar.css'
+</script>
+
+<template>
+<main>  	
+  	<div class="navbar">
+    		<div class="header">
+      			<div class="logo-parent">
+        				<div class="logo">
+          					<b class="exclusive">
+          					</b>
+        				</div>
+        				<div class="home-parent">
+          					<div class="home">
+            						<div class="sign-up">Home</div>
+          					</div>
+          					<div class="stylists1">
+            						<div class="stylists1">Stylists</div>
+          					</div>
+          					<div class="catalogue">
+            						<div class="catalogue1">Catalogue</div>
+          					</div>
+          					<div class="about">
+            						<div class="about">About</div>
+          					</div>
+          					<div class="signup">
+            						<div class="signup">Sign Up</div>
+          					</div>
+        				</div>
+      			</div>
+      			<input placeholder="What are you looking for?" class="search-component-set-parent"/>            						
+          					
+        			
+        				<div class="wishlist-parent">
+          					<div class="wishlist" id="wishlistContainer">
+            						<img class="vector-icon" alt="" src="/NavBarIMG/Vector.svg">
+            						
+          					</div>
+          					<div class="cart1-with-buy" id="cart1WithBuy">
+            						<img class="cart1-icon" alt="" src="/NavBarIMG/Cart1.svg">
+            						
+          					</div>
+          					
+        				</div>
+    		</div>
+    		<img class="logo-sideways-icon" alt="" src="/NavBarIMG/logo-sideways.png">
+    		
+  	</div>
+
+  	
+
+</main>
+</template>
+<script>
+export default {
+    data(){
+        return {
+            a:1
+        }
+    }
+}
+</script>
