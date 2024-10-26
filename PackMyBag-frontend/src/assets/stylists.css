@@ -1,0 +1,112 @@
+.stylistspage-child {
+    position: absolute;
+    top: 297px;
+    left: 486px;
+    border-radius: 20px;
+    background-color: #f3f4f6;
+    width: 777px;
+    height: 198px;
+}
+.image-8-icon {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 197px;
+    height: 285px;
+    object-fit: cover;
+}
+.image-8-wrapper {
+    position: absolute;
+    top: 210px;
+    left: 263px;
+    width: 197px;
+    height: 285px;
+}
+.stylistspage-item {
+    position: absolute;
+    top: 170.5px;
+    left: 262.5px;
+    border-top: 1px solid #d0d0d0;
+    box-sizing: border-box;
+    width: 1001px;
+    height: 1px;
+}
+.stylistspage-inner {
+    position: absolute;
+    top: 537.5px;
+    left: 263.5px;
+    border-top: 1px solid #d0d0d0;
+    box-sizing: border-box;
+    width: 1001px;
+    height: 1px;
+}
+.gonalo-vale {
+    position: absolute;
+    top: 210px;
+    left: 486px;
+    font-size: 32px;
+    letter-spacing: 0.15em;
+    line-height: 10px;
+}
+.star-icon {
+    width: 22px;
+    position: relative;
+    height: 22px;
+    object-fit: cover;
+}
+.star-parent {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 10px;
+}
+.reviews {
+    position: relative;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+}
+.frame-parent {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+.frame-div {
+    position: absolute;
+    top: 247px;
+    left: 486px;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    color: #807d7e;
+    font-family: Actor;
+}
+.orlando-belo {
+    position: absolute;
+    top: 582px;
+    left: 486px;
+    font-size: 32px;
+    letter-spacing: 0.15em;
+    line-height: 10px;
+}
+.stylistspage-inner1 {
+    position: absolute;
+    top: 619px;
+    left: 486px;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    color: #807d7e;
+    font-family: Actor;
+}
+.stylists {
+    position: absolute;
+    top: 130px;
+    left: 263px;
+    font-size: 32px;
+    font-family: Abel;
+}

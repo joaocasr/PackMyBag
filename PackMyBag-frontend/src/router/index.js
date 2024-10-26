@@ -4,6 +4,7 @@ import CatalogueView from '@/views/CatalogueView.vue'
 import AboutView from '@/views/AboutView.vue'
 import SignUpView from '@/views/SignUpView.vue'
 import SignUpView2 from '@/views/SignUpView2.vue'
+import StylistsView from '@/views/StylistsView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -36,7 +37,7 @@ const router = createRouter({
     {
       path: '/stylists',
       name: 'stylists',
-      component: AboutView
+      component: StylistsView
     }
   ]
 })
