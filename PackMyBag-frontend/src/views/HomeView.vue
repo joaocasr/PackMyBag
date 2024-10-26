@@ -8,7 +8,7 @@
 				<p class="clothing-rental-for">Leave your bags behind and sign up now</p>
 				</div>
 				<div class="explore-collection-wrapper" id="frameContainer">
-				<button class="explore-collection">EXPLORE COLLECTION</button>
+				<button class="explore-collection" onclick="window.location.href='/catalogue'">EXPLORE COLLECTION</button>
 				</div>
 				<img class="icon1" alt="" src="/HomeViewIMG/5787874 1.png">
 			</div>
@@ -78,7 +78,7 @@
 					</div>
 					</div>
 				</div>
-				<button class="fullcataloguebtn">FULL CATALOGUE</button>/>
+				<button class="fullcataloguebtn" onclick="window.location.href='/catalogue'">FULL CATALOGUE</button>/>
 			<div class="howitworksbanner">
 				<div class="worksbanner-v2">
 				<b class="how-it-works"> How It Works</b>
@@ -107,7 +107,12 @@
 				<div class="discount-on-orders">discount on orders</div>
 					<img class="imagem-5-icon" alt="" src="/HomeViewIMG/imagem 5.png">
 				<div class="fill-the-form-wrapper" id="frameContainer">
-				<div class="fill-the-form">FILL THE FORM</div>
+
+				<a href="/stylists">
+					<div class="fill-the-form">FILL THE FORM</div>
+				</a>
+				
+
 				</div>
 				</div>
 			</div>
@@ -131,6 +136,7 @@
 </template>
 
 <script>
+
 import NavBarComponent from '@/components/NavBarComponent.vue';
 import FooterComponent from '@/components/FooterComponent.vue';
 export default {
@@ -139,6 +145,7 @@ export default {
 		FooterComponent
 	}
 }
+
 </script>
 <style lang="css" scoped>
 @import '../assets/HomeView.css';

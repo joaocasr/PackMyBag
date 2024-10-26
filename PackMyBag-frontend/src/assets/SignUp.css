@@ -1,0 +1,189 @@
+.signuppage {
+    width: calc(100% - 320px);
+    position: relative;
+    background-color: #fff;
+    height: 2941px;
+    overflow-x: hidden;
+    text-align: left;
+    font-size: 16px;
+    color: #000;
+    font-family: Poppins;
+    left: 320px;
+    margin-right: 0 auto;
+}
+
+.signuppage-child {
+    position: absolute;
+    top: 252px;
+    left: 287px;
+    background-color: #fff;
+    border: 1px solid #c7c0c0;
+    box-sizing: border-box;
+    width: 332px;
+    height: 315px;
+}
+
+
+.name {
+    position: absolute;
+    top: 14.71%;
+    left: 1.63%;
+    line-height: 24px;
+    font-weight: 100;
+}
+.forms-sign-up-child {
+    position: absolute;
+    height: 2.94%;
+    width: 100%;
+    top: 97.06%;
+    right: -0.54%;
+    bottom: 0%;
+    left: 0.54%;
+    max-width: 100%;
+    overflow: hidden;
+    max-height: 100%;
+    object-fit: contain;
+}
+.forms-sign-up {
+    position: absolute;
+    top: 252px;
+    left: 678px;
+    width: 552px;
+    height: 34px;
+}
+.generic-user-icon-13-262266219 {
+    position: absolute;
+    top: 270px;
+    left: 314px;
+    width: 279px;
+    height: 279px;
+    object-fit: cover;
+}
+.import-profile-picture {
+    position: absolute;
+    top: 594px;
+    left: 326px;
+    color: #fff;
+}
+.forms-sign-up1 {
+    position: absolute;
+    top: 307px;
+    left: 678px;
+    width: 552px;
+    height: 34px;
+}
+.forms-sign-up2 {
+    position: absolute;
+    top: 362px;
+    left: 678px;
+    width: 552px;
+    height: 34px;
+}
+.phone-number {
+    position: absolute;
+    top: 417px;
+    left: 687px;
+    line-height: 24px;
+    font-weight: 100;
+}
+.your-number {
+    position: absolute;
+    top: 7px;
+    left: 112px;
+    line-height: 24px;
+    font-weight: 100;
+}
+.your-number-wrapper {
+    position: absolute;
+    top: 452px;
+    left: 837px;
+    border-radius: 10px;
+    background-color: #fff;
+    border: 1px solid #000;
+    box-sizing: border-box;
+    width: 286px;
+    height: 38px;
+    overflow: hidden;
+    font-size: 10px;
+}
+.country-code {
+    position: absolute;
+    top: 7px;
+    left: 39px;
+    line-height: 24px;
+    font-weight: 100;
+}
+.country-code-wrapper {
+    position: absolute;
+    top: 452px;
+    left: 681px;
+    border-radius: 10px;
+    background-color: #fff;
+    border: 1px solid #000;
+    box-sizing: border-box;
+    width: 144px;
+    height: 38px;
+    overflow: hidden;
+    font-size: 10px;
+}
+.country-code-help {
+    position: absolute;
+    top: 496px;
+    left: 681px;
+    background-color: #fff;
+    width: 354px;
+    height: 38px;
+    overflow: hidden;
+    font-size: 10px;
+}
+.vector-icon {
+    position: absolute;
+    top: 619px;
+    left: 1059px;
+    width: 144px;
+    height: 41px;
+    cursor: pointer;
+}
+.image-35-icon {
+    position: absolute;
+    top: 575px;
+    left: 321px;
+    border-radius: 20px;
+    width: 264px;
+    height: 85px;
+    object-fit: cover;
+}
+.background-icon {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0%;
+    right: 0%;
+    bottom: 0%;
+    left: 0%;
+    border-radius: 6px;
+    max-width: 100%;
+    overflow: hidden;
+    max-height: 100%;
+}
+.text {
+    position: absolute;
+    top: 11px;
+    left: 10px;
+}
+.iconcontrolexpand-more {
+    position: absolute;
+    top: calc(50% - 12px);
+    right: 8px;
+    width: 24px;
+    height: 24px;
+}
+.genderfilter {
+    position: absolute;
+    top: 527px;
+    left: 681px;
+    width: 172px;
+    height: 40px;
+    color: #1c1c1c;
+    font-family: Abel;
+}

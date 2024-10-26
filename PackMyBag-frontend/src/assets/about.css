@@ -1,0 +1,47 @@
+.aboutpage {
+    width: calc(100% - 350px);
+    position: relative;
+    background-color: #fff;
+    height: 2941px;
+    overflow-x: hidden;
+    text-align: left;
+    font-size: 16px;
+    color: #000;
+    font-family: Poppins;
+    left: 160px;
+    margin: 0 auto;
+}
+
+.about-us {
+    position: absolute;
+    top: 236px;
+    left: 580px;
+    font-size: 48px;
+    line-height: 24px;
+}
+
+.traveling-is-an {
+    margin-block-start: 0;
+    margin-block-end: 15px;
+}
+.you {
+    font-weight: 800;
+    font-family: Poppins;
+}
+.the-traveler-offering {
+    font-family: Poppins;
+}
+.we-currently-only {
+    margin: 0;
+}
+.traveling-is-an-container {
+    position: absolute;
+    top: 325px;
+    left: 117px;
+    font-size: 18px;
+    letter-spacing: 0.15em;
+    line-height: 10px;
+    display: inline-block;
+    width: 1327px;
+    height: 894px;
+}
