@@ -1,0 +1,55 @@
+.signuppage2 {
+    width: calc(100% - 320px);
+    position: relative;
+    background-color: #fff;
+    height: 2941px;
+    overflow: hidden;
+    text-align: left;
+    font-size: 24px;
+    color: #000;
+    font-family: Poppins;
+    left: 320px;
+}
+
+.an-email-was {
+    position: absolute;
+    top: 230px;
+    left: 481px;
+    font-size: 48px;
+    line-height: 24px;
+}
+
+.please-follow-the-container {
+    position: absolute;
+    top: 325px;
+    left: 117px;
+    letter-spacing: 0.15em;
+    line-height: 10px;
+    text-align: center;
+    display: inline-block;
+    width: 1327px;
+    height: 61px;
+}
+
+.allow-to-to {
+    margin: 0;
+    position: absolute;
+    top: 30px;
+    left: 0px;
+    letter-spacing: 0.15em;
+    line-height: 10px;
+    text-align: center;
+    display: inline-block;
+    width: 1327px;
+    height: 61px;
+}
+
+.vector-icon {
+    position: absolute;
+    top: 444px;
+    left: 557px;
+    width: 422px;
+    height: 41px;
+    cursor: pointer;
+}
+
