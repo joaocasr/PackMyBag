@@ -15,24 +15,28 @@ public class EncomendaService {
 
     private EncomendaRepository encomendaRepository;
 
+    // Procurar encomenda por ID
+    public EncomendaDTO findEncomendaById(int id) {
+        Encomenda encomenda = encomendaRepository.getIDEncomenda(id);
+        if (encomenda != null) {
+            return EncomendaMapper.toDTO(encomenda);
+        } else {
+            return null;
+        }
+    }
+
+    // Procurar todas as encomeendas
+    public List<EncomendaDTO> findAllEncomendas() {
+        return encomendaRepository.findAll().stream()
+                .map(EncomendaMapper::toDTO)
+                .collect(Collectors.toList());
+    }
+
     // Criar ou atualizar encomenda
     public EncomendaDTO saveEncomenda(EncomendaDTO encomendaDTO) {
         Encomenda encomenda = EncomendaMapper.toEntity(encomendaDTO);
         encomenda = encomendaRepository.save(encomenda);
         return EncomendaMapper.toDTO(encomenda);
-    }
-
-    // Buscar encomenda por ID
-    public EncomendaDTO findEncomendaById(int id) {
-        Optional<Encomenda> encomenda = encomendaRepository.findById(id);
-        return encomenda.map(EncomendaMapper::toDTO).orElse(null);
-    }
-
-    // Buscar todas as encomendas
-    public List<EncomendaDTO> findAllEncomendas() {
-        return encomendaRepository.findAll().stream()
-                .map(EncomendaMapper::toDTO)
-                .collect(Collectors.toList());
     }
 
     // Deletar encomenda por ID

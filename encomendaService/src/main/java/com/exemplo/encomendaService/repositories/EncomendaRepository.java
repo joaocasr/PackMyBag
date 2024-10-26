@@ -20,6 +20,10 @@ public interface EncomendaRepository extends JpaRepository<Encomenda, Integer> {
     //SELECT * FROM Encomenda WHERE cliente_id = ?;
     // List<Encomenda> findByCliente_Id(Integer clienteId);
 
+    //Metodo personalizado para encotnrar encomenda por id da encomenda
+    @Query("SELECT e FROM Encomenda e WHERE e.id = :id")
+    Encomenda getIDEncomenda(@Param("id") int id);
+
     //SELECT * FROM Encomenda WHERE status = ?;
     List<Encomenda> findByStatus(String status);
 
@@ -29,9 +33,7 @@ public interface EncomendaRepository extends JpaRepository<Encomenda, Integer> {
     //SELECT * FROM Encomenda WHERE local_entrega = ?;
     List<Encomenda> findByLocalEntrega(String localEntrega);
 
-    // Outros métodos de consulta
-
-    // Coloco em baixo os metodos definos automaticamente pelo JPA
+    // Outros métodos de consulta definidos automaticamente pelo Spring Data JPA
 
     //public List<Encomenda> findAll();
 

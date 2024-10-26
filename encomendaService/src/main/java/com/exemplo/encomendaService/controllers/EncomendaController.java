@@ -19,7 +19,7 @@ public class EncomendaController {
     private EncomendaService encomendaService;
 
     // Endpoint para buscar todas as encomendas
-    @GetMapping
+    @GetMapping("/all")
     public List<EncomendaDTO> getAllEncomendas() {
         return encomendaService.findAllEncomendas();
     }
@@ -42,7 +42,7 @@ public class EncomendaController {
     }
 
     // Endpoint para deletar uma encomenda por ID
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteEncomenda(@PathVariable int id) {
         encomendaService.deleteEncomenda(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
