@@ -4,31 +4,23 @@
 	<div class="cataloguepage">
 
     		<div class="parent">
-      			<div class="div">1</div>
-      			<div class="div1">2</div>
-      			<div class="div2">3</div>
-      			<div class="div3">.</div>
-      			<div class="div4">.</div>
-      			<div class="div5">.</div>
-      			<div class="div6">6</div>
+						<img v-if="current_page+1 > 1" @click="handlePage('previous')" class="group-item1" alt="" src="/CatalogueIMG/previousbtn.png">
+				<div v-if="items.length>0" class="div">{{ current_page + 1}}</div>
       			<div class="rectangle-parent">
-						<img class="group-item" alt="" src="/CatalogueIMG/nextbtn.svg">
+						<img v-if="items.length>0" @click="handlePage('next')" class="group-item2" alt="" src="/CatalogueIMG/nextbtn.png">
       			</div>
 			</div>
 			<div class="my-overlap-group">
                 <div class="item-row">
 					<!--v-for com itens vindos da api-->	
-					<ItemCatalogueView></ItemCatalogueView>
-					<ItemCatalogueView></ItemCatalogueView>
-					<ItemCatalogueView></ItemCatalogueView>
-					<ItemCatalogueView></ItemCatalogueView>
-					<ItemCatalogueView></ItemCatalogueView>
-					<ItemCatalogueView></ItemCatalogueView>
-					<ItemCatalogueView></ItemCatalogueView>
-					<ItemCatalogueView></ItemCatalogueView>
-					<ItemCatalogueView></ItemCatalogueView>
-					<ItemCatalogueView></ItemCatalogueView>
-					<ItemCatalogueView></ItemCatalogueView>
+					<div class="noitemsclass" v-if="items.length==0">No items for the specified parameters.</div>
+					<div v-for="item in items">
+						<ItemCatalogueView
+						:imgSrc="item.imagem"
+						:descricao="item.designacao"
+						:preco="item.preco"
+						:cor="item.cor"></ItemCatalogueView>
+					</div>
 				</div>
 			</div>
 
@@ -62,7 +54,7 @@
           					</div>
         				</div>
         				<div class="buttonbtn-basic">
-            						<button class="buttonbasetext-md">Apply</button>
+            						<button @click="searchItems()" class="buttonbasetext-md">Apply</button>
         				</div>
       			</div>
     		</div>
@@ -76,13 +68,16 @@ import FooterComponent from '@/components/FooterComponent.vue';
 import ItemCatalogueView from '@/components/ItemCatalogueView.vue';
 import Slider from '@vueform/slider';
 import VueSelect from "vue3-select-component";
+import axios from 'axios';
 export default {
 	data(){
 		return{
 			value: [0,1000],
 			selectedOption:'',
-			typeOptions: [{ label: 'Male', value: 'Male' },{ label: 'Female', value: 'Female' },{ label: 'Child', value: 'Child' }]
-			
+			typeOptions: [{ label: 'Male', value: 'Male' },{ label: 'Female', value: 'Female' },{ label: 'Child', value: 'Child' }],
+			items: [],
+			filtered: [],
+			current_page:0
 		}
 	},
 	components: {
@@ -91,6 +86,54 @@ export default {
 		ItemCatalogueView,
 		Slider,
 		VueSelect
+	},
+	created(){
+		this.getCatalogueItems()
+	},
+	methods: {
+		getCatalogueItems(){
+			axios.get('http://localhost:8888/api/catalogoService/?page='+this.current_page+"&number=12")
+			.then(resp=>{
+				this.items = resp.data;
+			}).catch(err=>{
+				console.log(err)
+			})
+		},
+		handlePage(action){
+			if(action=='next') this.current_page+=1;
+			else this.current_page-=1;
+			this.getItemsperTypeAndPrice(this.selectedOption,this.value[0],this.value[1])
+		},
+		getItemsperTypeAndPrice(tipo,min,max){
+			if(tipo!=''){
+				axios.get('http://localhost:8888/api/catalogoService/type/'+tipo+'/price?min='+min+'&max='+max+'&page='+this.current_page+"&number=12")
+				.then(resp=>{
+					this.items = resp.data;
+					console.log(this.items)
+				}).catch(err=>{
+					console.log(err);
+				})
+			}else{
+				axios.get('http://localhost:8888/api/catalogoService/price?min='+min+'&max='+max+'&page='+this.current_page+"&number=12")
+				.then(resp=>{
+					this.items = resp.data;
+				}).catch(err=>{
+					console.log(err);
+				})
+			}
+		},
+		searchItems(){
+			this.current_page = 0;
+			this.getItemsperTypeAndPrice(this.selectedOption,this.value[0],this.value[1])
+		}
+
+	},
+	watch:{
+		selectedOption: function(oldvalue,newvalue) {
+			this.current_page = 0;
+			if(oldvalue==undefined) this.selectedOption='';
+			this.getItemsperTypeAndPrice(this.selectedOption,this.value[0],this.value[1]);
+		}
 	}
 }
 </script>
