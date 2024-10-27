@@ -26,18 +26,9 @@
     		<div class="frame-parent">
       			<div class="frame-group">
         				<div class="star-group">
-          					<img class="bag-outline-icon" alt="" src="/DetailedItemIMG/Star.svg">
-          					
-          					<img class="bag-outline-icon" alt="" src="/DetailedItemIMG/Star.svg">
-          					
-          					<img class="bag-outline-icon" alt="" src="/DetailedItemIMG/Star.svg">
-          					
-          					<img class="bag-outline-icon" alt="" src="/DetailedItemIMG/Star.svg">
-          					
-          					<img class="bag-outline-icon" alt="" src="/DetailedItemIMG/Star.svg">
-          					
+          					<Rating id="avrgestrelas" :modelValue="averageRating" @update:modelValue="averageRating = $event" readonly/>
         				</div>
-        				<div class="div">4</div>
+        				<div class="div">{{ averageRating }}</div>
       			</div>
       			<div class="messageicon-parent">
         				<img class="messageicon" alt="" src="/DetailedItemIMG/Icon.svg">
@@ -66,15 +57,18 @@
       			</div>
     		</div>
 			<div class="reviewsection" v-for="review in reviews">
-				<ReviewComponent></ReviewComponent>	
+				<ReviewComponent :classificacao="review.classificacao"
+				 :descricao="review.descricao"
+				 :nome="review.nome"
+				 :profileImg="review.profileImg"
+				 :timestamp="review.timestamp"></ReviewComponent>	
+				 
 			</div>
     		<div class="reviews1">REVIEWS</div>
     		<div class="parent">
       			<div class="div3">1</div>
       			<div class="rectangle-parent">
-        				<div class="group-child">
-        				</div>
-        				<img class="group-item" alt="" src="/DetailedItemIMG/nextbtn.png">
+        				<img alt="" src="/DetailedItemIMG/nextbtn.png">
         				
       			</div>
     		</div>
@@ -86,15 +80,10 @@
 				<img class="generic-user-icon-13-262266219" alt="" src="/DetailedItemIMG/generic-user-icon-13-2622662197-removebg-preview 1.png">
 
 				<div class="star-parent">
-					<img class="star-icon" alt="" src="/DetailedItemIMG/Star.svg">
-					<img class="star-icon" alt="" src="/DetailedItemIMG/Star.svg">
-					<img class="star-icon" alt="" src="/DetailedItemIMG/Star.svg">
-					<img class="star-icon" alt="" src="/DetailedItemIMG/Star.svg">
-					<img class="star-icon" alt="" src="/DetailedItemIMG/Star.svg">
+					<Rating id="myestrelas" :modelValue="myrate" @update:modelValue="myrate = $event" :cancel="false" />
 				</div>
-				<div class="itempage-child1">
-				</div>
-				<div class="publishbtn">
+				<input v-model="mydescription" class="itempage-child1"/>
+				<div @click="publishReview" class="publishbtn">
 					<div class="publish">PUBLISH</div>
 				</div>
 			</div>
@@ -107,12 +96,15 @@
 import NavBarComponent from '@/components/NavBarComponent.vue';
 import FooterComponent from '@/components/FooterComponent.vue';
 import ReviewComponent from '@/components/ReviewComponent.vue';
+import Rating from 'primevue/rating';
+
 import axios from 'axios';
 export default {
 	components: {
 		NavBarComponent,
 		FooterComponent,
-		ReviewComponent
+		ReviewComponent,
+		Rating
 	},
 	created(){
 		let itemid = this.$route.params.id;
@@ -132,7 +124,10 @@ export default {
 			colors:[],
 			username:"alej22",
 			current_page:0,
-			reviews:[]
+			reviews:[],
+			myrate:0,
+			mydescription:'',
+			averageRating:0
 		}
 	},	
 	methods:{
@@ -146,15 +141,15 @@ export default {
 				this.disponibilidade = item.disponibilidade;
 				this.cor = item.cor;
 				this.tamanho = item.tamanho;
+				this.averageRating = item.averageRating;
 				if(this.disponibilidade!="Not Available"){
 					this.availabilityColor = "#3de469"
 				}else{
 					this.availabilityColor = "#f03c36"
 				}
-
 				let cores = this.cor.split("/");
 				this.colors= cores.map((x) => colorMap[x.toLowerCase()]);
-				console.log(this.colors);
+				console.log(item);
 			}).catch(err=>{
 				console.log(err);
 			})
@@ -163,9 +158,14 @@ export default {
 			axios.get('http://localhost:8888/api/catalogoService/items/'+id+'/reviews?page='+this.current_page+"&number=3")
 			.then(resp=>{	
 				this.reviews = resp.data;
+				console.log(this.reviews);
 			}).catch(erro=>{
 				console.log(erro)
 			})
+		},
+		publishReview(){
+			console.log(this.mydescription);
+			console.log(this.myrate);
 		}
 	}
 

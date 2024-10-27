@@ -80,7 +80,11 @@ public class ItemService {
         if(i instanceof Calcado ){
             full= new Calcado(i.getLoja(),i.getCodigo(),i.getDesignacao(),i.getPreco(),i.getNraquisicoes(),i.getEstilo(),i.getCor(),i.getTipo(),i.getDisponibilidade(),i.getImagem(),i.getNrDisponiveis(),((Calcado) i).getNumero());
         }
-        return itemMapper.toFullCatalogoDTO(full,nrreviews);
+        OptionalDouble rating = i.getCriticas().stream().mapToInt(Review::getClassificacao).average();
+        int media = 0;
+        if(rating.isPresent()) media = (int) Math.floor(rating.getAsDouble());
+
+        return itemMapper.toFullCatalogoDTO(i.getIDItem(),media,full,nrreviews);
     }
 
     public void savePeca(PecaInsertDTO item) throws ItemCodeAlreadyExists{

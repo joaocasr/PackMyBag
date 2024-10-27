@@ -9,6 +9,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.OptionalDouble;
+import java.util.stream.Collectors;
 
 
 @Component
@@ -17,7 +19,7 @@ public class ItemMapper {
         return new CatalogoItemDTO(item.getORMID(),item.getDesignacao(),item.getPreco(),item.getCor(),item.getImagem(), item.getTipo());
     }
 
-    public FullDetailedItemDTO toFullCatalogoDTO(Item item,int nrreviews){
+    public FullDetailedItemDTO toFullCatalogoDTO(int id,int media,Item item,int nrreviews){
         String tamanho="";
         List<RelacionadosDTO> relacionados = new ArrayList<>();
         if(item instanceof Peca){
@@ -30,7 +32,7 @@ public class ItemMapper {
         }
         if(item instanceof Calcado) tamanho = String.valueOf(((Calcado) item).getNumero());
         Loja j = item.getLoja();
-        return new FullDetailedItemDTO(item.getORMID(),item.getDesignacao(),item.getPreco(),item.getCor(),item.getImagem(), item.getTipo(), tamanho,item.getDisponibilidade(),nrreviews,relacionados,j);
+        return new FullDetailedItemDTO(id,item.getCodigo(),media,item.getDesignacao(),item.getPreco(),item.getCor(),item.getImagem(), item.getTipo(), tamanho,item.getDisponibilidade(),nrreviews,relacionados,j);
     }
 
     public ReviewDTO toReviewDTO(Review review){

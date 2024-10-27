@@ -148,10 +148,11 @@
     position: relative;
     left:40px;
     top: 80px;
+    margin: 10px;
 }
 .star-parent {
     position: absolute;
-    top: 8px;
+    top: 12px;
     left: 300px;
     display: flex;
     flex-direction: row;
@@ -390,14 +391,14 @@
 .rectangle-parent {
     position: absolute;
     top: 2px;
-    left: 142px;
+    left: 75px;
     width: 35px;
     height: 35px;
 }
 .parent {
     position: absolute;
-    top: 1442px;
-    left: 452px;
+    top: 1402px;
+    left: 555px;
     width: 177px;
     height: 39px;
     font-size: 24px;
@@ -422,7 +423,7 @@
     background-color: #dadada;
     width: 555px;
     height: 100px;
-    bottom: 50px;
+    color:black;
 }
 .gabriel-r {
     position: relative;
@@ -456,8 +457,14 @@
     color: #fff;
     font-family: Raleway;
     left: 650px;
-    bottom: 140px;
+    bottom: 80px;
+    cursor:pointer;
 }
+.publishbtn:active {
+    background-color: rgba(0, 0, 0, 0.25);
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+  }
 .itempage {
     width: 100%;
     position: relative;

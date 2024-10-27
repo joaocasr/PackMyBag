@@ -6,6 +6,7 @@ import java.util.List;
 
 public class FullDetailedItemDTO {
     private int IDItem;
+    private String codigo;
     private String designacao;
     private double preco;
     private String cor;
@@ -13,6 +14,7 @@ public class FullDetailedItemDTO {
     private String tipo;
     private String tamanho;
     private String disponibilidade;
+    private int averageRating;
     private int nrReviews;
     private List<RelacionadosDTO> relacionados;
     //lista de sets em que a peca está presente ou pecas que constitui o set
@@ -21,8 +23,10 @@ public class FullDetailedItemDTO {
     public FullDetailedItemDTO() {
     }
 
-    public FullDetailedItemDTO(int id, String designacao, double preco, String cor, String imagem, String tipo, String tamanho, String disponibilidade, int nrReviews, List<RelacionadosDTO> relacionados, Loja j ) {
+    public FullDetailedItemDTO(int id, String codigo, int averageRating, String designacao, double preco, String cor, String imagem, String tipo, String tamanho, String disponibilidade, int nrReviews, List<RelacionadosDTO> relacionados, Loja j ) {
         this.IDItem = id;
+        this.codigo = codigo;
+        this.averageRating = averageRating;
         this.designacao = designacao;
         this.preco = preco;
         this.cor = cor;
@@ -51,6 +55,14 @@ public class FullDetailedItemDTO {
         this.designacao = designacao;
     }
 
+    public int getAverageRating() {
+        return averageRating;
+    }
+
+    public void setAverageRating(int averageRating) {
+        this.averageRating = averageRating;
+    }
+
     public double getPreco() {
         return preco;
     }
@@ -61,6 +73,14 @@ public class FullDetailedItemDTO {
 
     public String getImagem() {
         return imagem;
+    }
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
     }
 
     public void setImagem(String imagem) {
