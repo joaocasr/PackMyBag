@@ -27,7 +27,13 @@ public class Loja implements Serializable {
 	private void setIDLoja(int value) {
 		this.IDLoja = value;
 	}
-	
+
+	public Loja(String nome, String marca, String localizacao) {
+		this.nome = nome;
+		this.marca = marca;
+		this.localizacao = localizacao;
+	}
+
 	public int getIDLoja() {
 		return IDLoja;
 	}

@@ -4,12 +4,12 @@ import java.io.Serializable;
 import jakarta.persistence.*;
 @Entity
 @org.hibernate.annotations.Proxy(lazy=false)
-@Table(name="Técnico")
+@Table(name="Tecnico")
 @Inheritance(strategy=InheritanceType.JOINED)
-@DiscriminatorValue("Técnico")
+@DiscriminatorValue("Tecnico")
 @PrimaryKeyJoinColumn(name="ClienteIDCliente", referencedColumnName="IDCliente")
-public class Técnico extends Cliente implements Serializable {
-	public Técnico() {
+public class Tecnico extends Cliente implements Serializable {
+	public Tecnico() {
 	}
 	
 	@ManyToOne(targetEntity=Loja.class, fetch=FetchType.LAZY)	
@@ -28,5 +28,9 @@ public class Técnico extends Cliente implements Serializable {
 	public String toString() {
 		return super.toString();
 	}
-	
+
+	public Tecnico(String nome, String username, String email, String password, Loja loja) {
+		super(nome, username, email, password);
+		this.loja = loja;
+	}
 }

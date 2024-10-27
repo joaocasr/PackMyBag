@@ -1,13 +1,20 @@
 package com.example.utilizadoresService.model;
 
 import java.io.Serializable;
+import java.util.Collection;
+import java.util.List;
+
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 @Entity
 @org.hibernate.annotations.Proxy(lazy=false)
 @Table(name="Cliente")
 @Inheritance(strategy=InheritanceType.JOINED)
 @DiscriminatorValue("Cliente")
-public class Cliente implements Serializable {
+public class Cliente implements Serializable, UserDetails {
 	public Cliente() {
 	}
 	
@@ -83,7 +90,24 @@ public class Cliente implements Serializable {
 	public String getProfileImage() {
 		return profileImage;
 	}
-	
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		if (this instanceof Tecnico) {
+			return List.of(new SimpleGrantedAuthority("ROLE_TECNICO"), new SimpleGrantedAuthority("ROLE_USER"));
+		} else {
+			return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+		}
+
+	}
+
+	public Cliente(String nome, String username, String email, String password) {
+		this.nome = nome;
+		this.username = username;
+		this.email = email;
+		this.password = password;
+	}
+
 	public void getAttribute() {
 		//TODO: Implement Method
 		throw new UnsupportedOperationException();
