@@ -3,76 +3,69 @@ package com.exemplo.encomendaService.dto;
 import java.time.LocalDate;
 
 public class EncomendaDTO {
-
-    private Integer IDEncomenda;
-    private String CodigoEncomenda;
-    private LocalDate DataEntrega;
-    private String LocalEntrega;
-    private String Status;
-
-    // Construtor vazio
-    public EncomendaDTO() {}
-
-    // Construtor com parâmetros
-    public EncomendaDTO(Integer IDEncomenda, String CodigoEncomenda, LocalDate DataEntrega, String LocalEntrega, String Status) {
-        this.IDEncomenda = IDEncomenda;
-        this.CodigoEncomenda = CodigoEncomenda;
-        this.DataEntrega = DataEntrega;
-        this.LocalEntrega = LocalEntrega;
-        this.Status = Status;
+    
+    private int idEncomenda;
+    private String codigoEncomenda;
+    private String dataEntrega;
+    private String devolucao;
+    private String localEntrega;
+    private String status;
+    private int clienteId;
+    
+    // Getters and Setters
+    public int getIdEncomenda() {
+        return idEncomenda;
     }
 
-    // Getters e Setters
-    public Integer getIDEncomenda() {
-        return IDEncomenda;
-    }
-
-    public void setIDEncomenda(Integer IDEncomenda) {
-        this.IDEncomenda = IDEncomenda;
+    public void setIdEncomenda(int idEncomenda) {
+        this.idEncomenda = idEncomenda;
     }
 
     public String getCodigoEncomenda() {
-        return CodigoEncomenda;
+        return codigoEncomenda;
     }
 
-    public void setCodigoEncomenda(String CodigoEncomenda) {
-        this.CodigoEncomenda = CodigoEncomenda;
+    public void setCodigoEncomenda(String codigoEncomenda) {
+        this.codigoEncomenda = codigoEncomenda;
     }
 
-    public LocalDate getDataEntrega() {
-        return DataEntrega;
+    public String getDataEntrega() {
+        return dataEntrega;
     }
 
-    public void setDataEntrega(LocalDate DataEntrega) {
-        this.DataEntrega = DataEntrega;
+    public void setDataEntrega(String dataEntrega) {
+        this.dataEntrega = dataEntrega;
+    }
+
+    public String getDevolucao() {
+        return devolucao;
+    }
+
+    public void setDevolucao(String devolucao) {
+        this.devolucao = devolucao;
     }
 
     public String getLocalEntrega() {
-        return LocalEntrega;
+        return localEntrega;
     }
 
-    public void setLocalEntrega(String LocalEntrega) {
-        this.LocalEntrega = LocalEntrega;
+    public void setLocalEntrega(String localEntrega) {
+        this.localEntrega = localEntrega;
     }
 
     public String getStatus() {
-        return Status;
+        return status;
     }
 
-    public void setStatus(String Status) {
-        this.Status = Status;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
-    // toString
+    public int getClienteId() {
+        return clienteId;
+    }
 
-    @Override
-    public String toString() {
-        return "EncomendaDTO{" +
-                "IDEncomenda=" + IDEncomenda +
-                ", CodigoEncomenda='" + CodigoEncomenda + '\'' +
-                ", DataEntrega=" + DataEntrega +
-                ", LocalEntrega='" + LocalEntrega + '\'' +
-                ", Status='" + Status + '\'' +
-                '}';
+    public void setClienteId(int clienteId) {
+        this.clienteId = clienteId;
     }
 }

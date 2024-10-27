@@ -1,0 +1,141 @@
+
+.underline-icon {
+    width: 1440px;
+    position: relative;
+    max-height: 100%;
+    opacity: 0.5;
+}
+.icon-copyright {
+    width: 20px;
+    position: relative;
+    height: 20px;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+.icon-copyright-parent {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 6px;
+}
+.frame-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    opacity: 0.6;
+}
+.underline-parent {
+    position: absolute;
+    top: 376px;
+    left: 0px;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 16px;
+    opacity: 0.4;
+    right:0;
+}
+.exclusive {
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    letter-spacing: 0.03em;
+    line-height: 24px;
+}
+.logo {
+    width: 118px;
+    position: relative;
+    height: 24px;
+}
+.subscribe {
+    position: relative;
+    font-size: 20px;
+    line-height: 28px;
+    top: 0%;
+    left: 0%;
+    font-weight: 500;
+    font-family: Poppins;
+}
+.logo-parent {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 24px;
+}
+.frame-div {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+.frame-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    font-size: 24px;
+    font-family: Inter;
+}
+.support {
+    position: relative;
+    line-height: 28px;
+    font-weight: 500;
+}
+.bijoy-sarani-dhaka {
+    width: 175px;
+    position: relative;
+    line-height: 24px;
+    display: inline-block;
+}
+.exclusivegmailcom {
+    position: relative;
+    line-height: 24px;
+}
+.bijoy-sarani-dhaka-dh-1515-parent {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 16px;
+    font-size: 16px;
+}
+.frame-parent {
+    position: absolute;
+    top: 80px;
+    left: 135px;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 87px;
+    font-size: 20px;
+    color: #fafafa;
+}
+.footer1 {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0%;
+    right: 0%;
+    bottom: 0%;
+    left: 0%;
+    background-color: #111827;
+    overflow: hidden;
+}
+.footer {
+    width: 100%;
+    position: relative;
+    background-color: #f7f7f7;
+    height: 340px;
+    text-align: left;
+    font-size: 16px;
+    color: #fff;
+    font-family: Poppins;
+    margin-top: 2920px;
+}
+

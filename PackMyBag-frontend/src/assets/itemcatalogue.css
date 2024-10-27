@@ -1,0 +1,92 @@
+.itemContainer{
+    position: relative;
+    top: 200px;
+    left: 40px;
+}
+
+.itemImg {
+    position: absolute;
+    top: 2.63px;
+    left: 496px;
+    width: 218px;
+    height: 307.7px;
+}
+
+.imageIcon {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0%;
+    right: 0%;
+    bottom: 0%;
+    left: 0%;
+    max-width: 100%;
+    overflow: hidden;
+    max-height: 100%;
+    object-fit: cover;
+}
+.container-descricao {
+    position: absolute;
+    top: 325px;
+    left: 530px;
+    width: 201px;
+    height: 71px;
+}
+.container-descricao2 {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    letter-spacing: 0.15em;
+    line-height: 15px;
+}
+.cutwork-poplin-dressDetails {
+    margin-block-start: 0;
+    margin-block-end: 15px;
+}
+.rs995000Details {
+    margin: 0;
+}
+.b4-parentDetails {
+    position: relative;
+    display: inline-flex;
+    gap: 10px;
+    top: 78px;
+    left: 65px;
+    width: 50px;
+    height: 20px;
+}
+.b4-childDetails {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    top: 0%;
+    right: 0%;
+    bottom: 0%;
+    left: 0%;
+    border: 0.1px solid gray
+}
+.b4Details {
+    position: relative;
+    top: 0px;
+    left: 0px;
+    background-color: #e1c5ca;
+    width: 21.4px;
+    height: 20px;
+}
+.b2-childDetails {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0%;
+    right: 0%;
+    bottom: 0%;
+    left: 0%;
+    background-color: #d5e1f5;
+}
+.b2Details {
+    position: absolute;
+    top: 0px;
+    left: 28.57px;
+    width: 21.4px;
+    height: 20px;
+}

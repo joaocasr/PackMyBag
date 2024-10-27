@@ -1,0 +1,20 @@
+@import './base.css';
+
+.background-container {
+  max-width: 100%; /* Largura máxima do fundo */
+  width: 100%; /* Para ocupar 100% da largura disponível */
+  margin: 0 auto; /* Centraliza o contêiner */
+}
+
+@media (min-width: 1024px) {
+  #app {
+      padding: 0;
+  }
+}
+#app {
+  max-width: 3000px;
+  max-height: auto;
+  font-weight: normal;
+  background-color: white;
+}
+

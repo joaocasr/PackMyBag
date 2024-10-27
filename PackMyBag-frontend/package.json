@@ -1,0 +1,24 @@
+{
+  "name": "packmybag-frontend",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@primevue/themes": "^4.1.1",
+    "@vueform/slider": "^2.1.10",
+    "axios": "^1.7.7",
+    "primevue": "^4.1.1",
+    "vue": "^3.5.12",
+    "vue-router": "^4.4.5"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.1.4",
+    "vite": "^5.4.10",
+    "vue3-select-component": "^0.6.1"
+  }
+}

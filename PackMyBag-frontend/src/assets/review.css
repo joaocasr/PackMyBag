@@ -1,0 +1,65 @@
+.review1 {
+    position: relative;
+    top: 932px;
+    left: 267px;
+    border-radius: 20px;
+    background-color: #f3f4f6;
+    width: 600px;
+    height: 144px;
+    overflow: hidden;
+}
+.gabriel-r {
+    position: absolute;
+    top: 22px;
+    left: 84px;
+    line-height: 24px;
+}
+.i-love-the {
+    position: absolute;
+    top: 53px;
+    left: 37px;
+    font-size: 11px;
+    line-height: 18px;
+    font-family: Raleway;
+    display: inline-block;
+    width: 514px;
+    height: 82px;
+}
+.generic-user-icon-13-262266219 {
+    position: absolute;
+    top: 14px;
+    left: 29px;
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+}
+.star {
+    position: absolute;
+    top: 135px;
+    left: 261px;
+    width: 22px;
+    height: 22px;
+}
+.star-icon {
+    width: 15px;
+    position: relative;
+    height: 15px;
+    object-fit: cover;
+}
+.star-parent {
+    position: absolute;
+    top: 26px;
+    left: 333px;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 10px;
+}
+.p-rating-option-active .p-rating-icon {
+    color: var(--p-rating-icon-active-color) !important;
+}
+
+.p-rating-icon {
+    color: var(--p-rating-icon-inactive-color) !important;
+}
