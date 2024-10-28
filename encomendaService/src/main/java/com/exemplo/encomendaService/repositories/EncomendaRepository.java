@@ -24,6 +24,10 @@ public interface EncomendaRepository extends JpaRepository<Encomenda, Integer> {
     @Query("SELECT e FROM Encomenda e WHERE e.id = :id")
     Encomenda getIDEncomenda(@Param("id") int id);
 
+    //Metodo personalizado para encotnrar encontrar todas as encomendas
+    @Query("SELECT e FROM Encomenda e")
+    List<Encomenda> getAllEncomendasRepository();
+
     //SELECT * FROM Encomenda WHERE status = ?;
     List<Encomenda> findByStatus(String status);
 

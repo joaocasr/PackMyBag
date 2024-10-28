@@ -15,14 +15,21 @@ import java.util.Optional;
 @RequestMapping("/api/encomendas")
 public class EncomendaController {
 
-    @Autowired
+    @Autowired // para subsittuir isto tenho de inciializar o encomenda service = private EncomendaService encomendaService = new EncomendaService();
     private EncomendaService encomendaService;
 
     // Endpoint para buscar todas as encomendas
     @GetMapping("/all")
-    public List<EncomendaDTO> getAllEncomendas() {
-        return encomendaService.findAllEncomendas();
+    public ResponseEntity<?> getAllEncomendas() {
+        try {
+            List<EncomendaDTO> encomendas = encomendaService.findAllEncomendas();
+            return new ResponseEntity<>(encomendas, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace(); // Log do erro para identificar o problema
+            return new ResponseEntity<>("Erro ao buscar encomendas: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
+    
 
     // Endpoint para buscar uma encomenda por ID
     @GetMapping("/{id}")
