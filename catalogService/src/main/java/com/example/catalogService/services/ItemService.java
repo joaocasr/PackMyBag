@@ -35,8 +35,8 @@ public class ItemService {
         this.itemMapper = itemMapper;
     }
 
-    private boolean checkIfItemCodeAlreadyExists(String code,int idLoja){
-        return !itemRepository.getItemsByCodeShop(code,idLoja).isEmpty();
+    private Optional<Item> checkIfItemCodeAlreadyExists(String code,int idLoja){
+        return itemRepository.getItemByCodeShop(code, idLoja);
     }
 
     public List<CatalogoItemDTO> getAllItems() throws NoCatalogItemsException {
@@ -88,7 +88,8 @@ public class ItemService {
     }
 
     public void savePeca(PecaInsertDTO item) throws ItemCodeAlreadyExists{
-        if(checkIfItemCodeAlreadyExists(item.getCodigo(),item.getIdLoja())) throw new ItemCodeAlreadyExists(item.getCodigo());
+        Optional<Item> i = checkIfItemCodeAlreadyExists(item.getCodigo(),item.getIdLoja());
+        if(i.isPresent()) throw new ItemCodeAlreadyExists(item.getCodigo());
         Optional<Loja> loja = this.lojaRepository.findById(item.getIdLoja());
         if(loja.isPresent()){
             StringBuilder cor = new StringBuilder();
@@ -99,14 +100,17 @@ public class ItemService {
         }
     }
 
-    public void saveSet(SetInsertDTO item) throws ItemCodeAlreadyExists{
-        if(checkIfItemCodeAlreadyExists(item.getCodigo(),item.getIdLoja())) throw new ItemCodeAlreadyExists(item.getCodigo());
+    public void saveSet(SetInsertDTO item) throws ItemCodeAlreadyExists, InexistentItemCodeException {
+        Optional<Item> i = checkIfItemCodeAlreadyExists(item.getCodigo(),item.getIdLoja());
+        if(i.isPresent()) throw new ItemCodeAlreadyExists(item.getCodigo());
         Optional<Loja> loja = this.lojaRepository.findById(item.getIdLoja());
 
         if(loja.isPresent()) {
             java.util.Set<Peca> pecas = new HashSet();
             for (String codigo : item.getCodigoPecas()) {
-                Peca peca = (Peca) this.itemRepository.getItemsByCodeShop(codigo, item.getIdLoja()).stream().toList().get(0);
+                Optional<Item> optionalItem = this.itemRepository.getItemByCodeShop(codigo, item.getIdLoja());
+                if(optionalItem.isEmpty()) throw new InexistentItemCodeException(codigo);
+                Peca peca = (Peca) optionalItem.get();
                 pecas.add(peca);
             }
             List<String> separadas = new ArrayList<>();
@@ -126,7 +130,7 @@ public class ItemService {
                     loja.get(),item.getCodigo(),item.getDesignacao(),item.getPreco(),0,item.getEstilo(),cor.substring(0,cor.length()-1),item.getTamanho(),item.getTipo(),item.getDisponibilidade(),item.getImagem());
             itemRepository.save(conjunto);
             for(Peca p:pecas){
-                java.util.Set conjuntos = p.getSets();
+                java.util.Set<Set> conjuntos = p.getSets();
                 conjuntos.add(conjunto);
                 p.setSets(conjuntos);
                 itemRepository.save(p);
@@ -135,7 +139,8 @@ public class ItemService {
     }
 
     public void saveCalcado(CalcadoInsertDTO calcadoInsertDTO) throws ItemCodeAlreadyExists {
-        if(checkIfItemCodeAlreadyExists(calcadoInsertDTO.getCodigo(),calcadoInsertDTO.getIdLoja())) throw new ItemCodeAlreadyExists(calcadoInsertDTO.getCodigo());
+        Optional<Item> i = checkIfItemCodeAlreadyExists(calcadoInsertDTO.getCodigo(),calcadoInsertDTO.getIdLoja());
+        if(i.isPresent()) throw new ItemCodeAlreadyExists(calcadoInsertDTO.getCodigo());
         Optional<Loja> loja = this.lojaRepository.findById(calcadoInsertDTO.getIdLoja());
         if(loja.isPresent()){
             StringBuilder cor = new StringBuilder();
@@ -148,9 +153,9 @@ public class ItemService {
     }
 
     public void removeItem(RemoveItemDTO removeItemDTO) throws InexistentItemCodeException{
-        if(!checkIfItemCodeAlreadyExists(removeItemDTO.getCode(), removeItemDTO.getLojaid())) throw new InexistentItemCodeException(removeItemDTO.getCode());
-        java.util.Set<Item> items = itemRepository.getItemsByCodeShop(removeItemDTO.getCode(),removeItemDTO.getLojaid());
-        Item i = items.stream().toList().get(0);
+        Optional<Item> itemOptional = checkIfItemCodeAlreadyExists(removeItemDTO.getCode(),removeItemDTO.getLojaid());
+        if(itemOptional.isEmpty()) throw new InexistentItemCodeException(removeItemDTO.getCode());
+        Item i=itemOptional.get();
         if(i instanceof Peca){
             for(Set s : ((Peca) i).getSets()){
                 s.removePeca(i.getCodigo());
@@ -212,20 +217,23 @@ public class ItemService {
         }
     }
 
-    public void decreaseAvailability(EncomendaDTO encomendaDTO) throws ItemUnavailableException,ObjectOptimisticLockingFailureException {
+    public List<Item> decreaseAvailability(EncomendaDTO encomendaDTO) throws ItemUnavailableException,InexistentItemCodeException,ObjectOptimisticLockingFailureException {
         try{
-            checkAvailability(encomendaDTO);
+            return checkAvailability(encomendaDTO);
         }
         catch (ObjectOptimisticLockingFailureException o){
             checkAvailability(encomendaDTO);
         }
+        return new ArrayList<>();
     }
 
-    public void checkAvailability(EncomendaDTO encomendaDTO) throws ItemUnavailableException{
+    public List<Item> checkAvailability(EncomendaDTO encomendaDTO) throws ItemUnavailableException, InexistentItemCodeException {
         List<Item> itemsToUpdate = new ArrayList<>();
+        List<Item> unavailableItems = new ArrayList<>();
         for (ItemEncomenda itemEncomenda : encomendaDTO.getItens()) {
-            java.util.Set<Item> items = itemRepository.getItemsByCodeShop(itemEncomenda.getCodigo(),itemEncomenda.getIdloja());
-            Item i = items.stream().toList().get(0);
+            Optional<Item> item = itemRepository.getItemByCodeShop(itemEncomenda.getCodigo(),itemEncomenda.getIdloja());
+            if(item.isEmpty()) throw new InexistentItemCodeException(itemEncomenda.getCodigo());
+            Item i = item.get();
             int nr = i.getNrDisponiveis();
 
             if (nr < itemEncomenda.getQuantidade()) {
@@ -239,6 +247,39 @@ public class ItemService {
         }
         if(itemsToUpdate.size()==encomendaDTO.getItens().size()){
             itemRepository.saveAll(itemsToUpdate);
+            unavailableItems = itemsToUpdate.stream().filter(x->x.getDisponibilidade().equals("Not Available")).collect(Collectors.toList());
         }
+        //return da lista de items que ficaram esgotados para enviá-los para o broker
+        return unavailableItems;
+    }
+
+    public List<CatalogoItemDTO> getRandomItems(){
+        int size = (int) itemRepository.count();
+        java.util.Set<Integer> ids = new HashSet<>();
+        while(ids.size()!=4){
+            int idx = (int)(Math.random() * size);
+            ids.add(idx);
+        }
+        return itemRepository.findAllById(ids).stream().map(x->itemMapper.toCatalogoItemDTO(x)).collect(Collectors.toList());
+    }
+
+    public boolean editsaveItem(EditItemDTO editItemDTO) throws InexistentItemCodeException {
+        Optional<Item> itemOptional = checkIfItemCodeAlreadyExists(editItemDTO.getCodigo(),editItemDTO.getIdLoja());
+        if(itemOptional.isEmpty()) throw new InexistentItemCodeException(editItemDTO.getCodigo());
+        Item i = itemOptional.get();
+        boolean r = false;
+        i.setCodigo(editItemDTO.getCodigo());
+        i.setDesignacao(editItemDTO.getDesignacao());
+        i.setPreco(editItemDTO.getPreco());
+        i.setEstilo(editItemDTO.getEstilo());
+        i.setCor(editItemDTO.getCor());
+        i.setTipo(editItemDTO.getTipo());
+        i.setImagem(editItemDTO.getImagem());
+        i.setNrDisponiveis(editItemDTO.getNrDisponiveis());
+        if(!Objects.equals(i.getDisponibilidade(), editItemDTO.getDisponibilidade())){
+            i.setDisponibilidade(editItemDTO.getDisponibilidade());
+            r = true;
+        }
+        return r;
     }
 }

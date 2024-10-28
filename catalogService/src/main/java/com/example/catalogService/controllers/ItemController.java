@@ -2,12 +2,12 @@ package com.example.catalogService.controllers;
 
 import com.example.catalogService.dto.*;
 import com.example.catalogService.exceptions.*;
+import com.example.catalogService.model.Item;
 import com.example.catalogService.services.ItemService;
 import com.example.catalogService.services.ProducerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -63,7 +63,7 @@ public class ItemController {
     public ResponseEntity<?> adicionaReview(@RequestBody InsertReviewDTO insertReviewDTO, @PathVariable int id){
         try{
             itemService.insertReview(insertReviewDTO,id);
-            return ResponseEntity.ok("adicionado com sucesso!");
+            return ResponseEntity.status(200).body("Review adicionada com sucesso!");
         }catch (InexistentItemException i){
             return new ResponseEntity<>(new ErrorResponse(HttpStatus.NOT_FOUND,i.getMessage()),HttpStatus.NOT_FOUND);
         }
@@ -120,7 +120,7 @@ public class ItemController {
     public ResponseEntity<?> addPecaShop(@RequestBody PecaInsertDTO itemBody){
         try {
             itemService.savePeca(itemBody);
-            return ResponseEntity.ok().body("Peca added with sucess!");
+            return ResponseEntity.status(200).body("Peca adicionada com sucesso!");
         } catch (ItemCodeAlreadyExists e) {
             return new ResponseEntity<>(new ErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage()), HttpStatus.BAD_REQUEST);
         }
@@ -130,8 +130,8 @@ public class ItemController {
     public ResponseEntity<?> addSetShop(@RequestBody SetInsertDTO itemBody){
         try {
             itemService.saveSet(itemBody);
-            return ResponseEntity.ok().body("Set added with sucess!");
-        } catch (ItemCodeAlreadyExists e) {
+            return ResponseEntity.status(200).body("Set adicionado com sucesso!");
+        } catch (ItemCodeAlreadyExists | InexistentItemCodeException e) {
             return new ResponseEntity<>(new ErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage()), HttpStatus.BAD_REQUEST);
         }
     }
@@ -140,7 +140,7 @@ public class ItemController {
     public ResponseEntity<?> addCalcadoShop(@RequestBody CalcadoInsertDTO itemBody){
         try {
             itemService.saveCalcado(itemBody);
-            return ResponseEntity.ok().body("Calçado added with sucess!");
+            return ResponseEntity.status(200).body("Calçado adicionado com sucesso!");
         } catch (ItemCodeAlreadyExists e) {
             return new ResponseEntity<>(new ErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage()), HttpStatus.BAD_REQUEST);
         }
@@ -148,29 +148,48 @@ public class ItemController {
 
 
     @DeleteMapping("/deleteItem")
-    public ResponseEntity<?> deleteItem(@RequestBody RemoveItemDTO removeItemDTO) throws InexistentItemCodeException {
+    public ResponseEntity<?> deleteItem(@RequestBody RemoveItemDTO removeItemDTO) {
         try{
             itemService.removeItem(removeItemDTO);
-            return ResponseEntity.ok("item eliminado com sucesso!");
+            return ResponseEntity.status(200).body("Item eliminado com sucesso!");
         }catch (InexistentItemCodeException i){
             return new ResponseEntity<>(new ErrorResponse(HttpStatus.NOT_FOUND,i.getMessage()),HttpStatus.NOT_FOUND);
         }
     }
 
     @PutMapping("/editItem")
-    public void editItem(@RequestBody ItemUpdate itemUpdate){
-        producerService.sendMessage(itemUpdate);
+    public ResponseEntity<?> editItem(@RequestBody EditItemDTO editItemDTO) {
+        try {
+            boolean r = itemService.editsaveItem(editItemDTO);
+            //enviar o objeto pelo broker caso a disponibilidade modifique
+            if (r) producerService.sendMessage(new ItemUpdate(editItemDTO.getIdLoja(), editItemDTO.getCodigo(), editItemDTO.getDisponibilidade()));
+            return ResponseEntity.status(200).body("Item editado com sucesso.");
+        } catch (InexistentItemCodeException e) {
+            return new ResponseEntity<>(new ErrorResponse(HttpStatus.NOT_FOUND, e.getMessage()), HttpStatus.NOT_FOUND);
+        }
     }
 
 
     @PostMapping("/disponibilidade/")
-    public ResponseEntity<?> decreaseAvailability(@RequestBody EncomendaDTO encomendaDTO) throws ItemUnavailableException {
+    public ResponseEntity<?> decreaseAvailability(@RequestBody EncomendaDTO encomendaDTO) {
         try{
-            itemService.decreaseAvailability(encomendaDTO);
-            return ResponseEntity.ok("Encomenda pode ser feita com sucesso.");
+            List<Item> l = itemService.decreaseAvailability(encomendaDTO);
+            if(!l.isEmpty()) {
+                for(Item i : l){
+                    producerService.sendMessage(new ItemUpdate(i.getLoja().getIDLoja(),i.getCodigo(),i.getDisponibilidade()));
+                }
+            }
+            return ResponseEntity.status(200).body("Encomenda realizada com sucesso. O item do catálogo foi atualizado.");
         }catch (ItemUnavailableException i){
             return new ResponseEntity<>(new ErrorResponse(HttpStatus.NOT_FOUND,i.getMessage()),HttpStatus.NOT_FOUND);
+        }catch (Exception e){
+            return new ResponseEntity<>(new ErrorResponse(HttpStatus.BAD_REQUEST,e.getMessage()),HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @GetMapping("/random")
+    public List<CatalogoItemDTO> getRandomItemsHome() {
+        return itemService.getRandomItems();
     }
 }
 
