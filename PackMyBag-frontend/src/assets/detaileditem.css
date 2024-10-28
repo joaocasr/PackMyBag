@@ -1,3 +1,23 @@
+.item-row-detail {
+    display: grid;
+    width: 1500px;
+    align-items: flex-end;
+    row-gap: 400px;
+    position: absolute;
+    top: 1400px;
+    left: -600px;
+    grid-template-columns: auto auto auto auto;
+      
+}
+.relatedTitle{
+    position: relative;
+    top: 120px;
+    left: 900px;
+    letter-spacing: 0.15em;
+    font-family: monospace;
+    font-size: 30px;
+}
+
 .image-8-icon {
     position: absolute;
     top: 0px;
@@ -388,13 +408,21 @@
     width: 7px;
     object-fit: contain;
 }
-.rectangle-parent {
+.rectangle-parent1 {
+    position: absolute;
+    top: 2px;
+    left:-40px;
+    width: 35px;
+    height: 35px;
+}
+.rectangle-parent2 {
     position: absolute;
     top: 2px;
     left: 75px;
     width: 35px;
     height: 35px;
 }
+
 .parent {
     position: absolute;
     top: 1402px;

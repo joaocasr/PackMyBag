@@ -57,7 +57,8 @@
       			</div>
     		</div>
 			<div class="reviewsection" v-for="review in reviews">
-				<ReviewComponent :classificacao="review.classificacao"
+				<ReviewComponent 
+				 :classificacao="review.classificacao"
 				 :descricao="review.descricao"
 				 :nome="review.nome"
 				 :profileImg="review.profileImg"
@@ -66,8 +67,12 @@
 			</div>
     		<div class="reviews1">REVIEWS</div>
     		<div class="parent">
-      			<div class="div3">1</div>
-      			<div class="rectangle-parent">
+				<div v-if="showPrevious==true" @click="handlePage('previous')" class="rectangle-parent1">
+        				<img alt="" src="/DetailedItemIMG/previousbtn.png">
+        				
+      			</div>
+				<div class="div3">{{ current_page + 1}}</div>
+      			<div v-if="showNext==true" @click="handlePage('next')" class="rectangle-parent2">
         				<img alt="" src="/DetailedItemIMG/nextbtn.png">
         				
       			</div>
@@ -76,7 +81,7 @@
     		<div class="myreview">
 				<div class="star">
 				</div>
-				<div class="gabriel-r">Alex R</div>
+				<div class="gabriel-r">{{ nome }}</div>
 				<img class="generic-user-icon-13-262266219" alt="" src="/DetailedItemIMG/generic-user-icon-13-2622662197-removebg-preview 1.png">
 
 				<div class="star-parent">
@@ -85,6 +90,17 @@
 				<input v-model="mydescription" class="itempage-child1"/>
 				<div @click="publishReview" class="publishbtn">
 					<div class="publish">PUBLISH</div>
+				</div>
+			</div>
+			<div>
+                <div class="item-row-detail">
+					<div v-if="relacionados.length>0" class="relatedTitle"><u>RELATED ITEMS</u></div>	
+					<div v-for="item in relacionados">
+						<ItemRelacionadoView
+						:imgSrc="item.imagem"
+						:descricao="item.designacao"
+						:idItem="item.itemID"></ItemRelacionadoView>
+					</div>
 				</div>
 			</div>
  
@@ -96,6 +112,7 @@
 import NavBarComponent from '@/components/NavBarComponent.vue';
 import FooterComponent from '@/components/FooterComponent.vue';
 import ReviewComponent from '@/components/ReviewComponent.vue';
+import ItemRelacionadoView from '@/components/ItemRelacionadoView.vue';
 import Rating from 'primevue/rating';
 
 import axios from 'axios';
@@ -104,10 +121,12 @@ export default {
 		NavBarComponent,
 		FooterComponent,
 		ReviewComponent,
+		ItemRelacionadoView,
 		Rating
 	},
 	created(){
 		let itemid = this.$route.params.id;
+		this.idItem = itemid;
 		this.getItemInfo(itemid);
 		this.getReviews(itemid);
 	},
@@ -122,12 +141,19 @@ export default {
 			tamanho:String,
 			availabilityColor:"#ffff",
 			colors:[],
-			username:"alej22",
+			username:"alpacino",
+			nome:"Al Pacino",
+			profileImg: "xxx",
 			current_page:0,
 			reviews:[],
 			myrate:0,
 			mydescription:'',
-			averageRating:0
+			averageRating:0,
+			idItem:0,
+			showNext:true,
+			showPrevious : true,
+			relacionados:[]
+
 		}
 	},	
 	methods:{
@@ -142,6 +168,7 @@ export default {
 				this.cor = item.cor;
 				this.tamanho = item.tamanho;
 				this.averageRating = item.averageRating;
+				this.relacionados = item.relacionados;
 				if(this.disponibilidade!="Not Available"){
 					this.availabilityColor = "#3de469"
 				}else{
@@ -155,8 +182,13 @@ export default {
 			})
 		},
 		getReviews(id){
-			axios.get('http://localhost:8888/api/catalogoService/items/'+id+'/reviews?page='+this.current_page+"&number=3")
+			axios.get('http://localhost:8888/api/catalogoService/items/'+id+'/reviews?page='+this.current_page+"&number=2")
 			.then(resp=>{	
+				if(resp.data.length==0) {
+					this.current_page -=1;
+					this.showNext=false;
+					return;
+				}
 				this.reviews = resp.data;
 				console.log(this.reviews);
 			}).catch(erro=>{
@@ -164,8 +196,54 @@ export default {
 			})
 		},
 		publishReview(){
-			console.log(this.mydescription);
-			console.log(this.myrate);
+			if(this.myrate==0) return;
+			const headers = {
+				'Content-Type': 'application/json',
+			} //in the future add token -> 'Authorization': 'JWT ...'
+			var d = new Date,
+			dformat = [d.getDate(),d.getMonth()+1,d.getFullYear()].join('-')+' '+[d.getHours(),d.getMinutes()].join(':');
+			axios.post('http://localhost:8888/api/catalogoService/items/'+this.idItem+'/addreview',
+				{
+					"username" : this.username,
+					"name" : this.nome,
+					"profileImg" : this.profileImg,
+					"texto" : this.mydescription,
+					"timestamp" : dformat,
+					"rating" : this.myrate
+				},
+				{headers}
+			).then(resp=>{
+				this.$swal({
+				icon: "success",
+				title: "Success!",
+				text: resp.data
+			});
+				this.myrate=0;
+				this.mydescription='';
+			}).catch(error=>{
+				this.$swal({
+				icon: "error",
+				title: "Oops...",
+				text: error.data
+				});
+			})
+			
+		},
+		handlePage(action){
+			if(action=='previous' && this.current_page<=0){
+				this.showNext = true;
+				this.showPrevious = false;
+				return;
+			} 
+			if(action=='next'){
+				this.showPrevious = true;
+			 this.current_page +=1
+			}
+			if(action=='previous') {
+				this.current_page -=1;
+				this.showNext = true;
+			}
+			this.getReviews(this.idItem);
 		}
 	}
 

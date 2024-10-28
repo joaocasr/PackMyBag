@@ -1,7 +1,7 @@
 .itemContainer{
     position: relative;
     top: 200px;
-    left: 40px;
+    left: -140px;
 }
 
 .itemImg {
@@ -24,6 +24,7 @@
     overflow: hidden;
     max-height: 100%;
     object-fit: cover;
+    cursor: pointer;
 }
 .container-descricao {
     position: absolute;
@@ -39,7 +40,10 @@
     letter-spacing: 0.15em;
     line-height: 15px;
     font-size: small;
-
+}
+.container-descricao2:hover {
+    color:rgb(48, 83, 180);
+    cursor:pointer;
 }
 a{
     color:black;

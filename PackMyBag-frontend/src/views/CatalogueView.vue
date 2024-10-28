@@ -19,7 +19,8 @@
 						:imgSrc="item.imagem"
 						:descricao="item.designacao"
 						:preco="item.preco"
-						:cor="item.cor"></ItemCatalogueView>
+						:cor="item.cor"
+						:iditem="item.iditem"></ItemCatalogueView>
 					</div>
 				</div>
 			</div>

@@ -8,7 +8,7 @@
 				<p class="clothing-rental-for">Leave your bags behind and sign up now</p>
 				</div>
 				<div class="explore-collection-wrapper" id="frameContainer">
-				<button class="explore-collection" onclick="window.location.href='/catalogue'">EXPLORE COLLECTION</button>
+				<button class="explore-collection" @click="goToCatalogue()">EXPLORE COLLECTION</button>
 				</div>
 				<img class="icon1" alt="" src="/HomeViewIMG/5787874 1.png">
 			</div>
@@ -78,7 +78,7 @@
 					</div>
 					</div>
 				</div>
-				<button class="fullcataloguebtn" onclick="window.location.href='/catalogue'">FULL CATALOGUE</button>/>
+				<button class="fullcataloguebtn" @click="goToCatalogue()">FULL CATALOGUE</button>
 			<div class="howitworksbanner">
 				<div class="worksbanner-v2">
 				<b class="how-it-works"> How It Works</b>
@@ -143,6 +143,11 @@ export default {
 	components:{
 		NavBarComponent,
 		FooterComponent
+	},
+	methods:{
+		goToCatalogue(){
+			this.$router.push({ path: '/catalogue' });
+		}
 	}
 }
 

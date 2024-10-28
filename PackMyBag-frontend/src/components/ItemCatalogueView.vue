@@ -5,7 +5,7 @@
       			</div>
                 <div class="container-descricao">
                     <div class="container-descricao2">
-                            <p class="cutwork-poplin-dress">{{descricao}}</p>
+                            <a :href="`/items/${this.iditem}`" class="cutwork-poplin-dress">{{descricao}}</a>
                             <p class="rs995000">Eur(€){{preco}}</p>
                     </div>
                     <div class="b4-parentDetails">
@@ -25,7 +25,8 @@ export default {
 		imgSrc: String,
 		descricao: String,
 		preco: Number,
-		cor: String
+		cor: String,
+		iditem:Number
   	},
 	data(){
 		return{
