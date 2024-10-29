@@ -6,6 +6,7 @@ import AboutView from '@/views/AboutView.vue'
 import SignUpView from '@/views/SignUpView.vue'
 import SignUpView2 from '@/views/SignUpView2.vue'
 import StylistsView from '@/views/StylistsView.vue'
+import FormsView from '@/views/FormsView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -44,6 +45,11 @@ const router = createRouter({
       path: '/stylists',
       name: 'stylists',
       component: StylistsView
+    },
+    {
+      path: '/stylists/forms',
+      name: 'forms',
+      component: FormsView
     }
   ]
 })

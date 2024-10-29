@@ -40,7 +40,7 @@ export default {
 	},
 	methods:{
 		goToForms(){
-			this.$router.push({ path: '/about' });
+			this.$router.push({ path: '/stylists/forms' });
 		}
 	}
 }
