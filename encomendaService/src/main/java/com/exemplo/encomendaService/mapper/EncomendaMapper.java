@@ -14,22 +14,22 @@ public class EncomendaMapper {
         dto.setIdEncomenda(encomenda.getIDEncomenda());
         dto.setCodigoEncomenda(encomenda.getCodigoEncomenda());
         dto.setDataEntrega(encomenda.getDataEntrega());
-        dto.setDevolucao(encomenda.getDevolucao());
+        dto.setDataDevolucao(encomenda.getDataDevolucao());
         dto.setLocalEntrega(encomenda.getLocalEntrega());
         dto.setStatus(encomenda.getStatus());
         dto.setClienteId(encomenda.getCliente().getIDCliente());
         return dto;
     }
 
+    // Completar aqui com o cliente e a loja! set de ambos
     // Converte de DTO para Entidade
     public static Encomenda toEntity(EncomendaDTO dto) {
         Encomenda encomenda = new Encomenda();
         encomenda.setCodigoEncomenda(dto.getCodigoEncomenda());
         encomenda.setDataEntrega(dto.getDataEntrega());
-        encomenda.setDevolucao(dto.getDevolucao());
+        encomenda.setDataDevolucao(dto.getDataDevolucao());
         encomenda.setLocalEntrega(dto.getLocalEntrega());
         encomenda.setStatus(dto.getStatus());
-        // Precisa de setar o cliente separadamente (relacionamento ManyToOne)
         return encomenda;
     }
 }

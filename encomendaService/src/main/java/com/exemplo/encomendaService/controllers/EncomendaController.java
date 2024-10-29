@@ -1,15 +1,19 @@
 package com.exemplo.encomendaService.controllers;
 
 import com.exemplo.encomendaService.dto.EncomendaDTO;
+import com.exemplo.encomendaService.dto.LojaDTO;
+import com.exemplo.encomendaService.dto.ClienteDTO;
+import com.exemplo.encomendaService.dto.ItemDTO;
 import com.exemplo.encomendaService.services.EncomendaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import com.exemplo.encomendaService.services.LojaService;
+
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/encomendas")
@@ -18,7 +22,11 @@ public class EncomendaController {
     @Autowired // para subsittuir isto tenho de inciializar o encomenda service = private EncomendaService encomendaService = new EncomendaService();
     private EncomendaService encomendaService;
 
-    // Endpoint para buscar todas as encomendas
+    @Autowired
+    private LojaService lojaService;
+
+
+    // Endpoint para procurar todas as encomendas
     @GetMapping("/all")
     public ResponseEntity<?> getAllEncomendas() {
         try {
@@ -26,12 +34,11 @@ public class EncomendaController {
             return new ResponseEntity<>(encomendas, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace(); // Log do erro para identificar o problema
-            return new ResponseEntity<>("Erro ao buscar encomendas: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("Erro ao procurar encomendas: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    
 
-    // Endpoint para buscar uma encomenda por ID
+    // Endpoint para procurar uma encomenda por ID
     @GetMapping("/{id}")
     public ResponseEntity<EncomendaDTO> getEncomendaById(@PathVariable int id) {
         EncomendaDTO encomendaDTO = encomendaService.findEncomendaById(id);
@@ -41,6 +48,95 @@ public class EncomendaController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    // Endpoint para procurar uma encomenda por código de encomenda
+    @GetMapping("/codigo/{codigoEncomenda}")
+    public ResponseEntity<EncomendaDTO> getEncomendaByCodigoEncomenda(@PathVariable String codigoEncomenda) {
+        EncomendaDTO encomendaDTO = encomendaService.findEncomendaByCodigoEncomenda(codigoEncomenda);
+        if (encomendaDTO != null) {
+            return new ResponseEntity<>(encomendaDTO, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    // Endpoint para procurar encomendas por data de entrega
+    @GetMapping("/dataEntrega/{dataEntrega}")
+    public ResponseEntity<List<EncomendaDTO>> getEncomendasByDataEntrega(@PathVariable String dataEntrega) {
+        List<EncomendaDTO> encomendas = encomendaService.findEncomendaByDataEntrega(dataEntrega);
+        return new ResponseEntity<>(encomendas, HttpStatus.OK);
+    }
+
+    // Endpoint para procurar encomendas por data de devolução
+    @GetMapping("/dataDevolucao/{dataDevolucao}")
+    public ResponseEntity<List<EncomendaDTO>> getEncomendasByDataDevolucao(@PathVariable String dataDevolucao) {
+        List<EncomendaDTO> encomendas = encomendaService.findEncomendaByDataDevolucao(dataDevolucao);
+        return new ResponseEntity<>(encomendas, HttpStatus.OK);
+    }
+
+    // Endpoint para procurar encomendas por local de entrega
+    @GetMapping("/localEntrega/{localEntrega}")
+    public ResponseEntity<List<EncomendaDTO>> getEncomendasByLocalEntrega(@PathVariable String localEntrega) {
+        List<EncomendaDTO> encomendas = encomendaService.findEncomendaByLocalEntrega(localEntrega);
+        return new ResponseEntity<>(encomendas, HttpStatus.OK);
+    }
+
+    // Endpoint para procurar encomendas por estado
+    @GetMapping("/status/{status}")
+    public ResponseEntity<List<EncomendaDTO>> getEncomendasByEstado(@PathVariable String status) {
+        List<EncomendaDTO> encomendas = encomendaService.findEncomendaByStatus(status);
+        return new ResponseEntity<>(encomendas, HttpStatus.OK);
+    }
+
+    // Endpoint para procurar todos as encomendas de um cliente
+    @GetMapping("/cliente/{idCliente}")
+    public ResponseEntity<List<EncomendaDTO>> getEncomendasByCliente(@PathVariable int idCliente) {
+        List<EncomendaDTO> encomendas = encomendaService.getEncomendasCliente(idCliente);
+        return new ResponseEntity<>(encomendas, HttpStatus.OK);
+    }
+
+    // Endpoint para procurar todas as encomendas de uma loja
+    @GetMapping("/loja/{idLoja}")
+    public ResponseEntity<List<EncomendaDTO>> getEncomendasByLoja(@PathVariable int idLoja) {
+        List<EncomendaDTO> encomendas = encomendaService.getEncomendasLoja(idLoja);
+        return new ResponseEntity<>(encomendas, HttpStatus.OK);
+    }
+
+    // Endpoint para procurar a loja referente a uma encomenda
+    @GetMapping("/loja/encomenda/{idEncomenda}")
+    public ResponseEntity<LojaDTO> getLojaByEncomenda(@PathVariable int idEncomenda) {
+        LojaDTO loja = lojaService.getLojaByEncomendaId(idEncomenda);
+        if (loja != null) {
+            return new ResponseEntity<>(loja, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    // Endpoint para procurar o cliente referente a uma encomenda
+    @GetMapping("/cliente/encomenda/{idEncomenda}")
+    public ResponseEntity<ClienteDTO> getClienteByEncomenda(@PathVariable int idEncomenda) {
+        ClienteDTO cliente = encomendaService.findClienteByEncomendaId(idEncomenda);
+        if (cliente != null) {
+            return new ResponseEntity<>(cliente, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+    
+    // Endpoint para procurar todos os itens de uma encomenda
+    @GetMapping("/items/{idEncomenda}")
+    public ResponseEntity<List<ItemDTO>> getItemsByEncomenda(@PathVariable int idEncomenda) {
+        List<ItemDTO> items = encomendaService.findItemsByEncomendaId(idEncomenda);
+        return new ResponseEntity<>(items, HttpStatus.OK);
+    }
+
+    // Endpoint para procurar encomendas de um cliente numa loja
+    @GetMapping("/cliente/{idCliente}/loja/{idLoja}")
+    public ResponseEntity<List<EncomendaDTO>> getEncomendasClienteLoja(@PathVariable int idCliente, @PathVariable int idLoja) {
+        List<EncomendaDTO> encomendas = encomendaService.getEncomendasByClienteAndLoja(idCliente, idLoja);
+        return new ResponseEntity<>(encomendas, HttpStatus.OK);
+    }
+
+    // FALTA MELHORAR ESTES DOIS METODOS ABAIXO -> ATUALIZAR E ELIMINAR
+    // Nao tem permissao na API Status: 405 Method Not Allowed
+
     // Endpoint para criar ou atualizar uma encomenda
     @PostMapping
     public ResponseEntity<EncomendaDTO> createOrUpdateEncomenda(@RequestBody EncomendaDTO encomendaDTO) {
@@ -48,7 +144,7 @@ public class EncomendaController {
         return new ResponseEntity<>(savedEncomenda, HttpStatus.CREATED);
     }
 
-    // Endpoint para deletar uma encomenda por ID
+    // Endpoint para eliminar uma encomenda por ID
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteEncomenda(@PathVariable int id) {
         encomendaService.deleteEncomenda(id);

@@ -1,96 +1,51 @@
 package com.exemplo.encomendaService.repositories;
 
 import com.exemplo.encomendaService.model.Encomenda;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
-import java.time.LocalDate;
-
+import java.util.Optional;
 
 @Repository
 public interface EncomendaRepository extends JpaRepository<Encomenda, Integer> {
     
-    @Query("SELECT e FROM Encomenda e WHERE e.cliente.email = :email AND e.dataEntrega = :dataEntrega")
-    List<Encomenda> findEncomendaByEmailAndData(@Param("email") String email, @Param("dataEntrega") String dataEntrega);
+    // //Metodo personalizado para encotnrar encomenda por id da encomenda
+    // @Query("SELECT e FROM Encomenda e WHERE e.id = :id")
+    // Encomenda getIDEncomenda(@Param("id") int id);
+    // Optional<Encomenda> findByIDint id); // ja existe um metodo findById no JpaRepository
 
-    // Método personalizado para encontrar encomendas por cliente
-    //SELECT * FROM Encomenda WHERE cliente_id = ?;
-    // List<Encomenda> findByCliente_Id(Integer clienteId);
+    // Procurar por código de encomenda (retorna uma única encomenda)
+    Optional<Encomenda> findByCodigoEncomenda(String codigoEncomenda);
 
-    //Metodo personalizado para encotnrar encomenda por id da encomenda
-    @Query("SELECT e FROM Encomenda e WHERE e.id = :id")
-    Encomenda getIDEncomenda(@Param("id") int id);
+    // Procurar por Dataentrega apenas
+    List<Encomenda> findByDataEntrega(String dataEntrega);
 
-    //Metodo personalizado para encotnrar encontrar todas as encomendas
-    @Query("SELECT e FROM Encomenda e")
-    List<Encomenda> getAllEncomendasRepository();
+    // Procurar por DataDevolucao apenas
+    List<Encomenda> findByDataDevolucao(String dataDevolucao);
 
-    //SELECT * FROM Encomenda WHERE status = ?;
-    List<Encomenda> findByStatus(String status);
-
-    //SELECT * FROM Encomenda WHERE status = ? AND local_entrega = ?;
-    List<Encomenda> findByStatusAndLocalEntrega(String status, String localEntrega);
-
-    //SELECT * FROM Encomenda WHERE local_entrega = ?;
+    // Procurar por local de entrega
     List<Encomenda> findByLocalEntrega(String localEntrega);
 
-    // Outros métodos de consulta definidos automaticamente pelo Spring Data JPA
+    // Procurar por status
+    List<Encomenda> findByStatus(String status);
 
-    //public List<Encomenda> findAll();
+    // Metodo personalizado para encontrar encomendas por id do cliente
+    @Query("select e FROM Encomenda e where e.cliente.IDCliente = :idcliente")
+    List<Encomenda> getEncomendasCliente(@Param("idcliente") Integer idcliente);
 
-    // public Optional<Encomenda> findById(int id);
+    // @Query("SELECT e FROM Encomenda e JOIN e.cliente c JOIN e.loja l WHERE c.IDCliente = :clienteId AND l.IDLoja = :lojaId")
+    // List<Encomenda> findEncomendasByClienteIdAndLojaId(@Param("clienteId") int clienteId, @Param("lojaId") int lojaId);
 
-    // public Encomenda save(Encomenda encomenda);
-
-    // public void deleteById(int id);
-
-    // public void delete(Encomenda encomenda);
-
-    // public boolean existsById(int id);
-
-    // public long count();
-
-    // public void deleteAll();
-
-    // public void deleteAll(Iterable<? extends Encomenda> encomendas);
-
-    // public List<Encomenda> saveAll(Iterable<Encomenda> encomendas);
-
-    // public List<Encomenda> findAllById(Iterable<Integer> ids);
-
-    // public void flush();
-
-    // public void deleteInBatch(Iterable<Encomenda> encomendas);
-
-    // public void deleteAllInBatch();
-
-    // public Encomenda getOne(Integer id);
-
-    // public Encomenda saveAndFlush(Encomenda encomenda);
-
-    // public void deleteAllByIdInBatch(Iterable<Integer> ids);
-
-    // public void deleteAllInBatch(Iterable<Encomenda> encomendas);
+    @Query("SELECT e FROM Encomenda e JOIN e.cliente c WHERE c.IDCliente = :clienteId")
+    List<Encomenda> findEncomendasByClienteId(@Param("clienteId") int clienteId);
 }
 
+    //Metodo personalizado para encotnrar encontrar todas as encomendas
+    // @Query("SELECT e FROM Encomenda e")
+    // List<Encomenda> getAllEncomendasRepository();
+    // ja existe um metodo findAll no JpaRepository automaticamente
 
-/*
- 
-CRUD (Criar, Ler, Atualizar e Excluir) básicas, sem que você precise implementá-los explicitamente. Aqui estão alguns exemplos de métodos que já vêm prontos com o JpaRepository:
-
-Métodos CRUD já disponíveis no JpaRepository:
-save(S entity): Salva uma entidade. Se ela já existir, faz o update.
-saveAll(Iterable<S> entities): Salva uma lista de entidades.
-findById(ID id): Busca uma entidade pelo ID (retorna um Optional).
-findAll(): Retorna todas as entidades.
-findAllById(Iterable<ID> ids): Retorna uma lista de entidades correspondentes a uma lista de IDs.
-deleteById(ID id): Exclui uma entidade pelo ID.
-delete(S entity): Exclui uma entidade.
-deleteAll(): Exclui todas as entidades.
-existsById(ID id): Verifica se uma entidade existe pelo ID.
-count(): Retorna o número total de entidades.
- * 
- */

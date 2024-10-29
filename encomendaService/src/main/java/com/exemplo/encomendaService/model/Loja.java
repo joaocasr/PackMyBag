@@ -28,7 +28,7 @@ public class Loja implements Serializable {
 	@Column(name="Localizacao", nullable=true, length=255)	
 	private String localizacao;
 	
-	@OneToMany(targetEntity=com.exemplo.encomendaService.model.Encomenda.class)	
+	@OneToMany(targetEntity=Encomenda.class)
 	@org.hibernate.annotations.Cascade({org.hibernate.annotations.CascadeType.ALL})	
 	@JoinColumns({ @JoinColumn(name="LojaIDLoja", nullable=false) })	
 	@org.hibernate.annotations.LazyCollection(org.hibernate.annotations.LazyCollectionOption.TRUE)	
@@ -70,11 +70,11 @@ public class Loja implements Serializable {
 		return localizacao;
 	}
 	
-	public void setEncomendas(Set value) {
+	public void setEncomendas(Set<Encomenda> value) {
 		this.encomendas = value;
 	}
 	
-	public Set getEncomendas() {
+	public Set<Encomenda> getEncomendas() {
 		return encomendas;
 	}
 	

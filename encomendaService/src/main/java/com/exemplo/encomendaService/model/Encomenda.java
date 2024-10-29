@@ -21,15 +21,21 @@ public class Encomenda implements Serializable {
 	//@org.hibernate.annotations.Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE, org.hibernate.annotations.CascadeType.LOCK, org.hibernate.annotations.CascadeType.DELETE})	
 	@JoinColumns(value={ @JoinColumn(name="ClienteIDCliente", referencedColumnName="IDCliente", nullable=false) }, foreignKey=@ForeignKey(name="FKEncomenda932418"))	
 	private Cliente cliente;
-	
+
+	// @ManyToOne(targetEntity=Loja.class, fetch = FetchType.LAZY)
+    // //@JoinColumn(name="lojaidloja", nullable=false, referencedColumnName="idloja") // Coluna lojaidloja em minúsculas
+	// // Faz com o jOINcOLUMS
+	// @JoinColumns(value={ @JoinColumn(name="LojaIDLoja", referencedColumnName="IDLoja", nullable=false) }, foreignKey=@ForeignKey(name="FKLoja93231"))
+    // private Loja loja;
+
 	@Column(name="CodigoEncomenda", nullable=true, length=255)	
 	private String codigoEncomenda;
 	
 	@Column(name="DataEntrega", nullable=true, length=255)	
 	private String dataEntrega;
 	
-	@Column(name="Devolucao", nullable=true, length=255)	
-	private String devolucao;
+	@Column(name="DataDevolucao", nullable=true, length=255)	
+	private String dataDevolucao;
 	
 	@Column(name="LocalEntrega", nullable=true, length=255)	
 	private String localEntrega;
@@ -42,6 +48,8 @@ public class Encomenda implements Serializable {
 	@JoinColumns({ @JoinColumn(name="EncomendaIDEncomenda", nullable=false) })	
 	@org.hibernate.annotations.LazyCollection(org.hibernate.annotations.LazyCollectionOption.TRUE)	
 	private java.util.Set<Item> items = new java.util.HashSet();
+
+
 	
 	private void setIDEncomenda(int value) {
 		this.IDEncomenda = value;
@@ -71,12 +79,12 @@ public class Encomenda implements Serializable {
 		return dataEntrega;
 	}
 	
-	public void setDevolucao(String value) {
-		this.devolucao = value;
+	public void setDataDevolucao(String value) {
+		this.dataDevolucao = value;
 	}
 	
-	public String getDevolucao() {
-		return devolucao;
+	public String getDataDevolucao() {
+		return dataDevolucao;
 	}
 	
 	public void setLocalEntrega(String value) {
@@ -95,19 +103,19 @@ public class Encomenda implements Serializable {
 		return status;
 	}
 	
-	public void setCliente(com.exemplo.encomendaService.model.Cliente value) {
+	public void setCliente(Cliente value) {
 		this.cliente = value;
 	}
 	
-	public com.exemplo.encomendaService.model.Cliente getCliente() {
+	public Cliente getCliente() {
 		return cliente;
 	}
 	
-	public void setItems(Set value) {
+	public void setItems(Set<Item> value) {
 		this.items = value;
 	}
 	
-	public Set getItems() {
+	public Set<Item> getItems() {
 		return items;
 	}
 	

@@ -12,7 +12,7 @@ docker exec -it postgres psql -U postgres -d encomenda -c "INSERT INTO Loja (IDL
 (4, 'Loja D', 'Marca W', 'Coimbra'),
 (5, 'Loja E', 'Marca V', 'Faro');"
 
-docker exec -it postgres psql -U postgres -d encomenda -c "INSERT INTO Encomenda (idencomenda, lojaidloja, clienteidcliente, codigo_encomenda, data_entrega, devolucao, local_entrega, status) VALUES
+docker exec -it postgres psql -U postgres -d encomenda -c "INSERT INTO Encomenda (idencomenda, lojaidloja, clienteidcliente, codigo_encomenda, data_entrega, data_devolucao, local_entrega, status) VALUES
 (1, 1, 1, 'ENC001', '2024-10-01', 'Não', 'Rua A, 123', 'Entregue'),
 (2, 2, 2, 'ENC002', '2024-10-02', 'Sim', 'Rua B, 456', 'Devolvido'),
 (3, 3, 3, 'ENC003', '2024-10-03', 'Não', 'Rua C, 789', 'Entregue'),

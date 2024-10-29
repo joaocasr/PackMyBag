@@ -1,16 +1,17 @@
 package com.exemplo.encomendaService.dto;
 
-import java.time.LocalDate;
-
 public class EncomendaDTO {
     
     private int idEncomenda;
     private String codigoEncomenda;
     private String dataEntrega;
-    private String devolucao;
+    private String dataDevolucao;
     private String localEntrega;
     private String status;
     private int clienteId;
+    
+    public EncomendaDTO() {
+    }
     
     // Getters and Setters
     public int getIdEncomenda() {
@@ -37,12 +38,12 @@ public class EncomendaDTO {
         this.dataEntrega = dataEntrega;
     }
 
-    public String getDevolucao() {
-        return devolucao;
+    public String getDataDevolucao() {
+        return dataDevolucao;
     }
 
-    public void setDevolucao(String devolucao) {
-        this.devolucao = devolucao;
+    public void setDataDevolucao(String dataDevolucao) {
+        this.dataDevolucao = dataDevolucao;
     }
 
     public String getLocalEntrega() {
