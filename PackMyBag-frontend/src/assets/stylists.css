@@ -1,29 +1,5 @@
 .stylistspage-child {
     position: absolute;
-    top: 297px;
-    left: 486px;
-    border-radius: 20px;
-    background-color: #f3f4f6;
-    width: 777px;
-    height: 198px;
-}
-.image-8-icon {
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    width: 197px;
-    height: 285px;
-    object-fit: cover;
-}
-.image-8-wrapper {
-    position: absolute;
-    top: 210px;
-    left: 263px;
-    width: 197px;
-    height: 285px;
-}
-.stylistspage-item {
-    position: absolute;
     top: 170.5px;
     left: 262.5px;
     border-top: 1px solid #d0d0d0;
@@ -31,82 +7,154 @@
     width: 1001px;
     height: 1px;
 }
-.stylistspage-inner {
-    position: absolute;
-    top: 537.5px;
-    left: 263.5px;
-    border-top: 1px solid #d0d0d0;
-    box-sizing: border-box;
-    width: 1001px;
-    height: 1px;
-}
-.gonalo-vale {
-    position: absolute;
-    top: 210px;
-    left: 486px;
-    font-size: 32px;
-    letter-spacing: 0.15em;
-    line-height: 10px;
-}
-.star-icon {
-    width: 22px;
-    position: relative;
-    height: 22px;
-    object-fit: cover;
-}
-.star-parent {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    justify-content: flex-start;
-    gap: 10px;
-}
-.reviews {
-    position: relative;
-    letter-spacing: 0.09em;
-    text-transform: uppercase;
-}
-.frame-parent {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    gap: 15px;
-}
-.frame-div {
-    position: absolute;
-    top: 247px;
-    left: 486px;
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    justify-content: flex-start;
-    color: #807d7e;
-    font-family: Actor;
-}
-.orlando-belo {
-    position: absolute;
-    top: 582px;
-    left: 486px;
-    font-size: 32px;
-    letter-spacing: 0.15em;
-    line-height: 10px;
-}
-.stylistspage-inner1 {
-    position: absolute;
-    top: 619px;
-    left: 486px;
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    justify-content: flex-start;
-    color: #807d7e;
-    font-family: Actor;
-}
 .stylists {
     position: absolute;
     top: 130px;
     left: 263px;
+}
+.div {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    letter-spacing: 0.15em;
+    line-height: 39px;
+    color: #8e98a8;
+    display: inline-block;
+    width: 17.5px;
+}
+.div1 {
+    position: absolute;
+    top: 0px;
+    left: 25.57px;
+    letter-spacing: 0.15em;
+    line-height: 39px;
+    display: inline-block;
+    width: 16.2px;
+}
+.div2 {
+    position: absolute;
+    top: 0px;
+    left: 51.14px;
+    letter-spacing: 0.15em;
+    line-height: 39px;
+    display: inline-block;
+    width: 17.5px;
+}
+.div3 {
+    position: absolute;
+    top: 0px;
+    left: 76px;
+    font-size: 18px;
+    letter-spacing: 0.15em;
+    line-height: 39px;
+    display: inline-block;
+    width: 5.4px;
+}
+.div4 {
+    position: absolute;
+    top: 0px;
+    left: 84px;
+    font-size: 18px;
+    letter-spacing: 0.15em;
+    line-height: 39px;
+    display: inline-block;
+    width: 5.4px;
+}
+.div5 {
+    position: absolute;
+    top: 0px;
+    left: 92px;
+    font-size: 18px;
+    letter-spacing: 0.15em;
+    line-height: 39px;
+    display: inline-block;
+    width: 5.4px;
+}
+.div6 {
+    position: absolute;
+    top: 0px;
+    left: 107px;
+    letter-spacing: 0.15em;
+    line-height: 39px;
+    display: inline-block;
+    width: 17.5px;
+}
+.group-child {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    background-color: #000;
+    width: 35px;
+    height: 35px;
+}
+.group-item {
+    position: absolute;
+    height: 40%;
+    top: 30%;
+    bottom: 30%;
+    left: calc(50% - 3.5px);
+    max-height: 100%;
+    width: 7px;
+    object-fit: contain;
+}
+.rectangle-parent {
+    position: absolute;
+    top: 2px;
+    left: 142px;
+    width: 35px;
+    height: 35px;
+}
+.parent {
+    position: absolute;
+    top: 959px;
+    left: 689px;
+    width: 177px;
+    height: 39px;
+    font-size: 24px;
+}
+.background-icon {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0%;
+    right: 0%;
+    bottom: 0%;
+    left: 0%;
+    border-radius: 6px;
+    max-width: 100%;
+    overflow: hidden;
+    max-height: 100%;
+}
+.text {
+    position: absolute;
+    top: 11px;
+    left: 10px;
+}
+.iconcontrolexpand-more {
+    position: absolute;
+    top: calc(50% - 12px);
+    right: 8px;
+    width: 24px;
+    height: 24px;
+}
+.genderfilter {
+    position: absolute;
+    top: 126px;
+    left: 1091px;
+    width: 172px;
+    height: 40px;
+    font-size: 16px;
+    color: #1c1c1c;
+}
+.stylistspage {
+    width: 100%;
+    position: relative;
+    background-color: #fff;
+    height: 2941px;
+    overflow: hidden;
+    text-align: left;
     font-size: 32px;
+    color: #000;
     font-family: Abel;
 }
+

@@ -1,0 +1,132 @@
+.stylistcomponent-child {
+    position: absolute;
+    height: 60.37%;
+    width: 40%;
+    top: 26.52%;
+    right: 0.1%;
+    bottom: 13.11%;
+    left: 12.28%;
+    border-radius: 20px;
+    background-color: #f3f4f6;
+}
+.image-8-icon {
+    position: absolute;
+    
+    top: 0%;
+    right: 0%;
+    bottom: 0%;
+    left: 0%;
+    max-width: 100%;
+    overflow: hidden;
+    max-height: 100%;
+    object-fit: cover;
+}
+.image-8-wrapper {
+    position: absolute;
+    height: 86.89%;
+    width: 19.68%;
+    top: 0%;
+    right: 80.32%;
+    bottom: 13.11%;
+    left: 0%;
+    top: 30px;
+}
+.stylistcomponent-item {
+    position: absolute;
+    height: 0.3%;
+    width: 62%;
+    top: 99.85%;
+    right: -0.05%;
+    bottom: -0.15%;
+    left: 0.05%;
+    border-top: 1px solid #d0d0d0;
+    box-sizing: border-box;
+}
+.gonalo-vale {
+    position: absolute;
+    top: 10%;
+    left: 12.28%;
+    letter-spacing: 0.15em;
+    line-height: 10px;
+}
+.star-icon {
+    width: 22px;
+    position: relative;
+    height: 22px;
+    object-fit: cover;
+}
+.star-parent {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 10px;
+}
+.reviews {
+    position: relative;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+}
+.frame-parent {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    left: -210px;
+    top: 23px;
+}
+.stylistcomponent-inner {
+    position: absolute;
+    height: 6.71%;
+    width: 29.87%;
+    top: 11.28%;
+    right: 47.85%;
+    bottom: 82.01%;
+    left: 22.28%;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    font-size: 16px;
+    color: #807d7e;
+    font-family: Actor;
+}
+.an-expert-in {
+    margin: 0;
+}
+.an-expert-in-container {
+    position: absolute;
+    top: 32.93%;
+    left: 13.88%;
+    font-size: 11px;
+    line-height: 18px;
+    font-family: Raleway;
+}
+.vector-icon {
+    position: absolute;
+    height: 14.33%;
+    width: 7.30%;
+    top: 69.82%;
+    right: 0.9%;
+    bottom: 15.85%;
+    left: 44.5%;
+    max-width: 100%;
+    overflow: hidden;
+    max-height: 100%;
+    cursor: pointer;
+    background-image: url(/StylistsIMG/Vector.svg);
+    border: 0;
+}
+.stylistcomponent {
+    width: 100%;
+    position: relative;
+    height: 328px;
+    text-align: left;
+    font-size: 32px;
+    color: #000;
+    font-family: Inter;
+    top: 250px;
+    left: 260px;
+}
+
