@@ -1,0 +1,14 @@
+CREATE TABLE Peca (ItemIDItem int4 NOT NULL, PRIMARY KEY (ItemIDItem));
+CREATE TABLE Item (IDItem SERIAL NOT NULL, CestoIDCesto int4 NOT NULL, Codigo varchar(255), Designacao varchar(255), Preco float8, Nraquisicoes int4 NOT NULL, Estilo varchar(255), Cor varchar(255), Tamanho varchar(255), Genero varchar(255), Disponibilidade varchar(255), Imagem varchar(255), PRIMARY KEY (IDItem));
+CREATE TABLE Cesto (IDCesto SERIAL NOT NULL, ClienteIDCliente int4 NOT NULL, PRIMARY KEY (IDCesto));
+CREATE TABLE Cliente (IDCliente SERIAL NOT NULL, CestoIDCesto int4 NOT NULL, Nome varchar(255), Username varchar(255), Email varchar(255), PRIMARY KEY (IDCliente));
+CREATE TABLE "Set" (NrPecas int4 NOT NULL, ItemIDItem int4 NOT NULL, PRIMARY KEY (ItemIDItem));
+CREATE TABLE Pagamento (IDPagamento SERIAL NOT NULL, ClienteIDCliente int4 NOT NULL, Total float8 NOT NULL, Moeda varchar(255), LocalEntrega varchar(255), InicioAluguer varchar(255), FimAluguer varchar(255), Codigo varchar(255), PRIMARY KEY (IDPagamento));
+CREATE TABLE Set_Peca (SetItemIDItem int4 NOT NULL, PecaItemIDItem int4 NOT NULL, PRIMARY KEY (SetItemIDItem, PecaItemIDItem));
+ALTER TABLE Peca ADD CONSTRAINT FKPeca742251 FOREIGN KEY (ItemIDItem) REFERENCES Item (IDItem);
+ALTER TABLE Item ADD CONSTRAINT FKItem569554 FOREIGN KEY (CestoIDCesto) REFERENCES Cesto (IDCesto);
+ALTER TABLE Cesto ADD CONSTRAINT FKCesto461560 FOREIGN KEY (ClienteIDCliente) REFERENCES Cliente (IDCliente);
+ALTER TABLE "Set" ADD CONSTRAINT FKSet341752 FOREIGN KEY (ItemIDItem) REFERENCES Item (IDItem);
+ALTER TABLE Pagamento ADD CONSTRAINT FKPagamento688979 FOREIGN KEY (ClienteIDCliente) REFERENCES Cliente (IDCliente);
+ALTER TABLE Set_Peca ADD CONSTRAINT FKSet_Peca8483 FOREIGN KEY (SetItemIDItem) REFERENCES "Set" (ItemIDItem);
+ALTER TABLE Set_Peca ADD CONSTRAINT FKSet_Peca261204 FOREIGN KEY (PecaItemIDItem) REFERENCES Peca (ItemIDItem);
