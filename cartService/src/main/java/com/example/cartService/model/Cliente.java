@@ -11,10 +11,10 @@
  * Licensee: Afonso Marques(University of Minho)
  * License Type: Academic
  */
-package cestoservice;
+package com.example.cartService.model;
 
 import java.io.Serializable;
-import javax.persistence.*;
+import jakarta.persistence.*;
 @Entity
 @org.hibernate.annotations.Proxy(lazy=false)
 @Table(name="Cliente")
@@ -24,8 +24,8 @@ public class Cliente implements Serializable {
 	
 	@Column(name="IDCliente", nullable=false, length=10)	
 	@Id	
-	@GeneratedValue(generator="CESTOSERVICE_CLIENTE_IDCLIENTE_GENERATOR")	
-	@org.hibernate.annotations.GenericGenerator(name="CESTOSERVICE_CLIENTE_IDCLIENTE_GENERATOR", strategy="native")	
+	@GeneratedValue(generator="CARTSERVICE_CLIENTE_IDCLIENTE_GENERATOR")	
+	@org.hibernate.annotations.GenericGenerator(name="CARTSERVICE_CLIENTE_IDCLIENTE_GENERATOR", strategy="native")	
 	private int IDCliente;
 	
 	@Column(name="Nome", nullable=true, length=255)	
@@ -37,17 +37,17 @@ public class Cliente implements Serializable {
 	@Column(name="Email", nullable=true, length=255)	
 	private String email;
 	
-	@OneToMany(orphanRemoval=true, targetEntity=cestoservice.Cesto.class)	
+	@OneToMany(orphanRemoval=true, targetEntity=com.example.cartService.model.Cart.class)	
 	@org.hibernate.annotations.Cascade({org.hibernate.annotations.CascadeType.ALL})	
 	@JoinColumns({ @JoinColumn(name="ClienteIDCliente", nullable=false) })	
 	@org.hibernate.annotations.LazyCollection(org.hibernate.annotations.LazyCollectionOption.TRUE)	
-	private java.util.Set cestos = new java.util.HashSet();
+	private java.util.Set<Cart> carts = new java.util.HashSet();
 	
-	@OneToMany(targetEntity=cestoservice.Pagamento.class)	
+	@OneToMany(targetEntity=com.example.cartService.model.Pagamento.class)	
 	@org.hibernate.annotations.Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE, org.hibernate.annotations.CascadeType.LOCK})	
 	@JoinColumns({ @JoinColumn(name="ClienteIDCliente", nullable=false) })	
 	@org.hibernate.annotations.LazyCollection(org.hibernate.annotations.LazyCollectionOption.TRUE)	
-	private java.util.Set historico = new java.util.HashSet();
+	private java.util.Set<Pagamento> historico = new java.util.HashSet();
 	
 	private void setIDCliente(int value) {
 		this.IDCliente = value;
@@ -85,20 +85,20 @@ public class Cliente implements Serializable {
 		return email;
 	}
 	
-	public void setCestos(java.util.Set value) {
-		this.cestos = value;
+	public void setCarts(java.util.Set<Cart> value) {
+		this.carts = value;
 	}
 	
-	public java.util.Set getCestos() {
-		return cestos;
+	public java.util.Set<Cart> getCarts() {
+		return carts;
 	}
 	
 	
-	public void setHistorico(java.util.Set value) {
+	public void setHistorico(java.util.Set<Pagamento> value) {
 		this.historico = value;
 	}
 	
-	public java.util.Set getHistorico() {
+	public java.util.Set<Pagamento> getHistorico() {
 		return historico;
 	}
 	

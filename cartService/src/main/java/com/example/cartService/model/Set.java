@@ -11,27 +11,27 @@
  * Licensee: Afonso Marques(University of Minho)
  * License Type: Academic
  */
-package cestoservice;
+package com.example.cartService.model;
 
 import java.io.Serializable;
-import javax.persistence.*;
+import jakarta.persistence.*;
 @Entity
 @org.hibernate.annotations.Proxy(lazy=false)
 @Table(name="`Set`")
 @Inheritance(strategy=InheritanceType.JOINED)
 @DiscriminatorValue("Set")
 @PrimaryKeyJoinColumn(name="ItemIDItem", referencedColumnName="IDItem")
-public class Set extends cestoservice.Item implements Serializable {
+public class Set extends com.example.cartService.model.Item implements Serializable {
 	public Set() {
 	}
 	
 	@Column(name="NrPecas", nullable=false, length=10)	
 	private int nrPecas;
 	
-	@ManyToMany(mappedBy="sets", targetEntity=cestoservice.Peca.class)	
+	@ManyToMany(mappedBy="sets", targetEntity=com.example.cartService.model.Peca.class)	
 	@org.hibernate.annotations.Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE, org.hibernate.annotations.CascadeType.LOCK})	
 	@org.hibernate.annotations.LazyCollection(org.hibernate.annotations.LazyCollectionOption.TRUE)	
-	private java.util.Set pecas = new java.util.HashSet();
+	private java.util.Set<Peca> pecas = new java.util.HashSet();
 	
 	public void setNrPecas(int value) {
 		this.nrPecas = value;
@@ -41,11 +41,11 @@ public class Set extends cestoservice.Item implements Serializable {
 		return nrPecas;
 	}
 	
-	public void setPecas(java.util.Set value) {
+	public void setPecas(java.util.Set<Peca> value) {
 		this.pecas = value;
 	}
 	
-	public java.util.Set getPecas() {
+	public java.util.Set<Peca> getPecas() {
 		return pecas;
 	}
 	

@@ -11,10 +11,10 @@
  * Licensee: Afonso Marques(University of Minho)
  * License Type: Academic
  */
-package cestoservice;
+package com.example.cartService.model;
 
 import java.io.Serializable;
-import javax.persistence.*;
+import jakarta.persistence.*;
 @Entity
 @org.hibernate.annotations.Proxy(lazy=false)
 @Table(name="Item")
