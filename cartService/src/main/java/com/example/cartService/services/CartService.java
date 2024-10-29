@@ -11,8 +11,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+/*
+ * Most things here are a work in progress
+ * take it with a grain of salt
+ */
 
 @Service
 public class CartService {
@@ -35,10 +41,11 @@ public class CartService {
                 .collect(Collectors.toSet());
     }
 
-    public void addToCart(CartItemDTOInsert item) {
-        if (!clientCartRepository.existsByUsername(item.getUsername())) {
+    public void addToCart(CartItemInsertDTO item) {
+        Set<Cart> carts = clientCartRepository.getCartByUsername_Set(item.getUsername());
+        if (carts.isEmpty()) {
             // Create new cart if user doesn't have one
-            Cart cart = new Cart(item.getUsername(), new HashSet<>());
+            Cart cart = new Cart(new HashSet<>());
             Item cartItem = new Item(item.getCodigo(), item.getdesignacao(), item.getPrice(), item.getQuantity());
             cart.addItem(cartItem);
             clientCartRepository.save(cart);
