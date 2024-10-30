@@ -10,13 +10,7 @@ public class ItemMapper {
             item.getCodigo(),
             item.getDesignacao(), 
             item.getPreco(),
-            item.getNraquisicoes(),
-            item.getEstilo(),
-            item.getCor(),
-            item.getTamanho(),
-            item.getGenero(),
-            item.getDisponibilidade(),
-            item.getImagem()
+            item.getQuantidade()
         );
     }
     
@@ -25,13 +19,7 @@ public class ItemMapper {
         item.setCodigo(dto.getCodigo());
         item.setDesignacao(dto.getDesignacao());
         item.setPreco(dto.getPreco());
-        item.setNraquisicoes(dto.getNraquisicoes());
-        item.setEstilo(dto.getEstilo());
-        item.setCor(dto.getCor());
-        item.setTamanho(dto.getTamanho());
-        item.setGenero(dto.getGenero());
-        item.setDisponibilidade(dto.getDisponibilidade());
-        item.setImagem(dto.getImagem());
+        item.setQuantidade(dto.getQuantidade());
         return item;
     }
 }

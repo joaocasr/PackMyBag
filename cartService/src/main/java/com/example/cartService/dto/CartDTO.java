@@ -3,20 +3,20 @@ package com.example.cartService.dto;
 import java.util.List;
 
 public class CartDTO {
-    private java.util.List<ItemDTO> itens;
+    private List<CartItemDTO> itens;
 
     public CartDTO() {
     }
 
-    public CartDTO(List<ItemDTO> itens) {
+    public CartDTO(List<CartItemDTO> itens) {
         this.itens = itens;
     }
 
-    public List<ItemDTO> getItens() {
+    public List<CartItemDTO> getItens() {
         return itens;
     }
 
-    public void setItens(List<ItemDTO> itens) {
+    public void setItens(List<CartItemDTO> itens) {
         this.itens = itens;
     }
 }

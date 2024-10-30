@@ -5,6 +5,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const cors = require('cors')
 var catalogoRouter = require('./routes/catalogoRouter');
+var cartRouter = require('./routes/cartRouter');
 var favoritosRouter = require('./routes/favoritosRouter');
 var notificacoesRouter = require('./routes/notificacoesRouter');
 const { APIcatalogo } = require('./public/javascripts/entrypoints')
@@ -21,6 +22,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(APIcatalogo, catalogoRouter);
+app.use(APIcart, cartRouter);
 app.use(APIfavoritos, favoritosRouter);
 app.use(APINotificacoes, notificacoesRouter);
 

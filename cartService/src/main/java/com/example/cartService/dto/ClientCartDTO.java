@@ -1,21 +1,19 @@
 package com.example.cartService.dto;
 
-import java.util.Set;
-
 public class ClientCartDTO {
     private String nome;
     private String username;
     private String email;
-    private Set<CartDTO> carts;
+    private CartDTO cart;
 
     public ClientCartDTO() {
     }
 
-    public ClientCartDTO(String nome, String username, String email, Set<CartDTO> carts) {
+    public ClientCartDTO(String nome, String username, String email, CartDTO cart) {
         this.nome = nome;
         this.username = username;
         this.email = email;
-        this.carts = carts;
+        this.cart = cart;
     }
 
     public String getNome() {
@@ -42,11 +40,11 @@ public class ClientCartDTO {
         this.email = email;
     }
 
-    public Set<CartDTO> getCarts() {
-        return carts;
+    public CartDTO getCart() {
+        return cart;
     }
 
-    public void setCarts(Set<CartDTO> carts) {
-        this.carts = carts;
+    public void setCarts(CartDTO cart) {
+        this.cart = cart;
     }
 }

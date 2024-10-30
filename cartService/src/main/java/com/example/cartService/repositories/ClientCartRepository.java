@@ -8,8 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.Set;
-
 @Repository
 public interface ClientCartRepository extends JpaRepository<Cliente, String>{
     
@@ -21,7 +19,7 @@ public interface ClientCartRepository extends JpaRepository<Cliente, String>{
     @Query("select c.cart FROM Cliente c where c.username = :username")
     Page<Cart> getCartByUsername(@Param("username") String username, PageRequest pageable);
 
-    // ir buscar os carrinho do cliente como um set
+    // ir buscar os carrinho do cliente como um cart
     @Query("select c.cart FROM Cliente c where c.username = :username")
-    Set<Cart> getCartByUsername_Set(@Param("username") String username);
+    Cart getCartByUsername_Cart(@Param("username") String username);
 }

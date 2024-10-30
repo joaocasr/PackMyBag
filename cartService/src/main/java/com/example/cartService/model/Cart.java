@@ -8,13 +8,17 @@
  */
 
 /**
- * Licensee: Afonso Marques(University of Minho)
+ * Licensee: joao(Universidade do Minho)
  * License Type: Academic
  */
 package com.example.cartService.model;
 
 import java.io.Serializable;
 import jakarta.persistence.*;
+
+import java.util.Set;
+import java.util.HashSet;
+
 @Entity
 @org.hibernate.annotations.Proxy(lazy=false)
 @Table(name="Cart")
@@ -24,15 +28,15 @@ public class Cart implements Serializable {
 	
 	@Column(name="IDCart", nullable=false, length=10)	
 	@Id	
-	@GeneratedValue(generator="CARTSERVICE_CART_IDCART_GENERATOR")	
-	@org.hibernate.annotations.GenericGenerator(name="CARTSERVICE_CART_IDCART_GENERATOR", strategy="native")	
+	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator="CARTSERVICE_CART_IDCART_GENERATOR")	
+	@SequenceGenerator(name="CARTSERVICE_CART_IDCART_GENERATOR", sequenceName ="CARTSERVICE_CART_IDCART_SEQ")	
 	private int IDCart;
 	
 	@OneToMany(orphanRemoval=true, targetEntity=com.example.cartService.model.Item.class)	
 	@org.hibernate.annotations.Cascade({org.hibernate.annotations.CascadeType.ALL})	
 	@JoinColumns({ @JoinColumn(name="CartIDCart", nullable=false) })	
 	@org.hibernate.annotations.LazyCollection(org.hibernate.annotations.LazyCollectionOption.TRUE)	
-	private java.util.List<Item> itens = new java.util.ArrayList<>();
+	private Set<Item> itens = new HashSet<Item>();
 	
 	private void setIDCart(int value) {
 		this.IDCart = value;
@@ -46,11 +50,11 @@ public class Cart implements Serializable {
 		return getIDCart();
 	}
 	
-	public void setItens(java.util.List<Item> value) {
+	public void setItens(Set<Item> value) {
 		this.itens = value;
 	}
 	
-	public java.util.List<Item> getItens() {
+	public Set<Item> getItens() {
 		return itens;
 	}
 	

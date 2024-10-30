@@ -2,16 +2,16 @@ package com.example.cartService.dto;
 
 public class CartItemDTO {
     private String codigo;
-    private Integer quantity;
+    private Integer nraquisicoes;
     private Double price;
     private String designacao;
     
     public CartItemDTO() {
     }
     
-    public CartItemDTO(String codigo, Integer quantity, Double price, String designacao) {
+    public CartItemDTO(String codigo, Integer nraquisicoes, Double price, String designacao) {
         this.codigo = codigo;
-        this.quantity = quantity;
+        this.nraquisicoes = nraquisicoes;
         this.price = price;
         this.designacao = designacao;
     }
@@ -24,12 +24,12 @@ public class CartItemDTO {
         this.codigo = codigo;
     }
 
-    public Integer getQuantity() {
-        return quantity;
+    public Integer getNraquisicoes() {
+        return nraquisicoes;
     }
 
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
+    public void setNraquisicoes(Integer nraquisicoes) {
+        this.nraquisicoes = nraquisicoes;
     }
     
     public Double getPrice() {
@@ -40,11 +40,11 @@ public class CartItemDTO {
         this.price = price;
     }
     
-    public String getdesignacao() {
+    public String getDesignacao() {
         return designacao;
     }
     
-    public void setdesignacao(String designacao) {
+    public void setDesignacao(String designacao) {
         this.designacao = designacao;
     }
 }

@@ -8,13 +8,17 @@
  */
 
 /**
- * Licensee: Afonso Marques(University of Minho)
+ * Licensee: joao(Universidade do Minho)
  * License Type: Academic
  */
 package com.example.cartService.model;
 
 import java.io.Serializable;
 import jakarta.persistence.*;
+
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @org.hibernate.annotations.Proxy(lazy=false)
 @Table(name="Cliente")
@@ -24,9 +28,14 @@ public class Cliente implements Serializable {
 	
 	@Column(name="IDCliente", nullable=false, length=10)	
 	@Id	
-	@GeneratedValue(generator="CARTSERVICE_CLIENTE_IDCLIENTE_GENERATOR")	
-	@org.hibernate.annotations.GenericGenerator(name="CARTSERVICE_CLIENTE_IDCLIENTE_GENERATOR", strategy="native")	
+	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator="CARTSERVICE_CLIENTE_IDCLIENTE_GENERATOR")	
+	@SequenceGenerator(name="CARTSERVICE_CLIENTE_IDCLIENTE_GENERATOR", sequenceName ="CARTSERVICE_CLIENTE_IDCLIENTE_SEQ")	
 	private int IDCliente;
+	
+	@ManyToOne(targetEntity=Cart.class, fetch=FetchType.LAZY)	
+	@org.hibernate.annotations.Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE, org.hibernate.annotations.CascadeType.LOCK, org.hibernate.annotations.CascadeType.DELETE})	
+	@JoinColumns(value={ @JoinColumn(name="CartIDCart", referencedColumnName="IDCart", nullable=false) }, foreignKey=@ForeignKey(name="FKCliente384303"))	
+	private com.example.cartService.model.Cart cart;
 	
 	@Column(name="Nome", nullable=true, length=255)	
 	private String nome;
@@ -37,17 +46,11 @@ public class Cliente implements Serializable {
 	@Column(name="Email", nullable=true, length=255)	
 	private String email;
 	
-	@OneToMany(orphanRemoval=true, targetEntity=com.example.cartService.model.Cart.class)	
-	@org.hibernate.annotations.Cascade({org.hibernate.annotations.CascadeType.ALL})	
-	@JoinColumns({ @JoinColumn(name="ClienteIDCliente", nullable=false) })	
-	@org.hibernate.annotations.LazyCollection(org.hibernate.annotations.LazyCollectionOption.TRUE)	
-	private java.util.Set<Cart> carts = new java.util.HashSet();
-	
 	@OneToMany(targetEntity=com.example.cartService.model.Pagamento.class)	
 	@org.hibernate.annotations.Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE, org.hibernate.annotations.CascadeType.LOCK})	
 	@JoinColumns({ @JoinColumn(name="ClienteIDCliente", nullable=false) })	
 	@org.hibernate.annotations.LazyCollection(org.hibernate.annotations.LazyCollectionOption.TRUE)	
-	private java.util.Set<Pagamento> historico = new java.util.HashSet();
+	private Set<Pagamento> transacoes = new HashSet<Pagamento>();
 	
 	private void setIDCliente(int value) {
 		this.IDCliente = value;
@@ -85,21 +88,20 @@ public class Cliente implements Serializable {
 		return email;
 	}
 	
-	public void setCarts(java.util.Set<Cart> value) {
-		this.carts = value;
+	public void setCart(Cart value) {
+		this.cart = value;
 	}
 	
-	public java.util.Set<Cart> getCarts() {
-		return carts;
+	public Cart getCart() {
+		return cart;
 	}
 	
-	
-	public void setHistorico(java.util.Set<Pagamento> value) {
-		this.historico = value;
+	public void setTransacoes(Set<Pagamento> value) {
+		this.transacoes = value;
 	}
 	
-	public java.util.Set<Pagamento> getHistorico() {
-		return historico;
+	public Set<Pagamento> getTransacoes() {
+		return transacoes;
 	}
 	
 	

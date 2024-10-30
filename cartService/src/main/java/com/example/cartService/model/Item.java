@@ -8,7 +8,7 @@
  */
 
 /**
- * Licensee: Afonso Marques(University of Minho)
+ * Licensee: joao(Universidade do Minho)
  * License Type: Academic
  */
 package com.example.cartService.model;
@@ -18,16 +18,14 @@ import jakarta.persistence.*;
 @Entity
 @org.hibernate.annotations.Proxy(lazy=false)
 @Table(name="Item")
-@Inheritance(strategy=InheritanceType.JOINED)
-@DiscriminatorValue("Item")
 public class Item implements Serializable {
 	public Item() {
 	}
 	
 	@Column(name="IDItem", nullable=false, length=10)	
 	@Id	
-	@GeneratedValue(generator="CESTOSERVICE_ITEM_IDITEM_GENERATOR")	
-	@org.hibernate.annotations.GenericGenerator(name="CESTOSERVICE_ITEM_IDITEM_GENERATOR", strategy="native")	
+	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator="CESTOSERVICE_ITEM_IDITEM_GENERATOR")	
+	@SequenceGenerator(name="CESTOSERVICE_ITEM_IDITEM_GENERATOR", sequenceName ="CESTOSERVICE_ITEM_IDITEM_SEQ")	
 	private int IDItem;
 	
 	@Column(name="Codigo", nullable=true, length=255)	
@@ -39,26 +37,14 @@ public class Item implements Serializable {
 	@Column(name="Preco", nullable=true)	
 	private double preco;
 	
-	@Column(name="Nraquisicoes", nullable=false, length=10)	
-	private int nraquisicoes;
-	
-	@Column(name="Estilo", nullable=true, length=255)	
-	private String estilo;
-	
-	@Column(name="Cor", nullable=true, length=255)	
-	private String cor;
-	
-	@Column(name="Tamanho", nullable=true, length=255)	
-	private String tamanho;
-	
-	@Column(name="Genero", nullable=true, length=255)	
-	private String genero;
-	
-	@Column(name="Disponibilidade", nullable=true, length=255)	
-	private String disponibilidade;
-	
 	@Column(name="Imagem", nullable=true, length=255)	
 	private String imagem;
+	
+	@Column(name="IdLoja", nullable=false, length=10)	
+	private int idLoja;
+	
+	@Column(name="Quantidade", nullable=false, length=10)	
+	private int quantidade;
 	
 	private void setIDItem(int value) {
 		this.IDItem = value;
@@ -96,60 +82,28 @@ public class Item implements Serializable {
 		return preco;
 	}
 	
-	public void setNraquisicoes(int value) {
-		this.nraquisicoes = value;
-	}
-	
-	public int getNraquisicoes() {
-		return nraquisicoes;
-	}
-	
-	public void setEstilo(String value) {
-		this.estilo = value;
-	}
-	
-	public String getEstilo() {
-		return estilo;
-	}
-	
-	public void setCor(String value) {
-		this.cor = value;
-	}
-	
-	public String getCor() {
-		return cor;
-	}
-	
-	public void setTamanho(String value) {
-		this.tamanho = value;
-	}
-	
-	public String getTamanho() {
-		return tamanho;
-	}
-	
-	public void setGenero(String value) {
-		this.genero = value;
-	}
-	
-	public String getGenero() {
-		return genero;
-	}
-	
-	public void setDisponibilidade(String value) {
-		this.disponibilidade = value;
-	}
-	
-	public String getDisponibilidade() {
-		return disponibilidade;
-	}
-	
 	public void setImagem(String value) {
 		this.imagem = value;
 	}
 	
 	public String getImagem() {
 		return imagem;
+	}
+	
+	public void setIdLoja(int value) {
+		this.idLoja = value;
+	}
+	
+	public int getIdLoja() {
+		return idLoja;
+	}
+	
+	public void setQuantidade(int value) {
+		this.quantidade = value;
+	}
+	
+	public int getQuantidade() {
+		return quantidade;
 	}
 	
 	public String toString() {

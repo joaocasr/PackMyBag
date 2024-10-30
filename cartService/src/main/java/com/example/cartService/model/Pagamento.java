@@ -8,7 +8,7 @@
  */
 
 /**
- * Licensee: Afonso Marques(University of Minho)
+ * Licensee: joao(Universidade do Minho)
  * License Type: Academic
  */
 package com.example.cartService.model;
@@ -24,8 +24,8 @@ public class Pagamento implements Serializable {
 	
 	@Column(name="IDPagamento", nullable=false, length=10)	
 	@Id	
-	@GeneratedValue(generator="CESTOSERVICE_PAGAMENTO_IDPAGAMENTO_GENERATOR")	
-	@org.hibernate.annotations.GenericGenerator(name="CESTOSERVICE_PAGAMENTO_IDPAGAMENTO_GENERATOR", strategy="native")	
+	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator="CARTSERVICE_PAGAMENTO_IDPAGAMENTO_GENERATOR")	
+	@SequenceGenerator(name="CARTSERVICE_PAGAMENTO_IDPAGAMENTO_GENERATOR", sequenceName ="CARTSERVICE_PAGAMENTO_IDPAGAMENTO_SEQ")	
 	private int IDPagamento;
 	
 	@Column(name="Total", nullable=false)	
@@ -45,6 +45,12 @@ public class Pagamento implements Serializable {
 	
 	@Column(name="Codigo", nullable=true, length=255)	
 	private String codigo;
+	
+	@Column(name="ModoPagamento", nullable=true, length=255)	
+	private String modoPagamento;
+	
+	@Column(name="Status", nullable=true, length=255)	
+	private String status;
 	
 	private void setIDPagamento(int value) {
 		this.IDPagamento = value;
@@ -104,6 +110,22 @@ public class Pagamento implements Serializable {
 	
 	public String getCodigo() {
 		return codigo;
+	}
+	
+	public void setModoPagamento(String value) {
+		this.modoPagamento = value;
+	}
+	
+	public String getModoPagamento() {
+		return modoPagamento;
+	}
+	
+	public void setStatus(String value) {
+		this.status = value;
+	}
+	
+	public String getStatus() {
+		return status;
 	}
 	
 	public String toString() {

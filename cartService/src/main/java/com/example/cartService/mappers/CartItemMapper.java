@@ -6,10 +6,10 @@ import com.example.cartService.model.Item;
 
 @Component
 public class CartItemMapper {
-    public CartItemDTO toCartItemDTO(Item item) {
+    public static CartItemDTO toCartItemDTO(Item item) {
         return new CartItemDTO(
             item.getCodigo(),
-            item.getNraquisicoes(),
+            item.getQuantidade(),
             item.getPreco(),
             item.getDesignacao()
         );

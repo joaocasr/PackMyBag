@@ -11,7 +11,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/cart")
@@ -22,8 +25,13 @@ public class CartItemController {
     @Autowired
     public CartItemController(CartService cartService){this.cartService=cartService;}
 
+    @GetMapping("/{username}")
+    public List<CartItemDTO> getCartItems(@PathVariable String username) {
+        return cartService.getCartItems(username);
+    }
+
     @PostMapping("/addItem")
-    public ResponseEntity<?> addItemToCart(@RequestBody CartItemDTO itemBody) {
+    public ResponseEntity<?> addItemToCart(@RequestBody CartItemInsertDTO itemBody) {
         try {
             cartService.addToCart(itemBody);
             return ResponseEntity.ok().body("Item added to cart successfully!");
@@ -32,4 +40,13 @@ public class CartItemController {
         }
     }
 
+    @PostMapping("/removeItem")
+    public ResponseEntity<?> removeItemFromCart(@RequestBody CartItemRemoveDTO itemBody) {
+        try {
+            cartService.removeFromCart(itemBody);
+            return ResponseEntity.ok().body("Item removed from cart successfully!");
+        } catch (Exception e) {
+            return new ResponseEntity<>(new ErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage()), HttpStatus.BAD_REQUEST);
+        }
+    }
 }

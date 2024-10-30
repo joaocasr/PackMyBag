@@ -4,15 +4,15 @@ public class CartItemInsertDTO {
     private String codigo;
     private String username;
     private String designacao;
-    private double price;
-    private int quantity;
+    private double preco;
+    private int quantidade;
 
-    public CartItemInsertDTO(String codigo, String username, String designacao, double price, int quantity) {
+    public CartItemInsertDTO(String codigo, String username, String designacao, double preco, int quantidade) {
         this.codigo = codigo;
         this.username = username;
         this.designacao = designacao;
-        this.price = price;
-        this.quantity = quantity;
+        this.preco = preco;
+        this.quantidade = quantidade;
     }
 
     public String getCodigo() {
@@ -39,19 +39,19 @@ public class CartItemInsertDTO {
         this.designacao = designacao;
     }
 
-    public double getPrice() {
-        return price;
+    public double getPreco() {
+        return preco;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    public void setPreco(double preco) {
+        this.preco = preco;
     }
 
-    public int getQuantity() {
-        return quantity;
+    public int getQuantidade() {
+        return quantidade;
     }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    public void setQuantidade(int quantidade) {
+        this.quantidade = quantidade;
     }
 }
