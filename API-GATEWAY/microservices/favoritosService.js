@@ -59,7 +59,7 @@ module.exports.getPerPriceItems = (username, min, max, page, number) =>{
     })
 }
 
-module.exports.addItemFavorite = (codigo,idLoja, username, designacao, preco, disponibilidade, tipo, imagem, subclasse, dimensao) => {
+module.exports.addItemFavorite = (codigo,idLoja, username, designacao, preco, disponibilidade, tipo, imagem, subclasse, dimensao, identificador) => {
 
     return axios.post(`${ap}/addItem`,
         {
@@ -72,7 +72,8 @@ module.exports.addItemFavorite = (codigo,idLoja, username, designacao, preco, di
             "tipo":tipo,
             "imagem":imagem,
             "subclasse":subclasse,
-            "dimensao":dimensao
+            "dimensao":dimensao,
+            "identificador":identificador
         },
         {
             headers: {

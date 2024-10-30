@@ -11,9 +11,9 @@ public class FavoritoItemInsertDTO {
     private String imagem;
     private String subclasse;
     private String dimensao; // 25-40 ou S,M,L...
+    private int identificador;
 
-
-    public FavoritoItemInsertDTO(String codigoItem, int idloja, String clienteUsername, String designacao, double preco, String disponibilidade, String tipo, String imagem, String subclasse, String dimensao) {
+    public FavoritoItemInsertDTO(String codigoItem, int idloja, String clienteUsername, String designacao, double preco, String disponibilidade, String tipo, String imagem, String subclasse, String dimensao, int identificador) {
         this.codigoItem = codigoItem;
         this.idLoja = idloja;
         this.clienteUsername = clienteUsername;
@@ -24,6 +24,7 @@ public class FavoritoItemInsertDTO {
         this.imagem = imagem;
         this.subclasse = subclasse;
         this.dimensao = dimensao;
+        this.identificador = identificador;
     }
 
     public String getSubclasse() {
@@ -104,5 +105,13 @@ public class FavoritoItemInsertDTO {
 
     public void setIdLoja(int idLoja) {
         this.idLoja = idLoja;
+    }
+
+    public int getIdentificador() {
+        return identificador;
+    }
+
+    public void setIdentificador(int identificador) {
+        this.identificador = identificador;
     }
 }

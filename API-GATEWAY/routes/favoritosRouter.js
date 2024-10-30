@@ -59,9 +59,10 @@ router.post("/addItem", function(req, res, next) {
   const imagem = req.body.imagem;
   const subclasse = req.body.subclasse;
   const dimensao = req.body.dimensao;
+  const identificador = req.body.identificador;
 
   favoritosService.addItemFavorite(codigo, idloja,username, designacao,
-    preco, disponibilidade, tipo, imagem, subclasse, dimensao).then(resp => {
+    preco, disponibilidade, tipo, imagem, subclasse, dimensao,identificador).then(resp => {
       res.jsonp(resp);
   }).catch(err => {
     res.status(err.error.status).jsonp(err);

@@ -18,9 +18,6 @@ import java.util.HashSet;
 
 import jakarta.persistence.*;
 
-
-
-
 @Entity
 @org.hibernate.annotations.Proxy(lazy=false)
 @Table(name="Item")
@@ -58,16 +55,17 @@ public class Item implements Serializable {
 	@Column(name="Dimensao", nullable=true, length=255)
 	private String dimensao;
 
-	@ManyToOne(targetEntity=Loja.class, fetch=FetchType.LAZY)
-	@org.hibernate.annotations.Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE, org.hibernate.annotations.CascadeType.LOCK})
-	@JoinColumns(value={ @JoinColumn(name="LojaIdLoja", referencedColumnName="IdLoja", nullable=false) }, foreignKey=@ForeignKey(name="FKItem289627"))
-	private Loja loja;
+	@Column(name="Idloja", nullable=true)
+	private int idloja;
+
+	@Column(name="Identificador", nullable=true)
+	private int identificador;
 
 	public Item() {
 
 	}
 
-	public Item(String codigo, String designacao, double preco, String disponibilidade, String tipo, String imagem, String subclasse, String dimensao,Loja l) {
+	public Item(String codigo, String designacao, double preco, String disponibilidade, String tipo, String imagem, String subclasse, String dimensao,int id,int identificador) {
 		this.codigo = codigo;
 		this.designacao = designacao;
 		this.preco = preco;
@@ -76,7 +74,8 @@ public class Item implements Serializable {
 		this.imagem = imagem;
 		this.subclasse = subclasse;
 		this.dimensao = dimensao;
-		this.loja = l;
+		this.idloja=id;
+		this.identificador = identificador;
 	}
 
 
@@ -164,11 +163,19 @@ public class Item implements Serializable {
 		return imagem;
 	}
 
-	public void setLoja(Loja value) {
-		this.loja = value;
+	public void setIdLoja(int value) {
+		this.idloja = value;
 	}
 
-	public Loja getLoja() {
-		return loja;
+	public int getIdLoja() {
+		return idloja;
+	}
+
+	public int getIdentificador() {
+		return identificador;
+	}
+
+	public void setIdentificador(int identificador) {
+		this.identificador = identificador;
 	}
 }

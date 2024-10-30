@@ -277,7 +277,8 @@ export default {
 						tipo: this.tipo,
 						imagem: this.imgItem,
 						subclasse: this.subclasse,
-						dimensao: dimensao
+						dimensao: dimensao,
+						identificador:this.idItem
 					},
 					{ headers }
 				);

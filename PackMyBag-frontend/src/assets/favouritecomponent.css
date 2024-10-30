@@ -1,0 +1,57 @@
+.divclass {
+    position: absolute;
+    top: 35px;
+    left: 409px;
+    line-height: 24px;
+}
+.image-18-icon {
+    position: absolute;
+    height: 45.43%;
+    width: 4.52%;
+    top: 13.67%;
+    right: 88.39%;
+    bottom: 40.9%;
+    left: 7.08%;
+    max-width: 100%;
+    overflow: hidden;
+    max-height: 100%;
+    object-fit: cover;
+}
+.cutwork-poplin-dress {
+    position: absolute;
+    top: 35px;
+    left: 178px;
+    line-height: 24px;
+    font-size: 14px;
+    height: 200px;
+    width: 160px;
+}
+.icon-cancel {
+    position: absolute;
+    top: 22px;
+    left: 25px;
+    cursor:pointer;
+    width: 24px;
+    height: 24px;
+    overflow: hidden;
+}
+.in-stock {
+    position: absolute;
+    top: 35px;
+    left: 740px;
+    line-height: 24px;
+}
+.favouritecomponent {
+    width: 100%;
+    position: relative;
+    box-shadow: 0px 1px 13px rgba(0, 0, 0, 0.05);
+    border-radius: 4px;
+    background-color: #fff;
+    height: 222px;
+    overflow: hidden;
+    text-align: left;
+    font-size: 16px;
+    color: #000;
+    font-family: Poppins;
+}
+

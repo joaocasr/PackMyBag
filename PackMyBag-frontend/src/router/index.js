@@ -7,6 +7,7 @@ import SignUpView from '@/views/SignUpView.vue'
 import SignUpView2 from '@/views/SignUpView2.vue'
 import StylistsView from '@/views/StylistsView.vue'
 import FormsView from '@/views/FormsView.vue'
+import FavouritesView from '@/views/FavouritesView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -30,6 +31,11 @@ const router = createRouter({
       path: '/about',
       name: 'about',
       component: AboutView
+    },
+    {
+      path: '/favourites',
+      name: 'favourites',
+      component: FavouritesView
     },
     {
       path: '/signup',

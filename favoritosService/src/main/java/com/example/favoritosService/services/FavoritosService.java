@@ -7,9 +7,7 @@ import com.example.favoritosService.exceptions.*;
 import com.example.favoritosService.model.Cliente;
 import com.example.favoritosService.model.Item;
 import com.example.favoritosService.mappers.FavoritoItemMapper;
-import com.example.favoritosService.model.Loja;
 import com.example.favoritosService.repositories.ClienteFavoritosRepository;
-import com.example.favoritosService.repositories.LojaRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -22,21 +20,16 @@ public class FavoritosService {
 
     private FavoritoItemMapper favoritoItemMapper;
     private ClienteFavoritosRepository clienteFavoritosRepository;
-    private LojaRepository lojaRepository;
 
-    public FavoritosService(ClienteFavoritosRepository clienteFavoritosRepository, LojaRepository lojaRepository,FavoritoItemMapper favoritoItemMapper){
+    public FavoritosService(ClienteFavoritosRepository clienteFavoritosRepository,FavoritoItemMapper favoritoItemMapper){
         this.favoritoItemMapper = favoritoItemMapper;
         this.clienteFavoritosRepository = clienteFavoritosRepository;
-        this.lojaRepository = lojaRepository;
     }
 
     private Optional<Cliente> checkIfClientExists(String username){
         return clienteFavoritosRepository.getClienteByUsername(username);
     }
 
-    private Optional<Loja> optionalLoja(int id){
-        return lojaRepository.getLojaById(id);
-    }
 
     public List<FavoritoItemDTO> getUserFavourites(String username, int page, int number) throws NoCatalogItemsException {
         return clienteFavoritosRepository.getFavItemsByUsername(username, PageRequest.of(page, number)).stream().map(x->favoritoItemMapper.toFavoritoItemDTO(x)).collect(Collectors.toList());
@@ -83,20 +76,13 @@ public class FavoritosService {
 
     public void addFavorito(FavoritoItemInsertDTO item) throws ItemCodeAlreadyExists{
         Optional<Cliente> c = checkIfClientExists(item.getClienteUsername());
-        Optional<Loja> l = optionalLoja(item.getIdLoja());
-        Loja loja;
-        if(l.isPresent()) loja = l.get();
-        else{
-            loja = new Loja(item.getIdLoja());
-            lojaRepository.save(loja);
-        }
         if(c.isPresent()){
-            if(!c.get().getFavoritos().isEmpty() && c.get().getFavoritos().stream().anyMatch(x -> x.getCodigo().equals(item.getCodigoItem()) && x.getLoja().getIdentificador() == item.getIdLoja())) throw new ItemCodeAlreadyExists(item.getCodigoItem());
-            Item i = new Item(item.getCodigoItem(),item.getDesignacao(),item.getPreco(),item.getDisponibilidade(),item.getTipo(),item.getImagem(),item.getSubclasse(),item.getDimensao(),loja);
+            if(!c.get().getFavoritos().isEmpty() && c.get().getFavoritos().stream().anyMatch(x -> x.getCodigo().equals(item.getCodigoItem()) && x.getIdLoja() == item.getIdLoja())) throw new ItemCodeAlreadyExists(item.getCodigoItem());
+            Item i = new Item(item.getCodigoItem(),item.getDesignacao(),item.getPreco(),item.getDisponibilidade(),item.getTipo(),item.getImagem(),item.getSubclasse(),item.getDimensao(),item.getIdLoja(),item.getIdentificador());
             c.get().addFavorite(i);
             clienteFavoritosRepository.save(c.get());
         }else {
-            Item i = new Item(item.getCodigoItem(),item.getDesignacao(),item.getPreco(),item.getDisponibilidade(),item.getTipo(),item.getImagem(),item.getSubclasse(),item.getDimensao(),loja);
+            Item i = new Item(item.getCodigoItem(),item.getDesignacao(),item.getPreco(),item.getDisponibilidade(),item.getTipo(),item.getImagem(),item.getSubclasse(),item.getDimensao(),item.getIdLoja(),item.getIdentificador());
             Cliente newcliente = new Cliente(item.getClienteUsername(),new HashSet<>());
             newcliente.addFavorite(i);
             clienteFavoritosRepository.save(newcliente);
@@ -107,7 +93,7 @@ public class FavoritosService {
         Optional<Cliente> c = checkIfClientExists(item.getUsername());
 
         if(c.isPresent()){
-            if(!c.get().getFavoritos().isEmpty() && c.get().getFavoritos().stream().anyMatch(x -> x.getCodigo().equals(item.getItemCode()) && x.getLoja().getIdentificador() == item.getIdLoja())){
+            if(!c.get().getFavoritos().isEmpty() && c.get().getFavoritos().stream().anyMatch(x -> x.getCodigo().equals(item.getItemCode()) && x.getIdLoja() == item.getIdLoja())){
                 c.get().removeFavorite(item.getItemCode());
                 clienteFavoritosRepository.save(c.get());
             }
