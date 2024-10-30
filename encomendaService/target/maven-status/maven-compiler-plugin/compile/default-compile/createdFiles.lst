@@ -8,6 +8,7 @@ com/exemplo/encomendaService/dto/ClienteDTO.class
 com/exemplo/encomendaService/services/LojaService.class
 com/exemplo/encomendaService/mapper/LojaMapper.class
 com/exemplo/encomendaService/model/Encomenda.class
+com/exemplo/encomendaService/model/BaseEntity.class
 com/exemplo/encomendaService/mapper/ClienteMapper.class
 com/exemplo/encomendaService/EncomendaServiceApplication.class
 com/exemplo/encomendaService/repositories/ClienteRepository.class

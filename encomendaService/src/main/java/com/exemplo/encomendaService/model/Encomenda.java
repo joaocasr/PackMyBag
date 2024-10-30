@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 @Entity
 //@org.hibernate.annotations.Proxy(lazy=false)
 @Table(name="Encomenda")
-public class Encomenda implements Serializable {
+public class Encomenda extends BaseEntity implements Serializable {
 	public Encomenda() {
 	}
 	
@@ -43,7 +43,10 @@ public class Encomenda implements Serializable {
 	@org.hibernate.annotations.LazyCollection(org.hibernate.annotations.LazyCollectionOption.TRUE)	
 	private java.util.Set<Item> items = new java.util.HashSet();
 
-
+	// Introduzir optimitisc locking
+    // @Version
+    // @Column(name = "version", nullable = false)
+    // private Long version;
 	
 	private void setIDEncomenda(int value) {
 		this.IDEncomenda = value;
