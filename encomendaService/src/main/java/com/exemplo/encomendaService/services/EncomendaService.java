@@ -14,6 +14,10 @@ import com.exemplo.encomendaService.model.Encomenda;
 import com.exemplo.encomendaService.repositories.EncomendaRepository;
 import com.exemplo.encomendaService.repositories.LojaRepository;
 
+import jakarta.persistence.EntityNotFoundException;
+
+import com.exemplo.encomendaService.repositories.ClienteRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +33,9 @@ public class EncomendaService {
 
     @Autowired
     private LojaRepository lojaRepository;
+
+    @Autowired
+    private ClienteRepository clienteRepository;
 
     // Procurar encomenda por ID
     // public EncomendaDTO findEncomendaById(int id) {
@@ -186,15 +193,71 @@ public class EncomendaService {
                 .collect(Collectors.toList());
     }
 
-    // Criar ou atualizar encomenda
+
+    // public EncomendaDTO saveEncomenda(EncomendaDTO encomendaDTO) {
+
+    //     // Procura o cliente e lança exceção se não existir
+    //     Cliente cliente = clienteRepository.findById(encomendaDTO.getClienteId())
+    //             .orElseThrow(() -> new IllegalArgumentException("Cliente não encontrado"));
+
+    //     // Converte DTO para entidade usando o mapper
+    //     Encomenda encomenda = EncomendaMapper.toEntity(encomendaDTO, cliente);
+        
+    //     // Salva a encomenda
+    //     Encomenda savedEncomenda = encomendaRepository.save(encomenda);
+
+    //     // Converte entidade para DTO e retorna
+    //     return EncomendaMapper.toDTO(savedEncomenda);
+    // }
     public EncomendaDTO saveEncomenda(EncomendaDTO encomendaDTO) {
-        Encomenda encomenda = EncomendaMapper.toEntity(encomendaDTO);
-        encomenda = encomendaRepository.save(encomenda);
+        // Procura o cliente
+        Cliente cliente = clienteRepository.findById(encomendaDTO.getClienteId())
+                .orElseThrow(() -> new IllegalArgumentException("Cliente não encontrado"));
+
+        // Procura a loja
+        Loja loja = lojaRepository.findById(encomendaDTO.getLojaId())
+                .orElseThrow(() -> new IllegalArgumentException("Loja não encontrada"));
+
+        // Converte o DTO para entidade Encomenda
+        Encomenda encomenda = EncomendaMapper.toEntity(encomendaDTO, cliente);
+
+        // Adiciona a encomenda ao conjunto de encomendas da loja
+        loja.getEncomendas().add(encomenda);
+
+        // Salva a loja (o que salvará a encomenda junto com a loja)
+        lojaRepository.save(loja);
+
+        // Converte de volta para DTO e retorna
         return EncomendaMapper.toDTO(encomenda);
     }
 
-    // Deletar encomenda por ID
+
+    public EncomendaDTO updateEncomenda(EncomendaDTO encomendaDTO) {
+        
+        // Verificar se a encomenda existe
+        Encomenda existingEncomenda = encomendaRepository.findById(encomendaDTO.getIdEncomenda())
+                .orElseThrow(() -> new EntityNotFoundException("Encomenda não encontrada"));
+
+        // Obter o cliente associado à encomenda
+        Cliente cliente = clienteRepository.findById(encomendaDTO.getClienteId())
+                .orElseThrow(() -> new IllegalArgumentException("Cliente inválido"));
+
+        // Usar o mapper para atualizar a entidade com os dados do DTO
+        EncomendaMapper.updateEntityFromDTO(existingEncomenda, encomendaDTO, cliente);
+
+        // Salvar alterações
+        Encomenda updatedEncomenda = encomendaRepository.save(existingEncomenda);
+
+        // Retornar o DTO atualizado
+        return EncomendaMapper.toDTO(updatedEncomenda);
+    }
+
+
+
     public void deleteEncomenda(int id) {
+        if (!encomendaRepository.existsById(id)) {
+            throw new IllegalArgumentException("Encomenda não encontrada");
+        }
         encomendaRepository.deleteById(id);
     }
 }

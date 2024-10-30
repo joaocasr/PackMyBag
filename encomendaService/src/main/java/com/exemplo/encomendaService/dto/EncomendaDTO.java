@@ -9,11 +9,12 @@ public class EncomendaDTO {
     private String localEntrega;
     private String status;
     private int clienteId;
+    private int lojaId;
     
     public EncomendaDTO() {
     }
     
-    // Getters and Setters
+    //Getters and Setters
     public int getIdEncomenda() {
         return idEncomenda;
     }
@@ -68,5 +69,13 @@ public class EncomendaDTO {
 
     public void setClienteId(int clienteId) {
         this.clienteId = clienteId;
+    }
+
+    public int getLojaId() {
+        return lojaId;
+    }
+
+    public void setLojaId(int lojaId) {
+        this.lojaId = lojaId;
     }
 }

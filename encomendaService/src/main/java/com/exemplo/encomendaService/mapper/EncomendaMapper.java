@@ -3,6 +3,7 @@ package com.exemplo.encomendaService.mapper;
 import org.springframework.stereotype.Component;
 
 import com.exemplo.encomendaService.dto.EncomendaDTO;
+import com.exemplo.encomendaService.model.Cliente;
 import com.exemplo.encomendaService.model.Encomenda;
 
 @Component
@@ -18,19 +19,30 @@ public class EncomendaMapper {
         dto.setLocalEntrega(encomenda.getLocalEntrega());
         dto.setStatus(encomenda.getStatus());
         dto.setClienteId(encomenda.getCliente().getIDCliente());
+        //dto.setLojaId(encomenda.getLoja().getIDLoja()); // Associa a loja
         return dto;
     }
 
-    // Completar aqui com o cliente e a loja! set de ambos
-    // Converte de DTO para Entidade
-    public static Encomenda toEntity(EncomendaDTO dto) {
+    public static Encomenda toEntity(EncomendaDTO dto,Cliente cliente) {
         Encomenda encomenda = new Encomenda();
         encomenda.setCodigoEncomenda(dto.getCodigoEncomenda());
         encomenda.setDataEntrega(dto.getDataEntrega());
         encomenda.setDataDevolucao(dto.getDataDevolucao());
         encomenda.setLocalEntrega(dto.getLocalEntrega());
         encomenda.setStatus(dto.getStatus());
+        encomenda.setCliente(cliente); // Define o cliente na encomenda
+        //encomenda.setLojaId(encomenda.getLoja().getIDLoja()); // Associa a loja
         return encomenda;
+    }
+
+    // Atualiza uma entidade Encomenda existente com os valores de um DTO
+    public static void updateEntityFromDTO(Encomenda encomenda, EncomendaDTO dto, Cliente cliente) {
+        encomenda.setCodigoEncomenda(dto.getCodigoEncomenda());
+        encomenda.setDataEntrega(dto.getDataEntrega());
+        encomenda.setDataDevolucao(dto.getDataDevolucao());
+        encomenda.setLocalEntrega(dto.getLocalEntrega());
+        encomenda.setStatus(dto.getStatus());
+        encomenda.setCliente(cliente);
     }
 }
 
