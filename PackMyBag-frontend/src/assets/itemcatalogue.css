@@ -39,7 +39,7 @@
     letter-spacing: 0.15em;
     line-height: 15px;
     font-size: small;
-
+    color: black;
 }
 a{
     color:black;
@@ -50,6 +50,7 @@ a{
 }
 .rs995000Details {
     margin: 0;
+    color:black;
 }
 .b4-parentDetails {
     position: relative;

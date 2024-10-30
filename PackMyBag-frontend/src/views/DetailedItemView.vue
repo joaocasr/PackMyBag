@@ -71,7 +71,7 @@
         				<img alt="" src="/DetailedItemIMG/previousbtn.png">
         				
       			</div>
-				<div class="div3">{{ current_page + 1}}</div>
+				<div class="div3">{{ current_page+1 }}</div>
       			<div v-if="showNext==true" @click="handlePage('next')" class="rectangle-parent2">
         				<img alt="" src="/DetailedItemIMG/nextbtn.png">
         				
@@ -211,6 +211,15 @@ export default {
 			} //in the future add token -> 'Authorization': 'JWT ...'
 			var d = new Date,
 			dformat = [d.getDate(),d.getMonth()+1,d.getFullYear()].join('-')+' '+[d.getHours(),d.getMinutes()].join(':');
+			/*
+							 :classificacao="review.classificacao"
+				 :descricao="review.descricao"
+				 :nome="review.nome"
+				 :profileImg="review.profileImg"
+				 :timestamp="review.timestamp"></ReviewComponent>	
+
+			
+			*/
 			axios.post('http://localhost:8888/api/catalogoService/items/'+this.idItem+'/addreview',
 				{
 					"username" : this.username,
@@ -227,6 +236,8 @@ export default {
 				title: "Success!",
 				text: resp.data
 			});
+				this.reviews.push({classificacao:this.myrate,descricao:this.mydescription,nome:this.nome,profileImg:this.profileImg,timestamp:dformat});
+				this.averageRating = ((this.averageRating * this.nrReviews) + this.myrate) / (this.nrReviews+1);
 				this.myrate=0;
 				this.mydescription='';
 			}).catch(error=>{
@@ -239,20 +250,25 @@ export default {
 			
 		},
 		handlePage(action){
-			if(action=='previous' && this.current_page<=0){
+			if(action=='previous' && this.current_page==0){
 				this.showNext = true;
 				this.showPrevious = false;
+				return;
+			}
+			if(action=='previous' && this.current_page>0){
+				this.showNext = true;
+				this.showPrevious = true;
+				this.current_page -=1
+				this.getReviews(this.idItem);
 				return;
 			} 
 			if(action=='next'){
 				this.showPrevious = true;
-			 this.current_page +=1
-			}
-			if(action=='previous') {
-				this.current_page -=1;
 				this.showNext = true;
+			 	this.current_page +=1
+				this.getReviews(this.idItem);
+				return;
 			}
-			this.getReviews(this.idItem);
 		},
 		async addToFavourites() {
 			if (this.heart == "/DetailedItemIMG/FvrtEmpty.svg") this.heart = "/DetailedItemIMG/FvrtFill.png";

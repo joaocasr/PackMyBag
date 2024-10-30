@@ -11,6 +11,7 @@ var notificacoesRouter = require('./routes/notificacoesRouter');
 const { APIcatalogo } = require('./public/javascripts/entrypoints')
 const { APIfavoritos } = require('./public/javascripts/entrypoints')
 const { APINotificacoes } = require('./public/javascripts/entrypoints')
+const { APIcart } = require('./public/javascripts/entrypoints')
 
 var app = express();
 
@@ -22,8 +23,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(APIcatalogo, catalogoRouter);
-app.use(APIcart, cartRouter);
 app.use(APIfavoritos, favoritosRouter);
+app.use(APIcart, cartRouter);
 app.use(APINotificacoes, notificacoesRouter);
 
 // catch 404 and forward to error handler

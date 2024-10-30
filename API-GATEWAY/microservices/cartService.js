@@ -1,5 +1,5 @@
 var axios = require('axios')
-const ap = "http://localhost:8082/api/cart"
+const ap = "http://localhost:8085/api/cart"
 
 module.exports.getCartItems = (username) => {
     return axios.get(`${ap}/${username}`).then(resp => {
