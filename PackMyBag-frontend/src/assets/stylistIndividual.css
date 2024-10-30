@@ -105,17 +105,14 @@
 }
 .vector-icon {
     position: absolute;
-    height: 14.33%;
-    width: 7.30%;
-    top: 69.82%;
-    right: 0.9%;
+    height: 47px;
+    width: 152px;
+    border-radius: 20px;
+    top: 65.82%;
     bottom: 15.85%;
-    left: 44.5%;
-    max-width: 100%;
-    overflow: hidden;
-    max-height: 100%;
+    left: 40.5%;
     cursor: pointer;
-    background-image: url(/StylistsIMG/Vector.svg);
+    background-image: url(/StylistsIMG/Vector.png);
     border: 0;
 }
 .stylistcomponent {

@@ -78,7 +78,6 @@
       			</div>
     		</div>
     		<img class="fvrt-icon" @click="handleAddFavourite()" alt="" :src="heart">
-    		<img class="fvrt-icon-del" @click="handleRemoveFavourite()" alt="" src="/DetailedItemIMG/FvrtDel.png">
     		<div class="myreview">
 				<div class="star">
 				</div>
@@ -306,45 +305,6 @@ export default {
 				}
 			} else if (result.isDenied) {
 				this.$swal.fire("Changes are not saved", "", "info");
-			}
-		},
-		async handleRemoveFavourite() {
-			const result = await this.$swal.fire({
-				title: "Do you want to remove the item '" + this.designacao.toLowerCase() + "' from your list of favourites?",
-				showDenyButton: false,
-				showCancelButton: true,
-				confirmButtonText: "Remove"
-			});
-			if (result.isConfirmed) {
-				let r = await this.removeFromFavourites();
-				if (r && r.status == 200) {
-					this.$swal.fire("Sucess! The item was removed from your favourites.", "", "success");
-				} else {
-					this.$swal.fire("Something went wrong! The item does not belong to your favourites.", "", "error");
-				}
-			} else if (result.isDenied) {
-				this.$swal.fire("Changes are not saved", "", "info");
-			}
-		},
-		async removeFromFavourites() {
-			try {
-				let data = {username: this.username,itemCode: this.itemCode,idLoja: this.idLoja} 
-				let headers = {
-					headers: {
-						'Content-Type': 'application/json;charset=UTF-8',
-					}
-				}
-				const resp = await axios.delete('http://localhost:8888/api/favoritosService/removeItem',
-				{
-					data,
-					headers
-				}
-				);
-				console.log(resp);
-				return resp;
-			} catch (err) {
-				console.log(err);
-				return err;
 			}
 		}
 		

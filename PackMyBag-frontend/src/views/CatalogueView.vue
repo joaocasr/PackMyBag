@@ -130,9 +130,9 @@ export default {
 
 	},
 	watch:{
-		selectedOption: function(oldvalue,newvalue) {
+		selectedOption: function(newvalue,oldvalue) {
 			this.current_page = 0;
-			if(oldvalue==undefined) this.selectedOption='';
+			if(newvalue==undefined) this.selectedOption='';
 			this.getItemsperTypeAndPrice(this.selectedOption,this.value[0],this.value[1]);
 		}
 	}

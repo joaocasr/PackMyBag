@@ -139,6 +139,10 @@
     width: 7px;
     object-fit: contain;
 }
+.previousclass{
+    margin: -99px;
+    margin-bottom: -7px;
+}
 .rectangle-parent {
     position: absolute;
     top: 2px;
@@ -311,12 +315,21 @@
 }
 .genderfilter {
     position: absolute;
-    top: 480px;
+    top: 520px;
     left: 101px;
     width: 225px;
     height: 40px;
     color: #1c1c1c;
 }
+.sizefilter {
+    position: absolute;
+    top: 600px;
+    left: 101px;
+    width: 225px;
+    height: 40px;
+    color: #1c1c1c;
+}
+
 .genderfilter1 {
     position: absolute;
     top: 542px;
@@ -337,3 +350,25 @@
     font-family: Abel;
 }
 
+.footer {
+    position: absolute;
+    height: 65%;
+    width: 100%;
+    top: 0%;
+    right: 0%;
+    bottom: 0%;
+    left: 0%;
+    background-color: #111827;
+    overflow: hidden;
+}
+.myfooter {
+    position: absolute;
+    top: 2669px;
+    left: 0px;
+    background-color: #f7f7f7;
+    width: 1535px;
+    height: 340px;
+    font-size: 16px;
+    color: #fff;
+    font-family: Poppins;
+}
