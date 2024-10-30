@@ -30,8 +30,8 @@ public class Item implements Serializable {
 	
 	@Column(name="IDItem", nullable=false, length=10)	
 	@Id	
-	@GeneratedValue(generator="FAVORITOSSERVICE_ITEM_IDITEM_GENERATOR")	
-	@org.hibernate.annotations.GenericGenerator(name="FAVORITOSSERVICE_ITEM_IDITEM_GENERATOR", strategy="native")	
+	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator="FAVORITOSSERVICE_ITEM_IDITEM_GENERATOR")
+	@SequenceGenerator(name="FAVORITOSSERVICE_ITEM_IDITEM_GENERATOR", sequenceName="FAVORITOSSERVICE_ITEM_IDITEM_SEQ")
 	private int IDItem;
 
 	@Column(name="Codigo", nullable=true, length=255)
@@ -58,12 +58,16 @@ public class Item implements Serializable {
 	@Column(name="Dimensao", nullable=true, length=255)
 	private String dimensao;
 
+	@ManyToOne(targetEntity=Loja.class, fetch=FetchType.LAZY)
+	@org.hibernate.annotations.Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE, org.hibernate.annotations.CascadeType.LOCK})
+	@JoinColumns(value={ @JoinColumn(name="LojaIdLoja", referencedColumnName="IdLoja", nullable=false) }, foreignKey=@ForeignKey(name="FKItem289627"))
+	private Loja loja;
 
 	public Item() {
 
 	}
 
-	public Item(String codigo, String designacao, double preco, String disponibilidade, String tipo, String imagem, String subclasse, String dimensao) {
+	public Item(String codigo, String designacao, double preco, String disponibilidade, String tipo, String imagem, String subclasse, String dimensao,Loja l) {
 		this.codigo = codigo;
 		this.designacao = designacao;
 		this.preco = preco;
@@ -72,6 +76,7 @@ public class Item implements Serializable {
 		this.imagem = imagem;
 		this.subclasse = subclasse;
 		this.dimensao = dimensao;
+		this.loja = l;
 	}
 
 
@@ -158,5 +163,12 @@ public class Item implements Serializable {
 	public String getImagem() {
 		return imagem;
 	}
-	
+
+	public void setLoja(Loja value) {
+		this.loja = value;
+	}
+
+	public Loja getLoja() {
+		return loja;
+	}
 }

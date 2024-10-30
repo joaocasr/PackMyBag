@@ -2,6 +2,7 @@ package com.example.favoritosService.dto;
 
 public class FavoritoItemInsertDTO {
     private String codigoItem;
+    private int idLoja;
     private String clienteUsername;
     private String designacao;
     private double preco;
@@ -12,8 +13,9 @@ public class FavoritoItemInsertDTO {
     private String dimensao; // 25-40 ou S,M,L...
 
 
-    public FavoritoItemInsertDTO(String codigoItem, String clienteUsername, String designacao, double preco, String disponibilidade, String tipo, String imagem, String subclasse, String dimensao) {
+    public FavoritoItemInsertDTO(String codigoItem, int idloja, String clienteUsername, String designacao, double preco, String disponibilidade, String tipo, String imagem, String subclasse, String dimensao) {
         this.codigoItem = codigoItem;
+        this.idLoja = idloja;
         this.clienteUsername = clienteUsername;
         this.designacao = designacao;
         this.preco = preco;
@@ -94,5 +96,13 @@ public class FavoritoItemInsertDTO {
 
     public void setImagem(String imagem) {
         this.imagem = imagem;
+    }
+
+    public int getIdLoja() {
+        return idLoja;
+    }
+
+    public void setIdLoja(int idLoja) {
+        this.idLoja = idLoja;
     }
 }

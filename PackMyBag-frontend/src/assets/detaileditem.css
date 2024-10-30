@@ -435,7 +435,7 @@
 .fvrt-icon {
     position: absolute;
     height: 0.85%;
-    width: 1.95%;
+    width: 1.65%;
     top: 8.84%;
     right: 37.85%;
     bottom: 90.31%;
@@ -443,6 +443,20 @@
     max-width: 100%;
     overflow: hidden;
     max-height: 100%;
+    cursor:pointer;
+}
+.fvrt-icon-del {
+    position: absolute;
+    height: 0.85%;
+    width: 1.65%;
+    top: 8.84%;
+    right: 37.85%;
+    bottom: 90.31%;
+    left: 62.2%;
+    max-width: 100%;
+    overflow: hidden;
+    max-height: 100%;
+    cursor:pointer;
 }
 .itempage-child1 {
     position: relative;

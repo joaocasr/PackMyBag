@@ -77,7 +77,8 @@
         				
       			</div>
     		</div>
-    		<img class="fvrt-icon" alt="" src="/DetailedItemIMG/Fvrt.svg">
+    		<img class="fvrt-icon" @click="handleAddFavourite()" alt="" :src="heart">
+    		<img class="fvrt-icon-del" @click="handleRemoveFavourite()" alt="" src="/DetailedItemIMG/FvrtDel.png">
     		<div class="myreview">
 				<div class="star">
 				</div>
@@ -150,9 +151,14 @@ export default {
 			mydescription:'',
 			averageRating:0,
 			idItem:0,
+			tipo:'',
+			subclasse:'',
 			showNext:true,
 			showPrevious : true,
-			relacionados:[]
+			relacionados:[],
+			itemCode:'',
+			heart:"/DetailedItemIMG/FvrtEmpty.svg",
+			idLoja:0
 
 		}
 	},	
@@ -169,6 +175,10 @@ export default {
 				this.tamanho = item.tamanho;
 				this.averageRating = item.averageRating;
 				this.relacionados = item.relacionados;
+				this.tipo = item.tipo;
+				this.subclasse = item.subclasse;
+				this.itemCode = item.codigo;
+				this.idLoja = item.loja.idloja;
 				if(this.disponibilidade!="Not Available"){
 					this.availabilityColor = "#3de469"
 				}else{
@@ -244,8 +254,100 @@ export default {
 				this.showNext = true;
 			}
 			this.getReviews(this.idItem);
+		},
+		async addToFavourites() {
+			if (this.heart == "/DetailedItemIMG/FvrtEmpty.svg") this.heart = "/DetailedItemIMG/FvrtFill.png";
+			else this.heart = "/DetailedItemIMG/FvrtEmpty.svg";
+
+			const headers = {
+				'Content-Type': 'application/json',
+				// Future addition of Authorization token
+			}
+			let dimensao = this.tamanho;
+			if (this.subclasse == "Calcado") dimensao = dimensao.toString();
+			try {
+				const resp = await axios.post('http://localhost:8888/api/favoritosService/addItem',
+					{
+						codigoItem: this.itemCode,
+						idLoja: this.idLoja,
+						clienteUsername: this.username,
+						designacao: this.designacao,
+						preco: this.preco,
+						disponibilidade: this.disponibilidade,
+						tipo: this.tipo,
+						imagem: this.imgItem,
+						subclasse: this.subclasse,
+						dimensao: dimensao
+					},
+					{ headers }
+				);
+				console.log(resp);
+				return resp;
+			} catch (err) {
+				console.log(err);
+				return err;
+			}
+		},
+		async handleAddFavourite() {
+			const result = await this.$swal.fire({
+				title: "Do you want to save the item '" + this.designacao.toLowerCase() + "' to your list of favourites?",
+				showDenyButton: true,
+				showCancelButton: true,
+				confirmButtonText: "Save",
+				denyButtonText: `Don't save`
+			});
+			if (result.isConfirmed) {
+				let r = await this.addToFavourites();
+				if (r && r.status == 200) {
+					this.$swal.fire("Saved! The item was saved to your favourites.", "", "success");
+				} else {
+					this.$swal.fire("Something went wrong! The item already belongs to your favourites.", "", "error");
+				}
+			} else if (result.isDenied) {
+				this.$swal.fire("Changes are not saved", "", "info");
+			}
+		},
+		async handleRemoveFavourite() {
+			const result = await this.$swal.fire({
+				title: "Do you want to remove the item '" + this.designacao.toLowerCase() + "' from your list of favourites?",
+				showDenyButton: false,
+				showCancelButton: true,
+				confirmButtonText: "Remove"
+			});
+			if (result.isConfirmed) {
+				let r = await this.removeFromFavourites();
+				if (r && r.status == 200) {
+					this.$swal.fire("Sucess! The item was removed from your favourites.", "", "success");
+				} else {
+					this.$swal.fire("Something went wrong! The item does not belong to your favourites.", "", "error");
+				}
+			} else if (result.isDenied) {
+				this.$swal.fire("Changes are not saved", "", "info");
+			}
+		},
+		async removeFromFavourites() {
+			try {
+				let data = {username: this.username,itemCode: this.itemCode,idLoja: this.idLoja} 
+				let headers = {
+					headers: {
+						'Content-Type': 'application/json;charset=UTF-8',
+					}
+				}
+				const resp = await axios.delete('http://localhost:8888/api/favoritosService/removeItem',
+				{
+					data,
+					headers
+				}
+				);
+				console.log(resp);
+				return resp;
+			} catch (err) {
+				console.log(err);
+				return err;
+			}
 		}
-	}
+		
+	},
 
 }
 const colorMap={

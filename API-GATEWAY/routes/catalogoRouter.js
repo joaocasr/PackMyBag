@@ -22,6 +22,15 @@ router.get("/all", function(req, res, next) {
   });
 });
 
+/*Get random items for home page*/
+router.get('/random',function(req,res,next){
+  catalogoService.getRandomItems().then(items=>{
+    res.jsonp(items);
+  }).catch(error=>{
+    res.status(error.error.status).jsonp(error);
+  });
+});
+
 /*Show Details from an Item Page*/
 router.get("/items/:id", function(req, res, next) {
   catalogoService.showItemDetails(req.params.id).then(items => {
