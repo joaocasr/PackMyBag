@@ -18,9 +18,6 @@ import java.util.HashSet;
 
 import jakarta.persistence.*;
 
-
-
-
 @Entity
 @org.hibernate.annotations.Proxy(lazy=false)
 @Table(name="Item")
@@ -30,8 +27,8 @@ public class Item implements Serializable {
 	
 	@Column(name="IDItem", nullable=false, length=10)	
 	@Id	
-	@GeneratedValue(generator="FAVORITOSSERVICE_ITEM_IDITEM_GENERATOR")	
-	@org.hibernate.annotations.GenericGenerator(name="FAVORITOSSERVICE_ITEM_IDITEM_GENERATOR", strategy="native")	
+	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator="FAVORITOSSERVICE_ITEM_IDITEM_GENERATOR")
+	@SequenceGenerator(name="FAVORITOSSERVICE_ITEM_IDITEM_GENERATOR", sequenceName="FAVORITOSSERVICE_ITEM_IDITEM_SEQ")
 	private int IDItem;
 
 	@Column(name="Codigo", nullable=true, length=255)
@@ -58,12 +55,17 @@ public class Item implements Serializable {
 	@Column(name="Dimensao", nullable=true, length=255)
 	private String dimensao;
 
+	@Column(name="Idloja", nullable=true)
+	private int idloja;
+
+	@Column(name="Identificador", nullable=true)
+	private int identificador;
 
 	public Item() {
 
 	}
 
-	public Item(String codigo, String designacao, double preco, String disponibilidade, String tipo, String imagem, String subclasse, String dimensao) {
+	public Item(String codigo, String designacao, double preco, String disponibilidade, String tipo, String imagem, String subclasse, String dimensao,int id,int identificador) {
 		this.codigo = codigo;
 		this.designacao = designacao;
 		this.preco = preco;
@@ -72,6 +74,8 @@ public class Item implements Serializable {
 		this.imagem = imagem;
 		this.subclasse = subclasse;
 		this.dimensao = dimensao;
+		this.idloja=id;
+		this.identificador = identificador;
 	}
 
 
@@ -158,5 +162,20 @@ public class Item implements Serializable {
 	public String getImagem() {
 		return imagem;
 	}
-	
+
+	public void setIdLoja(int value) {
+		this.idloja = value;
+	}
+
+	public int getIdLoja() {
+		return idloja;
+	}
+
+	public int getIdentificador() {
+		return identificador;
+	}
+
+	public void setIdentificador(int identificador) {
+		this.identificador = identificador;
+	}
 }

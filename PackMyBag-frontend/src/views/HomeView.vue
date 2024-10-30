@@ -13,72 +13,18 @@
 				<img class="icon1" alt="" src="/HomeViewIMG/5787874 1.png">
 			</div>
 			<div class="rowhomecatalogue">
-				<img class="image-12-icon" alt="" src="/HomeViewIMG/image 12.png">
-				<img class="image-11-icon" alt="" src="/HomeViewIMG/image 11.png">
-				<img class="image-10-icon" alt="" src="/HomeViewIMG/image 10.png">
-				<img class="image-9-icon" alt="" src="/HomeViewIMG/image 9.png">
-			<div class="cutwork-poplin-dress-1000-parent">
-			<div class="cutwork-poplin-dress-container">
-				<p class="cutwork-poplin-dress">CUTWORK POPLIN DRESS</p>
-				<p class="p">€10.00</p>
-				</div>
-				<div class="cutwork-poplin-dress-container1">
-				<p class="cutwork-poplin-dress">CUTWORK POPLIN DRESS</p>
-				<p class="p">€.9.50</p>
-				</div>
-				<div class="cutwork-poplin-dress-container2">
-				<p class="cutwork-poplin-dress">CUTWORK POPLIN DRESS</p>
-				<p class="p">€.17.00</p>
-				</div>
-				<div class="cutwork-poplin-dress-container3">
-				<p class="cutwork-poplin-dress">CUTWORK POPLIN DRESS</p>
-				<p class="p">€.12.00</p>
+				<!--colocar aqui-->
+				<div class="itemclass" v-for="item in randomItems">
+					<ItemCatalogueView
+					:imgSrc="item.imagem" 
+					:descricao="item.designacao"
+					:preco="item.preco" 
+					:cor="item.cor" 
+					:iditem="item.iditem"
+				></ItemCatalogueView>
 				</div>
 			</div>
-			<div class="group-parent">
-				<div class="b1-parent">
-					<div class="b1">
-					<div class="b1-child">
-					</div>
-					</div>
-					<div class="b2">
-					<div class="b2-child">
-					</div>
-					</div>
-					</div>
-				<div class="b2-parent">
-					<div class="b21">
-					<div class="b2-item">
-					</div>
-					</div>
-					<div class="b4">
-					<div class="b4-child">
-					</div>
-					</div>
-					</div>
-				<div class="b3-parent">
-					<div class="b3">
-					<div class="b3-child">
-					</div>
-					</div>
-					<div class="b2">
-					<div class="b6-child">
-					</div>
-					</div>
-					</div>
-				<div class="b4-parent">
-					<div class="b3">
-					<div class="b4-item">
-					</div>
-					</div>
-					<div class="b2">
-					<div class="b2-inner">
-					</div>
-					</div>
-					</div>
-					</div>
-				</div>
-				<button class="fullcataloguebtn" @click="goToCatalogue()">FULL CATALOGUE</button>
+			<button class="fullcataloguebtn" @click="goToCatalogue()">FULL CATALOGUE</button>
 			<div class="howitworksbanner">
 				<div class="worksbanner-v2">
 				<b class="how-it-works"> How It Works</b>
@@ -136,17 +82,39 @@
 </template>
 
 <script>
-
 import NavBarComponent from '@/components/NavBarComponent.vue';
 import FooterComponent from '@/components/FooterComponent.vue';
+import ItemCatalogueView from '@/components/ItemCatalogueView.vue';
+import axios from 'axios';
 export default {
 	components:{
 		NavBarComponent,
-		FooterComponent
+		FooterComponent,
+		ItemCatalogueView
 	},
 	methods:{
 		goToCatalogue(){
 			this.$router.push({ path: '/catalogue' });
+		}
+	},
+	data(){
+		return {
+			randomItems:[]
+		}
+	}
+	,created(){
+		this.getRandomItems();
+	},
+	methods:{
+		getRandomItems(){
+			axios.get('http://localhost:8888/api/catalogoService/random')
+			.then(items =>{
+				console.log(items.data)
+				this.randomItems = items.data;
+				console.log("aqiu")
+			}).catch(error=>{
+				console.log(error);
+			})
 		}
 	}
 }

@@ -16,6 +16,7 @@ public class FullDetailedItemDTO {
     private String disponibilidade;
     private int averageRating;
     private int nrReviews;
+    private String subclasse;
     private List<RelacionadosDTO> relacionados;
     //lista de sets em que a peca está presente ou pecas que constitui o set
     private Loja loja;
@@ -23,10 +24,11 @@ public class FullDetailedItemDTO {
     public FullDetailedItemDTO() {
     }
 
-    public FullDetailedItemDTO(int id, String codigo, int averageRating, String designacao, double preco, String cor, String imagem, String tipo, String tamanho, String disponibilidade, int nrReviews, List<RelacionadosDTO> relacionados, Loja j ) {
+    public FullDetailedItemDTO(int id, String codigo, int averageRating, String subclasse, String designacao, double preco, String cor, String imagem, String tipo, String tamanho, String disponibilidade, int nrReviews, List<RelacionadosDTO> relacionados, Loja j ) {
         this.IDItem = id;
         this.codigo = codigo;
         this.averageRating = averageRating;
+        this.subclasse = subclasse;
         this.designacao = designacao;
         this.preco = preco;
         this.cor = cor;
@@ -61,6 +63,14 @@ public class FullDetailedItemDTO {
 
     public void setAverageRating(int averageRating) {
         this.averageRating = averageRating;
+    }
+
+    public String getSubclasse() {
+        return subclasse;
+    }
+
+    public void setSubclasse(String subclasse) {
+        this.subclasse = subclasse;
     }
 
     public double getPreco() {

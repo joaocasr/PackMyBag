@@ -59,11 +59,12 @@ module.exports.getPerPriceItems = (username, min, max, page, number) =>{
     })
 }
 
-module.exports.addItemFavorite = (codigo, username, designacao, preco, disponibilidade, tipo, imagem, subclasse, dimensao) => {
+module.exports.addItemFavorite = (codigo,idLoja, username, designacao, preco, disponibilidade, tipo, imagem, subclasse, dimensao, identificador) => {
 
     return axios.post(`${ap}/addItem`,
         {
             "codigoItem":codigo,
+            "idLoja":idLoja,
             "clienteUsername":username,
             "designacao":designacao,
             "preco":preco,
@@ -71,7 +72,8 @@ module.exports.addItemFavorite = (codigo, username, designacao, preco, disponibi
             "tipo":tipo,
             "imagem":imagem,
             "subclasse":subclasse,
-            "dimensao":dimensao
+            "dimensao":dimensao,
+            "identificador":identificador
         },
         {
             headers: {
@@ -90,11 +92,12 @@ module.exports.addItemFavorite = (codigo, username, designacao, preco, disponibi
 }
 
 
-module.exports.removeItem = (username, itemCode) => {
+module.exports.removeItem = (username, itemCode,idLoja) => {
     
     data = {
         "username":username,
-        "itemCode":itemCode
+        "itemCode":itemCode,
+        "idLoja":idLoja
         }
     headers = {
         headers: {

@@ -47,4 +47,4 @@ export default {
 </script>
 
 
-<style scoped src="../assets/stylistindividual.css"></style>
+<style scoped src="../assets/stylistIndividual.css"></style>

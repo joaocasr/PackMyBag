@@ -28,7 +28,7 @@
           					
         			
         				<div class="wishlist-parent">
-          					<div class="wishlist" id="wishlistContainer">
+          					<div @click="gotoFavourites()" class="wishlist" id="wishlistContainer">
             						<img class="vector-icon" alt="" src="/NavBarIMG/Vector.svg">
             						
           					</div>
@@ -48,7 +48,12 @@ export default {
         return {
             a:1
         }
-    }
+    },
+	methods:{
+		gotoFavourites(){
+			this.$router.push({ path: '/favourites'})
+		}
+	}
 }
 </script>
 <style lang="css" scoped>

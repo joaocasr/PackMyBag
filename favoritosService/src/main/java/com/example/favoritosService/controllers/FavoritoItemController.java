@@ -58,7 +58,7 @@ public class FavoritoItemController {
     public ResponseEntity<?> addItemFavorite(@RequestBody FavoritoItemInsertDTO itemBody){
         try {
             favItemService.addFavorito(itemBody);
-            return ResponseEntity.ok().body("New favorite added with sucess!");
+            return ResponseEntity.status(200).body("New favorite added with sucess!");
         } catch (ItemCodeAlreadyExists e) {
             return new ResponseEntity<>(new ErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage()), HttpStatus.BAD_REQUEST);
         }
@@ -68,8 +68,8 @@ public class FavoritoItemController {
     public ResponseEntity<?> removePecaFavorite(@RequestBody FavoritoItemRemoveDTO itemBody){
         try {
             favItemService.removeFavorito(itemBody);
-            return ResponseEntity.ok().body("Favorite removed with sucess!");
-        } catch (ItemCodeAlreadyExists e) {
+            return ResponseEntity.status(200).body("Favorite removed with sucess!");
+        } catch (ItemCodeAlreadyExists | InexistentFavourite e) {
             return new ResponseEntity<>(new ErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage()), HttpStatus.BAD_REQUEST);
         }
     }

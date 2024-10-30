@@ -1,0 +1,339 @@
+.favorites {
+    position: absolute;
+    top: 130px;
+    left: 99px;
+    font-size: 32px;
+}
+.favoritespage-child {
+    position: absolute;
+    top: 184px;
+    left: 68px;
+    max-height: 100%;
+    width: 1389px;
+}
+.product {
+    width: 82px;
+    position: relative;
+    line-height: 24px;
+    white-space: pre-wrap;
+    display: inline-block;
+    flex-shrink: 0;
+}
+.price {
+    position: relative;
+    line-height: 24px;
+}
+.product-parent {
+    position: absolute;
+    top: 24px;
+    left: 40px;
+    width: 839px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 284px;
+}
+.cart-main-section {
+    position: relative;
+    top: 0px;
+    left: 0px;
+    box-shadow: 0px 1px 13px rgba(0, 0, 0, 0.05);
+    border-radius: 4px;
+    background-color: #fff;
+    width: 915px;
+    height: 72px;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+.shop-cart-frame {
+    position: absolute;
+    top: 231px;
+    left: 544px;
+    width: 996px;
+    height: 664px;
+    font-family: Poppins;
+}
+.div {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    letter-spacing: 0.15em;
+    line-height: 39px;
+    color: #8e98a8;
+    display: inline-block;
+    width: 17.5px;
+}
+.div1 {
+    position: absolute;
+    top: 0px;
+    left: 25.57px;
+    letter-spacing: 0.15em;
+    line-height: 39px;
+    display: inline-block;
+    width: 16.2px;
+}
+.div2 {
+    position: absolute;
+    top: 0px;
+    left: 51.14px;
+    letter-spacing: 0.15em;
+    line-height: 39px;
+    display: inline-block;
+    width: 17.5px;
+}
+.div3 {
+    position: absolute;
+    top: 0px;
+    left: 76px;
+    font-size: 18px;
+    letter-spacing: 0.15em;
+    line-height: 39px;
+    display: inline-block;
+    width: 5.4px;
+}
+.div4 {
+    position: absolute;
+    top: 0px;
+    left: 84px;
+    font-size: 18px;
+    letter-spacing: 0.15em;
+    line-height: 39px;
+    display: inline-block;
+    width: 5.4px;
+}
+.div5 {
+    position: absolute;
+    top: 0px;
+    left: 92px;
+    font-size: 18px;
+    letter-spacing: 0.15em;
+    line-height: 39px;
+    display: inline-block;
+    width: 5.4px;
+}
+.div6 {
+    position: absolute;
+    top: 0px;
+    left: 107px;
+    letter-spacing: 0.15em;
+    line-height: 39px;
+    display: inline-block;
+    width: 17.5px;
+}
+.group-child {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    background-color: #000;
+    width: 35px;
+    height: 35px;
+}
+.group-item {
+    position: absolute;
+    height: 40%;
+    top: 30%;
+    bottom: 30%;
+    left: calc(50% - 3.5px);
+    max-height: 100%;
+    width: 7px;
+    object-fit: contain;
+}
+.rectangle-parent {
+    position: absolute;
+    top: 2px;
+    left: 42px;
+    width: 35px;
+    height: 35px;
+}
+.parent {
+    position: absolute;
+    top: 1068px;
+    left: 962px;
+    width: 177px;
+    height: 39px;
+    font-size: 24px;
+}
+.text {
+    position: absolute;
+    top: calc(50% - 10px);
+    left: 0px;
+    font-weight: 600;
+}
+.iconcontrolexpand-less {
+    position: absolute;
+    top: calc(50% - 12px);
+    right: 0px;
+    width: 24px;
+    height: 24px;
+}
+.layoutcollablse-heading {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    border-top: 1px solid #dee2e7;
+    box-sizing: border-box;
+    width: 230px;
+    height: 48px;
+}
+.formrange-icon {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 230px;
+    height: 20px;
+}
+.label2 {
+    position: absolute;
+    width: 100%;
+    top: 0px;
+    left: 70px;
+    display: inline-block;
+}
+.label1 {
+    position: absolute;
+    width: 100%;
+    top: 0px;
+    left: 0px;
+    display: inline-block;
+}
+.formbaselabel-title {
+    position: absolute;
+    width: 100%;
+    top: 0px;
+    right: 0px;
+    left: 0px;
+    height: 24px;
+}
+.background-icon {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0%;
+    right: 0%;
+    bottom: 0%;
+    left: 0%;
+    border-radius: 6px;
+    max-width: 100%;
+    overflow: hidden;
+    max-height: 100%;
+}
+.text1 {
+    position: absolute;
+    top: 11px;
+    left: 10px;
+}
+.forminput-basic {
+    position: absolute;
+    width: 100%;
+    top: 24px;
+    right: 0px;
+    left: 0px;
+    height: 40px;
+    color: #bdc4cd;
+    font-family: Inter;
+}
+.formlabelinput {
+    position: absolute;
+    top: 40px;
+    left: 0px;
+    width: 111px;
+    height: 64px;
+}
+.formlabelinput1 {
+    position: absolute;
+    top: 40px;
+    left: 120px;
+    width: 110px;
+    height: 64px;
+}
+.text3 {
+    position: relative;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+.buttonbasetext-md {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+.container-favourite{
+    margin-top:20px;
+}
+.buttonbtn-basic {
+    position: absolute;
+    height: 27.49%;
+    width: 99.13%;
+    top: 72.51%;
+    right: 0.87%;
+    bottom: 0%;
+    left: 0%;
+    box-shadow: 0px 1px 2px rgba(56, 56, 56, 0.08);
+    border-radius: 6px;
+    background-color: #fff;
+    border: 1px solid #dee2e7;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0px 16px;
+    text-align: center;
+    color: #000;
+    cursor:pointer;
+}
+.formrange-parent {
+    position: absolute;
+    top: 90px;
+    left: 0px;
+    width: 230px;
+    height: 171px;
+    font-size: 16px;
+}
+.layoutcollablse-heading-parent {
+    position: absolute;
+    top: 231px;
+    left: 101px;
+    width: 230px;
+    height: 227px;
+    font-size: 20px;
+    color: #1c1c1c;
+    font-family: 'Twentieth Century';
+}
+.iconcontrolexpand-more {
+    position: absolute;
+    top: calc(50% - 12px);
+    right: 8px;
+    width: 24px;
+    height: 24px;
+}
+.genderfilter {
+    position: absolute;
+    top: 480px;
+    left: 101px;
+    width: 225px;
+    height: 40px;
+    color: #1c1c1c;
+}
+.genderfilter1 {
+    position: absolute;
+    top: 542px;
+    left: 101px;
+    width: 225px;
+    height: 40px;
+    color: #1c1c1c;
+}
+.favoritespage {
+    width: 100%;
+    position: relative;
+    background-color: #fff;
+    height: 2941px;
+    overflow: hidden;
+    text-align: left;
+    font-size: 16px;
+    color: #000;
+    font-family: Abel;
+}
+

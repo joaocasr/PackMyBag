@@ -22,12 +22,6 @@ public class Encomenda implements Serializable {
 	@JoinColumns(value={ @JoinColumn(name="ClienteIDCliente", referencedColumnName="IDCliente", nullable=false) }, foreignKey=@ForeignKey(name="FKEncomenda932418"))	
 	private Cliente cliente;
 
-	// @ManyToOne(targetEntity=Loja.class, fetch = FetchType.LAZY)
-    // //@JoinColumn(name="lojaidloja", nullable=false, referencedColumnName="idloja") // Coluna lojaidloja em minúsculas
-	// // Faz com o jOINcOLUMS
-	// @JoinColumns(value={ @JoinColumn(name="LojaIDLoja", referencedColumnName="IDLoja", nullable=false) }, foreignKey=@ForeignKey(name="FKLoja93231"))
-    // private Loja loja;
-
 	@Column(name="CodigoEncomenda", nullable=true, length=255)	
 	private String codigoEncomenda;
 	

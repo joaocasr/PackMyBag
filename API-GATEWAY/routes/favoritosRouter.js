@@ -46,10 +46,11 @@ router.get("/size/:username",function(req,res,next){
 })
 
 
-/*Adicionar item Peça*/
+/*Adicionar item aos favoritos do user*/
 router.post("/addItem", function(req, res, next) {
 
   const codigo = req.body.codigoItem;
+  const idloja = req.body.idLoja;
   const username = req.body.clienteUsername;
   const designacao = req.body.designacao;
   const preco = req.body.preco;
@@ -58,9 +59,10 @@ router.post("/addItem", function(req, res, next) {
   const imagem = req.body.imagem;
   const subclasse = req.body.subclasse;
   const dimensao = req.body.dimensao;
+  const identificador = req.body.identificador;
 
-  favoritosService.addItemFavorite(codigo, username, designacao,
-    preco, disponibilidade, tipo, imagem, subclasse, dimensao).then(resp => {
+  favoritosService.addItemFavorite(codigo, idloja,username, designacao,
+    preco, disponibilidade, tipo, imagem, subclasse, dimensao,identificador).then(resp => {
       res.jsonp(resp);
   }).catch(err => {
     res.status(err.error.status).jsonp(err);
@@ -74,8 +76,9 @@ router.delete("/removeItem",function(req,res,next){
 
   const username = req.body.username;
   const itemCode = req.body.itemCode;
+  const idLoja = req.body.idLoja;
 
-  favoritosService.removeItem(username,itemCode).then(resp=>{
+  favoritosService.removeItem(username,itemCode,idLoja).then(resp=>{
     res.jsonp(resp);
   }).catch(err=>{
     res.status(err.error.status).jsonp(err);

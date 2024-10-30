@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
 import java.util.Set;
 
 @Repository
@@ -16,7 +17,7 @@ public interface ClienteFavoritosRepository extends JpaRepository<Cliente,String
 
     // ir buscar o user
     @Query("select c FROM Cliente c where c.username = :username")
-    Cliente getClienteByUsername(@Param("username") String username);
+    Optional<Cliente> getClienteByUsername(@Param("username") String username);
 
     // ir buscar favoritos do user
     @Query("select c.favoritos FROM Cliente c where c.username = :username")

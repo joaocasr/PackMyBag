@@ -5,7 +5,7 @@
 
     		<div class="parent">
 						<img v-if="current_page+1 > 1" @click="handlePage('previous')" class="group-item1" alt="" src="/CatalogueIMG/previousbtn.png">
-				<div v-if="items.length>0" class="div">{{ current_page + 1}}</div>
+				<div v-if="items.length>0" class="dividx">{{ current_page + 1}}</div>
       			<div class="rectangle-parent">
 						<img v-if="items.length>0" @click="handlePage('next')" class="group-item2" alt="" src="/CatalogueIMG/nextbtn.png">
       			</div>

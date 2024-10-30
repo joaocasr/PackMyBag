@@ -134,9 +134,6 @@ public class EncomendaController {
         return new ResponseEntity<>(encomendas, HttpStatus.OK);
     }
 
-    // FALTA MELHORAR ESTES DOIS METODOS ABAIXO -> ATUALIZAR E ELIMINAR
-    // Nao tem permissao na API Status: 405 Method Not Allowed
-
     // Endpoint para criar ou atualizar uma encomenda
     @PostMapping
     public ResponseEntity<EncomendaDTO> createOrUpdateEncomenda(@RequestBody EncomendaDTO encomendaDTO) {
@@ -144,10 +141,30 @@ public class EncomendaController {
         return new ResponseEntity<>(savedEncomenda, HttpStatus.CREATED);
     }
 
-    // Endpoint para eliminar uma encomenda por ID
+    // Endpoint para criar uma nova encomenda
+    @PostMapping("/create")
+    public ResponseEntity<EncomendaDTO> createEncomenda(@RequestBody EncomendaDTO encomendaDTO) {
+        try{
+            EncomendaDTO savedEncomenda = encomendaService.saveEncomenda(encomendaDTO);
+            return new ResponseEntity<>(savedEncomenda, HttpStatus.CREATED); // Retorna status 201 Created
+        }catch(Exception e){
+            e.printStackTrace();
+            System.out.println("Erro ao criar encomenda: " + e.getMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<EncomendaDTO> updateEncomenda(@RequestBody EncomendaDTO encomendaDTO) {
+
+        EncomendaDTO updatedDTO = encomendaService.updateEncomenda(encomendaDTO);
+        return ResponseEntity.ok(updatedDTO);
+    }
+
+    // Endpoint para deletar uma encomenda pelo ID
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteEncomenda(@PathVariable int id) {
         encomendaService.deleteEncomenda(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT); // Retorna status 204 No Content
     }
 }

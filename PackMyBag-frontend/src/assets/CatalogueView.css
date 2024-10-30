@@ -17,7 +17,9 @@ main{
     margin-top: 200px;
     margin-left: 600px;
 }
-
+.dividx{
+    color: #000;
+}
 .divclass {
     position: absolute;
     top: 0px;

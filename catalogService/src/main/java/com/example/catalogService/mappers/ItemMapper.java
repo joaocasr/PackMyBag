@@ -9,8 +9,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.OptionalDouble;
-import java.util.stream.Collectors;
 
 
 @Component
@@ -21,18 +19,21 @@ public class ItemMapper {
 
     public FullDetailedItemDTO toFullCatalogoDTO(int id,int media,Item item,int nrreviews){
         String tamanho="";
+        String subclasse="Calcado";
         List<RelacionadosDTO> relacionados = new ArrayList<>();
         if(item instanceof Peca){
             tamanho = ((Peca) item).getTamanho();
             relacionados = ((Peca) item).getSets().stream().limit(4).map(x->new RelacionadosDTO(x.getDesignacao(),x.getImagem(),x.getIDItem())).toList();
+            subclasse="Peca";
         }
         if(item instanceof Set) {
             tamanho = ((Set) item).getTamanho();
             relacionados = ((Set) item).getPecas().stream().limit(4).map(x->new RelacionadosDTO(x.getDesignacao(),x.getImagem(),x.getIDItem())).toList();
+            subclasse="Set";
         }
         if(item instanceof Calcado) tamanho = String.valueOf(((Calcado) item).getNumero());
         Loja j = item.getLoja();
-        return new FullDetailedItemDTO(id,item.getCodigo(),media,item.getDesignacao(),item.getPreco(),item.getCor(),item.getImagem(), item.getTipo(), tamanho,item.getDisponibilidade(),nrreviews,relacionados,j);
+        return new FullDetailedItemDTO(id,item.getCodigo(),media,subclasse,item.getDesignacao(),item.getPreco(),item.getCor(),item.getImagem(), item.getTipo(), tamanho,item.getDisponibilidade(),nrreviews,relacionados,j);
     }
 
     public ReviewDTO toReviewDTO(Review review){

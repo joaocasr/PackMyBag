@@ -27,6 +27,18 @@ module.exports.getAllItems = () => {
       });
 }
 
+module.exports.getRandomItems = () =>{
+    return axios.get(`${ap}/random`).then(resp=>{
+        return resp.data;
+    }).catch(err=>{
+        if (err.response) {
+            throw { error: err.response.data };
+        }else {
+            throw err
+        }
+    })
+}
+
 module.exports.showItemDetails = (id) => {
     return axios.get(`${ap}/items/${id}`).then(resp => {
         return resp.data;

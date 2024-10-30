@@ -245,12 +245,15 @@ main{
 }
 .rowhomecatalogue {
     position: relative;
-    top: 300px;
+    top: -350px;
     width: 1162px;
     height: 465px;
     text-align: center;
     font-family: Abel;
-    margin: 0 auto;
+    display: grid;
+    align-items: flex-end;
+    grid-template-columns: auto auto auto auto;
+    left: -100px;
 }
 .full-catalogue {
     position: relative;
@@ -642,6 +645,10 @@ main{
     height: 327px;
     object-fit: cover;
 }
+
+.itemclass{
+    padding:20px;
+}
 .clothing-rental-for-container {
     position: absolute;
     top: 250px;
@@ -667,7 +674,7 @@ main{
     border:0;
     padding-top: 20px;
     padding-bottom: 30px;
-    padding-left: 35px;
+    padding-left: 30px;
 }
 
 .icon1 {
