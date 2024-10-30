@@ -6,6 +6,8 @@ import com.exemplo.encomendaService.dto.EncomendaDTO;
 import com.exemplo.encomendaService.model.Cliente;
 import com.exemplo.encomendaService.model.Encomenda;
 
+import java.util.stream.Collectors;
+
 @Component
 public class EncomendaMapper {
 
@@ -19,7 +21,8 @@ public class EncomendaMapper {
         dto.setLocalEntrega(encomenda.getLocalEntrega());
         dto.setStatus(encomenda.getStatus());
         dto.setClienteId(encomenda.getCliente().getIDCliente());
-        //dto.setLojaId(encomenda.getLoja().getIDLoja()); // Associa a loja
+        //dto.setLojaId(encomenda.getLoja().getIDLoja()); // A loja nao pode ser associada porque estamos a usar classes, e a entidade Loja é que tem uma lista com as encomendas para isto funcionar o lojaid tinha de estar definido na classe encomenda
+        dto.setItens(encomenda.getItems().stream().map(ItemMapper::toDTO).collect(Collectors.toSet()));
         return dto;
     }
 

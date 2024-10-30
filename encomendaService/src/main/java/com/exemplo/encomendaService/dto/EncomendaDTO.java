@@ -1,5 +1,7 @@
 package com.exemplo.encomendaService.dto;
 
+import java.util.Set;
+
 public class EncomendaDTO {
     
     private int idEncomenda;
@@ -10,6 +12,8 @@ public class EncomendaDTO {
     private String status;
     private int clienteId;
     private int lojaId;
+    // FALTA o set com os itens da encomenda
+    private Set<ItemDTO> itens;
     
     public EncomendaDTO() {
     }
@@ -77,5 +81,13 @@ public class EncomendaDTO {
 
     public void setLojaId(int lojaId) {
         this.lojaId = lojaId;
+    }
+
+    public Set<ItemDTO> getItens() {
+        return itens;
+    }
+
+    public void setItens(Set<ItemDTO> itens) {
+        this.itens = itens;
     }
 }
