@@ -3,6 +3,7 @@
 /Users/jfl/Desktop/PackMyBag/encomendaService/src/main/java/com/exemplo/encomendaService/controllers/EncomendaController.java
 /Users/jfl/Desktop/PackMyBag/encomendaService/src/main/java/com/exemplo/encomendaService/dto/ClienteDTO.java
 /Users/jfl/Desktop/PackMyBag/encomendaService/src/main/java/com/exemplo/encomendaService/dto/EncomendaDTO.java
+/Users/jfl/Desktop/PackMyBag/encomendaService/src/main/java/com/exemplo/encomendaService/dto/EncomendaNotificationDTO.java
 /Users/jfl/Desktop/PackMyBag/encomendaService/src/main/java/com/exemplo/encomendaService/dto/ItemDTO.java
 /Users/jfl/Desktop/PackMyBag/encomendaService/src/main/java/com/exemplo/encomendaService/dto/LojaDTO.java
 /Users/jfl/Desktop/PackMyBag/encomendaService/src/main/java/com/exemplo/encomendaService/mapper/ClienteMapper.java
@@ -19,4 +20,5 @@
 /Users/jfl/Desktop/PackMyBag/encomendaService/src/main/java/com/exemplo/encomendaService/repositories/ItemRepository.java
 /Users/jfl/Desktop/PackMyBag/encomendaService/src/main/java/com/exemplo/encomendaService/repositories/LojaRepository.java
 /Users/jfl/Desktop/PackMyBag/encomendaService/src/main/java/com/exemplo/encomendaService/services/EncomendaService.java
+/Users/jfl/Desktop/PackMyBag/encomendaService/src/main/java/com/exemplo/encomendaService/services/KafkaProducerService.java
 /Users/jfl/Desktop/PackMyBag/encomendaService/src/main/java/com/exemplo/encomendaService/services/LojaService.java

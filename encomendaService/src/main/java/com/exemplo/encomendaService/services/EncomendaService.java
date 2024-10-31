@@ -21,9 +21,16 @@ import com.exemplo.encomendaService.repositories.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import org.springframework.kafka.core.KafkaTemplate;
+import com.exemplo.encomendaService.dto.EncomendaNotificationDTO;
+import org.springframework.scheduling.annotation.Scheduled;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 
 @Service
 public class EncomendaService {
@@ -37,16 +44,10 @@ public class EncomendaService {
     @Autowired
     private ClienteRepository clienteRepository;
 
-    // Procurar encomenda por ID
-    // public EncomendaDTO findEncomendaById(int id) {
-    //     Encomenda encomenda = encomendaRepository.getIDEncomenda(id);
-    //     if (encomenda != null) {
-    //         return EncomendaMapper.toDTO(encomenda);
-    //     } else {
-    //         return null;/items/{idEncomenda}
-    //     }
-    // }
+    @Autowired
+    private KafkaProducerService kafkaProducerService;
 
+    // Procurar por ID
     public EncomendaDTO findEncomendaById(int id) {
         //Encomenda encomenda = encomendaRepository.getIDEncomenda(id);
         Optional<Encomenda> encomenda = encomendaRepository.findById(id);
@@ -142,10 +143,10 @@ public class EncomendaService {
 
         if (encomendaOpt.isPresent()) {
             Encomenda encomenda = encomendaOpt.get();
-            // Acessa o conjunto de itens diretamente
             return encomenda.getItems().stream()
                     .map(ItemMapper::toDTO) 
                     .collect(Collectors.toList());
+
         } else {
             return List.of(); // Retorna uma lista vazia se a encomenda não for encontrada
         }
@@ -171,20 +172,12 @@ public class EncomendaService {
             return List.of(); // Retorna lista vazia se a loja não existir
         }
 
-        // Filtra as encomendas da loja pelo ID do cliente
         List<Encomenda> encomendasCliente = encomendaRepository.getEncomendasCliente(clienteId);
 
         return encomendasCliente.stream()
                 .filter(encomenda -> lojaOpt.get().getEncomendas().contains(encomenda)).map(EncomendaMapper::toDTO).
                 collect(Collectors.toList());
     }
-
-    //---
-    // public List<EncomendaDTO> findAllEncomendas() {
-    //     return encomendaRepository.getAllEncomendasRepository().stream()
-    //             .map(EncomendaMapper::toDTO)
-    //             .collect(Collectors.toList());
-    // }
 
     // Procurar todas as encomeendas
     public List<EncomendaDTO> findAllEncomendas() {
@@ -193,71 +186,93 @@ public class EncomendaService {
                 .collect(Collectors.toList());
     }
 
-
-    // public EncomendaDTO saveEncomenda(EncomendaDTO encomendaDTO) {
-
-    //     // Procura o cliente e lança exceção se não existir
-    //     Cliente cliente = clienteRepository.findById(encomendaDTO.getClienteId())
-    //             .orElseThrow(() -> new IllegalArgumentException("Cliente não encontrado"));
-
-    //     // Converte DTO para entidade usando o mapper
-    //     Encomenda encomenda = EncomendaMapper.toEntity(encomendaDTO, cliente);
-        
-    //     // Salva a encomenda
-    //     Encomenda savedEncomenda = encomendaRepository.save(encomenda);
-
-    //     // Converte entidade para DTO e retorna
-    //     return EncomendaMapper.toDTO(savedEncomenda);
-    // }
+    // Método para salvar uma nova encomenda
     public EncomendaDTO saveEncomenda(EncomendaDTO encomendaDTO) {
-        // Procura o cliente
+
         Cliente cliente = clienteRepository.findById(encomendaDTO.getClienteId())
                 .orElseThrow(() -> new IllegalArgumentException("Cliente não encontrado"));
 
-        // Procura a loja
         Loja loja = lojaRepository.findById(encomendaDTO.getLojaId())
                 .orElseThrow(() -> new IllegalArgumentException("Loja não encontrada"));
 
-        // Converte o DTO para entidade Encomenda
         Encomenda encomenda = EncomendaMapper.toEntity(encomendaDTO, cliente);
 
-        // Adiciona a encomenda ao conjunto de encomendas da loja
         loja.getEncomendas().add(encomenda);
 
-        // Salva a loja (o que salvará a encomenda junto com a loja)
         lojaRepository.save(loja);
 
-        // Converte de volta para DTO e retorna
         return EncomendaMapper.toDTO(encomenda);
     }
 
-
+    // Método para atualizar uma encomenda
     public EncomendaDTO updateEncomenda(EncomendaDTO encomendaDTO) {
         
-        // Verificar se a encomenda existe
         Encomenda existingEncomenda = encomendaRepository.findById(encomendaDTO.getIdEncomenda())
                 .orElseThrow(() -> new EntityNotFoundException("Encomenda não encontrada"));
 
-        // Obter o cliente associado à encomenda
         Cliente cliente = clienteRepository.findById(encomendaDTO.getClienteId())
                 .orElseThrow(() -> new IllegalArgumentException("Cliente inválido"));
 
-        // Usar o mapper para atualizar a entidade com os dados do DTO
         EncomendaMapper.updateEntityFromDTO(existingEncomenda, encomendaDTO, cliente);
 
-        // Salvar alterações
         Encomenda updatedEncomenda = encomendaRepository.save(existingEncomenda);
 
-        // Retornar o DTO atualizado
         return EncomendaMapper.toDTO(updatedEncomenda);
     }
 
-
-
+    // Método para deletar uma encomenda
     public void deleteEncomenda(int id) {
         if (!encomendaRepository.existsById(id)) {
             throw new IllegalArgumentException("Encomenda não encontrada");
         }
         encomendaRepository.deleteById(id);
     }
+
+    // Método para contar o número total de encomendas
+    public long countEncomendas() {
+        return encomendaRepository.count();
+    }
+
+    // Método para contar o número de itens em uma encomenda específica
+    public long countItensInEncomenda(int id) {
+        Encomenda encomenda = encomendaRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Encomenda não encontrada"));
+        return encomenda.getItems().size();
+    }
+
+    // Contar o número de encomendas de um cliente específico
+    public long countEncomendasByCliente(int clienteId) {
+        return encomendaRepository.getEncomendasCliente(clienteId).size();
+    }
+
+    // Contar o número de encomendas de uma loja específica
+    public long countEncomendasByLoja(int lojaId) {
+        Optional<Loja> lojaOpt = lojaRepository.findById(lojaId);
+        return lojaOpt.map(loja -> loja.getEncomendas().size()).orElse(0);
+    }
+
+    // Método agendado para rodar diariamente e verificar as datas de devolução
+    @Scheduled(cron = "0 0 9 * * ?")  // Executa todos os dias às 9 da manhã
+    public void verifydate() {
+        LocalDate hoje = LocalDate.now();  // Define a data atual
+        //LocalDate dataLimite = hoje.plusDays(3);  // Define a data limite como 3 dias a partir da data atual
+    
+        List<Encomenda> encomendas = encomendaRepository.findAll();  // Recupera todas as encomendas do repositório
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");  // Formato para interpretar as datas como String
+    
+        for (Encomenda encomenda : encomendas) {  // Itera sobre cada encomenda
+            if (encomenda.getDataDevolucao() != null) {  // Verifica se a encomenda possui uma data de devolução
+                LocalDate dataDevolucao = LocalDate.parse(encomenda.getDataDevolucao(), formatter);  // Converte a data de devolução de String para LocalDate
+    
+                // Verifica se a data de devolução está dentro do intervalo de 3 dias a partir de hoje
+                if (!dataDevolucao.isBefore(hoje) && ChronoUnit.DAYS.between(hoje, dataDevolucao) <= 3) {
+                    // Calcula o tempo restante para a devolução
+                    long tempoRestante = ChronoUnit.DAYS.between(hoje, dataDevolucao);
+                    // Envia mensagem para o Kafka
+                    kafkaProducerService.sendMessage(EncomendaMapper.toEncomendaNotifcationDTO(encomenda, tempoRestante));
+                }
+            }
+        }
+    }
+    
 }

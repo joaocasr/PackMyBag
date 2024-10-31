@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import com.exemplo.encomendaService.dto.EncomendaDTO;
 import com.exemplo.encomendaService.model.Cliente;
 import com.exemplo.encomendaService.model.Encomenda;
+import com.exemplo.encomendaService.dto.EncomendaNotificationDTO;
 
 import java.util.stream.Collectors;
 
@@ -26,6 +27,7 @@ public class EncomendaMapper {
         return dto;
     }
 
+    // Converte de DTO para Entidade
     public static Encomenda toEntity(EncomendaDTO dto,Cliente cliente) {
         Encomenda encomenda = new Encomenda();
         encomenda.setCodigoEncomenda(dto.getCodigoEncomenda());
@@ -47,23 +49,18 @@ public class EncomendaMapper {
         encomenda.setStatus(dto.getStatus());
         encomenda.setCliente(cliente);
     }
+
+    // Converte de Encomenda para EncomendaNotificationDTO
+    public static EncomendaNotificationDTO toEncomendaNotifcationDTO(Encomenda encomenda, long tempoRestante) {
+        EncomendaNotificationDTO notificationDTO = new EncomendaNotificationDTO();
+        notificationDTO.setIdEncomenda(encomenda.getIDEncomenda());
+        notificationDTO.setCodigoEncomenda(encomenda.getCodigoEncomenda());
+        notificationDTO.setDataEntrega(encomenda.getDataEntrega());
+        notificationDTO.setDataDevolucao(encomenda.getDataDevolucao());
+        notificationDTO.setLocalEntrega(encomenda.getLocalEntrega());
+        notificationDTO.setClienteId(encomenda.getCliente().getIDCliente());
+        notificationDTO.setTempoRestante(tempoRestante);
+        return notificationDTO;
+    }
+
 }
-
-
-// @Mapper
-// public interface EncomendaMapper {
-
-//     EncomendaMapper INSTANCE = Mappers.getMapper(EncomendaMapper.class);
-
-//     // Converte de Encomenda para EncomendaDTO
-//     @Mapping(source = "cliente.email", target = "clienteEmail")
-//     @Mapping(source = "localEntrega", target = "localEntrega") // Adicione esta linha
-//     @Mapping(source = "status", target = "status") // Adicione esta linha
-//     EncomendaDTO toDTO(Encomenda encomenda);
-
-//     // Converte de EncomendaDTO para Encomenda
-//     @Mapping(source = "clienteEmail", target = "cliente.email")
-//     @Mapping(source = "localEntrega", target = "localEntrega") // Adicione esta linha
-//     @Mapping(source = "status", target = "status") // Adicione esta linha
-//     Encomenda toEntity(EncomendaDTO encomendaDTO);
-// }

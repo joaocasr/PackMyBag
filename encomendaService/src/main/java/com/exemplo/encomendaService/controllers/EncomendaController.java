@@ -154,6 +154,7 @@ public class EncomendaController {
         }
     }
 
+    // Endpoint para atualizar uma encomenda
     @PutMapping("/update")
     public ResponseEntity<EncomendaDTO> updateEncomenda(@RequestBody EncomendaDTO encomendaDTO) {
 
@@ -166,5 +167,53 @@ public class EncomendaController {
     public ResponseEntity<Void> deleteEncomenda(@PathVariable int id) {
         encomendaService.deleteEncomenda(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT); // Retorna status 204 No Content
+    }
+
+    // Endpoint para contar o número total de encomendas
+    @GetMapping("/count")
+    public ResponseEntity<Long> countEncomendas() {
+        try {
+            long count = encomendaService.countEncomendas();
+            return new ResponseEntity<>(count, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    // Endpoint para contar o número de itens em uma encomenda específica
+    @GetMapping("/count/itens/{id}")
+    public ResponseEntity<Long> countItensInEncomenda(@PathVariable int id) {
+        try {
+            long itemCount = encomendaService.countItensInEncomenda(id);
+            return new ResponseEntity<>(itemCount, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    // Endpoint para contar o número de encomendas de uma loja
+    @GetMapping("/count/loja/{idLoja}")
+    public ResponseEntity<Long> countEncomendasByLoja(@PathVariable int idLoja) {
+        try {
+            long count = encomendaService.countEncomendasByLoja(idLoja);
+            return new ResponseEntity<>(count, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    // Endpoint para contar o número de encomendas de um cliente
+    @GetMapping("/count/cliente/{idCliente}")
+    public ResponseEntity<Long> countEncomendasByCliente(@PathVariable int idCliente) {
+        try {
+            long count = encomendaService.countEncomendasByCliente(idCliente);
+            return new ResponseEntity<>(count, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }

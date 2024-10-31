@@ -23,17 +23,17 @@ public class KafkaProducerConfig {
         Map<String , Object> props = new HashMap<>();
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG , serversBootstrap);
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG , StringSerializer.class);
-        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG , JsonSerializer.class);
+        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG , StringSerializer.class);
         return props;
     }
 
     @Bean
-    public ProducerFactory<String , Object> producerFactory(){
+    public ProducerFactory<String , String> producerFactory(){
         return new DefaultKafkaProducerFactory<>(producerConfig());
     }
 
     @Bean
-    public KafkaTemplate<String , Object> kafkaTemplate(ProducerFactory<String , Object> producerFactory){
+    public KafkaTemplate<String , String> kafkaTemplate(ProducerFactory<String , String> producerFactory){
         return new KafkaTemplate<>(producerFactory);
     }
 }
