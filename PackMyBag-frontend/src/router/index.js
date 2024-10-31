@@ -4,7 +4,7 @@ import CatalogueView from '@/views/CatalogueView.vue'
 import DetailedItemView from '@/views/DetailedItemView.vue'
 import AboutView from '@/views/AboutView.vue'
 import SignUpView from '@/views/SignUpView.vue'
-import SignUpView2 from '@/views/SignUpView2.vue'
+import LoginView from '@/views/LoginView.vue'
 import StylistsView from '@/views/StylistsView.vue'
 import FormsView from '@/views/FormsView.vue'
 import FavouritesView from '@/views/FavouritesView.vue'
@@ -23,14 +23,14 @@ const router = createRouter({
       component: CatalogueView
     },
     {
-      path: '/items/:id',
-      name: 'detaileditem',
-      component: DetailedItemView
-    },
-    {
       path: '/about',
       name: 'about',
       component: AboutView
+    },
+    {
+      path: '/items/:id',
+      name: 'detaileditem',
+      component: DetailedItemView
     },
     {
       path: '/favourites',
@@ -43,9 +43,9 @@ const router = createRouter({
       component: SignUpView
     },
     {
-      path: '/signup/signup2',
-      name: 'signup2',
-      component: SignUpView2
+      path: '/login',
+      name: 'login',
+      component: LoginView
     },
     {
       path: '/stylists',

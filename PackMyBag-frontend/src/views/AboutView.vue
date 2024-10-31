@@ -5,7 +5,7 @@
     		
     		<div class="about-us">About us</div>
     		<div class="traveling-is-an-container">
-      			<p class="traveling-is-an">Traveling is an exciting experience; however, carrying luggage can be one of the most inconvenient aspects,</p>
+      			<p class="traveling-is-an">Traveling is an exciting experience, but carrying luggage can be one of the most inconvenient aspects,</p>
       			<p class="traveling-is-an">mainly due to financial reasons, both for you and the airlines.</p>
       			<p class="traveling-is-an">&nbsp;</p>
       			<p class="traveling-is-an">There are several problems associated with this issue, such as the physical effort of carrying luggage, the</p>
@@ -17,10 +17,10 @@
       			<p class="traveling-is-an">&nbsp;</p>
       			<p class="traveling-is-an">
         				<span>Our mission is to provide more freedom to </span>
-        				<span class="you">you</span>
-        				<span class="the-traveler-offering">, the traveler, offering a light, ecological, convenient and </span>
+        				<span class="you">YOU</span>
+        				<span class="the-traveler-offering">, the traveler, by offering a light, ecological, convenient and </span>
       			</p>
-      			<p class="traveling-is-an">comfortable alternative, and, at the same time, help reduce the environmental impact of the fashion and tourism </p>
+      			<p class="traveling-is-an">comfortable alternative, and, at the same time, by reducing the environmental impact of the fashion and tourism </p>
       			<p class="traveling-is-an">industry.</p>
       			<p class="traveling-is-an">&nbsp;</p>
       			<p class="we-currently-only">We currently only operate in Portugal.</p>

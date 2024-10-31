@@ -27,7 +27,7 @@
 }
 .forms-sign-up1 {
     position: absolute;
-    top: 151px;
+    top: 201px;
     padding-left: 10px;
     left: 630px;
     border-radius: 20px;
@@ -121,17 +121,12 @@
     cursor: pointer;
 }
 .alreadyAccount{
-    margin-top: 130px;
+    margin-top: 430px;
     margin-left: 630px;
     font-size: 15px;
     color: black;
 }
-.alreadyAccount2{
-    margin-top: 470px;
-    margin-left: 630px;
-    font-size: 15px;
-    color: black;
-}
+
 .background-icon {
     position: absolute;
     height: 100%;

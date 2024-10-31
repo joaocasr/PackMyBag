@@ -7,19 +7,19 @@
           					</b>
         				</div>
         				<div class="home-parent">
-          					<div class="home">
-            						<div class="home"><a href="/">Home</a></div>
+          					<div @click="gotoHome()" class="home">
+            						<div class="home">Home</div>
           					</div>
-          					<div class="stylists1">
-            						<div class="stylists1"><a href="/stylists">Stylists</a></div>
+          					<div @click="gotoStylists()" class="stylists1">
+            						<div class="stylists1">Stylists</div>
           					</div>
-          					<div class="catalogue">
-            						<div class="catalogue1"><a href="/catalogue">Catalogue</a></div>
+          					<div @click="gotoCatalogue()" class="catalogue">
+            						<div class="catalogue1">Catalogue</div>
           					</div>
-          					<div class="about">
-            						<div class="about"><a href="/about">About</a></div>
+          					<div @click="gotoAbout()" class="about">
+            						<div class="about">About</div>
           					</div>
-          					<div class="signup">
+          					<div @click="gotoSignUp()" class="signup">
             						<div class="signup"><a href="/signup">Sign Up</a></div>
           					</div>
         				</div>
@@ -36,6 +36,17 @@
             						<img class="cart1-icon" alt="" src="/NavBarIMG/Cart1.svg">
             						
           					</div>
+							<div>
+
+								<select class="selectClass" v-model="selected">
+									<option @click="logout()">Logout</option>
+									<option>My Notifications</option>
+									<option>All My Orders</option>
+									<option>Profile</option>
+								</select>
+							</div>
+							<div v-if="token!=null" class="welcomeclass">Hello, {{username}}!
+							</div>
         				</div>
     		</div>
     		<img class="logo-sideways-icon" alt="" src="/NavBarIMG/logo-sideways.png">
@@ -43,15 +54,49 @@
   	</div>
 </template>
 <script>
+import authService from '@/services/auth-service';
+
 export default {
     data(){
         return {
-            a:1
+            selected:"",
+			username:"",
+			token:null
         }
     },
-	methods:{
+	created(){
+		let token = authService.getToken();
+		console.log(token);
+		if(token!=null){
+			this.token = token;
+			this.username=token.username;
+		}
+	}
+	,methods:{
+		gotoHome(){
+			this.$router.push({ path: '/'})
+		},
+		gotoStylists(){
+			this.$router.push({ path: '/stylists'})
+		},
 		gotoFavourites(){
 			this.$router.push({ path: '/favourites'})
+		},
+		gotoCatalogue(){
+			this.$router.push({ path: '/catalogue'})
+		},
+		gotoAbout(){
+			this.$router.push({path:'/about',name:'about'})
+		},
+		gotoSignUp(){
+			this.$router.push({path:'/signup'})
+		},	
+		logout(){
+			this.$router.dispatch('auth/logout').then(()=>{
+				this.$router.push({path:'/'})
+			},error=>{
+				console.log(error);
+			})
 		}
 	}
 }

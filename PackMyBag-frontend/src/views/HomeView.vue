@@ -92,11 +92,6 @@ export default {
 		FooterComponent,
 		ItemCatalogueView
 	},
-	methods:{
-		goToCatalogue(){
-			this.$router.push({ path: '/catalogue' });
-		}
-	},
 	data(){
 		return {
 			randomItems:[]
@@ -115,6 +110,9 @@ export default {
 			}).catch(error=>{
 				console.log(error);
 			})
+		},
+		goToCatalogue(){
+			this.$router.push({ path: '/catalogue' });
 		}
 	}
 }

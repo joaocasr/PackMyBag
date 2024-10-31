@@ -211,15 +211,6 @@ export default {
 			} //in the future add token -> 'Authorization': 'JWT ...'
 			var d = new Date,
 			dformat = [d.getDate(),d.getMonth()+1,d.getFullYear()].join('-')+' '+[d.getHours(),d.getMinutes()].join(':');
-			/*
-							 :classificacao="review.classificacao"
-				 :descricao="review.descricao"
-				 :nome="review.nome"
-				 :profileImg="review.profileImg"
-				 :timestamp="review.timestamp"></ReviewComponent>	
-
-			
-			*/
 			axios.post('http://localhost:8888/api/catalogoService/items/'+this.idItem+'/addreview',
 				{
 					"username" : this.username,
@@ -238,6 +229,7 @@ export default {
 			});
 				this.reviews.push({classificacao:this.myrate,descricao:this.mydescription,nome:this.nome,profileImg:this.profileImg,timestamp:dformat});
 				this.averageRating = ((this.averageRating * this.nrReviews) + this.myrate) / (this.nrReviews+1);
+				this.nrReviews = this.nrReviews + 1;
 				this.myrate=0;
 				this.mydescription='';
 			}).catch(error=>{

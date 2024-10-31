@@ -1,74 +1,66 @@
 <template>
     <main>
         <NavBarComponent></NavBarComponent>
-        
-            <div class="signuppage">
-                    
-                    <div class="signuppage-child">
-                    </div>
-                    <div class="forms-sign-up">
-                        <!-- 
-                        <div class="name">Name:</div>
-                        <img class="forms-sign-up-child" alt="" src="/SignUpIMG/Line 19.svg">
-                        -->
-                        <input type="text" placeholder="Name" style="border: none; border-bottom: 1px solid #000; outline: none; width: 540px; font-size: 18px;">
-
-                        
-                    </div>
-                    <img class="generic-user-icon-13-262266219" alt="" src="/SignUpIMG/generic-user-icon-13-2622662197-removebg-preview 1.png">
-                    
-                    <div class="import-profile-picture">Import profile picture (optional)</div>
-                    <div class="forms-sign-up1">
-                        <!--
-                        <div class="name">Email:</div>
-                        <img class="forms-sign-up-child" alt="" src="/SignUpIMG/Line 19.svg">
-                        -->
-
-                        <input type="text" placeholder="Email" style="border: none; border-bottom: 1px solid #000; outline: none; width: 540px; font-size: 18px;">
-                        
-                    </div>
-                    <div class="forms-sign-up2">
-                        <!--
-                        <div class="name">Password:</div>
-                        <img class="forms-sign-up-child" alt="" src="/SignUpIMG/Line 19.svg">
-                        -->
-
-                        <input type="text" placeholder="Password" style="border: none; border-bottom: 1px solid #000; outline: none; width: 540px; font-size: 18px;">
-                        
-                    </div>
-                    <div class="phone-number">Phone number:</div>
-                    <div class="your-number-wrapper">
-                        <!-- <div class="your-number">your number</div> -->
-                        <input type="text" placeholder="your number" style="border: none; outline: none; width: 900px; font-size: 18px;">
-                    </div>
-                    <div class="country-code-wrapper">
-                        <!-- <div class="country-code">country code </div> -->
-                        <input type="text" placeholder="country code" style="border: none; outline: none; width: 900px; font-size: 18px;">
-                    </div>
-
-                    <div class="country-code-help">
-                        <a href="https://www.countrycode.org/" target="_blank">Check all countries codes here!</a>
-                    </div>
-
-                    <!-- <img class="vector-icon" alt="" src="/SignUpIMG/Vector.svg" id="vector"> -->
-                    <a href="/signup/signup2">
-                        <img class="vector-icon" alt="" src="/SignUpIMG/Vector.svg" id="vector">
-                    </a>
-                    
-                    <img class="image-35-icon" alt="" src="/SignUpIMG/image 35.png">
-                    
-                    <div class="genderfilter">
-
-                            <div class="text">Gender</div>
-                            <img class="iconcontrolexpand-more" alt="" src="/SignUpIMG/Icon/control/expand_more.svg">
-                                <VueSelect
-                                    v-model="selectedOption"
-                                    :options="typeOptions" placeholder="Gender"
-                                />
-                    </div>
-            </div>
   	
+  	<div class="background-card">
+                    <div class="tabs">
+                        <button v-bind:class="{ active: isActiveTab1 }" class="tab-button" @click="changeTab('tab1')">CLIENTS & STYLISTS</button>
+                        <button v-bind:class="{ active: isActiveTab2 }" class="tab-button" @click="changeTab('tab2')">SHOPS</button>
+                    </div>
+            	<img class="logo-sideways-icon" alt="" src="/SignUpIMG/logo-sideways.png">
+    		<div v-if="isActiveTab1==true">
+      			<input class="forms-sign-up" v-model="user.nome" placeholder="Name" />
 
+      			<input class="forms-sign-up1" v-model="user.username" placeholder="Username">
+    		
+      			<input class="forms-sign-up2" v-model="user.email" placeholder="Email"/>
+    
+      			<input class="forms-sign-up3" v-model="user.password" placeholder="Password" type="password"/>
+    		
+    		<div class="phone-number">Phone number</div>
+                  <input class="your-number-wrapper"
+                    type="text"
+                    inputmode="numeric"
+                    pattern="[0-9\s]{13,19}"
+                    autocomplete="cc-number"
+                    maxlength="19"
+                    placeholder="xxxx xxxx xxxx xxxx"
+                    />
+                <div class="countryclass">
+                    <country-select class="countrySelect" v-model="country" shortCodeDropdown="true" :country="country" topCountry="US" />
+                </div>
+    		<button class="vector-icon"  @click="doSignUp()" alt="" id="vector">SIGN UP</button>
+    		
+            <div class="genderfilter">
+
+            <div class="text">Gender</div>
+                <VueSelect
+                    v-model="selectedOption"
+                    :options="typeOptions" placeholder="Gender"
+                />
+            </div>
+            <div class="alreadyAccount">
+                <p>Already have an account? <a href="/login">Login here.</a></p>
+            </div>
+        </div>
+        <div v-if="isActiveTab2==true">
+      			<input class="forms-sign-up" v-model="user.nome" placeholder="Name" />
+
+      			<input class="forms-sign-up1" v-model="user.username" placeholder="Username">
+    		
+      			<input class="forms-sign-up2" v-model="user.email" placeholder="Email"/>
+    
+      			<input class="forms-sign-up3" v-model="user.password" placeholder="Password" type="password"/>
+    		
+    		<button class="vector-icon"  @click="doSignUp()" alt="" id="vector">SIGN UP</button>
+    		<div class="alreadyAccount2">
+                <p>Already have an account? <a href="/login">Login here.</a></p>
+            </div>
+            
+        </div>
+
+            
+  	</div>
         <FooterComponent></FooterComponent>
     </main>
 </template>
@@ -78,8 +70,8 @@
 import NavBarComponent from '@/components/NavBarComponent.vue';
 import FooterComponent from '@/components/FooterComponent.vue';
 import VueSelect from "vue3-select-component";
-import axios from 'axios';
-
+import User from "@/models/user"
+import Tecnico from '@/models/tecnico';
 export default {
 
     data(){
@@ -89,16 +81,51 @@ export default {
 			typeOptions: [{ label: 'Male', value: 'Male' },{ label: 'Female', value: 'Female' }],
 			items: [],
 			filtered: [],
-			current_page:0
+			current_page:0,
+            country: '',
+            region: '',
+            user: new User('', '', '', ''),
+            tecnico: new Tecnico('', '', '', '',''),
+            isActiveTab1:true,
+            isActiveTab2:false
 		}
 	},
-
-
-components:{
-    NavBarComponent,
-    FooterComponent,
-    VueSelect
-}
+    components:{
+        NavBarComponent,
+        FooterComponent,
+        VueSelect
+    },
+    methods:{
+        doSignUp(){
+            console.log("entrou")
+            if(this.isActiveTab1==true){
+                this.$store.dispatch('auth/signUpUser', this.user).then(resp => {
+                    console.log(this.user);
+                    console.log(resp);
+                    this.$swal({
+                        icon: "success",
+                        title: "Success!",
+                        text: "Your account was successfully created."});
+                },error => {
+                    this.$swal({
+                    icon: "error",
+                    title: "Error!",
+                    text: "That username already exists."});
+                }
+            );
+            }
+        },
+        changeTab(tab){
+            if(tab==="tab1"){
+                this.isActiveTab1=true;
+                this.isActiveTab2=false;
+            }
+            if(tab==="tab2"){
+                this.isActiveTab1=false;
+                this.isActiveTab2=true;
+            }
+        }
+    }
 }
 
 </script>

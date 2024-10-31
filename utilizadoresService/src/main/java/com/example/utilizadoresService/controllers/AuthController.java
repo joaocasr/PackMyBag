@@ -1,10 +1,8 @@
 package com.example.utilizadoresService.controllers;
 
+import com.example.utilizadoresService.Exceptions.InvalidJwtException;
 import com.example.utilizadoresService.config.auth.TokenProvider;
-import com.example.utilizadoresService.dtos.JwtDto;
-import com.example.utilizadoresService.dtos.SignInDto;
-import com.example.utilizadoresService.dtos.SignUpTecnicoDto;
-import com.example.utilizadoresService.dtos.SignUpUserDto;
+import com.example.utilizadoresService.dtos.*;
 import com.example.utilizadoresService.model.Cliente;
 import com.example.utilizadoresService.services.AuthService;
 import jakarta.validation.Valid;
@@ -38,13 +36,21 @@ public class AuthController {
 
     @PostMapping("/signup/tecnico")
     public ResponseEntity<?> signUpTecnico(@RequestBody @Valid SignUpTecnicoDto data) {
-        service.signUpTecnico(data);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        try{
+            service.signUpTecnico(data);
+            return ResponseEntity.status(200).body("Conta criada com sucesso!");
+        }catch (InvalidJwtException i){
+            return new ResponseEntity<>(new ErrorResponse(HttpStatus.CONFLICT,i.getMessage()),HttpStatus.CONFLICT);
+        }
     }
     @PostMapping("/signup/user")
     public ResponseEntity<?> signUpUser(@RequestBody @Valid SignUpUserDto data) {
-        UserDetails c = service.signUpUser(data);
-        return ResponseEntity.status(HttpStatus.CREATED).body(c);
+        try{
+            UserDetails c = service.signUpUser(data);
+            return ResponseEntity.status(200).body(c);
+        }catch (InvalidJwtException i){
+            return new ResponseEntity<>(new ErrorResponse(HttpStatus.CONFLICT,i.getMessage()),HttpStatus.CONFLICT);
+        }
     }
 
     @PostMapping("/signin")

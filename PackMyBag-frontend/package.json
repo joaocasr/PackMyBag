@@ -12,10 +12,12 @@
     "@primevue/themes": "^4.1.1",
     "@vueform/slider": "^2.1.10",
     "axios": "^1.7.7",
+    "jwt-decode": "^4.0.0",
     "primevue": "^4.1.1",
     "vue": "^3.5.12",
     "vue-router": "^4.4.5",
-    "vue-sweetalert2": "^5.0.11"
+    "vue-sweetalert2": "^5.0.11",
+    "vue3-country-region-select": "^1.0.0"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.1.4",

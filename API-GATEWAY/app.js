@@ -8,10 +8,13 @@ var catalogoRouter = require('./routes/catalogoRouter');
 var cartRouter = require('./routes/cartRouter');
 var favoritosRouter = require('./routes/favoritosRouter');
 var notificacoesRouter = require('./routes/notificacoesRouter');
+var utilizadoresRouter = require('./routes/utilizadoresRouter')
+
 const { APIcatalogo } = require('./public/javascripts/entrypoints')
 const { APIfavoritos } = require('./public/javascripts/entrypoints')
 const { APINotificacoes } = require('./public/javascripts/entrypoints')
 const { APIcart } = require('./public/javascripts/entrypoints')
+const { APIUtilizadores } = require('./public/javascripts/entrypoints')
 
 var app = express();
 
@@ -25,6 +28,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(APIcatalogo, catalogoRouter);
 app.use(APIfavoritos, favoritosRouter);
 app.use(APIcart, cartRouter);
+app.use(APIUtilizadores, utilizadoresRouter);
 app.use(APINotificacoes, notificacoesRouter);
 
 // catch 404 and forward to error handler

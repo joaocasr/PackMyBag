@@ -1,4 +1,21 @@
 
+.selectClass{
+    background-color: #f7f7f7;
+    border: 0;
+    width: 32px;
+    height: 32px;
+    background-size: 32px;
+    margin-left: 14px;
+    background-image: url('/NavBarIMG/user-icon.png');
+    margin-bottom: 2px;
+}
+select {
+    outline: none; 
+    text-indent: 100px;
+    text-overflow: '';
+    cursor: pointer;
+}
+
 body {
     margin: 0;
     line-height: normal;
@@ -394,7 +411,13 @@ body {
     color: #000;
     font-family: Abel;
 }
-
+.welcomeclass{
+    color:black;
+    width: 150px;
+    height: 50px;
+    margin-top:30px;
+    font-size: 15px;
+}
 .home a {
     text-decoration: none;
     color: inherit;
