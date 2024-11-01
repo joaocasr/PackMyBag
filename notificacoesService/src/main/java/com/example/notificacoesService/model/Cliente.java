@@ -106,12 +106,21 @@ public class Cliente implements Observer, Serializable {
 
 	@Override
 	public void update(Object o) {
-		Item i = (Item) o;
-		String msg = "O item de codigo "+i.getCodigo()+" da loja "+i.getLoja().getNome()+" está "+i.getDisponibilidade();
-		String tipo = "Disponibilidade de Itens";
-		Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		String s = formatter.format(new java.util.Date());
-		Notificacao n = new Notificacao(this,tipo,msg,s);
-		this.notificacoes.add(n);
+
+		if (o instanceof Item) {
+			Item i = (Item) o;
+			String msg = "O item de codigo "+i.getCodigo()+" da loja "+i.getLoja().getNome()+" está "+i.getDisponibilidade();
+			String tipo = "Disponibilidade de Itens";
+			Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			String s = formatter.format(new java.util.Date());
+			Notificacao n = new Notificacao(this,tipo,msg,s);
+			this.notificacoes.add(n);
+
+		}else if (o instanceof Encomenda) {
+			
+	        Encomenda encomenda = (Encomenda) o;
+	        // Lógica para enviar a notificação ao cliente
+	        System.out.println("Notificando o cliente " + nome + " sobre a encomenda " + encomenda.getIDEncomenda() + " alteração do status para " + encomenda.getStatus());
+	    }
 	}
 }

@@ -16,6 +16,8 @@ package com.example.notificacoesService.model;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.List;
+import java.util.ArrayList;
 
 import jakarta.persistence.*;
 @Entity
@@ -50,6 +52,9 @@ public class Item implements Subject, Serializable {
 	@JoinColumns({ @JoinColumn(name="ItemIDItem", nullable=false) })	
 	@org.hibernate.annotations.LazyCollection(org.hibernate.annotations.LazyCollectionOption.TRUE)	
 	private java.util.Set<Cliente> interessados = new java.util.HashSet<>();
+
+	@Transient
+	private List<Observer> observers = new ArrayList<>();
 
 	public Item(String codigo, String designacao, String disponibilidade, Loja loja) {
 		this.codigo = codigo;
@@ -118,19 +123,18 @@ public class Item implements Subject, Serializable {
 
 	@Override
 	public void registerObserver(Observer o) {
-		this.interessados.add((Cliente)o);
+		observers.add(o);
 	}
 
 	@Override
 	public void removeObserver(Observer o) {
-		Cliente c = (Cliente)o;
-		this.interessados.removeIf(x->x.getUsername().equals(c.getUsername()));
+		observers.remove(o);
 	}
 
 	@Override
 	public void notifyObservers() {
-		for(Cliente c : this.interessados){
-			c.update(this);
+		for (Observer observer : observers) {
+			observer.update(this);
 		}
 	}
 }

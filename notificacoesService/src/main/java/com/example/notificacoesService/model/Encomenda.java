@@ -15,6 +15,9 @@ package com.example.notificacoesService.model;
 
 import java.io.Serializable;
 import jakarta.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @org.hibernate.annotations.Proxy(lazy=false)
 @Table(name="Encomenda")
@@ -38,6 +41,9 @@ public class Encomenda implements Subject, Serializable {
 	
 	@Column(name="Status", nullable=true, length=255)	
 	private String status;
+
+	@Transient
+	private List<Observer> observers = new ArrayList<>();
 	
 	private void setIDEncomenda(int value) {
 		this.IDEncomenda = value;
@@ -59,8 +65,8 @@ public class Encomenda implements Subject, Serializable {
 		return codigoEncomenda;
 	}
 	
-	public void setStatus(String value) {
-		this.status = value;
+	public void setStatus(String status) {
+		this.status = status;
 	}
 	
 	public String getStatus() {
@@ -81,16 +87,18 @@ public class Encomenda implements Subject, Serializable {
 
 	@Override
 	public void registerObserver(Observer o) {
-
+		observers.add(o);
 	}
 
 	@Override
 	public void removeObserver(Observer o) {
-
+		observers.remove(o);
 	}
 
 	@Override
 	public void notifyObservers() {
-
+		for (Observer observer : observers) {
+			observer.update(this);
+		}
 	}
 }
