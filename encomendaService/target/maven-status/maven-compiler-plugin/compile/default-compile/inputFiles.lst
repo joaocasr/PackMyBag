@@ -3,7 +3,8 @@
 /Users/jfl/Desktop/PackMyBag/encomendaService/src/main/java/com/exemplo/encomendaService/controllers/EncomendaController.java
 /Users/jfl/Desktop/PackMyBag/encomendaService/src/main/java/com/exemplo/encomendaService/dto/ClienteDTO.java
 /Users/jfl/Desktop/PackMyBag/encomendaService/src/main/java/com/exemplo/encomendaService/dto/EncomendaDTO.java
-/Users/jfl/Desktop/PackMyBag/encomendaService/src/main/java/com/exemplo/encomendaService/dto/EncomendaNotificationDTO.java
+/Users/jfl/Desktop/PackMyBag/encomendaService/src/main/java/com/exemplo/encomendaService/dto/EncomendaDateReturnDTO.java
+/Users/jfl/Desktop/PackMyBag/encomendaService/src/main/java/com/exemplo/encomendaService/dto/EncomendaStatusDTO.java
 /Users/jfl/Desktop/PackMyBag/encomendaService/src/main/java/com/exemplo/encomendaService/dto/ItemDTO.java
 /Users/jfl/Desktop/PackMyBag/encomendaService/src/main/java/com/exemplo/encomendaService/dto/LojaDTO.java
 /Users/jfl/Desktop/PackMyBag/encomendaService/src/main/java/com/exemplo/encomendaService/mapper/ClienteMapper.java

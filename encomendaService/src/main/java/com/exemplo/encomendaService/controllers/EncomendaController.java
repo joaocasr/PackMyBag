@@ -1,6 +1,7 @@
 package com.exemplo.encomendaService.controllers;
 
 import com.exemplo.encomendaService.dto.EncomendaDTO;
+import com.exemplo.encomendaService.dto.EncomendaStatusDTO;
 import com.exemplo.encomendaService.dto.LojaDTO;
 import com.exemplo.encomendaService.dto.ClienteDTO;
 import com.exemplo.encomendaService.dto.ItemDTO;
@@ -216,4 +217,19 @@ public class EncomendaController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @PutMapping("/status/{idEncomenda}/{novoStatus}")
+    public ResponseEntity<?> updateEncomendaStatus(
+            @PathVariable int idEncomenda,
+            @PathVariable String novoStatus) {
+        try {
+            EncomendaStatusDTO updatedStatus = encomendaService.updateEncomendaStatus(idEncomenda, novoStatus);
+            return new ResponseEntity<>(updatedStatus, HttpStatus.OK);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>("Erro: " + e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>("Erro: " + e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+
 }

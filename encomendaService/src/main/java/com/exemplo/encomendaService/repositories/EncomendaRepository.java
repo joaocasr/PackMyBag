@@ -3,12 +3,16 @@ package com.exemplo.encomendaService.repositories;
 import com.exemplo.encomendaService.model.Encomenda;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.transaction.annotation.Transactional;
+
 
 @Repository
 public interface EncomendaRepository extends JpaRepository<Encomenda, Integer> {
@@ -42,6 +46,11 @@ public interface EncomendaRepository extends JpaRepository<Encomenda, Integer> {
 
     @Query("SELECT e FROM Encomenda e JOIN e.cliente c WHERE c.IDCliente = :clienteId")
     List<Encomenda> findEncomendasByClienteId(@Param("clienteId") int clienteId);
+
+    @Transactional
+    @Modifying
+    @Query("UPDATE Encomenda e SET e.status = :novoStatus WHERE e.id = :idEncomenda")
+    int updateStatusById(@Param("idEncomenda") int idEncomenda, @Param("novoStatus") String novoStatus);
 }
 
     //Metodo personalizado para encotnrar encontrar todas as encomendas

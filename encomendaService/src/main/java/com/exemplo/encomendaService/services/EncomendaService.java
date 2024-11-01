@@ -22,13 +22,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import org.springframework.kafka.core.KafkaTemplate;
-import com.exemplo.encomendaService.dto.EncomendaNotificationDTO;
+import com.exemplo.encomendaService.dto.EncomendaDateReturnDTO;
+import com.exemplo.encomendaService.dto.EncomendaStatusDTO;
 import org.springframework.scheduling.annotation.Scheduled;
 
+import org.springframework.transaction.annotation.Transactional;
+
+
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
@@ -217,6 +223,31 @@ public class EncomendaService {
 
         Encomenda updatedEncomenda = encomendaRepository.save(existingEncomenda);
 
+        // Verificar se o status foi atualizado
+        if (!existingEncomenda.getStatus().equals(updatedEncomenda.getStatus())) {
+            // Notificar via Kafka
+            EncomendaStatusDTO statusDTO = EncomendaMapper.toEncomendaStatusDTO(updatedEncomenda);
+            kafkaProducerService.sendMessage(statusDTO, "EncomendaStatus");
+        }
+
+        // Verificar se a dataDevolucao foi atualizada
+        if (!existingEncomenda.getDataDevolucao().equals(updatedEncomenda.getDataDevolucao())) {
+            LocalTime horaAtual = LocalTime.now();
+            LocalTime horaLimite = LocalTime.of(9, 0);
+
+            // Verificar se está a menos de três dias de ser devolvida a encomenda
+            LocalDate dataDevolucao = LocalDate.parse(updatedEncomenda.getDataDevolucao(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            LocalDate hoje = LocalDate.now();
+
+            long diasRestantes = ChronoUnit.DAYS.between(hoje, dataDevolucao);
+
+            if (horaAtual.isAfter(horaLimite) && diasRestantes <= 3) {
+                // Notificar via Kafka
+                EncomendaDateReturnDTO devolucaoDTO = EncomendaMapper.toEncomendaDateReturnDTO(updatedEncomenda,diasRestantes);
+                kafkaProducerService.sendMessage(devolucaoDTO, "EncomendaDateReturn");
+                }
+            }
+
         return EncomendaMapper.toDTO(updatedEncomenda);
     }
 
@@ -269,10 +300,32 @@ public class EncomendaService {
                     // Calcula o tempo restante para a devolução
                     long tempoRestante = ChronoUnit.DAYS.between(hoje, dataDevolucao);
                     // Envia mensagem para o Kafka
-                    kafkaProducerService.sendMessage(EncomendaMapper.toEncomendaNotifcationDTO(encomenda, tempoRestante));
+                    kafkaProducerService.sendMessage(EncomendaMapper.toEncomendaDateReturnDTO(encomenda, tempoRestante),"EncomendaDateReturn");
                 }
             }
         }
+    }
+
+    @Transactional
+    public EncomendaStatusDTO updateEncomendaStatus(int idEncomenda, String novoStatus) {
+        Encomenda encomenda = encomendaRepository.findById(idEncomenda)
+            .orElseThrow(() -> new RuntimeException("Encomenda não encontrada"));
+    
+        List<String> statusValidos = Arrays.asList("Pago", "Em processamento", "Enviado", "Entregue", "Devolvido");
+        if (!statusValidos.contains(novoStatus)) {
+            throw new IllegalArgumentException("Status inválido");
+        }
+    
+        if (!encomenda.getStatus().equals(novoStatus)) {
+            encomenda.setStatus("Pago");
+            encomendaRepository.updateStatusById(idEncomenda, novoStatus);
+            encomendaRepository.save(encomenda);
+
+            // Enviar mensagem pelo Kafka
+            //kafkaProducerService.sendMessage(EncomendaMapper.toEncomendaStatusDTO(encomenda), "EncomendaStatus");
+        }   
+    
+        return EncomendaMapper.toEncomendaStatusDTO(encomenda);
     }
     
 }

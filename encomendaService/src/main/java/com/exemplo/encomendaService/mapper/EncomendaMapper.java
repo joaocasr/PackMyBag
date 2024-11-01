@@ -5,7 +5,8 @@ import org.springframework.stereotype.Component;
 import com.exemplo.encomendaService.dto.EncomendaDTO;
 import com.exemplo.encomendaService.model.Cliente;
 import com.exemplo.encomendaService.model.Encomenda;
-import com.exemplo.encomendaService.dto.EncomendaNotificationDTO;
+import com.exemplo.encomendaService.dto.EncomendaDateReturnDTO;
+import com.exemplo.encomendaService.dto.EncomendaStatusDTO;
 
 import java.util.stream.Collectors;
 
@@ -51,8 +52,8 @@ public class EncomendaMapper {
     }
 
     // Converte de Encomenda para EncomendaNotificationDTO
-    public static EncomendaNotificationDTO toEncomendaNotifcationDTO(Encomenda encomenda, long tempoRestante) {
-        EncomendaNotificationDTO notificationDTO = new EncomendaNotificationDTO();
+    public static EncomendaDateReturnDTO toEncomendaDateReturnDTO(Encomenda encomenda, long tempoRestante) {
+        EncomendaDateReturnDTO notificationDTO = new EncomendaDateReturnDTO();
         notificationDTO.setIdEncomenda(encomenda.getIDEncomenda());
         notificationDTO.setCodigoEncomenda(encomenda.getCodigoEncomenda());
         notificationDTO.setDataEntrega(encomenda.getDataEntrega());
@@ -61,6 +62,15 @@ public class EncomendaMapper {
         notificationDTO.setClienteId(encomenda.getCliente().getIDCliente());
         notificationDTO.setTempoRestante(tempoRestante);
         return notificationDTO;
+    }
+
+        // Converte de Encomenda para EncomendaStatusDTO
+    public static EncomendaStatusDTO toEncomendaStatusDTO(Encomenda encomenda) {
+        EncomendaStatusDTO statusDTO = new EncomendaStatusDTO();
+        statusDTO.setIdEncomenda(encomenda.getIDEncomenda());
+        statusDTO.setCodigoEncomenda(encomenda.getCodigoEncomenda());
+        statusDTO.setStatus(encomenda.getStatus());
+        return statusDTO;
     }
 
 }
