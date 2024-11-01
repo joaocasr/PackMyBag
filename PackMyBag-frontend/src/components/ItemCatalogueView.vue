@@ -36,7 +36,7 @@ export default {
 	computed:{
 		getColors(){
 			let cores = this.cor.split("/");
-			console.log(cores)
+			//console.log(cores)
 			let colors= cores.map((x) => colorMap[x.toLowerCase()]);
 
 			return colors;

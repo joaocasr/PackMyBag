@@ -54,13 +54,11 @@ router.get("/items/:id/reviews", function(req, res, next) {
 /*Adicionar Review*/
 router.post("/items/:id/addreview", function(req, res, next) {
   const username = req.body.username;
-  const nome = req.body.name;
   const profileImg = req.body.profileImg;
   const texto = req.body.texto;
   const timestamp = req.body.timestamp;
   const rating = req.body.rating;
-  catalogoService.adicionaReview(req.params.id,username,
-    nome,profileImg,texto,timestamp,rating
+  catalogoService.adicionaReview(req.params.id,username,profileImg,texto,timestamp,rating
   ).then(items => {
       res.jsonp(items);
   }).catch(err => {

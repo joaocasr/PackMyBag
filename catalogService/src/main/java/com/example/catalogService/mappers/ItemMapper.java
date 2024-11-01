@@ -37,7 +37,7 @@ public class ItemMapper {
     }
 
     public ReviewDTO toReviewDTO(Review review){
-        return new ReviewDTO(review.getClassificacao(),review.getAutor().getNome(), review.getDescricao(), review.getAutor().getProfileImg(),review.getData());
+        return new ReviewDTO(review.getClassificacao(),review.getAutor().getUsername(), review.getDescricao(), review.getAutor().getProfileImg(),review.getData());
     }
 
 }

@@ -63,3 +63,37 @@
 .p-rating-icon {
     color: var(--p-rating-icon-inactive-color) !important;
 }
+
+.dropdown-settings-content {
+    position: relative;
+    top: 45px;
+    margin-left: 440px;
+    background-color: #ffffff;
+    width: 120px;
+    overflow: auto;
+    font-size: 14px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+.dropdown-settings-content #row-option {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+#row-option:hover{
+	background-color:rgb(139, 139, 139);
+    cursor: pointer;
+}
+.reviewer-options {
+    position: absolute;
+    margin-bottom: 45px;
+    margin-left: 520px;
+    font-weight: 600;
+    display: inline-block;
+    width: 196.4px;
+    height: 21.9px;
+    font-size: 33px;
+    cursor: pointer;
+    z-index: 10;
+}

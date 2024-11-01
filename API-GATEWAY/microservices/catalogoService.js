@@ -65,12 +65,11 @@ module.exports.getReviews = (id,page,number) => {
     });
 }
 
-module.exports.adicionaReview = (id,username,nome,profileImg,texto,timestamp,rating) => {
+module.exports.adicionaReview = (id,username,profileImg,texto,timestamp,rating) => {
     
     return axios.post(`${ap}/items/${id}/addreview`,
         {
             "username":username,
-            "name":nome,
             "profileImg":profileImg,
             "texto":texto,
             "timestamp":timestamp,

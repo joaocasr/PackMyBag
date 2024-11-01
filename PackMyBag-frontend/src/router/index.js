@@ -35,7 +35,10 @@ const router = createRouter({
     {
       path: '/favourites',
       name: 'favourites',
-      component: FavouritesView
+      component: FavouritesView,
+      meta: {
+        requiresAuth: true,
+      },
     },
     {
       path: '/signup',
@@ -59,5 +62,18 @@ const router = createRouter({
     }
   ]
 })
-
+/* codigo para proteger rotas depois colocar
+import authService from '@/services/auth-service'
+router.beforeEach((to, from, next) => {
+  if (to.meta.requiresAuth==true) {
+    if(authService.getToken()==null){
+      next("login");
+    }
+    if(authService.getToken()!=null){
+      next();
+    }
+  }else{
+    next();
+  }
+});*/
 export default router

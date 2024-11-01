@@ -2,14 +2,14 @@ package com.example.catalogService.dto;
 
 public class ReviewDTO {
     private int classificacao;
-    private String nome;
+    private String username;
     private String descricao;
     private String profileImg;
     private String timestamp;
 
-    public ReviewDTO(int classificacao, String nome, String descricao, String profileImg, String timestamp) {
+    public ReviewDTO(int classificacao, String username, String descricao, String profileImg, String timestamp) {
         this.classificacao = classificacao;
-        this.nome = nome;
+        this.username = username;
         this.descricao = descricao;
         this.profileImg = profileImg;
         this.timestamp = timestamp;
@@ -23,12 +23,12 @@ public class ReviewDTO {
         this.classificacao = classificacao;
     }
 
-    public String getNome() {
-        return nome;
+    public String getusername() {
+        return username;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setusername(String username) {
+        this.username = username;
     }
 
     public String getDescricao() {

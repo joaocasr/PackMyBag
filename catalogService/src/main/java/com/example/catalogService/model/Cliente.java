@@ -27,18 +27,14 @@ public class Cliente implements Serializable {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator="CATALOGOSERVICE_CLIENTE_IDCLIENTE_GENERATOR")
 	@SequenceGenerator(name="CATALOGOSERVICE_CLIENTE_IDCLIENTE_GENERATOR",sequenceName = "CATALOGOSERVICE_CLIENTE_IDCLIENTE_SEQ")
 	private int IDCliente;
-	
-	@Column(name="Nome", nullable=true, length=255)	
-	private String nome;
-	
+
 	@Column(name="Username", nullable=true, length=255)	
 	private String username;
 
 	@Column(name="ProfileImg", nullable=true, length=255)	
 	private String profileImg;
 
-	public Cliente(String nome, String username, String profileImg) {
-		this.nome = nome;
+	public Cliente(String username, String profileImg) {
 		this.username = username;
 		this.profileImg = profileImg;
 	}
@@ -53,14 +49,6 @@ public class Cliente implements Serializable {
 	
 	public int getORMID() {
 		return getIDCliente();
-	}
-	
-	public void setNome(String value) {
-		this.nome = value;
-	}
-	
-	public String getNome() {
-		return nome;
 	}
 	
 	public void setUsername(String value) {

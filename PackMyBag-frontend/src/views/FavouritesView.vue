@@ -76,6 +76,7 @@ import FooterComponent from '@/components/FooterComponent.vue';
 import Slider from '@vueform/slider';
 import VueSelect from "vue3-select-component";
 import FavouriteComponent from '@/components/FavouriteComponent.vue';
+import authService from '@/services/auth-service';
 import axios from 'axios';
 
 export default {
@@ -90,7 +91,7 @@ export default {
 		return {
 			value: [0,1000],
 			current_page:0,
-			username:'alpacino',
+			username:'',
 			favourites:[],
 			selectedGenderOption:'',
 			selectedSizeOption:'',
@@ -101,6 +102,12 @@ export default {
 		}
 	},
 	created(){
+		let token = authService.getToken();
+		console.log(token);
+		if(token!=null){
+			this.token = token;
+			this.username=token.username;
+		}
 		this.getFavourites();
 	},
 	methods:{

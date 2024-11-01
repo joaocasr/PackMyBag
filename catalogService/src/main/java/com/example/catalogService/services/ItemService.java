@@ -179,7 +179,7 @@ public class ItemService {
             Item item = i.get();
             Cliente c = clientRepository.getClienteByUsername(insertReviewDTO.getUsername());
             if (c == null) {
-                c = new Cliente(insertReviewDTO.getName(), insertReviewDTO.getUsername(), insertReviewDTO.getProfileImg());
+                c = new Cliente(insertReviewDTO.getUsername(), insertReviewDTO.getProfileImg());
                 clientRepository.save(c);
             }
             Review r = new Review(c, insertReviewDTO.getRating(), insertReviewDTO.getTimestamp(), insertReviewDTO.getTexto());

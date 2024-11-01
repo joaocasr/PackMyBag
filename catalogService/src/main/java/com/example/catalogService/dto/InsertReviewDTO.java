@@ -2,7 +2,6 @@ package com.example.catalogService.dto;
 
 public class InsertReviewDTO {
     private String username;
-    private String name;
     private String profileImg;
     private String texto;
     private String timestamp;
@@ -11,9 +10,8 @@ public class InsertReviewDTO {
     public InsertReviewDTO() {
     }
 
-    public InsertReviewDTO(String username, String name, String profileImg, String texto, String timestamp, int rating) {
+    public InsertReviewDTO(String username, String profileImg, String texto, String timestamp, int rating) {
         this.username = username;
-        this.name = name;
         this.profileImg = profileImg;
         this.texto = texto;
         this.timestamp = timestamp;
@@ -26,14 +24,6 @@ public class InsertReviewDTO {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getTexto() {

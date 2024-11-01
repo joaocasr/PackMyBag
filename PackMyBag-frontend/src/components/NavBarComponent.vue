@@ -39,7 +39,8 @@
 							<div>
 
 								<select class="selectClass" v-model="selected">
-									<option @click="logout()">Logout</option>
+									<option v-if="token!=null" @click="logout()">Logout</option>
+									<option v-if="token==null" @click="gotoLogin()">Login</option>
 									<option>My Notifications</option>
 									<option>All My Orders</option>
 									<option>Profile</option>
@@ -90,9 +91,13 @@ export default {
 		},
 		gotoSignUp(){
 			this.$router.push({path:'/signup'})
+		},
+		gotoLogin(){
+			this.$router.push({path:'/login'})
 		},	
 		logout(){
-			this.$router.dispatch('auth/logout').then(()=>{
+			this.$store.dispatch('auth/logout').then(()=>{
+				this.token=null;
 				this.$router.push({path:'/'})
 			},error=>{
 				console.log(error);

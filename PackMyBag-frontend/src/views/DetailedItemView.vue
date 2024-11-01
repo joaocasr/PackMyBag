@@ -58,10 +58,12 @@
     		</div>
 			<div class="reviewsection" v-for="review in reviews">
 				<ReviewComponent 
+				 :currentUser="username"
 				 :classificacao="review.classificacao"
 				 :descricao="review.descricao"
-				 :nome="review.nome"
+				 :username="review.username"
 				 :profileImg="review.profileImg"
+				 :idItem="idItem"
 				 :timestamp="review.timestamp"></ReviewComponent>	
 				 
 			</div>
@@ -81,7 +83,7 @@
     		<div class="myreview">
 				<div class="star">
 				</div>
-				<div class="gabriel-r">{{ nome }}</div>
+				<div class="gabriel-r">{{ username }}</div>
 				<img class="generic-user-icon-13-262266219" alt="" src="/DetailedItemIMG/generic-user-icon-13-2622662197-removebg-preview 1.png">
 
 				<div class="star-parent">
@@ -114,8 +116,10 @@ import FooterComponent from '@/components/FooterComponent.vue';
 import ReviewComponent from '@/components/ReviewComponent.vue';
 import ItemRelacionadoView from '@/components/ItemRelacionadoView.vue';
 import Rating from 'primevue/rating';
-
+import authHeader from '@/services/auth-header';
+import authService from '@/services/auth-service';
 import axios from 'axios';
+
 export default {
 	components: {
 		NavBarComponent,
@@ -129,6 +133,12 @@ export default {
 		this.idItem = itemid;
 		this.getItemInfo(itemid);
 		this.getReviews(itemid);
+		let token = authService.getToken();
+		console.log(token);
+		if(token!=null){
+			this.token = token;
+			this.username=token.username;
+		}
 	},
 	data(){
 		return{
@@ -141,8 +151,8 @@ export default {
 			tamanho:String,
 			availabilityColor:"#ffff",
 			colors:[],
-			username:"alpacino",
-			nome:"Al Pacino",
+			username:"     ",
+			token:null,
 			profileImg: "xxx",
 			current_page:0,
 			reviews:[],
@@ -194,7 +204,6 @@ export default {
 			axios.get('http://localhost:8888/api/catalogoService/items/'+id+'/reviews?page='+this.current_page+"&number=2")
 			.then(resp=>{	
 				if(resp.data.length==0) {
-					this.current_page -=1;
 					this.showNext=false;
 					return;
 				}
@@ -206,37 +215,40 @@ export default {
 		},
 		publishReview(){
 			if(this.myrate==0) return;
-			const headers = {
-				'Content-Type': 'application/json',
-			} //in the future add token -> 'Authorization': 'JWT ...'
+			const header = authHeader();
+			let config = {headers:header}
+			header['Content-Type'] = 'application/json';
+
 			var d = new Date,
 			dformat = [d.getDate(),d.getMonth()+1,d.getFullYear()].join('-')+' '+[d.getHours(),d.getMinutes()].join(':');
 			axios.post('http://localhost:8888/api/catalogoService/items/'+this.idItem+'/addreview',
 				{
 					"username" : this.username,
-					"name" : this.nome,
 					"profileImg" : this.profileImg,
 					"texto" : this.mydescription,
 					"timestamp" : dformat,
 					"rating" : this.myrate
 				},
-				{headers}
+				config
 			).then(resp=>{
 				this.$swal({
 				icon: "success",
 				title: "Success!",
 				text: resp.data
 			});
-				this.reviews.push({classificacao:this.myrate,descricao:this.mydescription,nome:this.nome,profileImg:this.profileImg,timestamp:dformat});
+				this.reviews = this.reviews.filter((r) => r.username !== this.username);
+				this.reviews.push({classificacao:this.myrate,descricao:this.mydescription,username:this.username,profileImg:this.profileImg,timestamp:dformat});
 				this.averageRating = ((this.averageRating * this.nrReviews) + this.myrate) / (this.nrReviews+1);
 				this.nrReviews = this.nrReviews + 1;
 				this.myrate=0;
 				this.mydescription='';
 			}).catch(error=>{
+				this.myrate=0;
+				this.mydescription='';
 				this.$swal({
 				icon: "error",
-				title: "Oops...",
-				text: error.data
+				title: "Erro!",
+				text: "Check if you are authenticated and try again."
 				});
 			})
 			
