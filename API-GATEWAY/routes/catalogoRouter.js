@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const catalogoService = require('../microservices/catalogoService')
+const validate = require('../middleware/index')
 
 /*Get Items By Page*/
 router.get("/", function(req, res, next) {
@@ -52,7 +53,7 @@ router.get("/items/:id/reviews", function(req, res, next) {
 });  
 
 /*Adicionar Review*/
-router.post("/items/:id/addreview", function(req, res, next) {
+router.post("/items/:id/addreview",validate.authenticateToken, function(req, res, next) {
   const username = req.body.username;
   const profileImg = req.body.profileImg;
   const texto = req.body.texto;
@@ -62,7 +63,7 @@ router.post("/items/:id/addreview", function(req, res, next) {
   ).then(items => {
       res.jsonp(items);
   }).catch(err => {
-    res.status(err.error.status).jsonp(err);
+    res.status(403).jsonp(err);
   });
 });  
 
@@ -73,7 +74,7 @@ router.delete("/items/:id/delreview/:username",function(req,res,next){
   catalogoService.removeReview(id,username).then(resp=>{
     res.jsonp(resp);
   }).catch(err=>{
-    res.status(err.error.status).jsonp(err);
+    res.status(403).jsonp(err);
   })
 });
 

@@ -5,7 +5,6 @@ import com.example.notificacoesService.dto.ItemUpdate;
 import com.example.notificacoesService.model.*;
 import com.example.notificacoesService.repositories.ClienteRepository;
 import com.example.notificacoesService.repositories.ItemRepository;
-import com.example.notificacoesService.repositories.LojaRepository;
 import com.example.notificacoesService.repositories.NotificacaoRepository;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
@@ -18,14 +17,12 @@ import java.util.List;
 public class NotificationsService {
     private ClienteRepository clienteRepository;
     private ItemRepository itemRepository;
-    private LojaRepository lojaRepository;
     private NotificacaoRepository notificacaoRepository;
     private RestTemplate restTemplate;
 
-    public NotificationsService(ClienteRepository clienteRepository,ItemRepository itemRepository,LojaRepository lojaRepository,NotificacaoRepository notificacaoRepository,RestTemplate restTemplate){
+    public NotificationsService(ClienteRepository clienteRepository,ItemRepository itemRepository,NotificacaoRepository notificacaoRepository,RestTemplate restTemplate){
         this.clienteRepository = clienteRepository;
         this.itemRepository = itemRepository;
-        this.lojaRepository = lojaRepository;
         this.notificacaoRepository = notificacaoRepository;
         this.restTemplate = restTemplate;
     }
@@ -34,15 +31,11 @@ public class NotificationsService {
     public void addInterested(ClientItemDTO clientItemDTO){
         Cliente c = clienteRepository.getClienteByUsername(clientItemDTO.getUsername());
         if(c==null) c = new Cliente(clientItemDTO.getNomeuser(),clientItemDTO.getEmail(),clientItemDTO.getUsername());
-        Loja l = lojaRepository.findById(clientItemDTO.getIDLoja()).orElse(null);
-        if(l==null){
-            l = new Loja(clientItemDTO.getNome(),clientItemDTO.getIDLoja());
-            lojaRepository.save(l);
-        }
+
 
         Item i = itemRepository.getItemShop(clientItemDTO.getIDLoja(),clientItemDTO.getCodigo());
-        if(i==null) i = new Item(clientItemDTO.getCodigo(),clientItemDTO.getDesignacao(),clientItemDTO.getDisponibilidade(),l);
-
+        if(i==null) i = new Item(clientItemDTO.getCodigo(),clientItemDTO.getDesignacao(),clientItemDTO.getDisponibilidade(),clientItemDTO.getIDLoja());
+        c.addItem(i);
         i.registerObserver(c);
         itemRepository.save(i);
         clienteRepository.save(c);
@@ -51,7 +44,7 @@ public class NotificationsService {
 
     @Transactional
     public void notifyItemChange(ItemUpdate itemUpdate){
-        Item i = itemRepository.getItemShop(itemUpdate.getIdloja(),itemUpdate.getCode());
+        Item i = itemRepository.getItemShop(String.valueOf(itemUpdate.getIdloja()),itemUpdate.getCode());
         if(i!=null){
             i.setDisponibilidade(itemUpdate.getDisponibilidade());
             i.notifyObservers();
@@ -71,7 +64,7 @@ public class NotificationsService {
     }
 
     @Transactional
-    @KafkaListener(topics = "ItemUpdate", groupId = "group_id")
+    @KafkaListener(topics = "ItemUpdate", groupId = "notificacoesService")
     public void handleMsgfromBroker(String msg){
         System.out.println(msg);
         if(msg.contains("ItemUpdate")){

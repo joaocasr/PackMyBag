@@ -1,11 +1,13 @@
 package com.example.notificacoesService.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class ClientItemDTO {
     private String codigo;
     private String designacao;
     private String disponibilidade;
-    private int IDLoja;
-    private String nome;
+    @JsonProperty("idLoja")
+    private String idLoja;
     private String username;
     private String nomeuser;
     private String email;
@@ -13,12 +15,11 @@ public class ClientItemDTO {
     public ClientItemDTO() {
     }
 
-    public ClientItemDTO(String codigo, String designacao, String disponibilidade, int IDLoja, String nome, String username, String nomeuser, String email) {
+    public ClientItemDTO(String codigo, String designacao, String disponibilidade, String idLoja, String username, String nomeuser, String email) {
         this.codigo = codigo;
         this.designacao = designacao;
         this.disponibilidade = disponibilidade;
-        this.IDLoja = IDLoja;
-        this.nome = nome;
+        this.idLoja = idLoja;
         this.username = username;
         this.nomeuser = nomeuser;
         this.email = email;
@@ -48,20 +49,12 @@ public class ClientItemDTO {
         this.disponibilidade = disponibilidade;
     }
 
-    public String getNome() {
-        return nome;
+    public String getIDLoja() {
+        return idLoja;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public int getIDLoja() {
-        return IDLoja;
-    }
-
-    public void setIDLoja(int IDLoja) {
-        this.IDLoja = IDLoja;
+    public void setIDLoja(String IDLoja) {
+        this.idLoja = IDLoja;
     }
 
     public String getUsername() {

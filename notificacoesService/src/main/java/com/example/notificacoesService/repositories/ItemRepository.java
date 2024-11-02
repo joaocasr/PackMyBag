@@ -7,6 +7,6 @@ import org.springframework.data.repository.query.Param;
 
 public interface ItemRepository extends JpaRepository<Item,Integer> {
 
-    @Query("select i from Item i LEFT JOIN FETCH i.interessados where i.loja.IDLoja= :idloja and i.codigo=:codigo")
-    Item getItemShop(@Param("idloja") int idloja, @Param("codigo") String codigo);
+    @Query("select i from Item i where i.lojaid= :idloja and i.codigo=:codigo")
+    Item getItemShop(@Param("idloja") String idloja, @Param("codigo") String codigo);
 }

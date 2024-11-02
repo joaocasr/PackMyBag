@@ -16,7 +16,6 @@ package com.example.notificacoesService.model;
 import java.io.Serializable;
 import java.text.Format;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashSet;
 
 import jakarta.persistence.*;
@@ -32,20 +31,26 @@ public class Cliente implements Observer, Serializable {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator="NOTIFICACOESSERVICE_CLIENTE_IDCLIENTE_GENERATOR")
 	@SequenceGenerator(name="NOTIFICACOESSERVICE_CLIENTE_IDCLIENTE_GENERATOR", sequenceName = "NOTIFICACOESSERVICE_CLIENTE_IDCLIENTE_SEQ")
 	private int IDCliente;
-	
-	@Column(name="Nome", nullable=true, length=255)	
+
+	@Column(name="Nome", nullable=true, length=255)
 	private String nome;
-	
-	@Column(name="Username", nullable=true, length=255)	
+
+	@Column(name="Username", nullable=true, length=255)
 	private String username;
-	
-	@Column(name="Email", nullable=true, length=255)	
+
+	@Column(name="Email", nullable=true, length=255)
 	private String email;
 
-	@OneToMany(mappedBy="cliente", orphanRemoval=true, targetEntity=Notificacao.class)
-	@org.hibernate.annotations.Cascade({org.hibernate.annotations.CascadeType.ALL})
+	@ManyToMany(targetEntity=Item.class)
+	@org.hibernate.annotations.Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE, org.hibernate.annotations.CascadeType.LOCK})
+	@JoinTable(name="Item_Cliente", joinColumns={ @JoinColumn(name="ClienteIDCliente") }, inverseJoinColumns={ @JoinColumn(name="ItemIDItem") })
 	@org.hibernate.annotations.LazyCollection(org.hibernate.annotations.LazyCollectionOption.TRUE)
-	private java.util.Set<Notificacao> notificacoes = new java.util.HashSet<>();
+	private java.util.Set<Item> items = new java.util.HashSet();
+
+	@OneToMany(mappedBy="cliente", targetEntity=Notificacao.class)
+	@org.hibernate.annotations.Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE, org.hibernate.annotations.CascadeType.LOCK})
+	@org.hibernate.annotations.LazyCollection(org.hibernate.annotations.LazyCollectionOption.TRUE)
+	private java.util.Set<Notificacao> notificacoes = new java.util.HashSet();
 
 
 	public Cliente(String nome, String email, String username) {
@@ -53,6 +58,7 @@ public class Cliente implements Observer, Serializable {
 		this.email = email;
 		this.username = username;
 		this.notificacoes = new HashSet<>();
+		this.items = new HashSet<>();
 	}
 
 	private void setIDCliente(int value) {
@@ -90,7 +96,19 @@ public class Cliente implements Observer, Serializable {
 	public String getEmail() {
 		return email;
 	}
-	
+
+	public void setItems(java.util.Set<Item> value) {
+		this.items = value;
+	}
+
+	public java.util.Set<Item> getItems() {
+		return items;
+	}
+
+	public void addItem(Item i){
+		this.items.add(i);
+	}
+
 	public void setNotificacoes(java.util.Set<Notificacao> value) {
 		this.notificacoes = value;
 	}
@@ -109,7 +127,7 @@ public class Cliente implements Observer, Serializable {
 
 		if (o instanceof Item) {
 			Item i = (Item) o;
-			String msg = "O item de codigo "+i.getCodigo()+" da loja "+i.getLoja().getNome()+" está "+i.getDisponibilidade();
+			String msg = "O item de codigo "+i.getCodigo()+" da loja "+i.getLojaId()+" está "+i.getDisponibilidade();
 			String tipo = "Disponibilidade de Itens";
 			Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			String s = formatter.format(new java.util.Date());

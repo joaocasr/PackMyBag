@@ -39,6 +39,7 @@ class AuthService{
     };
     getToken(){
         let user = localStorage.getItem('user');
+        console.log(user);
         if(user==null) return null;
         let decoded= jwtDecode(JSON.parse(user).accessToken);
         if(decoded.exp < (Date.now()/1000)){

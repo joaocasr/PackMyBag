@@ -4,6 +4,10 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const cors = require('cors')
+const dotenv = require('dotenv');
+dotenv.config();
+
+
 var catalogoRouter = require('./routes/catalogoRouter');
 var cartRouter = require('./routes/cartRouter');
 var favoritosRouter = require('./routes/favoritosRouter');

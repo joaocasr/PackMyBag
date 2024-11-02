@@ -83,7 +83,8 @@
     		<div class="myreview">
 				<div class="star">
 				</div>
-				<div class="gabriel-r">{{ username }}</div>
+				<div class="gabriel-r" v-if="username!=''" >{{ username }}</div>
+				<div class="gabriel-r" v-if="username==''" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 				<img class="generic-user-icon-13-262266219" alt="" src="/DetailedItemIMG/generic-user-icon-13-2622662197-removebg-preview 1.png">
 
 				<div class="star-parent">
@@ -151,7 +152,7 @@ export default {
 			tamanho:String,
 			availabilityColor:"#ffff",
 			colors:[],
-			username:"     ",
+			username:"",
 			token:null,
 			profileImg: "xxx",
 			current_page:0,
@@ -243,12 +244,17 @@ export default {
 				this.myrate=0;
 				this.mydescription='';
 			}).catch(error=>{
+				let errmsg ="More details : "
+				if(error.response.data.message){
+					errmsg+=error.response.data.message;
+				}
+				let m = "Check if you are authenticated and try again. "+errmsg;
 				this.myrate=0;
 				this.mydescription='';
 				this.$swal({
 				icon: "error",
 				title: "Erro!",
-				text: "Check if you are authenticated and try again."
+				text: m
 				});
 			})
 			

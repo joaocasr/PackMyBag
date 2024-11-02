@@ -15,13 +15,13 @@ public class KafkaConsumerService {
 
     @KafkaListener(topics = "EncomendaStatus", groupId = "notificacoesService")
     public void consumeEncomendaStatus(EncomendaStatusDTO statusDTO) {
-
+        System.out.println(statusDTO);
         encomendaService.updateEncomendaStatus(statusDTO.getIdEncomenda(), statusDTO.getStatus());
     }
 
     @KafkaListener(topics = "EncomendaDateReturn", groupId = "notificacoesService")
     public void consumeEncomendaDateReturn(EncomendaDateReturnDTO dateReturnDTO) {
-
+        System.out.println(dateReturnDTO);
         encomendaService.notifyClientAboutReturnDate(dateReturnDTO.getIdEncomenda(), dateReturnDTO.getTempoRestante());
     }
 }

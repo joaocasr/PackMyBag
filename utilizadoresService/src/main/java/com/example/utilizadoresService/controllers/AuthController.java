@@ -1,5 +1,6 @@
 package com.example.utilizadoresService.controllers;
 
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.example.utilizadoresService.Exceptions.InvalidJwtException;
 import com.example.utilizadoresService.config.auth.TokenProvider;
 import com.example.utilizadoresService.dtos.*;
@@ -20,11 +21,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/utilizadores")
 public class AuthController {
-    @Autowired
+
     private AuthenticationManager authenticationManager;
-    @Autowired
     private AuthService service;
-    @Autowired
     private TokenProvider tokenService;
 
     @Autowired
@@ -59,5 +58,15 @@ public class AuthController {
         var authUser = authenticationManager.authenticate(usernamePassword);
         var accessToken = tokenService.generateAccessToken((Cliente) authUser.getPrincipal());
         return ResponseEntity.ok(new JwtDto(accessToken));
+    }
+
+    @PostMapping("/verify")
+    public ResponseEntity<?> verify(@RequestBody JwtDto token){
+        try{
+            String v = tokenService.validateToken(token.accessToken());
+            return ResponseEntity.status(200).body(v);
+        }catch (JWTVerificationException j){
+            return new ResponseEntity<>(new ErrorResponse(HttpStatus.FORBIDDEN,j.getMessage()),HttpStatus.FORBIDDEN);
+        }
     }
 }

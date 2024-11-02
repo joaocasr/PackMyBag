@@ -40,3 +40,21 @@ module.exports.signIn = async (username,password) =>{
         }
     }
 }
+
+
+module.exports.validateToken = async (token) =>{
+    try {
+        const resp = await axios.post(`${ap}/verify`, 
+            { accessToken: token },
+            {
+                headers: { 
+                    'Content-Type': 'application/json;charset=UTF-8',
+                    'Authorization': 'Bearer '+token
+                }
+            }
+        );
+        return resp.data;
+    } catch (err) {
+        return err;
+    }
+}

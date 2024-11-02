@@ -32,11 +32,9 @@ public class Item implements Subject, Serializable {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator="NOTIFICACOESSERVICE_ITEM_IDITEM_GENERATOR")
 	@SequenceGenerator(name="NOTIFICACOESSERVICE_ITEM_IDITEM_GENERATOR", sequenceName = "NOTIFICACOESSERVICE_ITEM_IDITEM_SEQ")
 	private int IDItem;
-	
-	@ManyToOne(targetEntity=Loja.class, fetch=FetchType.LAZY)
-	@org.hibernate.annotations.Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE, org.hibernate.annotations.CascadeType.LOCK, org.hibernate.annotations.CascadeType.DELETE})	
-	@JoinColumns(value={ @JoinColumn(name="LojaIDLoja", referencedColumnName="IDLoja", nullable=false) }, foreignKey=@ForeignKey(name="FKItem395030"))	
-	private Loja loja;
+
+	@Column(name="Lojaid", nullable=true, length=255)
+	private String lojaid;
 	
 	@Column(name="Codigo", nullable=true, length=255)	
 	private String codigo;
@@ -46,22 +44,21 @@ public class Item implements Subject, Serializable {
 	
 	@Column(name="Disponibilidade", nullable=true, length=255)	
 	private String disponibilidade;
-	
-	@OneToMany(orphanRemoval=true, targetEntity=Cliente.class)
-	@org.hibernate.annotations.Cascade({org.hibernate.annotations.CascadeType.ALL})	
-	@JoinColumns({ @JoinColumn(name="ItemIDItem", nullable=false) })	
-	@org.hibernate.annotations.LazyCollection(org.hibernate.annotations.LazyCollectionOption.TRUE)	
-	private java.util.Set<Cliente> interessados = new java.util.HashSet<>();
 
-	@Transient
-	private List<Observer> observers = new ArrayList<>();
+	@ManyToMany(mappedBy="items", targetEntity=Cliente.class)
+	@org.hibernate.annotations.Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE, org.hibernate.annotations.CascadeType.LOCK})
+	@org.hibernate.annotations.LazyCollection(org.hibernate.annotations.LazyCollectionOption.TRUE)
+	private java.util.Set<Cliente> interessados = new java.util.HashSet();
 
-	public Item(String codigo, String designacao, String disponibilidade, Loja loja) {
+	//@Transient
+	//private List<Observer> observers = new ArrayList<>();
+
+	public Item(String codigo, String designacao, String disponibilidade, String lojaid) {
 		this.codigo = codigo;
 		this.designacao = designacao;
 		this.disponibilidade = disponibilidade;
 		this.interessados = new HashSet<>();
-		this.loja = loja;
+		this.lojaid = lojaid;
 	}
 
 	private void setIDItem(int value) {
@@ -107,14 +104,13 @@ public class Item implements Subject, Serializable {
 	public java.util.Set<Cliente> getInteressados() {
 		return interessados;
 	}
-	
-	
-	public void setLoja(Loja value) {
-		this.loja = value;
+
+	public void setLoja(String value) {
+		this.lojaid = value;
 	}
 	
-	public Loja getLoja() {
-		return loja;
+	public String getLojaId() {
+		return lojaid;
 	}
 	
 	public String toString() {
@@ -123,18 +119,19 @@ public class Item implements Subject, Serializable {
 
 	@Override
 	public void registerObserver(Observer o) {
-		observers.add(o);
+		this.interessados.add((Cliente)o);
 	}
 
 	@Override
 	public void removeObserver(Observer o) {
-		observers.remove(o);
+		Cliente c = (Cliente)o;
+		this.interessados.removeIf(x->x.getUsername().equals(c.getUsername()));
 	}
 
 	@Override
 	public void notifyObservers() {
-		for (Observer observer : observers) {
-			observer.update(this);
+		for(Cliente c : this.interessados){
+			c.update(this);
 		}
 	}
 }
