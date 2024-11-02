@@ -38,7 +38,8 @@ public class Cliente implements Serializable, UserDetails {
 	
 	@Column(name="ProfileImage", nullable=true, length=255)	
 	private String profileImage;
-	
+
+
 	private void setIDCliente(int value) {
 		this.IDCliente = value;
 	}
@@ -101,11 +102,12 @@ public class Cliente implements Serializable, UserDetails {
 
 	}
 
-	public Cliente(String nome, String username, String email, String password) {
+	public Cliente(String nome, String username, String email, String password, String profileImage) {
 		this.nome = nome;
 		this.username = username;
 		this.email = email;
 		this.password = password;
+		this.profileImage = profileImage;
 	}
 
 	public void getAttribute() {

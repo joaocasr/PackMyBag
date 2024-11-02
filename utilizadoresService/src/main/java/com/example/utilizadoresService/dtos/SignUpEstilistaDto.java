@@ -1,11 +1,10 @@
 package com.example.utilizadoresService.dtos;
 
-public record SignUpUserDto(
+public record SignUpEstilistaDto (
         String username,
         String password,
         String nome,
         String email,
         String genero,
-        String morada,
-        String nrTelemovel) {
+        String bio) {
 }

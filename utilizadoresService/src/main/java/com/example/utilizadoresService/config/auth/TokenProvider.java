@@ -6,6 +6,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.example.utilizadoresService.model.Cliente;
+import com.example.utilizadoresService.model.Estilista;
 import com.example.utilizadoresService.model.Tecnico;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -25,20 +26,31 @@ public class TokenProvider {
             if( user instanceof Tecnico) {
                 return JWT.create()
                         .withSubject(user.getUsername())
+                        .withClaim("role", "Tecnico")
                         .withClaim("username", user.getUsername())
                         .withClaim("nome", user.getNome())
-                        .withClaim("password", user.getPassword())
                         .withClaim("email", user.getEmail())
                         .withClaim("profileImage", user.getProfileImage())
                         .withClaim("idloja",  ((Tecnico) user).getLoja().getIDLoja())
                         .withExpiresAt(genAccessExpirationDate())
                         .sign(algorithm);
-            } else{
+            } else if( user instanceof Estilista) {
                 return JWT.create()
                         .withSubject(user.getUsername())
+                        .withClaim("role", "Estilista")
                         .withClaim("username", user.getUsername())
                         .withClaim("nome", user.getNome())
-                        .withClaim("password", user.getPassword())
+                        .withClaim("email", user.getEmail())
+                        .withClaim("profileImage", user.getProfileImage())
+                        .withClaim("rating", ((Estilista) user).getRating())
+                        .withExpiresAt(genAccessExpirationDate())
+                        .sign(algorithm);
+            } else {
+                    return JWT.create()
+                        .withSubject(user.getUsername())
+                        .withClaim("role", "Cliente")
+                        .withClaim("username", user.getUsername())
+                        .withClaim("nome", user.getNome())
                         .withClaim("email", user.getEmail())
                         .withClaim("profileImage", user.getProfileImage())
                         .withExpiresAt(genAccessExpirationDate())

@@ -29,6 +29,7 @@ public class AuthConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST, "/api/utilizadores/signup/tecnico").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/utilizadores/signup/user").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/utilizadores/signup/estilista").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/utilizadores/signin").permitAll()
                         .anyRequest().authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)

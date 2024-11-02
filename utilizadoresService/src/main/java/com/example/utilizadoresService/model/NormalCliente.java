@@ -20,6 +20,20 @@ public class NormalCliente extends Cliente implements Serializable {
 	
 	@Column(name="NrTelemovel", nullable=true, length=255)	
 	private String nrTelemovel;
+
+
+	@Column(name="Genero", nullable=true, length=255)
+	private String genero;
+
+
+	public String getGenero() {
+		return genero;
+	}
+
+	public void setGenero(String genero) {
+		this.genero = genero;
+	}
+
 	
 	public void setMorada(String value) {
 		this.morada = value;
@@ -48,5 +62,12 @@ public class NormalCliente extends Cliente implements Serializable {
 	public String toString() {
 		return super.toString();
 	}
-	
+
+	public NormalCliente(String nome, String username, String email, String password, String profileImage, String morada, String cartaoCredito, String nrTelemovel, String genero) {
+		super(nome, username, email, password, profileImage);
+		this.morada = morada;
+		this.cartaoCredito = cartaoCredito;
+		this.nrTelemovel = nrTelemovel;
+		this.genero = genero;
+	}
 }
