@@ -35,6 +35,30 @@ export const auth = {
             return Promise.reject(error);
           }
         );
+      },
+      signUpEstilista({ commit }, estilista) {
+        return authService.signUpEstilista(estilista).then(
+          response => {
+            commit('registerSuccess');
+            return Promise.resolve(response.data);
+          },
+          error => {
+            commit('registerFailure');
+            return Promise.reject(error);
+          }
+        );
+      },
+      signUpTecnico({ commit }, tecnico) {
+        return authService.signUpTecnico(tecnico).then(
+          response => {
+            commit('registerSuccess');
+            return Promise.resolve(response.data);
+          },
+          error => {
+            commit('registerFailure');
+            return Promise.reject(error);
+          }
+        );
       }
     },
     mutations: {

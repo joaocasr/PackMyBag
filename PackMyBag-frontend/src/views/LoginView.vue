@@ -40,19 +40,26 @@ export default {
         doLogin(){
             console.log(this.user);
                this.$store.dispatch('auth/login',this.user).then(resp=>{
-                console.log(resp);
+                //console.log(resp);
                 this.$swal({
                     icon: "success",
                     title: "Success!",
                     text: "You are logged in."});
                 this.$router.push({path:'/'})
-           }, errr=>{
-                this.$swal({
-                        icon: "error",
-                        title: "Error!",
-                        text: "Something went wrong. Try again."});
-                    }
-                );
+           }, err=>{
+                if(err.response){
+                    this.$swal({
+                            icon: "error",
+                            title: "Error!",
+                            text: err.response.data.message});
+                }else{
+                    this.$swal({
+                            icon: "error",
+                            title: "Error!",
+                            text: "Something went wrong."});
+                }
+            }      
+            );
         }   
     }
 }

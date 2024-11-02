@@ -61,6 +61,20 @@
     height: 34px;
     opacity: 80%;
 }
+
+.forms-sign-up4 {
+    position: absolute;
+    top: 308px;
+    padding-left: 10px;
+    left: 630px;
+    border-radius: 20px;
+    border: 1px solid #b2b2b2;
+    box-sizing: border-box;
+    width: 552px;
+    height: 34px;
+    opacity: 80%;
+}
+
 .phone-number {
     position: absolute;
     top: 308px;
@@ -79,18 +93,11 @@
     font-weight: 100;
 }
 .your-number-wrapper {
-    position: absolute;
-    top: 343px;
-    left: 786px;
-    padding-left: 10px;
-    border-radius: 10px;
-    background-color: #fff;
-    border: 1px solid #cecece;
-    box-sizing: border-box;
-    width: 286px;
-    height: 38px;
-    overflow: hidden;
+    position: relative;
+    top: 325px;
+    left: 930px;
     font-size: 10px;
+    width: 222px;
 }
 .country-code {
     position: absolute;
@@ -115,19 +122,19 @@
 .vector-icon {
     position: absolute;
     top: 510px;
-    left: 1038px;
+    left: 638px;
     width: 144px;
     height: 41px;
     cursor: pointer;
 }
 .alreadyAccount{
-    margin-top: 130px;
+    margin-top: 490px;
     margin-left: 630px;
     font-size: 15px;
     color: black;
 }
 .alreadyAccount2{
-    margin-top: 470px;
+    margin-top: 538px;
     margin-left: 630px;
     font-size: 15px;
     color: black;
@@ -159,7 +166,7 @@
 }
 .genderfilter {
     position: absolute;
-    top: 418px;
+    top: 368px;
     left: 630px;
     width: 172px;
     height: 40px;
@@ -171,7 +178,7 @@
     position: relative;
     border-radius: 30px;
     background-color: #f7f7f7;
-    height: 648px;
+    height: 1000px;
     top:160px;
     left:260px;
     overflow: hidden;

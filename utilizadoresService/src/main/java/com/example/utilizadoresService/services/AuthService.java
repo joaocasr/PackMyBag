@@ -73,7 +73,7 @@ public class AuthService implements UserDetailsService {
             throw new InvalidJwtException("Username already exists");
         }
         String encryptedPassword = new BCryptPasswordEncoder().encode(data.password());
-        Estilista newUser = new Estilista(data.nome(), data.username(), data.email(), encryptedPassword,"",0, data.genero(),"");
+        Estilista newUser = new Estilista(data.nome(), data.username(), data.email(), encryptedPassword,"",0, data.genero(),data.bio());
         return estilistaRepository.save(newUser);
     }
 

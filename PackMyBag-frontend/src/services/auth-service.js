@@ -31,7 +31,37 @@ class AuthService{
                 username: user.username,
                 password: user.password,
                 nome: user.nome,
-                email: user.email
+                email: user.email,
+                genero: user.genero,
+                morada: user.address,
+                nrTelemovel: user.nrTelemovel
+            },
+            {headers}
+        );
+        return response;
+    };
+    async signUpEstilista(estilista){
+        let response = await axios.post(API_URL+"signup/estilista",
+            {
+                username: estilista.username,
+                password: estilista.password,
+                nome: estilista.nome,
+                email: estilista.email,
+                genero: estilista.genero,
+                bio: estilista.bio
+            },
+            {headers}
+        );
+        return response;
+    };
+    async signUpTecnico(tecnico){
+        let response = await axios.post(API_URL+"signup/tecnico",
+            {
+                username: tecnico.username,
+                nome: tecnico.nome,
+                password: tecnico.password,
+                nomeLoja: tecnico.nomeLoja,
+                email: tecnico.email
             },
             {headers}
         );

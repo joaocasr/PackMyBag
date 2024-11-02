@@ -6,7 +6,7 @@ import PrimeVue from 'primevue/config';
 import Aura from '@primevue/themes/aura';
 import VueSweetalert2 from 'vue-sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
-import vueCountryRegionSelect from 'vue3-country-region-select'
+import VuePhoneNumberInput from 'vue-phone-number-input';
 
 import store from './store';
 import App from './App.vue'
@@ -22,5 +22,5 @@ app.use(PrimeVue, {
     }
 });
 app.use(VueSweetalert2);
-app.use(vueCountryRegionSelect)
+app.use(VuePhoneNumberInput);
 app.mount('#app')
