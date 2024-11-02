@@ -227,7 +227,7 @@ public class EncomendaService {
         if (!existingEncomenda.getStatus().equals(updatedEncomenda.getStatus())) {
             // Notificar via Kafka
             EncomendaStatusDTO statusDTO = EncomendaMapper.toEncomendaStatusDTO(updatedEncomenda);
-            kafkaProducerService.sendMessage(statusDTO, "EncomendaStatus");
+            //afkaProducerService.sendMessage(statusDTO, "EncomendaStatus");
         }
 
         // Verificar se a dataDevolucao foi atualizada
@@ -244,7 +244,7 @@ public class EncomendaService {
             if (horaAtual.isAfter(horaLimite) && diasRestantes <= 3) {
                 // Notificar via Kafka
                 EncomendaDateReturnDTO devolucaoDTO = EncomendaMapper.toEncomendaDateReturnDTO(updatedEncomenda,diasRestantes);
-                kafkaProducerService.sendMessage(devolucaoDTO, "EncomendaDateReturn");
+                //kafkaProducerService.sendMessage(devolucaoDTO, "EncomendaDateReturn");
                 }
             }
 
