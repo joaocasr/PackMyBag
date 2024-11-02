@@ -7,7 +7,9 @@ import com.exemplo.encomendaService.model.Cliente;
 import com.exemplo.encomendaService.model.Encomenda;
 import com.exemplo.encomendaService.dto.EncomendaDateReturnDTO;
 import com.exemplo.encomendaService.dto.EncomendaStatusDTO;
+import com.exemplo.encomendaService.model.Item;
 
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
@@ -49,7 +51,10 @@ public class EncomendaMapper {
         encomenda.setLocalEntrega(dto.getLocalEntrega());
         encomenda.setStatus(dto.getStatus());
         encomenda.setCliente(cliente);
-    }
+        // o hibernate nao deixa apagar o set de itens e adicionar um novo, por isso temos de limpar o set e adicionar os novos
+        encomenda.getItems().clear();
+        encomenda.getItems().addAll(dto.getItens().stream().map(ItemMapper::toEntity).collect(Collectors.toSet()));
+}
 
     // Converte de Encomenda para EncomendaNotificationDTO
     public static EncomendaDateReturnDTO toEncomendaDateReturnDTO(Encomenda encomenda, long tempoRestante) {

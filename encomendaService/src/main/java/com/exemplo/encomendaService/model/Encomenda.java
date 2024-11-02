@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 @Entity
 //@org.hibernate.annotations.Proxy(lazy=false)
 @Table(name="Encomenda")
-public class Encomenda extends BaseEntity implements Serializable {
+public class Encomenda implements Serializable {
 	public Encomenda() {
 	}
 	
