@@ -8,10 +8,7 @@ import com.example.utilizadoresService.dtos.SignUpTecnicoDto;
 import com.example.utilizadoresService.dtos.SignUpUserDto;
 import com.example.utilizadoresService.mapper.EstilistaMapper;
 import com.example.utilizadoresService.model.*;
-import com.example.utilizadoresService.repositories.ClienteRepository;
-import com.example.utilizadoresService.repositories.EstilistaRepository;
-import com.example.utilizadoresService.repositories.LojaRepository;
-import com.example.utilizadoresService.repositories.TecnicoRepository;
+import com.example.utilizadoresService.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -27,20 +24,22 @@ import java.util.stream.Collectors;
 public class AuthService implements UserDetailsService {
 
     @Autowired
-    ClienteRepository repository;
+    ClienteRepository clienteRepository;
+    @Autowired
+    NormalClienteRepository clienteNormalrepository;
     @Autowired
     LojaRepository lojaRepository;
     @Autowired
     EstilistaRepository estilistaRepository;
     @Autowired
     TecnicoRepository tecnicoRepository;
-
     @Autowired
     EstilistaMapper estilistamapper;
 
 
-    public AuthService(ClienteRepository repository, LojaRepository lojaRepository, EstilistaRepository estilistaRepository, TecnicoRepository tecnicoRepository, EstilistaMapper estilistamapper) {
-        this.repository = repository;
+    public AuthService(ClienteRepository clienteRepository,NormalClienteRepository clienteNormalrepository, LojaRepository lojaRepository, EstilistaRepository estilistaRepository, TecnicoRepository tecnicoRepository, EstilistaMapper estilistamapper) {
+        this.clienteNormalrepository = clienteNormalrepository;
+        this.clienteRepository = clienteRepository;
         this.lojaRepository = lojaRepository;
         this.estilistaRepository = estilistaRepository;
         this.tecnicoRepository = tecnicoRepository;
@@ -60,12 +59,12 @@ public class AuthService implements UserDetailsService {
     }
 
     public UserDetails signUpUser(SignUpUserDto data) throws InvalidJwtException {
-        if (repository.getClienteByUsername(data.username()) != null) {
+        if (clienteNormalrepository.getClienteByUsername(data.username()) != null) {
             throw new InvalidJwtException("Username already exists");
         }
         String encryptedPassword = new BCryptPasswordEncoder().encode(data.password());
         NormalCliente newUser = new NormalCliente(data.nome(), data.username(), data.email(), encryptedPassword, "", data.morada(), "", data.nrTelemovel(), data.genero());
-        return repository.save(newUser);
+        return clienteNormalrepository.save(newUser);
     }
 
     public UserDetails signUpEstilista(SignUpEstilistaDto data) throws InvalidJwtException {
@@ -84,6 +83,6 @@ public class AuthService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return repository.getClienteByUsername(username);
+        return clienteRepository.getClienteByUsername(username);
     }
 }

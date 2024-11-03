@@ -1,6 +1,7 @@
 var express = require('express')
 var router = express.Router();
 var utilizadoresService = require('../microservices/utilizadoresService')
+const validate = require('../middleware/index')
 
 
 router.post('/signin', async function(req,res,next){
@@ -56,6 +57,15 @@ router.post('/signup/tecnico', async function(req,res,next){
     const nomeLoja = req.body.nomeLoja;
     try {
         const resp = await utilizadoresService.signUpTecnico(username, nome, password, email,nomeLoja);
+        res.jsonp(resp);
+    } catch (err) {
+        res.status(err.status || 500).jsonp(err.error || "Internal Server Error");
+    }
+});
+
+router.post('/estilistas',validate.authenticateToken, async function(req,res,next){
+    try {
+        const resp = await utilizadoresService.getEstilistas(req.token);
         res.jsonp(resp);
     } catch (err) {
         res.status(err.status || 500).jsonp(err.error || "Internal Server Error");

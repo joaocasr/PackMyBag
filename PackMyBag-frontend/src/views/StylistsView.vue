@@ -44,26 +44,50 @@ import NavBarComponent from '@/components/NavBarComponent.vue';
 import FooterComponent from '@/components/FooterComponent.vue';
 import StylistIndividualView from '@/components/StylistIndividualView.vue';
 import VueSelect from "vue3-select-component";
-
+import authService from '@/services/auth-service';
+import authHeader from '@/services/auth-header';
+import axios from 'axios';
 export default {
 
-components:{
-    NavBarComponent,
-    FooterComponent,
-    StylistIndividualView,
-    VueSelect
-},
-
-data(){
-    return{
-        value: [0,1000],
-        selectedOption:'',
-        typeOptions: [{ label: 'Male', value: 'Male' },{ label: 'Female', value: 'Female' }],
-        items: [],
-        filtered: [],
-        current_page:0
+    components:{
+        NavBarComponent,
+        FooterComponent,
+        StylistIndividualView,
+        VueSelect
+    },
+    data(){
+        return{
+            value: [0,1000],
+            selectedOption:'',
+            typeOptions: [{ label: 'Male', value: 'Male' },{ label: 'Female', value: 'Female' }],
+            items: [],
+            filtered: [],
+            current_page:0,
+            estilistas: []
+        }
+    },
+    created(){
+        let token = authService.getToken();
+		console.log(token);
+		if(token!=null){
+			this.token = token;
+			this.username=token.username;
+		}
+		this.getStylists();
+    }, 
+    methods:{
+        getStylists(){
+            const header = authHeader();
+			let config = {headers:header}
+			header['Content-Type'] = 'application/json';
+            axios.get('http//localhost:8888/api/utilizadoresService/estilistas',config).then(estilistas=>{
+                this.estilistas = estilistas.data;
+                console.log(this.estilistas);
+            }).catch(err=>{
+                console.log(err);
+            })
+        }
     }
-}
 
 }
 

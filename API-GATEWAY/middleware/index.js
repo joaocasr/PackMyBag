@@ -9,8 +9,9 @@ module.exports.authenticateToken = async (req, res, next) => {
     }
     try{
         let r = await utilizadoresService.validateToken(token);
-        console.log("yesss");
-        console.log(r);
+        req.token = token;
+        //console.log("yesss");
+        //console.log(r);
     }catch(err){
         res.status(err.status || 500).jsonp(err.error || "Internal Server Error");
     }

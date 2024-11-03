@@ -95,7 +95,9 @@ public class Cliente implements Serializable, UserDetails {
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		if (this instanceof Tecnico) {
-			return List.of(new SimpleGrantedAuthority("ROLE_TECNICO"), new SimpleGrantedAuthority("ROLE_USER"));
+			return List.of(new SimpleGrantedAuthority("ROLE_TECNICO"));
+		}if (this instanceof Estilista) {
+			return List.of(new SimpleGrantedAuthority("ROLE_ESTILISTA"));
 		} else {
 			return List.of(new SimpleGrantedAuthority("ROLE_USER"));
 		}

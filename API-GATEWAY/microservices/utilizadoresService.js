@@ -106,3 +106,23 @@ module.exports.signUpTecnico = async (username, nome, password, email,nomeLoja) 
         }
     }
 }
+
+module.exports.getEstilistas = async (token) =>{
+    try {
+        const resp = await axios.get(`${ap}/estilistas`,
+            {
+                headers: {
+                    'Content-Type': 'application/json;charset=UTF-8',
+                    'Authorization': 'Bearer '+token
+                    }
+            }
+        );
+        return resp.data;
+    } catch (err) {
+        if (err.response) {
+            throw { error: err.response.data, status: err.response.status };
+        } else {
+            throw { error: "Unknown error", status: 500 };
+        }
+    }
+}
