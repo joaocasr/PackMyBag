@@ -9,21 +9,11 @@ import com.exemplo.encomendaService.dto.EncomendaStatusDTO;
 @Service
 public class KafkaProducerService {
 
-    private final String TOPIC = "notificacaoDevolucao"; 
-
     @Autowired
     private KafkaTemplate<String, String> kafkaTemplate;
 
-    public void sendMessage(Object encomenda, String topic) {
-
-        if (encomenda instanceof EncomendaDateReturnDTO) {
-            EncomendaDateReturnDTO encomendaNotificationDTO = (EncomendaDateReturnDTO) encomenda;
-            this.kafkaTemplate.send(TOPIC, encomendaNotificationDTO.toString());
-        } else if (encomenda instanceof EncomendaStatusDTO) {
-            EncomendaStatusDTO encomendaStatusDTO = (EncomendaStatusDTO) encomenda;
-            this.kafkaTemplate.send(TOPIC, encomendaStatusDTO.toString());
-        }
-
+    public void sendMessage(String o, String topic) {
+        this.kafkaTemplate.send(topic,o);
     }
 
 }

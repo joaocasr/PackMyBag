@@ -242,7 +242,7 @@ public class EncomendaService {
             LocalDate dataDevolucao = LocalDate.parse(updatedEncomenda.getDataDevolucao(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
             LocalDate hoje = LocalDate.now();
 
-            long diasRestantes = ChronoUnit.DAYS.between(hoje, dataDevolucao);
+            int diasRestantes = Math.toIntExact(ChronoUnit.DAYS.between(hoje, dataDevolucao));
 
             if (horaAtual.isAfter(horaLimite) && diasRestantes <= 3) {
                 // Notificar via Kafka
@@ -301,9 +301,9 @@ public class EncomendaService {
                 // Verifica se a data de devolução está dentro do intervalo de 3 dias a partir de hoje
                 if (!dataDevolucao.isBefore(hoje) && ChronoUnit.DAYS.between(hoje, dataDevolucao) <= 3) {
                     // Calcula o tempo restante para a devolução
-                    long tempoRestante = ChronoUnit.DAYS.between(hoje, dataDevolucao);
+                    int tempoRestante = Math.toIntExact(ChronoUnit.DAYS.between(hoje, dataDevolucao));
                     // Envia mensagem para o Kafka
-                    kafkaProducerService.sendMessage(EncomendaMapper.toEncomendaDateReturnDTO(encomenda, tempoRestante),"EncomendaDateReturn");
+                    kafkaProducerService.sendMessage(EncomendaMapper.toEncomendaDateReturnDTO(encomenda, tempoRestante).toString(),"EncomendaDateReturn");
                 }
             }
         }
@@ -320,12 +320,12 @@ public class EncomendaService {
         }
     
         if (!encomenda.getStatus().equals(novoStatus)) {
-            encomenda.setStatus("Pago");
+            //encomenda.setStatus("Pago");
             encomendaRepository.updateStatusByCodigo(encomenda.getCodigoEncomenda(), novoStatus);
             //encomendaRepository.save(encomenda);
 
             // Enviar mensagem pelo Kafka
-            kafkaProducerService.sendMessage(EncomendaMapper.toEncomendaStatusDTO(encomenda), "EncomendaStatus");
+            kafkaProducerService.sendMessage(EncomendaMapper.toEncomendaStatusDTO(encomenda).toString(), "EncomendaStatus");
         }   
     
         return EncomendaMapper.toEncomendaStatusDTO(encomenda);

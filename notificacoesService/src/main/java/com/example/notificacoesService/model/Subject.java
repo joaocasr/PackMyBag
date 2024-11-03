@@ -3,5 +3,5 @@ package com.example.notificacoesService.model;
 public interface Subject {
     void registerObserver(Observer o);
     void removeObserver(Observer o);
-    void notifyObservers();
+    void notifyObservers(String type,NotificationCallback callback);
 }

@@ -42,17 +42,20 @@ public class Encomenda implements Subject, Serializable {
 	@Column(name="Status", nullable=true, length=255)	
 	private String status;
 
+	@Column(name="DiasRestantes", nullable=true, length=255)
+	private int diasRestantes;
+
 	@Transient
 	private List<Observer> observers = new ArrayList<>();
 	
 	public Encomenda(){}
-	public Encomenda(Cliente cliente,String codigo,String status) {
-		this.observers = new ArrayList<>();
+	public Encomenda(Cliente cliente,String codigo,String status,int restantes) {
 		this.codigoEncomenda = codigo;
 		this.status = status;
 		this.cliente = cliente;
+		this.diasRestantes = restantes;
+		this.observers = new ArrayList<>();
 	}
-
 	
 	private void setIDEncomenda(int value) {
 		this.IDEncomenda = value;
@@ -89,7 +92,15 @@ public class Encomenda implements Subject, Serializable {
 	public Cliente getCliente() {
 		return cliente;
 	}
-	
+
+	public int getDiasRestantes() {
+		return diasRestantes;
+	}
+
+	public void setDiasRestantes(int diasRestantes) {
+		this.diasRestantes = diasRestantes;
+	}
+
 	public String toString() {
 		return String.valueOf(getIDEncomenda());
 	}
@@ -105,9 +116,7 @@ public class Encomenda implements Subject, Serializable {
 	}
 
 	@Override
-	public void notifyObservers() {
-		for (Observer observer : observers) {
-			observer.update(this);
-		}
+	public void notifyObservers(String type,NotificationCallback callback) {
+		this.cliente.update(this,callback,type);
 	}
 }

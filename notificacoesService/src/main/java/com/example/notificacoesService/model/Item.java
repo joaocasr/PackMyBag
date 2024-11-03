@@ -129,9 +129,9 @@ public class Item implements Subject, Serializable {
 	}
 
 	@Override
-	public void notifyObservers() {
+	public void notifyObservers(String type,NotificationCallback callback) {
 		for(Cliente c : this.interessados){
-			c.update(this);
+			c.update(this,callback,type);
 		}
 	}
 }

@@ -123,22 +123,42 @@ public class Cliente implements Observer, Serializable {
 	}
 
 	@Override
-	public void update(Object o) {
-
-		if (o instanceof Item) {
+	public void update(Object o, NotificationCallback callback,String type) {
+		Notificacao n = null;
+		if (type.equals("AVAILABILITY")) {
 			Item i = (Item) o;
-			String msg = "O item de codigo "+i.getCodigo()+" da loja "+i.getLojaId()+" está "+i.getDisponibilidade();
-			String tipo = "Disponibilidade de Itens";
+			String msg = "The item with code "+i.getCodigo()+" from shop "+i.getLojaId()+" is "+i.getDisponibilidade();
+			String tipo = "Item availability.";
 			Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			String s = formatter.format(new java.util.Date());
-			Notificacao n = new Notificacao(this,tipo,msg,s);
-			this.notificacoes.add(n);
+			n = new Notificacao(this,tipo,msg,s);
 
-		}else if (o instanceof Encomenda) {
-			
+		}
+		else if (type.equals("STATUS")) {
+
 	        Encomenda encomenda = (Encomenda) o;
 	        // Lógica para enviar a notificação ao cliente
-	        System.out.println("Notificando o cliente " + nome + " sobre a encomenda " + encomenda.getIDEncomenda() + " alteração do status para " + encomenda.getStatus());
-	    }
+			String msg = "Your order with code " + encomenda.getCodigoEncomenda() + " changed its status to " + encomenda.getStatus();
+			String tipo = "Order status.";
+			Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			String s = formatter.format(new java.util.Date());
+			n = new Notificacao(this,tipo,msg,s);
+		}
+		else if (type.equals("RETURN")) {
+
+			Encomenda encomenda = (Encomenda) o;
+			String msg = "";
+			if(encomenda.getDiasRestantes()==0) msg = "You have to deliver your items today!";
+			if(encomenda.getDiasRestantes()>0) msg = "You have "+encomenda.getDiasRestantes()+" days left to deliver your items!";
+			if(encomenda.getDiasRestantes()<0) msg = "You had to deliver your items "+encomenda.getDiasRestantes()+" days ago! It will be charged a fee.";
+			String tipo = "Return items.";
+			Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			String s = formatter.format(new java.util.Date());
+			n = new Notificacao(this,tipo,msg,s);
+		}
+		if (n != null) {
+			this.notificacoes.add(n);
+			callback.handleNewNotification(n);
+		}
 	}
 }

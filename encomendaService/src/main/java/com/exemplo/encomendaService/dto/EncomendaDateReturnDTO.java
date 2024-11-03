@@ -2,23 +2,14 @@ package com.exemplo.encomendaService.dto;
 
 public class EncomendaDateReturnDTO {
 
-    private int idEncomenda;
     private String codigoEncomenda;
     private String dataEntrega;
     private String dataDevolucao;
     private String localEntrega;
     private int clienteId;
-    private long tempoRestante;
+    private int tempoRestante;
 
     public EncomendaDateReturnDTO() {
-    }
-
-    public int getIdEncomenda() {
-        return idEncomenda;
-    }
-
-    public void setIdEncomenda(int idEncomenda) {
-        this.idEncomenda = idEncomenda;
     }
 
     public String getCodigoEncomenda() {
@@ -61,24 +52,22 @@ public class EncomendaDateReturnDTO {
         this.clienteId = clienteId;
     }
 
-    public long getTempoRestante() {
+    public int getTempoRestante() {
         return tempoRestante;
     }
 
-    public void setTempoRestante(long tempoRestante) {
+    public void setTempoRestante(int tempoRestante) {
         this.tempoRestante = tempoRestante;
     }
 
     public String toString() {
-        return "EncomendaNotificationDTO{" +
-                "idEncomenda=" + idEncomenda +
-                ", codigoEncomenda='" + codigoEncomenda + '\'' +
-                ", dataEntrega='" + dataEntrega + '\'' +
-                ", dataDevolucao='" + dataDevolucao + '\'' +
-                ", localEntrega='" + localEntrega + '\'' +
-                ", clienteId=" + clienteId +
-                ", tempoRestante=" + tempoRestante +
-                '}';
+        return "EncomendaNotificationDTO,"
+                + codigoEncomenda + ","
+                + dataEntrega + ","
+                + dataDevolucao + ","
+                + localEntrega + ","
+                + clienteId + ","
+                + tempoRestante ;
     }
 
 

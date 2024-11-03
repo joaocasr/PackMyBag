@@ -5,6 +5,7 @@ public class EncomendaInsertDTO {
 
     private String codigoEncomenda;
     private String status;
+    private int diasRestantes;
     private String usernameCliente;
     private String nomeCliente;
     private String emailCliente;
@@ -13,11 +14,14 @@ public class EncomendaInsertDTO {
     public EncomendaInsertDTO() {}
 
     // Construtor com parâmetros
-    public EncomendaInsertDTO( String codigoEncomenda, String nomeCliente, String Status, String usernameCliente, String emailCliente) {
+
+
+    public EncomendaInsertDTO(String codigoEncomenda, String status, int diasRestantes, String usernameCliente, String nomeCliente, String emailCliente) {
         this.codigoEncomenda = codigoEncomenda;
-        this.status = Status;
-        this.nomeCliente = nomeCliente;
+        this.status = status;
+        this.diasRestantes = diasRestantes;
         this.usernameCliente = usernameCliente;
+        this.nomeCliente = nomeCliente;
         this.emailCliente = emailCliente;
     }
 
@@ -27,10 +31,6 @@ public class EncomendaInsertDTO {
 
     public void setCodigoEncomenda(String CodigoEncomenda) {
         this.codigoEncomenda = CodigoEncomenda;
-    }
-
-    public void nomeCliente(String nomeCliente) {
-        this.nomeCliente = nomeCliente;
     }
 
     public String getNomeCliente() {
@@ -61,15 +61,27 @@ public class EncomendaInsertDTO {
         this.emailCliente = emailCliente;
     }
 
-    // toString
+    public int getDiasRestantes() {
+        return diasRestantes;
+    }
 
+    public void setDiasRestantes(int diasRestantes) {
+        this.diasRestantes = diasRestantes;
+    }
+
+    public void setNomeCliente(String nomeCliente) {
+        this.nomeCliente = nomeCliente;
+    }
+// toString
     @Override
     public String toString() {
-        return "EncomendaDTO{" +
-                ", CodigoEncomenda='" + codigoEncomenda + '\'' +
-                ", Status='" + status + '\'' +
-                ", UsernameCliente='" + usernameCliente + '\'' +
-                ", EmailCliente='" + emailCliente + '\'' +
+        return "EncomendaInsertDTO{" +
+                "codigoEncomenda='" + codigoEncomenda + '\'' +
+                ", status='" + status + '\'' +
+                ", diasRestantes=" + diasRestantes +
+                ", usernameCliente='" + usernameCliente + '\'' +
+                ", nomeCliente='" + nomeCliente + '\'' +
+                ", emailCliente='" + emailCliente + '\'' +
                 '}';
     }
 }

@@ -59,9 +59,8 @@ public class EncomendaMapper {
 }
 
     // Converte de Encomenda para EncomendaNotificationDTO
-    public static EncomendaDateReturnDTO toEncomendaDateReturnDTO(Encomenda encomenda, long tempoRestante) {
+    public static EncomendaDateReturnDTO toEncomendaDateReturnDTO(Encomenda encomenda, int tempoRestante) {
         EncomendaDateReturnDTO notificationDTO = new EncomendaDateReturnDTO();
-        notificationDTO.setIdEncomenda(encomenda.getIDEncomenda());
         notificationDTO.setCodigoEncomenda(encomenda.getCodigoEncomenda());
         notificationDTO.setDataEntrega(encomenda.getDataEntrega());
         notificationDTO.setDataDevolucao(encomenda.getDataDevolucao());
@@ -74,7 +73,6 @@ public class EncomendaMapper {
         // Converte de Encomenda para EncomendaStatusDTO
     public static EncomendaStatusDTO toEncomendaStatusDTO(Encomenda encomenda) {
         EncomendaStatusDTO statusDTO = new EncomendaStatusDTO();
-        statusDTO.setIdEncomenda(encomenda.getIDEncomenda());
         statusDTO.setCodigoEncomenda(encomenda.getCodigoEncomenda());
         statusDTO.setStatus(encomenda.getStatus());
         return statusDTO;
