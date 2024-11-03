@@ -218,12 +218,12 @@ public class EncomendaController {
         }
     }
 
-    @PutMapping("/status/{idEncomenda}/{novoStatus}")
+    @PutMapping("/status/{codigo}/{novoStatus}")
     public ResponseEntity<?> updateEncomendaStatus(
-            @PathVariable int idEncomenda,
+            @PathVariable String codigo,
             @PathVariable String novoStatus) {
         try {
-            EncomendaStatusDTO updatedStatus = encomendaService.updateEncomendaStatus(idEncomenda, novoStatus);
+            EncomendaStatusDTO updatedStatus = encomendaService.updateEncomendaStatus(codigo, novoStatus);
             return new ResponseEntity<>(updatedStatus, HttpStatus.OK);
         } catch (IllegalArgumentException e) {
             return new ResponseEntity<>("Erro: " + e.getMessage(), HttpStatus.BAD_REQUEST);

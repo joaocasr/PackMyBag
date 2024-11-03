@@ -4,27 +4,19 @@ import java.util.Set;
 
 public class EncomendaDTO {
     
-    private int idEncomenda;
     private String codigoEncomenda;
     private String dataEntrega;
     private String dataDevolucao;
     private String localEntrega;
     private String status;
-    private int clienteId;
+    private String clienteUsername;
+    private String clienteNome;
+    private String clienteEmail;
     private int lojaId;
     // FALTA o set com os itens da encomenda
     private Set<ItemDTO> itens;
     
     public EncomendaDTO() {
-    }
-    
-    //Getters and Setters
-    public int getIdEncomenda() {
-        return idEncomenda;
-    }
-
-    public void setIdEncomenda(int idEncomenda) {
-        this.idEncomenda = idEncomenda;
     }
 
     public String getCodigoEncomenda() {
@@ -67,12 +59,12 @@ public class EncomendaDTO {
         this.status = status;
     }
 
-    public int getClienteId() {
-        return clienteId;
+    public String getClienteUsername() {
+        return clienteUsername;
     }
 
-    public void setClienteId(int clienteId) {
-        this.clienteId = clienteId;
+    public void setClienteUsername(String clienteusername) {
+        this.clienteUsername = clienteusername;
     }
 
     public int getLojaId() {
@@ -89,5 +81,21 @@ public class EncomendaDTO {
 
     public void setItens(Set<ItemDTO> itens) {
         this.itens = itens;
+    }
+
+    public String getClienteNome() {
+        return clienteNome;
+    }
+
+    public void setClienteNome(String clienteNome) {
+        this.clienteNome = clienteNome;
+    }
+
+    public String getClienteEmail() {
+        return clienteEmail;
+    }
+
+    public void setClienteEmail(String clienteEmail) {
+        this.clienteEmail = clienteEmail;
     }
 }

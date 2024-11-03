@@ -23,7 +23,8 @@ public interface EncomendaRepository extends JpaRepository<Encomenda, Integer> {
     // Optional<Encomenda> findByIDint id); // ja existe um metodo findById no JpaRepository
 
     // Procurar por código de encomenda (retorna uma única encomenda)
-    Optional<Encomenda> findByCodigoEncomenda(String codigoEncomenda);
+    @Query("select e FROM Encomenda e where e.codigoEncomenda = :codigo")
+    Optional<Encomenda> findEncomendaByCode(@Param("codigo") String codigo);
 
     // Procurar por Dataentrega apenas
     List<Encomenda> findByDataEntrega(String dataEntrega);
@@ -49,8 +50,8 @@ public interface EncomendaRepository extends JpaRepository<Encomenda, Integer> {
 
     @Transactional
     @Modifying
-    @Query("UPDATE Encomenda e SET e.status = :novoStatus WHERE e.id = :idEncomenda")
-    int updateStatusById(@Param("idEncomenda") int idEncomenda, @Param("novoStatus") String novoStatus);
+    @Query("UPDATE Encomenda e SET e.status = :novoStatus WHERE e.codigoEncomenda = :codigo")
+    int updateStatusByCodigo(@Param("codigo") String codigo, @Param("novoStatus") String novoStatus);
 }
 
     //Metodo personalizado para encotnrar encontrar todas as encomendas

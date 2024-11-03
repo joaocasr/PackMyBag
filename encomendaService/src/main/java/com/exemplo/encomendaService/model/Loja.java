@@ -77,6 +77,11 @@ public class Loja implements Serializable {
 	public Set<Encomenda> getEncomendas() {
 		return encomendas;
 	}
+
+	public void adicionaEncomenda(Encomenda e){
+		if(this.encomendas.stream().map(Encomenda::getCodigoEncomenda).filter(x->x.equals(e.getCodigoEncomenda())).count()>0) return;
+		else this.encomendas.add(e);
+	}
 	
 	public String toString() {
 		return String.valueOf(getIDLoja());

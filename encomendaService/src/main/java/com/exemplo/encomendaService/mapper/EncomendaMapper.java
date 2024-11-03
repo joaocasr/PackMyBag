@@ -18,13 +18,15 @@ public class EncomendaMapper {
     // Converte de Entidade para DTO
     public static EncomendaDTO toDTO(Encomenda encomenda) {
         EncomendaDTO dto = new EncomendaDTO();
-        dto.setIdEncomenda(encomenda.getIDEncomenda());
+        //dto.setIdEncomenda(encomenda.getIDEncomenda());
         dto.setCodigoEncomenda(encomenda.getCodigoEncomenda());
         dto.setDataEntrega(encomenda.getDataEntrega());
         dto.setDataDevolucao(encomenda.getDataDevolucao());
         dto.setLocalEntrega(encomenda.getLocalEntrega());
         dto.setStatus(encomenda.getStatus());
-        dto.setClienteId(encomenda.getCliente().getIDCliente());
+        dto.setClienteUsername(encomenda.getCliente().getUsername());
+        dto.setClienteNome(encomenda.getCliente().getNome());
+        dto.setClienteEmail(encomenda.getCliente().getEmail());
         //dto.setLojaId(encomenda.getLoja().getIDLoja()); // A loja nao pode ser associada porque estamos a usar classes, e a entidade Loja é que tem uma lista com as encomendas para isto funcionar o lojaid tinha de estar definido na classe encomenda
         dto.setItens(encomenda.getItems().stream().map(ItemMapper::toDTO).collect(Collectors.toSet()));
         return dto;

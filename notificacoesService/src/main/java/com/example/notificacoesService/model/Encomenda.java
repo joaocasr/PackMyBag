@@ -22,8 +22,8 @@ import java.util.List;
 @org.hibernate.annotations.Proxy(lazy=false)
 @Table(name="Encomenda")
 public class Encomenda implements Subject, Serializable {
-	public Encomenda() {
-	}
+
+	
 	
 	@Column(name="IDEncomenda", nullable=false, length=10)	
 	@Id	
@@ -32,7 +32,7 @@ public class Encomenda implements Subject, Serializable {
 	private int IDEncomenda;
 	
 	@ManyToOne(targetEntity=Cliente.class, fetch=FetchType.LAZY)
-	@org.hibernate.annotations.Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE, org.hibernate.annotations.CascadeType.LOCK, org.hibernate.annotations.CascadeType.DELETE})	
+	@org.hibernate.annotations.Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE, org.hibernate.annotations.CascadeType.LOCK})	
 	@JoinColumns(value={ @JoinColumn(name="ClienteIDCliente", referencedColumnName="IDCliente", nullable=false) }, foreignKey=@ForeignKey(name="FKEncomenda932418"))	
 	private Cliente cliente;
 	
@@ -44,6 +44,15 @@ public class Encomenda implements Subject, Serializable {
 
 	@Transient
 	private List<Observer> observers = new ArrayList<>();
+	
+	public Encomenda(){}
+	public Encomenda(Cliente cliente,String codigo,String status) {
+		this.observers = new ArrayList<>();
+		this.codigoEncomenda = codigo;
+		this.status = status;
+		this.cliente = cliente;
+	}
+
 	
 	private void setIDEncomenda(int value) {
 		this.IDEncomenda = value;

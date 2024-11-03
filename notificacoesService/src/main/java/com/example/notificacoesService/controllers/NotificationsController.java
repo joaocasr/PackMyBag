@@ -1,6 +1,7 @@
 package com.example.notificacoesService.controllers;
 
 import com.example.notificacoesService.dto.ClientItemDTO;
+import com.example.notificacoesService.dto.EncomendaInsertDTO;
 import com.example.notificacoesService.services.NotificationsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,6 +24,11 @@ public class NotificationsController {
     @PostMapping("/addItemInterested")
     public void adicionarInteressado(@RequestBody ClientItemDTO clientItemDTO){
         notificationsService.addInterested(clientItemDTO);
+    }
+
+    @PostMapping("/addEncomenda")
+    public void adicionarEncomenda(@RequestBody EncomendaInsertDTO encomendainsertdto){
+        notificationsService.encomendaInsertDTO(encomendainsertdto);
     }
 
 }

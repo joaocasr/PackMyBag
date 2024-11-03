@@ -28,6 +28,12 @@ public class Cliente implements Serializable {
 	@Column(name="Email", nullable=true, length=255)	
 	private String email;
 	
+	public Cliente(String nome, String email, String username) {
+		this.nome = nome;
+		this.email = email;
+		this.username = username;
+	}
+	
 	private void setIDCliente(int value) {
 		this.IDCliente = value;
 	}

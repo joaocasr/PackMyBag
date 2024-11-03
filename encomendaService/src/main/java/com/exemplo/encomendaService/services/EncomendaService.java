@@ -66,7 +66,7 @@ public class EncomendaService {
 
     // Procurar por CodigoEncomenda 
     public EncomendaDTO findEncomendaByCodigoEncomenda(String codoEncomenda){
-        Optional<Encomenda> encomenda = encomendaRepository.findByCodigoEncomenda(codoEncomenda);
+        Optional<Encomenda> encomenda = encomendaRepository.findEncomendaByCode(codoEncomenda);
         if (encomenda.isPresent()) {
             return EncomendaMapper.toDTO(encomenda.get());
         } else {
@@ -194,16 +194,19 @@ public class EncomendaService {
 
     // Método para salvar uma nova encomenda
     public EncomendaDTO saveEncomenda(EncomendaDTO encomendaDTO) {
-
-        Cliente cliente = clienteRepository.findById(encomendaDTO.getClienteId())
-                .orElseThrow(() -> new IllegalArgumentException("Cliente não encontrado"));
-
+        Cliente c;
+        Optional<Cliente> cliente = clienteRepository.findByUsername(encomendaDTO.getClienteUsername());
+        if(cliente.isEmpty()) {
+            c = new Cliente(encomendaDTO.getClienteNome(),encomendaDTO.getClienteEmail(),encomendaDTO.getClienteUsername());
+            clienteRepository.save(c);
+        }
+        else c = cliente.get();
         Loja loja = lojaRepository.findById(encomendaDTO.getLojaId())
                 .orElseThrow(() -> new IllegalArgumentException("Loja não encontrada"));
 
-        Encomenda encomenda = EncomendaMapper.toEntity(encomendaDTO, cliente);
+        Encomenda encomenda = EncomendaMapper.toEntity(encomendaDTO, c);
 
-        loja.getEncomendas().add(encomenda);
+        loja.adicionaEncomenda(encomenda);
 
         lojaRepository.save(loja);
 
@@ -213,10 +216,10 @@ public class EncomendaService {
     // Método para atualizar uma encomenda
     public EncomendaDTO updateEncomenda(EncomendaDTO encomendaDTO) {
         
-        Encomenda existingEncomenda = encomendaRepository.findById(encomendaDTO.getIdEncomenda())
-                .orElseThrow(() -> new EntityNotFoundException("Encomenda não encontrada"));
+        Optional<Encomenda> e = encomendaRepository.findEncomendaByCode(encomendaDTO.getCodigoEncomenda());
+        Encomenda existingEncomenda = e.get();
 
-        Cliente cliente = clienteRepository.findById(encomendaDTO.getClienteId())
+        Cliente cliente = clienteRepository.findByUsername(encomendaDTO.getClienteUsername())
                 .orElseThrow(() -> new IllegalArgumentException("Cliente inválido"));
 
         EncomendaMapper.updateEntityFromDTO(existingEncomenda, encomendaDTO, cliente);
@@ -307,9 +310,9 @@ public class EncomendaService {
     }
 
     @Transactional
-    public EncomendaStatusDTO updateEncomendaStatus(int idEncomenda, String novoStatus) {
-        Encomenda encomenda = encomendaRepository.findById(idEncomenda)
-            .orElseThrow(() -> new RuntimeException("Encomenda não encontrada"));
+    public EncomendaStatusDTO updateEncomendaStatus(String codigo, String novoStatus) {
+        Optional<Encomenda> e = encomendaRepository.findEncomendaByCode(codigo);
+        Encomenda encomenda = e.get();
     
         List<String> statusValidos = Arrays.asList("Pago", "Em processamento", "Enviado", "Entregue", "Devolvido");
         if (!statusValidos.contains(novoStatus)) {
@@ -318,11 +321,11 @@ public class EncomendaService {
     
         if (!encomenda.getStatus().equals(novoStatus)) {
             encomenda.setStatus("Pago");
-            encomendaRepository.updateStatusById(idEncomenda, novoStatus);
-            encomendaRepository.save(encomenda);
+            encomendaRepository.updateStatusByCodigo(encomenda.getCodigoEncomenda(), novoStatus);
+            //encomendaRepository.save(encomenda);
 
             // Enviar mensagem pelo Kafka
-            //kafkaProducerService.sendMessage(EncomendaMapper.toEncomendaStatusDTO(encomenda), "EncomendaStatus");
+            kafkaProducerService.sendMessage(EncomendaMapper.toEncomendaStatusDTO(encomenda), "EncomendaStatus");
         }   
     
         return EncomendaMapper.toEncomendaStatusDTO(encomenda);
