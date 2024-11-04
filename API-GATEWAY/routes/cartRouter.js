@@ -47,4 +47,13 @@ router.post("/changeQuantity", function(req, res, next) {
   });
 });
 
+/* Create Payment */
+router.post("/createPayment", function(req, res, next) {
+  cartService.createPayment(req.body).then(resp => {
+    res.jsonp(resp);
+  }).catch(err => {
+    res.status(err.error.status).jsonp(err);
+  });
+});
+
 module.exports = router;

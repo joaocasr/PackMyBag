@@ -69,4 +69,9 @@ public class CartItemController {
             return new ResponseEntity<>(new ErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage()), HttpStatus.BAD_REQUEST);
         }
     }
+
+    @GetMapping("/count/{username}")
+    public int getCartItemsCount(@PathVariable String username) {
+        return cartService.getCartItemsCount(username);
+    }
 }

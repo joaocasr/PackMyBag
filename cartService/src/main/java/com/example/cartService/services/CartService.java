@@ -155,4 +155,39 @@ public class CartService {
                 .mapToInt(Item::getQuantidade)
                 .sum();
     }
+
+    public void createPayment(CartPaymentDTO paymentInfo) throws NoClientException {
+        Cliente cliente = clientCartRepository.getClienteByUsername(paymentInfo.getUsername());
+        if (cliente == null) {
+            throw new NoClientException("Client not found with username: " + paymentInfo.getUsername());
+        }
+
+        Cart cart = cliente.getCart();
+        if (cart == null || cart.getItens().isEmpty()) {
+            throw new NoCartException("Cart is empty for client: " + paymentInfo.getUsername());
+        }
+
+        // Calculate total amount
+        double totalAmount = cart.getItens().stream()
+                .mapToDouble(item -> item.getPreco() * item.getQuantidade())
+                .sum();
+
+        // Create new payment
+        Pagamento payment = new Pagamento();
+        payment.setTotal(totalAmount);
+        payment.setLocalEntrega(paymentInfo.getLocalEntrega());
+        payment.setInicioAluguer(paymentInfo.getInicioAluguer());
+        payment.setFimAluguer(paymentInfo.getFimAluguer());
+        payment.setModoPagamento(paymentInfo.getModoPagamento());
+        payment.setStatus(paymentInfo.getStatus());
+
+        // Add payment to client's transactions
+        cliente.getTransacoes().add(payment);
+
+        // Clear the cart after payment
+        cliente.setCart(null);
+
+        // Save changes
+        clientCartRepository.save(cliente);
+    }
 }
