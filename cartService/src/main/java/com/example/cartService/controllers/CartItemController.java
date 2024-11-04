@@ -49,4 +49,24 @@ public class CartItemController {
             return new ResponseEntity<>(new ErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage()), HttpStatus.BAD_REQUEST);
         }
     }
+
+    @PostMapping("/clearCart")
+    public ResponseEntity<?> clearCart(@RequestBody String username) {
+        try {
+            cartService.clearCart(username);
+            return ResponseEntity.ok().body("Cart cleared successfully!");
+        } catch (Exception e) {
+            return new ResponseEntity<>(new ErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage()), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("/changeQuantity")
+    public ResponseEntity<?> changeItemQuantity(@RequestBody CartItemChangeQuantityDTO itemBody) {
+        try {
+            cartService.changeItemQuantity(itemBody);
+            return ResponseEntity.ok().body("Item quantity updated successfully!");
+        } catch (Exception e) {
+            return new ResponseEntity<>(new ErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage()), HttpStatus.BAD_REQUEST);
+        }
+    }
 }

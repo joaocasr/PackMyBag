@@ -70,7 +70,7 @@ public class CartService {
         for (Item existingItem : cart.getItens()) {
             if (existingItem.getCodigo().equals(item.getCodigo())) {
                 // Update quantity if item exists
-                existingItem.setQuantidade(existingItem.getQuantidade() + item.getQuantidade());
+                existingItem.setQuantidade(existingItem.getQuantidade() + 1);
                 itemExists = true;
                 break;
             }
@@ -82,20 +82,43 @@ public class CartService {
             cartItem.setCodigo(item.getCodigo());
             cartItem.setDesignacao(item.getDesignacao());
             cartItem.setPreco(item.getPreco());
-            cartItem.setQuantidade(item.getQuantidade());
+            cartItem.setQuantidade(1);
             cart.getItens().add(cartItem);
         }
 
         clientCartRepository.save(cliente);
     }
-
-    public void changeItemQuantity(String username, String codigo, int quantity) throws NoClientException {
-        Cliente cliente = clientCartRepository.getClienteByUsername(username);
+    
+    /**
+     * Changes the quantity of an item in the cart,
+     * doesn't check if the quantity passed is valid,
+     * that's done in the controller
+     * @param itemChange
+     * @throws NoClientException
+     */
+    public void changeItemQuantity(CartItemChangeQuantityDTO itemChange) throws NoClientException {
+        Cliente cliente = clientCartRepository.getClienteByUsername(itemChange.getUsername());
         if (cliente == null) {
-            throw new NoClientException("Client not found with username: " + username);
+            throw new NoClientException("Client not found with username: " + itemChange.getUsername());
         }
 
-        addToCart(new CartItemInsertDTO(codigo, username, null, 0, quantity));
+        Cart cart = cliente.getCart();
+        if (cart == null) {
+            throw new NoCartException("Cart not found for client: " + itemChange.getUsername());
+        }
+
+        Item existingItem = cart.getItens().stream()
+            .filter(i -> i.getCodigo().equals(itemChange.getCodigo()))
+            .findFirst()
+            .orElse(null);
+
+        if (existingItem == null) {
+            throw new NoItemException("Item not found in cart: " + itemChange.getCodigo());
+        }
+
+        addToCart(new CartItemInsertDTO(itemChange.getCodigo(), itemChange.getUsername(), 
+                                      existingItem.getDesignacao(), existingItem.getPreco(), 
+                                      itemChange.getQuantity()));
     }
 
     public void removeFromCart(CartItemRemoveDTO itemToRemove) throws NoClientException {
@@ -120,30 +143,6 @@ public class CartService {
         }
 
         cliente.setCart(null);
-        clientCartRepository.save(cliente);
-    }
-
-    public void reduceItemQuantity(String username, String codigo, int quantity) throws NoClientException {
-        Cliente cliente = clientCartRepository.getClienteByUsername(username);
-        if (cliente == null) {
-            throw new NoClientException("Client not found with username: " + username);
-        }
-
-        Cart cart = cliente.getCart();
-        if (cart == null) {
-            throw new NoCartException("Cart not found for client: " + username);
-        }
-
-        Item item = cart.getItens().stream()
-            .filter(i -> i.getCodigo().equals(codigo))
-            .findFirst()
-            .orElse(null);
-
-        if (item == null) {
-            throw new NoItemException("Item not found in cart: " + codigo);
-        }
-
-        item.setQuantidade(item.getQuantidade() - quantity);
         clientCartRepository.save(cliente);
     }
 }

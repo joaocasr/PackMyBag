@@ -29,4 +29,22 @@ router.post("/removeItem", function(req, res, next) {
   });
 });
 
+/* Clear Cart */
+router.post("/clearCart", function(req, res, next) {
+  cartService.clearCart(req.body).then(resp => {
+    res.jsonp(resp);
+  }).catch(err => {
+    res.status(err.error.status).jsonp(err);
+  });
+});
+
+/* Change Item Quantity */
+router.post("/changeQuantity", function(req, res, next) {
+  cartService.changeItemQuantity(req.body).then(resp => {
+    res.jsonp(resp);
+  }).catch(err => {
+    res.status(err.error.status).jsonp(err);
+  });
+});
+
 module.exports = router;
