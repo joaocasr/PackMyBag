@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const favoritosService = require('../microservices/favoritosService')
+const validate = require('../middleware/index')
 
 
 /*Obter itens por genero*/
@@ -12,7 +13,7 @@ router.get("/genero/:username",function(req,res,next){
   favoritosService.getPerGenderItems(username, gender, page,number).then(items=>{
     res.jsonp(items)
   }).catch(err=>{
-    res.status(err.error.status).jsonp(err);
+    res.status(404).jsonp(err);
   })
 })
 
@@ -27,7 +28,7 @@ router.get("/price/:username",function(req,res,next){
   favoritosService.getPerPriceItems(username, min,max,page,number).then(items=>{
     res.jsonp(items)
   }).catch(err=>{
-    res.status(err.error.status).jsonp(err);
+    res.status(404).jsonp(err);
   })
 })
 
@@ -41,13 +42,13 @@ router.get("/size/:username",function(req,res,next){
   favoritosService.getPerSizeItems(username, size, page,number).then(items=>{
     res.jsonp(items)
   }).catch(err=>{
-    res.status(err.error.status).jsonp(err);
+    res.status(404).jsonp(err);
   })
 })
 
 
 /*Adicionar item aos favoritos do user*/
-router.post("/addItem", function(req, res, next) {
+router.post("/addItem", validate.authenticateToken, function(req, res, next) {
 
   const codigo = req.body.codigoItem;
   const idloja = req.body.idLoja;
@@ -65,14 +66,14 @@ router.post("/addItem", function(req, res, next) {
     preco, disponibilidade, tipo, imagem, subclasse, dimensao,identificador).then(resp => {
       res.jsonp(resp);
   }).catch(err => {
-    res.status(err.error.status).jsonp(err);
+    res.status(403).jsonp(err);
   });
 });  
 
 
 
 /*Remover item*/
-router.delete("/removeItem",function(req,res,next){
+router.delete("/removeItem", validate.authenticateToken, function(req,res,next){
 
   const username = req.body.username;
   const itemCode = req.body.itemCode;
@@ -81,7 +82,7 @@ router.delete("/removeItem",function(req,res,next){
   favoritosService.removeItem(username,itemCode,idLoja).then(resp=>{
     res.jsonp(resp);
   }).catch(err=>{
-    res.status(err.error.status).jsonp(err);
+    res.status(403).jsonp(err);
   })
 });
 
@@ -93,7 +94,7 @@ router.get("/:username", function(req, res, next) {
   favoritosService.getUserFavsByPage(username,page, number).then(items => {
       res.jsonp(items);
   }).catch(err => {
-    res.status(err.error.status).jsonp(err);
+    res.status(404).jsonp(err);
   });
 });
 

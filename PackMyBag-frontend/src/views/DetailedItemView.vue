@@ -34,6 +34,7 @@
         				<img class="messageicon" alt="" src="/DetailedItemIMG/Icon.svg">
         				
         				<div class="div">{{ nrReviews }} Reviews</div>
+						<button v-bind:style="{ 'background-image': 'url(' + bellImage + ')' }" @click="changeBell()" class="button-bell"></button>
       			</div>
     		</div>
     		<div class="addtocartbutton">
@@ -139,6 +140,8 @@ export default {
 		if(token!=null){
 			this.token = token;
 			this.username=token.username;
+			this.nome=token.nome;
+			this.email=token.email;
 		}
 	},
 	data(){
@@ -153,6 +156,8 @@ export default {
 			availabilityColor:"#ffff",
 			colors:[],
 			username:"",
+			nome:"",
+			email:"",
 			token:null,
 			profileImg: "xxx",
 			current_page:0,
@@ -168,6 +173,7 @@ export default {
 			relacionados:[],
 			itemCode:'',
 			heart:"/DetailedItemIMG/FvrtEmpty.svg",
+			bellImage: "/DetailedItemIMG/bell.png",
 			idLoja:0
 
 		}
@@ -281,13 +287,11 @@ export default {
 			}
 		},
 		async addToFavourites() {
-			if (this.heart == "/DetailedItemIMG/FvrtEmpty.svg") this.heart = "/DetailedItemIMG/FvrtFill.png";
-			else this.heart = "/DetailedItemIMG/FvrtEmpty.svg";
 
-			const headers = {
-				'Content-Type': 'application/json',
-				// Future addition of Authorization token
-			}
+			const header = authHeader();
+			let config = {headers:header}
+			header['Content-Type'] = 'application/json';
+
 			let dimensao = this.tamanho;
 			if (this.subclasse == "Calcado") dimensao = dimensao.toString();
 			try {
@@ -305,7 +309,7 @@ export default {
 						dimensao: dimensao,
 						identificador:this.idItem
 					},
-					{ headers }
+					config
 				);
 				console.log(resp);
 				return resp;
@@ -326,12 +330,63 @@ export default {
 				let r = await this.addToFavourites();
 				if (r && r.status == 200) {
 					this.$swal.fire("Saved! The item was saved to your favourites.", "", "success");
+					this.heart = "/DetailedItemIMG/FvrtFill.png";
 				} else {
-					this.$swal.fire("Something went wrong! The item already belongs to your favourites.", "", "error");
+					let msg="";
+					if(r.response) msg = r.response.data.message;
+					this.$swal.fire("Something went wrong! "+msg, "", "error");
+					this.heart = "/DetailedItemIMG/FvrtEmpty.svg";
+				}
+			}
+		},
+		async addInterested(){
+			const header = authHeader();
+			let config = {headers:header}
+			header['Content-Type'] = 'application/json';
+			try{
+				const r = await axios.post("http://localhost:8888/api/notificacoesService/addInterested",
+					{
+						"codigo":this.itemCode,
+						"designacao":this.designacao,
+						"disponibilidade":this.disponibilidade,
+						"idLoja":this.idLoja,
+						"username":this.username,
+						"nomeuser":this.nome,
+						"email":this.email
+					},
+					config
+				)
+				return r;
+			}catch(err){
+				console.log(err);
+				return err;
+			}
+		},
+		async changeBell(){
+			const result = await this.$swal.fire({
+				title: "Do you want to receive notifications of " + this.designacao.toLowerCase() + "'s availability?",
+				showDenyButton: true,
+				showCancelButton: true,
+				confirmButtonText: "Save",
+				denyButtonText: `Don't save`
+			});
+			if(result.isConfirmed){
+				console.log("confirmado");
+				let r = await this.addInterested();
+				console.log(r);
+				this.bellImage="/DetailedItemIMG/bellactive.jpg";
+				if (r && r.status == 200) {
+					this.$swal.fire("You will receive notifications on this item soon.", "", "success");
+				} else {
+					let msg="";
+					if(r.response) msg = r.response.data.message;
+					this.$swal.fire("Something went wrong! "+msg, "", "error");
+					this.bellImage="/DetailedItemIMG/bell.png";
 				}
 			} else if (result.isDenied) {
-				this.$swal.fire("Changes are not saved", "", "info");
-			}
+				this.bellImage="/DetailedItemIMG/bell.png";
+
+			}			
 		}
 		
 	},

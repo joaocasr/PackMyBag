@@ -11,15 +11,12 @@
 }
 .image-8-icon {
     position: absolute;
-    
-    top: 0%;
+    top: 10%;
     right: 0%;
     bottom: 0%;
     left: 0%;
-    max-width: 100%;
-    overflow: hidden;
-    max-height: 100%;
-    object-fit: cover;
+    height: 250px;
+    width: 200px;
 }
 .image-8-wrapper {
     position: absolute;
@@ -73,7 +70,7 @@
     align-items: center;
     justify-content: center;
     gap: 15px;
-    left: -210px;
+    left: -180px;
     top: 23px;
 }
 .stylistcomponent-inner {
@@ -113,6 +110,9 @@
     left: 40.5%;
     cursor: pointer;
     background-image: url(/StylistsIMG/Vector.png);
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    background-repeat: no-repeat;
+    padding: 5px;
     border: 0;
 }
 .stylistcomponent {

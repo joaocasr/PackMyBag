@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 const cartService = require('../microservices/cartService')
+const catalogoService = require('../microservices/catalogoService')
+const validate = require('../middleware/index')
 
 /* Get Cart Items */
 router.get("/:username", function(req, res, next) {
@@ -55,5 +57,61 @@ router.post("/createPayment", function(req, res, next) {
     res.status(err.error.status).jsonp(err);
   });
 });
+
+/* Possivel rota para alugar os items do cesto */
+/*
+receber no body seguinte estrutura:
+
+ itensObj=   {
+                "itens": [
+                        {
+                            codigo: "P1",
+                            idloja: 1
+                            quantidade: 2
+                        },
+                        {
+                            codigo: "P2",
+                            idloja: 1
+                            quantidade: 1
+                        }
+                ]
+              }
+*/
+router.post("/order", async function(req,res,next){ //depois inserir funcao middleware
+  const itensObj = req.body.itensObj;
+  const username = req.body.username;
+  try{
+    const result = await catalogoService.verifyAvailability(itensObj);
+    if(result.status==200){
+      cartService.clearCart(username).then(resp => { // clear cart 
+
+          const payment = {
+                            "username":username,
+                            "localEntrega":req.body.localEntrega,
+                            "inicioAluguer":req.body.inicioAluguer,
+                            "fimAluguer":req.body.fimAluguer,
+                            "modoPagamento":req.body.modoPagamento,
+                            "status": "PENDING"
+                          }
+
+          cartService.createPayment(payment).then(resp => { // create payment
+            
+            //adicionar a nova encomenda no servico de encomendas e notificacoes
+            const codigo = "ENC"+username.toUpperCase()+Date.now(); //ex: ENCJOHNNY1730756161725
+
+          }).catch(err => {
+            res.status(400).jsonp(err);
+          });  
+        
+      }).catch(err => {
+        res.status(400).jsonp(err);
+      });
+    }
+  }catch(err){
+    res.status(err.response.data.status || 500).jsonp(err.response.message || "verifyAvailability error.");
+
+  }
+})
+
 
 module.exports = router;

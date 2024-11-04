@@ -8,27 +8,26 @@
                     </div>
                     <div class="stylists">Stylists</div>
 
-                    <div v-for="s in 2">
-						<StylistIndividualView></StylistIndividualView>
+                    <div v-for="s in estilistas">
+						<StylistIndividualView
+                        :nome="s.nome"
+                        :profileImage="s.profileImage"
+                        :bio="s.bio"
+                        :rating="s.rating"
+                        ></StylistIndividualView>
 					</div>
                     
                     <div class="parent">
-                        <div class="div1">1</div>
-                        <div class="rectangle-parent">
-                                <div class="group-child">
-                                </div>
-                                <img class="group-item" alt="" src="/CatalogueIMG/nextbtn.png">
+                        <div class="div1">{{current_page + 1}}</div>
+                                <img v-if="showbtnprevious==true" @click="handlePage('previous')" class="group-item1" alt="" src="/CatalogueIMG/previousbtn.png">
+                               
+                                <img v-if="showbtnnext==true" @click="handlePage('next')" class="group-item2" alt="" src="/CatalogueIMG/nextbtn.png">
                                 
-                        </div>
+
                     </div>
                     <div class="genderfilter">
 
-                        <div class="text">Gender</div>
-                        <img class="iconcontrolexpand-more" alt="" src="/SignUpIMG/Icon/control/expand_more.svg">
-                            <VueSelect
-                                v-model="selectedOption"
-                                :options="typeOptions" placeholder="Gender"
-                            />
+                        
                     </div>
             </div>
   	
@@ -44,9 +43,10 @@ import NavBarComponent from '@/components/NavBarComponent.vue';
 import FooterComponent from '@/components/FooterComponent.vue';
 import StylistIndividualView from '@/components/StylistIndividualView.vue';
 import VueSelect from "vue3-select-component";
+import axios from 'axios';
 import authService from '@/services/auth-service';
 import authHeader from '@/services/auth-header';
-import axios from 'axios';
+
 export default {
 
     components:{
@@ -63,7 +63,11 @@ export default {
             items: [],
             filtered: [],
             current_page:0,
-            estilistas: []
+            token: null,
+            username:'',
+            estilistas: [],
+            showbtnprevious:false,
+            showbtnnext:true
         }
     },
     created(){
@@ -80,12 +84,31 @@ export default {
             const header = authHeader();
 			let config = {headers:header}
 			header['Content-Type'] = 'application/json';
-            axios.get('http//localhost:8888/api/utilizadoresService/estilistas',config).then(estilistas=>{
-                this.estilistas = estilistas.data;
+            axios.get('http://localhost:8888/api/utilizadoresService/estilistas?page='+this.current_page+"&number=2",config).then(stylists=>{
+                this.estilistas = stylists.data;
+                if(this.estilistas.length==0) this.showbtnnext=false;
                 console.log(this.estilistas);
             }).catch(err=>{
                 console.log(err);
             })
+        },
+        handlePage(action){
+            if(action=='previous' && this.current_page==0){
+				this.showbtnprevious=false;
+				return;
+			}
+			if(action=='previous' && this.current_page>0) {
+				this.current_page-=1;
+				this.showbtnnext=true;
+                this.showbtnprevious=true;
+				this.getStylists();
+				return;
+			}
+			else {
+				this.current_page+=1;
+				this.showbtnprevious=true;
+				this.getStylists();
+			}
         }
     }
 

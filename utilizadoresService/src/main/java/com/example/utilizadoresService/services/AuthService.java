@@ -1,5 +1,17 @@
 package com.example.utilizadoresService.services;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+
 import com.example.utilizadoresService.Exceptions.InexistentLojaException;
 import com.example.utilizadoresService.Exceptions.InvalidJwtException;
 import com.example.utilizadoresService.dtos.EstilistaDto;
@@ -7,18 +19,15 @@ import com.example.utilizadoresService.dtos.SignUpEstilistaDto;
 import com.example.utilizadoresService.dtos.SignUpTecnicoDto;
 import com.example.utilizadoresService.dtos.SignUpUserDto;
 import com.example.utilizadoresService.mapper.EstilistaMapper;
-import com.example.utilizadoresService.model.*;
-import com.example.utilizadoresService.repositories.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
+import com.example.utilizadoresService.model.Estilista;
+import com.example.utilizadoresService.model.Loja;
+import com.example.utilizadoresService.model.NormalCliente;
+import com.example.utilizadoresService.model.Tecnico;
+import com.example.utilizadoresService.repositories.ClienteRepository;
+import com.example.utilizadoresService.repositories.EstilistaRepository;
+import com.example.utilizadoresService.repositories.LojaRepository;
+import com.example.utilizadoresService.repositories.NormalClienteRepository;
+import com.example.utilizadoresService.repositories.TecnicoRepository;
 
 @Service
 public class AuthService implements UserDetailsService {
@@ -77,8 +86,8 @@ public class AuthService implements UserDetailsService {
     }
 
 
-    public List<EstilistaDto> getallEstilistas(){
-        return estilistaRepository.findAll().stream().map(x -> estilistamapper.EstilistaMapper(x) ).collect(Collectors.toList());
+    public List<EstilistaDto> getallEstilistas(int page, int number){
+        return estilistaRepository.findAll(PageRequest.of(page, number)).stream().map(x -> estilistamapper.EstilistaMapper(x) ).collect(Collectors.toList());
     }
 
     @Override

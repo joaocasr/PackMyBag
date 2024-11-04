@@ -63,9 +63,11 @@ router.post('/signup/tecnico', async function(req,res,next){
     }
 });
 
-router.post('/estilistas',validate.authenticateToken, async function(req,res,next){
+router.get('/estilistas',validate.authenticateToken, async function(req,res,next){
     try {
-        const resp = await utilizadoresService.getEstilistas(req.token);
+        const page = req.query.page;
+        const number = req.query.number;    
+        const resp = await utilizadoresService.getEstilistas(req.token,page,number);
         res.jsonp(resp);
     } catch (err) {
         res.status(err.status || 500).jsonp(err.error || "Internal Server Error");

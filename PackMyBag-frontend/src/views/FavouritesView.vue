@@ -92,6 +92,7 @@ export default {
 			value: [0,1000],
 			current_page:0,
 			username:'',
+			token:null,
 			favourites:[],
 			selectedGenderOption:'',
 			selectedSizeOption:'',

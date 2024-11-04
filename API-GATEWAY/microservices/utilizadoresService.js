@@ -107,9 +107,9 @@ module.exports.signUpTecnico = async (username, nome, password, email,nomeLoja) 
     }
 }
 
-module.exports.getEstilistas = async (token) =>{
+module.exports.getEstilistas = async (token,page,number) =>{
     try {
-        const resp = await axios.get(`${ap}/estilistas`,
+        const resp = await axios.get(`${ap}/estilistas?page=${page}&number=${number}`,
             {
                 headers: {
                     'Content-Type': 'application/json;charset=UTF-8',

@@ -1,6 +1,6 @@
 .stylistspage-child {
     position: absolute;
-    top: 170.5px;
+    top: 190.5px;
     left: 262.5px;
     border-top: 1px solid #d0d0d0;
     box-sizing: border-box;
@@ -87,15 +87,27 @@
     width: 35px;
     height: 35px;
 }
-.group-item {
+
+.group-item1 {
     position: absolute;
-    height: 40%;
-    top: 30%;
+    height: 30px;
+    top: 10%;
     bottom: 30%;
-    left: calc(50% - 3.5px);
-    max-height: 100%;
-    width: 7px;
+    left: -20px;
+    width: 30px;
     object-fit: contain;
+    cursor:pointer;
+}
+
+.group-item2 {
+    position: absolute;
+    height: 30px;
+    top: 10%;
+    bottom: 30%;
+    left: 80px;
+    width: 30px;
+    object-fit: contain;
+    cursor:pointer;
 }
 .rectangle-parent {
     position: absolute;

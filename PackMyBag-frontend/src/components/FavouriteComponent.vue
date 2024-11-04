@@ -25,9 +25,8 @@ export default {
     },
     methods:{
         async handleRemoveFavourite() {
-            console.log(this.username);
-            console.log(this.codigo);
-            console.log(this.idloja);
+            
+			
 			const result = await this.$swal.fire({
 				title: "Do you want to remove the item '" + this.nome.toLowerCase() + "' from your list of favourites?",
 				showDenyButton: false,
@@ -49,15 +48,14 @@ export default {
 		async removeFromFavourites() {
 			try {
 				let data = {username: this.username,itemCode: this.codigo,idLoja: this.idloja} 
-				let headers = {
-					headers: {
-						'Content-Type': 'application/json;charset=UTF-8',
-					}
-				}
+				const header = authHeader();
+				let config = {headers:header}
+				header['Content-Type'] = 'application/json';
+
 				const resp = await axios.delete('http://localhost:8888/api/favoritosService/removeItem',
 				{
 					data,
-					headers
+					config
 				}
 				);
 				console.log(resp);

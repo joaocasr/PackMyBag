@@ -1,5 +1,7 @@
 var express = require('express')
 var router = express.Router()
+var notificacoesService = require('../microservices/notificacoesService');
+var validateToken = require('../middleware/index')
 
 var notifications = new Map()
 var clients = new Map();  
@@ -49,5 +51,21 @@ router.get('/notifications/retrieve/:username', (req, res) => {
         clients.delete(username);
     });
 });
+
+router.post('/addInterested', validateToken.authenticateToken, async function(req,res,next){
+    const codigo = req.body.codigo;
+    const designacao = req.body.designacao;
+	const disponibilidade = req.body.disponibilidade;
+	const idLoja = req.body.idLoja.toString();
+	const username= req.body.username;
+	const nomeuser=req.body.nomeuser;
+	const email= req.body.email;
+    try {
+        const resp = await notificacoesService.addInterested(codigo,designacao,disponibilidade,idLoja,username,nomeuser,email);
+        res.jsonp(resp);
+    } catch (err) {
+        res.status(err.status || 500).jsonp(err);
+    }
+})
 
 module.exports = router;

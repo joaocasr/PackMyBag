@@ -10,7 +10,7 @@ router.get("/", function(req, res, next) {
   catalogoService.getItemsByPage(page, number).then(items => {
       res.jsonp(items);
   }).catch(err => {
-    res.status(err.error.status).jsonp(err);
+    res.status(404).jsonp(err);
   });
 });
 
@@ -19,7 +19,7 @@ router.get("/all", function(req, res, next) {
   catalogoService.getAllItems().then(items => {
       res.jsonp(items);
   }).catch(err => {
-    res.status(err.error.status).jsonp(err);
+    res.status(404).jsonp(err);
   });
 });
 
@@ -28,7 +28,7 @@ router.get('/random',function(req,res,next){
   catalogoService.getRandomItems().then(items=>{
     res.jsonp(items);
   }).catch(error=>{
-    res.status(error.error.status).jsonp(error);
+    res.status(404).jsonp(error);
   });
 });
 
@@ -37,7 +37,7 @@ router.get("/items/:id", function(req, res, next) {
   catalogoService.showItemDetails(req.params.id).then(items => {
       res.jsonp(items);
   }).catch(err => {
-    res.status(err.error.status).jsonp(err);
+    res.status(404).jsonp(err);
   });
 });
 
@@ -48,7 +48,7 @@ router.get("/items/:id/reviews", function(req, res, next) {
   catalogoService.getReviews(req.params.id,page,number).then(items => {
       res.jsonp(items);
   }).catch(err => {
-    res.status(err.error.status).jsonp(err);
+    res.status(404).jsonp(err);
   });
 });  
 

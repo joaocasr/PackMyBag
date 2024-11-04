@@ -283,3 +283,17 @@ module.exports.removeItem = (code,lojaid) => {
         }
     })
 }
+
+module.exports.verifyAvailability = async (listEncomenda) =>{
+    const resp = await axios.post(`${ap}/disponibilidade/`, 
+                { 
+                    itens:listEncomenda
+                },
+            {
+                headers: { 
+                    'Content-Type': 'application/json;charset=UTF-8',
+                }
+            }
+        );
+    return resp.data;
+}
