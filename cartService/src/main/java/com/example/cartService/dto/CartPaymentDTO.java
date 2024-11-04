@@ -6,14 +6,16 @@ public class CartPaymentDTO {
     private String inicioAluguer;
     private String fimAluguer;
     private String modoPagamento;
+    private String status;
 
     // Constructor
-    public CartPaymentDTO(String username, String localEntrega, String inicioAluguer, String fimAluguer, String modoPagamento) {
+    public CartPaymentDTO(String username, String localEntrega, String inicioAluguer, String fimAluguer, String modoPagamento, String status    ) {
         this.username = username;
         this.localEntrega = localEntrega;
         this.inicioAluguer = inicioAluguer;
         this.fimAluguer = fimAluguer;
         this.modoPagamento = modoPagamento;
+        this.status = status;
     }
 
     // Getters and Setters
@@ -31,4 +33,7 @@ public class CartPaymentDTO {
     
     public String getModoPagamento() { return modoPagamento; }
     public void setModoPagamento(String modoPagamento) { this.modoPagamento = modoPagamento; }
+
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
 }
