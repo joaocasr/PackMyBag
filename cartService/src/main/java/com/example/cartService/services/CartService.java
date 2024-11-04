@@ -70,7 +70,7 @@ public class CartService {
         for (Item existingItem : cart.getItens()) {
             if (existingItem.getCodigo().equals(item.getCodigo())) {
                 // Update quantity if item exists
-                existingItem.setQuantidade(existingItem.getQuantidade() + 1);
+                existingItem.setQuantidade(existingItem.getQuantidade() + item.getQuantidade());
                 itemExists = true;
                 break;
             }
@@ -82,7 +82,7 @@ public class CartService {
             cartItem.setCodigo(item.getCodigo());
             cartItem.setDesignacao(item.getDesignacao());
             cartItem.setPreco(item.getPreco());
-            cartItem.setQuantidade(1);
+            cartItem.setQuantidade(item.getQuantidade());
             cart.getItens().add(cartItem);
         }
 
@@ -144,5 +144,15 @@ public class CartService {
 
         cliente.setCart(null);
         clientCartRepository.save(cliente);
+    }
+
+    public int getCartItemsCount(String username) throws NoClientException {
+        Cliente cliente = clientCartRepository.getClienteByUsername(username);
+        if (cliente == null) {
+            throw new NoClientException("Client not found with username: " + username);
+        }
+        return cliente.getCart().getItens().stream()
+                .mapToInt(Item::getQuantidade)
+                .sum();
     }
 }
