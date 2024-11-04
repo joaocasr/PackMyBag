@@ -74,4 +74,14 @@ public class CartItemController {
     public int getCartItemsCount(@PathVariable String username) {
         return cartService.getCartItemsCount(username);
     }
+
+    @PostMapping("/createPayment")
+    public ResponseEntity<?> createPayment(@RequestBody CartPaymentDTO paymentInfo) {
+        try {
+            cartService.createPayment(paymentInfo);
+            return ResponseEntity.ok().body("Payment created successfully!");
+        } catch (Exception e) {
+            return new ResponseEntity<>(new ErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage()), HttpStatus.BAD_REQUEST);
+        }
+    }
 }
