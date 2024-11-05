@@ -58,6 +58,15 @@ router.post("/createPayment", function(req, res, next) {
   });
 });
 
+/* Change Payment Status */
+router.post("/changePaymentStatus", function(req, res, next) {
+  cartService.changePaymentStatus(req.body).then(resp => {
+    res.jsonp(resp);
+  }).catch(err => {
+    res.status(err.error.status).jsonp(err);
+  });
+});
+
 /* Possivel rota para alugar os items do cesto */
 /*
 receber no body seguinte estrutura:

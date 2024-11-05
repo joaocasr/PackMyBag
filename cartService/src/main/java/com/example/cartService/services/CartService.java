@@ -6,7 +6,8 @@ import com.example.cartService.dto.*;
 import com.example.cartService.exceptions.*;
 import com.example.cartService.model.*;
 import com.example.cartService.mappers.*;
-import com.example.cartService.repositories.*;
+import com.example.cartService.repositories.ClientCartRepository;
+//import com.example.cartService.repositories.CartItemRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -174,6 +175,7 @@ public class CartService {
 
         // Create new payment
         Pagamento payment = new Pagamento();
+        payment.setCodigo(paymentInfo.getCodigo());
         payment.setTotal(totalAmount);
         payment.setLocalEntrega(paymentInfo.getLocalEntrega());
         payment.setInicioAluguer(paymentInfo.getInicioAluguer());
@@ -188,6 +190,25 @@ public class CartService {
         cliente.setCart(null);
 
         // Save changes
+        clientCartRepository.save(cliente);
+    }
+
+    public void changePaymentStatus(CartPaymentDTO paymentInfo) throws NoClientException {
+        Cliente cliente = clientCartRepository.getClienteByUsername(paymentInfo.getUsername());
+        if (cliente == null) {
+            throw new NoClientException("Client not found with username: " + paymentInfo.getUsername());
+        }
+
+        Pagamento payment = cliente.getTransacoes().stream()
+                .filter(p -> p.getCodigo().equals(paymentInfo.getCodigo()))
+                .findFirst()
+                .orElse(null);
+
+        if (payment == null) {
+            throw new NoPaymentException("Payment not found with id: " + paymentInfo.getCodigo());
+        }
+
+        payment.setStatus(paymentInfo.getStatus());
         clientCartRepository.save(cliente);
     }
 }

@@ -6,9 +6,11 @@ import com.example.cartService.dto.ClientCartDTO;
 import com.example.cartService.model.Cart;
 import com.example.cartService.model.Cliente;
 
+import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Component
 public class ClientCartMapper {
     
     public ClientCartDTO toClientCartDTO(Cliente cliente) {

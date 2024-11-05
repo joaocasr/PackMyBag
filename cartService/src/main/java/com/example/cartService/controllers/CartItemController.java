@@ -84,4 +84,14 @@ public class CartItemController {
             return new ResponseEntity<>(new ErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage()), HttpStatus.BAD_REQUEST);
         }
     }
+
+    @PostMapping("/changePaymentStatus")
+    public ResponseEntity<?> changePaymentStatus(@RequestBody CartPaymentDTO paymentInfo) {
+        try {
+            cartService.changePaymentStatus(paymentInfo);
+            return ResponseEntity.ok().body("Payment status updated successfully!");
+        } catch (Exception e) {
+            return new ResponseEntity<>(new ErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage()), HttpStatus.BAD_REQUEST);
+        }
+    }
 }

@@ -2,6 +2,7 @@ package com.example.cartService.dto;
 
 public class CartPaymentDTO {
     private String username;
+    private String codigo;
     private String localEntrega;
     private String inicioAluguer;
     private String fimAluguer;
@@ -9,8 +10,9 @@ public class CartPaymentDTO {
     private String status;
 
     // Constructor
-    public CartPaymentDTO(String username, String localEntrega, String inicioAluguer, String fimAluguer, String modoPagamento, String status    ) {
+    public CartPaymentDTO(String username, String codigo, String localEntrega, String inicioAluguer, String fimAluguer, String modoPagamento, String status) {
         this.username = username;
+        this.codigo = codigo;
         this.localEntrega = localEntrega;
         this.inicioAluguer = inicioAluguer;
         this.fimAluguer = fimAluguer;
@@ -21,6 +23,9 @@ public class CartPaymentDTO {
     // Getters and Setters
     public String getUsername() { return username; }
     public void setUsername(String username) { this.username = username; }
+
+    public String getCodigo() { return codigo; }
+    public void setCodigo(String codigo) { this.codigo = codigo; }
     
     public String getLocalEntrega() { return localEntrega; }
     public void setLocalEntrega(String localEntrega) { this.localEntrega = localEntrega; }
