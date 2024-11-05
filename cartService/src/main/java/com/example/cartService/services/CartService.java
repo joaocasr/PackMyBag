@@ -117,9 +117,9 @@ public class CartService {
             throw new NoItemException("Item not found in cart: " + itemChange.getCodigo());
         }
 
-        addToCart(new CartItemInsertDTO(itemChange.getCodigo(), itemChange.getUsername(), 
-                                      existingItem.getDesignacao(), existingItem.getPreco(), 
-                                      itemChange.getQuantity()));
+        // Simply update the quantity instead of calling addToCart
+        existingItem.setQuantidade(itemChange.getQuantity());
+        clientCartRepository.save(cliente);
     }
 
     public void removeFromCart(CartItemRemoveDTO itemToRemove) throws NoClientException {
