@@ -1,0 +1,99 @@
+.div {
+    position: absolute;
+    top: 75px;
+    left: 410px;
+    line-height: 24px;
+}
+.div1 {
+    position: absolute;
+    top: 75px;
+    left: 1098px;
+    line-height: 24px;
+}
+.div2 {
+    position: relative;
+    line-height: 24px;
+}
+.drop-up-small-icon {
+    width: 16px;
+    position: relative;
+    height: 16px;
+    overflow: hidden;
+    flex-shrink: 0;
+    object-fit: contain;
+}
+.drop-down-small-icon {
+    width: 16px;
+    position: relative;
+    height: 16px;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+.drop-up-small-parent {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+.parent {
+    position: absolute;
+    top: 6px;
+    width: 110px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+}
+.quantity {
+    position: absolute;
+    top: 63.5px;
+    left: 721.5px;
+    width: 175px;
+    height: 47px;
+    overflow: hidden;
+    height: 177px;
+}
+.image-18-icon {
+    position: absolute;
+    height: 61.86%;
+    width: 6.83%;
+    top: 12.11%;
+    right: 88.48%;
+    bottom: 26.03%;
+    left: 2.69%;
+    max-width: 100%;
+    overflow: hidden;
+    max-height: 100%;
+    object-fit: cover;
+}
+.cutwork-poplin-dress {
+    position: absolute;
+    top: 75px;
+    left: 160px;
+    line-height: 24px;
+}
+.icon-cancel {
+    position: absolute;
+    top: 22px;
+    left: 25px;
+    width: 24px;
+    height: 24px;
+    overflow: hidden;
+}
+.cart-section {
+    width: 65%;
+    position: relative;
+    box-shadow: 0px 1px 13px rgba(0, 0, 0, 0.05);
+    border-radius: 4px;
+    background-color: #fff;
+    height: 269px;
+    overflow: hidden;
+    text-align: left;
+    font-size: 16px;
+    color: #000;
+    font-family: Poppins;
+    top: -350px;
+    left: 70px;
+    border: 1px solid black;
+    margin-bottom: 10px;
+}

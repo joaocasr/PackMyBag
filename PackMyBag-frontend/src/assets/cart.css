@@ -1,0 +1,249 @@
+.shopping-cart {
+    position: absolute;
+    top: 143px;
+    left: 99px;
+}
+.encomendaspage-child {
+    position: absolute;
+    top: 200px;
+    left: 68px;
+    max-height: 100%;
+    width: 1389px;
+}
+.view-all-products {
+    position: relative;
+    line-height: 24px;
+    font-weight: 500;
+}
+.button {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    border-radius: 4px;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    box-sizing: border-box;
+    width: 252.8px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 48px;
+    cursor: pointer;
+}
+.button1 {
+    position: absolute;
+    top: 0px;
+    left: 1062.91px;
+    border-radius: 4px;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    box-sizing: border-box;
+    width: 426.1px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: black;
+    color:white;
+    justify-content: center;
+    padding: 16px 48px;
+    cursor: pointer;
+}
+
+.button2 {
+    position: absolute;
+    top: 0px;
+    left: 62.91px;
+    border-radius: 4px;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    box-sizing: border-box;
+    width: 326.1px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: rgb(255, 255, 255);
+    color:rgb(0, 0, 0);
+    justify-content: center;
+    padding: 16px 48px;
+    cursor: pointer;
+}
+
+.button-parent {
+    position: absolute;
+    top: 790px;
+    left: 350px;
+    width: 1389px;
+    height: 56px;
+    font-size: 16px;
+    font-family: Poppins;
+}
+.encomendaspage {
+    width: 100%;
+    position: relative;
+    background-color: #fff;
+    height: 2941px;
+    overflow: hidden;
+    text-align: left;
+    font-size: 32px;
+    color: #000;
+    font-family: Abel;
+}
+
+
+.product {
+  	width: 82px;
+  	position: relative;
+  	line-height: 24px;
+  	white-space: pre-wrap;
+  	display: inline-block;
+  	flex-shrink: 0;
+}
+.price {
+  	position: relative;
+  	line-height: 24px;
+}
+.product-parent {
+  	position: absolute;
+  	top: 24px;
+  	left: 40px;
+  	display: flex;
+  	flex-direction: row;
+  	align-items: center;
+  	justify-content: flex-start;
+  	gap: 284px;
+}
+.cart-main-section {
+    width: 65%;
+    position: relative;
+    box-shadow: 0px 1px 13px rgba(13, 11, 11, 0.05);
+    border-radius: 4px;
+    background-color: #eee;
+    height: 72px;
+    overflow: hidden;
+    text-align: left;
+    font-size: 16px;
+    color: #000;
+    font-family: Poppins;
+    top: 222px;
+    left: 70px;
+}
+
+.shop-cart-frame {
+    width: 100%;
+    position: relative;
+    height: 664px;
+    text-align: left;
+    font-size: 16px;
+    color: #000;
+    font-family: Poppins;
+}
+.summary {
+    width: 30%;
+    position: relative;
+    box-shadow: 0px 1px 13px rgba(0, 0, 0, 0.05);
+    border-radius: 4px;
+    background-color: #eeeeee;
+    height: 640px;
+    overflow: hidden;
+    text-align: left;
+    font-size: 16px;
+    color: #000;
+    font-family: Poppins;
+    top: -1000px;
+    left: 69%;
+}
+
+.hide {
+    visibility: hidden !important;
+}
+.summary-title{
+    font-size: xx-large;
+    font-weight: bold;   
+    padding-left: 40px;
+    padding-top: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.period-title{
+    font-size: large;
+    padding-left: 0px;
+    font-weight: bold;   
+    padding-top: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.period-title2{
+    position: relative;
+    font-size: large;
+    font-weight: bold;   
+    margin-top: -40px;
+    font-family: Arial, Helvetica, sans-serif;
+    margin-left: 36px;
+}
+.summary-details{
+    font-family: monospace;
+    padding-left: 10px;
+}
+
+.footer {
+    position: absolute;
+    height: 65%;
+    width: 100%;
+    top: 0%;
+    right: 0%;
+    bottom: 0%;
+    left: 0%;
+    background-color: #111827;
+    overflow: hidden;
+}
+.myfooter {
+    position: absolute;
+    top: 2669px;
+    left: 0px;
+    background-color: #f7f7f7;
+    width: 1535px;
+    height: 340px;
+    font-size: 16px;
+    color: #fff;
+    font-family: Poppins;
+}
+
+
+.form-section {
+    width: 65%;
+    position: absolute;
+    height: 269px;
+    text-align: left;
+    font-size: 16px;
+    color: #000;
+    font-family: Poppins;
+    top: 251px;
+}
+
+.searchAddress {
+    width: 50%;
+    border-radius: 20px;
+    font-size: 12px;
+    font-family: Poppins;
+    box-sizing: border-box;
+    background: #f1eeee url("/NavBarIMG/Component 2.svg") no-repeat 7px 20px;
+    margin-top:100px;
+    margin-left:60px;
+    padding-left: 40px;
+    border: 1px solid #000;
+    height: 69px;
+}
+
+.addressbtn{
+    background-color: #000;
+    position: relative;
+    color:white;
+    border-radius: 10px;
+    left:-50px;
+    font-size: 18px;
+    border:0;
+    cursor:pointer;
+}
+.deliveryClass{
+    margin-left:570px; margin-top: -250px;
+}
+
+.addressbtn:active {
+    transform: translateY(4px);
+}

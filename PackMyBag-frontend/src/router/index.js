@@ -8,6 +8,7 @@ import LoginView from '@/views/LoginView.vue'
 import StylistsView from '@/views/StylistsView.vue'
 import FormsView from '@/views/FormsView.vue'
 import FavouritesView from '@/views/FavouritesView.vue'
+import CartView from '@/views/CartView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -38,7 +39,15 @@ const router = createRouter({
       component: FavouritesView,
       meta: {
         requiresAuth: true,
-      },
+      }
+    },
+    {
+      path: '/cart',
+      name: 'cart',
+      component: CartView,
+      meta: {
+        requiresAuth: true,
+      }
     },
     {
       path: '/signup',
