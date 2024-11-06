@@ -8,10 +8,10 @@
 				<p class="clothing-rental-for">Leave your bags behind and sign up now</p>
 				</div>
 				<div class="explore-collection-wrapper" id="frameContainer">
-				<button class="explore-collection" @click="goToCatalogue()">EXPLORE COLLECTION</button>
 				</div>
 				<img class="icon1" alt="" src="/HomeViewIMG/5787874 1.png">
 			</div>
+			<button class="explore-collection" @click="goToCatalogue()">EXPLORE COLLECTION</button>
 			<div class="rowhomecatalogue">
 				<!--colocar aqui-->
 				<div class="itemclass" v-for="item in randomItems">
@@ -36,11 +36,11 @@
 				<div class="choose-your-favorite">Choose your favorite pieces/sets and rent them for your trip.</div>
 				<img class="image-icon" alt="" src="/HomeViewIMG/image.png">
 				<img class="image-1-icon" alt="" src="/HomeViewIMG/image 1.png">
+				<img class="hotel-reception-1-icon" alt="" src="/HomeViewIMG/hotel_reception 1.png">
 				<img class="image-26-icon" alt="" src="/HomeViewIMG/image 26.png">
 				<div class="pick-up-at">Pick up at the hotel reception and enjoy the clothes.</div>
 				<b class="pick-up">Pick Up</b>
 			</div>
-				<img class="hotel-reception-1-icon" alt="" src="/HomeViewIMG/hotel_reception 1.png">
 			</div>
 			
 			<div class="membershipplan">

@@ -48,7 +48,7 @@ router.get("/size/:username",function(req,res,next){
 
 
 /*Adicionar item aos favoritos do user*/
-router.post("/addItem", validate.authenticateToken, function(req, res, next) {
+router.post("/addItem", validate.verifyToken, function(req, res, next) {
 
   const codigo = req.body.codigoItem;
   const idloja = req.body.idLoja;
@@ -73,7 +73,7 @@ router.post("/addItem", validate.authenticateToken, function(req, res, next) {
 
 
 /*Remover item*/
-router.delete("/removeItem", validate.authenticateToken, function(req,res,next){
+router.delete("/removeItem", validate.verifyToken, function(req,res,next){
 
   const username = req.body.username;
   const itemCode = req.body.itemCode;

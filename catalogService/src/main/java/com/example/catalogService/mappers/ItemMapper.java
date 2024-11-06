@@ -1,9 +1,6 @@
 package com.example.catalogService.mappers;
 
-import com.example.catalogService.dto.CatalogoItemDTO;
-import com.example.catalogService.dto.FullDetailedItemDTO;
-import com.example.catalogService.dto.RelacionadosDTO;
-import com.example.catalogService.dto.ReviewDTO;
+import com.example.catalogService.dto.*;
 import com.example.catalogService.model.*;
 import org.springframework.stereotype.Component;
 
@@ -40,4 +37,7 @@ public class ItemMapper {
         return new ReviewDTO(review.getClassificacao(),review.getAutor().getUsername(), review.getDescricao(), review.getAutor().getProfileImg(),review.getData());
     }
 
+    public TrendingItemDTO toTrendingItemDTO(Item item){
+        return new TrendingItemDTO(item.getDesignacao(),item.getImagem(),item.getNraquisicoes(),item.getIDItem());
+    }
 }

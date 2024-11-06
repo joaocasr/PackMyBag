@@ -1,17 +1,26 @@
 
 .selectClass{
-    background-color: #f7f7f7;
     border: 0;
     width: 32px;
     height: 32px;
+    background-color: #f7f7f7;
+    color:#f7f7f7;
     background-size: 32px;
     margin-left: 14px;
     background-image: url('/NavBarIMG/user-icon.png');
     margin-bottom: 2px;
 }
+.selectwrapper{
+    background-color: #f7f7f7;
+    color:#f7f7f7;
+    padding-right: 10px;
+    outline: none;
+}
+
 select {
     outline: none; 
     text-indent: 100px;
+    appearance: none;
     text-overflow: '';
     cursor: pointer;
 }

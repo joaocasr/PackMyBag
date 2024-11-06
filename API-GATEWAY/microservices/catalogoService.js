@@ -297,3 +297,16 @@ module.exports.verifyAvailability = async (listEncomenda) =>{
         );
     return resp.data;
 }
+
+module.exports.getTrendingItems = (idloja) => {
+    return axios.get(`${ap}/trending/${idloja}`).then(resp => {
+        return resp.data;
+    })
+    .catch(err => {
+        if (err.response) {
+            throw { error: err.response.data };
+        }else {
+            throw err
+        }
+    });
+}

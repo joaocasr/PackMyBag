@@ -53,7 +53,7 @@ router.get("/items/:id/reviews", function(req, res, next) {
 });  
 
 /*Adicionar Review*/
-router.post("/items/:id/addreview",validate.authenticateToken, function(req, res, next) {
+router.post("/items/:id/addreview",validate.verifyToken, function(req, res, next) {
   const username = req.body.username;
   const profileImg = req.body.profileImg;
   const texto = req.body.texto;
@@ -207,5 +207,16 @@ router.delete("/deleteItem",function(req,res,next){
     res.status(err.error.status).jsonp(err);
   })
 });
+
+/*Obter os 4 itens com mais aquicoes de uma loja*/
+router.get("/trending/:lojaid",function(req,res,next){
+  const lojaid = req.params.lojaid;
+  catalogoService.getTrendingItems(lojaid).then(items=>{
+    res.jsonp(items)
+  }).catch(err=>{
+    res.status(err.error.status).jsonp(err);
+  })
+})
+
 
 module.exports = router;

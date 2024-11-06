@@ -9,6 +9,7 @@ import StylistsView from '@/views/StylistsView.vue'
 import FormsView from '@/views/FormsView.vue'
 import FavouritesView from '@/views/FavouritesView.vue'
 import CartView from '@/views/CartView.vue'
+import ShopHomeView from '@/views/ShopHomeView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -16,7 +17,15 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView
+      component: HomeView,
+      meta:{
+        "notShop":true
+      }
+    },
+    {
+      path: '/home/shop',
+      name: 'shophome',
+      component: ShopHomeView,
     },
     {
       path: '/catalogue',
@@ -71,9 +80,14 @@ const router = createRouter({
     }
   ]
 })
-/* codigo para proteger rotas depois colocar
+
 import authService from '@/services/auth-service'
 router.beforeEach((to, from, next) => {
+  if (to.meta.notShop==true) {
+    if(authService.getToken()!=null && authService.getToken().role=="Tecnico"){
+      next("/home/shop");
+    }
+  }
   if (to.meta.requiresAuth==true) {
     if(authService.getToken()==null){
       next("login");
@@ -81,8 +95,10 @@ router.beforeEach((to, from, next) => {
     if(authService.getToken()!=null){
       next();
     }
-  }else{
+  }
+  else{
     next();
   }
-});*/
+});
+
 export default router

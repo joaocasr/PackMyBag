@@ -239,6 +239,7 @@ public class ItemService {
             if (nr < itemEncomenda.getQuantidade()) {
                 throw new ItemUnavailableException(i.getDesignacao(), i.getCodigo(), i.getLoja().getNome());
             }
+            i.setNraquisicoes(i.getNraquisicoes()+itemEncomenda.getQuantidade());
             i.setNrDisponiveis(nr - itemEncomenda.getQuantidade());
             if (i.getNrDisponiveis() == 0) {
                 i.setDisponibilidade("Not Available");
@@ -281,5 +282,9 @@ public class ItemService {
             r = true;
         }
         return r;
+    }
+
+    public List<TrendingItemDTO> getTrendingItems(int loja){
+        return itemRepository.getTopItems(loja).stream().map(x->itemMapper.toTrendingItemDTO(x)).collect(Collectors.toList());
     }
 }

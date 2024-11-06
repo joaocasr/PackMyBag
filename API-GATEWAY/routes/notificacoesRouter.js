@@ -52,7 +52,7 @@ router.get('/notifications/retrieve/:username', (req, res) => {
     });
 });
 
-router.post('/addInterested', validateToken.authenticateToken, async function(req,res,next){
+router.post('/addInterested', validateToken.verifyToken, async function(req,res,next){
     const codigo = req.body.codigo;
     const designacao = req.body.designacao;
 	const disponibilidade = req.body.disponibilidade;

@@ -86,6 +86,11 @@ receber no body seguinte estrutura:
                 ]
               }
 */
+/*
+//adicionar a nova encomenda no servico de encomendas e notificacoes
+            const codigo = "ENC"+username.toUpperCase()+Date.now(); //ex: ENCJOHNNY1730756161725
+
+*/
 router.post("/order", async function(req,res,next){ //depois inserir funcao middleware
   const itensObj = req.body.itensObj;
   const username = req.body.username;
@@ -105,9 +110,7 @@ router.post("/order", async function(req,res,next){ //depois inserir funcao midd
 
           cartService.createPayment(payment).then(resp => { // create payment
             
-            //adicionar a nova encomenda no servico de encomendas e notificacoes
-            const codigo = "ENC"+username.toUpperCase()+Date.now(); //ex: ENCJOHNNY1730756161725
-
+            
           }).catch(err => {
             res.status(400).jsonp(err);
           });  

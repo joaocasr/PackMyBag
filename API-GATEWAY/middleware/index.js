@@ -1,6 +1,6 @@
 var utilizadoresService = require('../microservices/utilizadoresService')
 
-module.exports.authenticateToken = async (req, res, next) => {
+module.exports.verifyToken = async (req, res, next) => {
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1];
 

@@ -191,5 +191,10 @@ public class ItemController {
     public List<CatalogoItemDTO> getRandomItemsHome() {
         return itemService.getRandomItems();
     }
+
+    @GetMapping("/trending/{lojaid}")
+    public List<TrendingItemDTO> getTrendingItems(@PathVariable int lojaid) {
+        return itemService.getTrendingItems(lojaid);
+    }
 }
 

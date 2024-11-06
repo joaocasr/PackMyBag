@@ -384,17 +384,12 @@ main{
     overflow: hidden;
 }
 .hotel-reception-1-icon {
-    position: absolute;
-    height: 12.99%;
-    width: 3.25%;
-    top: 35.84%;
-    right: 37.73%;
-    bottom: 51.17%;
-    left: 63%;
-    max-width: 100%;
-    overflow: hidden;
-    max-height: 100%;
     object-fit: cover;
+    position: absolute;
+    top: 138px;
+    left: 1209px;
+    width: 50px;
+    height: 50px;
 }
 .howitworksbanner {
     position: relative;
@@ -651,36 +646,39 @@ main{
 }
 .clothing-rental-for-container {
     position: absolute;
-    top: 250px;
-    left: 750px;
-    width: 500px;
+    top: 340px;
+    left: 735px;
+    width: 520px;
     line-height: 50px;
     color:#4d4d4d;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 .explore-collection {
-    position: absolute;
-    top: 500px;
-    left: 900px;
+    position: relative;
+    top: 20px;
+    left:900px;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 40px;
     background-color: #fff;
     width: 200px;
     height: 40px;
-    overflow: hidden;
     cursor: pointer;
     text-align: left;
     font-size: 12px;
     font-family: 'Alegreya Sans SC';
-    border:0;
+    border: 0;
+    overflow: hidden;
     padding-top: 20px;
     padding-bottom: 30px;
     padding-left: 30px;
+    cursor: pointer;
+    z-index: 1;
 }
 
 .icon1 {
     position: absolute;
-    top: -16px;
-    left: 1011px;
+    top: -10px;
+    left: 940px;
     width: 442px;
     height: 460px;
     object-fit: cover;

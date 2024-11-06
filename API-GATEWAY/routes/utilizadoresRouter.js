@@ -63,7 +63,7 @@ router.post('/signup/tecnico', async function(req,res,next){
     }
 });
 
-router.get('/estilistas',validate.authenticateToken, async function(req,res,next){
+router.get('/estilistas',validate.verifyToken, async function(req,res,next){
     try {
         const page = req.query.page;
         const number = req.query.number;    

@@ -10,13 +10,22 @@
           					<div @click="gotoHome()" class="home">
             						<div class="home">Home</div>
           					</div>
-          					<div @click="gotoStylists()" class="stylists1">
+          					<div v-if="this.role=='Cliente'" @click="gotoStylists()" class="stylists1">
             						<div class="stylists1">Stylists</div>
           					</div>
-          					<div @click="gotoCatalogue()" class="catalogue">
+          					<div v-if="this.role=='Tecnico'" class="stylists1">
+            						<div class="stylists1">Store</div>
+          					</div>
+
+							<div v-if="this.role!='Tecnico'" @click="gotoCatalogue()" class="catalogue">
             						<div class="catalogue1">Catalogue</div>
           					</div>
-          					<div @click="gotoAbout()" class="about">
+							<div v-if="this.role=='Tecnico'" class="catalogue">
+            						<div class="catalogue1">Orders</div>
+          					</div>
+
+
+							<div @click="gotoAbout()" class="about">
             						<div class="about">About</div>
           					</div>
           					<div @click="gotoSignUp()" class="signup">
@@ -28,21 +37,21 @@
           					
         			
         				<div class="wishlist-parent">
-          					<div @click="gotoFavourites()" class="wishlist" id="wishlistContainer">
+          					<div v-if="this.role=='Cliente'" @click="gotoFavourites()" class="wishlist" id="wishlistContainer">
             						<img class="vector-icon" alt="" src="/NavBarIMG/Vector.svg">
             						
           					</div>
-          					<div class="cart1-with-buy" id="cart1WithBuy">
+          					<div v-if="this.role=='Cliente'" class="cart1-with-buy" id="cart1WithBuy">
             						<img class="cart1-icon" alt="" src="/NavBarIMG/Cart1.svg">
             						
           					</div>
-							<div>
+							<div class="selectwrapper">
 
 								<select class="selectClass" v-model="selected">
 									<option v-if="token!=null" @click="logout()">Logout</option>
 									<option v-if="token==null" @click="gotoLogin()">Login</option>
-									<option>My Notifications</option>
-									<option>All My Orders</option>
+									<option v-if="this.role=='Cliente'">My Notifications</option>
+									<option v-if="this.role=='Cliente'" >Payments</option>
 									<option>Profile</option>
 								</select>
 							</div>
@@ -62,15 +71,18 @@ export default {
         return {
             selected:"",
 			username:"",
+			role:"",
 			token:null
         }
     },
 	created(){
 		let token = authService.getToken();
+		console.log("nav");
 		console.log(token);
 		if(token!=null){
 			this.token = token;
-			this.username=token.username;
+			this.username = token.username;
+			this.role = token.role;
 		}
 	}
 	,methods:{
