@@ -4,13 +4,15 @@ public class CartItemInsertDTO {
     private String codigo;
     private String username;
     private String designacao;
+    private String imagem;
     private double preco;
     private int quantidade;
 
-    public CartItemInsertDTO(String codigo, String username, String designacao, double preco, int quantidade) {
+    public CartItemInsertDTO(String codigo, String username, String designacao, String imagem,  double preco, int quantidade) {
         this.codigo = codigo;
         this.username = username;
         this.designacao = designacao;
+        this.imagem = imagem;
         this.preco = preco;
         this.quantidade = quantidade;
     }
@@ -37,6 +39,14 @@ public class CartItemInsertDTO {
 
     public void setDesignacao(String designacao) {
         this.designacao = designacao;
+    }
+
+    public String getImagem() {
+        return imagem;
+    }
+
+    public void setImagem(String imagem) {
+        this.imagem = imagem;
     }
 
     public double getPreco() {

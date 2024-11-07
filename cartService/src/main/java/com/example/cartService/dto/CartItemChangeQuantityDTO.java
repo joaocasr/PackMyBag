@@ -3,12 +3,12 @@ package com.example.cartService.dto;
 public class CartItemChangeQuantityDTO {
     private String username;
     private String codigo;
-    private int quantity;
+    private int quantidade;
 
-    public CartItemChangeQuantityDTO(String username, String codigo, int quantity) {
+    public CartItemChangeQuantityDTO(String username, String codigo, int quantidade) {
         this.username = username;
         this.codigo = codigo;
-        this.quantity = quantity;
+        this.quantidade = quantidade;
     }
 
     public String getUsername() {
@@ -28,10 +28,10 @@ public class CartItemChangeQuantityDTO {
     }
 
     public int getQuantity() {
-        return quantity;
+        return quantidade;
     }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    public void setQuantity(int quantidade) {
+        this.quantidade = quantidade;
     }
 }

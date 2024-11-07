@@ -3,15 +3,17 @@ package com.example.cartService.dto;
 public class CartItemDTO {
     private String codigo;
     private Integer nraquisicoes;
+    private String imagem;
     private Double price;
     private String designacao;
     
     public CartItemDTO() {
     }
     
-    public CartItemDTO(String codigo, Integer nraquisicoes, Double price, String designacao) {
+    public CartItemDTO(String codigo, Integer nraquisicoes, String imagem, Double price, String designacao) {
         this.codigo = codigo;
         this.nraquisicoes = nraquisicoes;
+        this.imagem = imagem;
         this.price = price;
         this.designacao = designacao;
     }
@@ -30,6 +32,14 @@ public class CartItemDTO {
 
     public void setNraquisicoes(Integer nraquisicoes) {
         this.nraquisicoes = nraquisicoes;
+    }
+
+    public String getImagem() {
+        return imagem;
+    }
+
+    public void setImagem(String imagem) {
+        this.imagem = imagem;
     }
     
     public Double getPrice() {

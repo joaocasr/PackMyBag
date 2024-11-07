@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/cart")
@@ -25,12 +26,12 @@ public class CartItemController {
     @Autowired
     public CartItemController(CartService cartService){this.cartService=cartService;}
 
-    @GetMapping("/{username}")
+    @GetMapping("/{username}") //a funcionar
     public List<CartItemDTO> getCartItems(@PathVariable String username) {
         return cartService.getCartItems(username);
     }
 
-    @PostMapping("/addItem")
+    @PostMapping("/addItem") //a funcionar
     public ResponseEntity<?> addItemToCart(@RequestBody CartItemInsertDTO itemBody) {
         try {
             cartService.addToCart(itemBody);
@@ -40,7 +41,7 @@ public class CartItemController {
         }
     }
 
-    @PostMapping("/removeItem")
+    @PostMapping("/removeItem") //a funcionar
     public ResponseEntity<?> removeItemFromCart(@RequestBody CartItemRemoveDTO itemBody) {
         try {
             cartService.removeFromCart(itemBody);
@@ -50,7 +51,7 @@ public class CartItemController {
         }
     }
 
-    @PostMapping("/clearCart")
+    @PostMapping("/clearCart") //a funcionar
     public ResponseEntity<?> clearCart(@RequestBody String username) {
         try {
             cartService.clearCart(username);
@@ -60,7 +61,7 @@ public class CartItemController {
         }
     }
 
-    @PostMapping("/changeQuantity")
+    @PostMapping("/changeQuantity") //a funcionar
     public ResponseEntity<?> changeItemQuantity(@RequestBody CartItemChangeQuantityDTO itemBody) {
         try {
             cartService.changeItemQuantity(itemBody);
@@ -70,7 +71,7 @@ public class CartItemController {
         }
     }
 
-    @GetMapping("/count/{username}")
+    @GetMapping("/count/{username}") //a funcionar
     public int getCartItemsCount(@PathVariable String username) {
         return cartService.getCartItemsCount(username);
     }
@@ -85,8 +86,13 @@ public class CartItemController {
         }
     }
 
+    @GetMapping("/transactions/{username}") //a funcionar
+    public Set<PagamentoDTO> getUserTransactions(@PathVariable String username) {
+        return cartService.getUserTransactions(username);
+    }
+
     @PostMapping("/changePaymentStatus")
-    public ResponseEntity<?> changePaymentStatus(@RequestBody CartPaymentDTO paymentInfo) {
+    public ResponseEntity<?> changePaymentStatus(@RequestBody CartPaymentStatusChangeDTO paymentInfo) {
         try {
             cartService.changePaymentStatus(paymentInfo);
             return ResponseEntity.ok().body("Payment status updated successfully!");

@@ -1,3 +1,9 @@
+-- First, delete existing data (in correct order due to foreign keys)
+DELETE FROM pagamento;
+DELETE FROM item;
+DELETE FROM cliente;
+DELETE FROM cart;
+
 -- Reset sequences (they now increment by 50)
 ALTER SEQUENCE IF EXISTS cartservice_cart_idcart_seq RESTART WITH 1;
 ALTER SEQUENCE IF EXISTS cartservice_cliente_idcliente_seq RESTART WITH 1;
@@ -20,14 +26,14 @@ INSERT INTO cliente (idcliente, nome, username, email, cartidcart) VALUES
 (5, 'Miguel Pereira', 'miguelpereira', 'miguel.pereira@email.com', 5);
 
 -- Insert items (added nr_pecas, modified data types)
-INSERT INTO item (iditem, cartidcart, codigo, designacao, preco, quantidade, dtype, id_loja, nr_pecas) VALUES
-(1, 1, 'P1', 'T-SHIRT ESTAMPADOS COMBINADOS', 19.95, 2, 'Item', 1, 1),
-(2, 1, 'P2', 'T-SHIRT JACQUARD RISCAS', 25.95, 1, 'Item', 1, 1),
-(3, 2, 'P3', 'T-SHIRT SHAPEWEAR DE TREINO', 22.95, 3, 'Item', 1, 1),
-(4, 2, 'P4', 'CALÇAS CARGO REGULAR FIT', 39.95, 1, 'Item', 1, 1),
-(5, 3, 'P5', 'CASACO BOMBER BÁSICO', 45.95, 1, 'Item', 1, 1),
-(6, 4, 'P6', 'SAPATOS DERBY EM PELE', 69.95, 1, 'Item', 1, 1),
-(7, 5, 'P7', 'BLAZER SLIM FIT', 89.95, 1, 'Item', 1, 1);
+INSERT INTO item (iditem, cartidcart, codigo, designacao, preco, quantidade, imagem, id_loja) VALUES
+(1, 1, 'P1', 'T-SHIRT ESTAMPADOS COMBINADOS', 19.95, 2, 'https://static.zara.net/assets/public/84b7/6ada/03824ecd9b3f/93a0244cbae3/04087429803-a1/04087429803-a1.jpg?ts=1728979642631&w=315&f=auto', 1),
+(2, 1, 'P2', 'T-SHIRT JACQUARD RISCAS', 25.95, 1, 'https://static.zara.net/assets/public/84b7/6ada/03824ecd9b3f/93a0244cbae3/04087429803-a1/04087429803-a1.jpg?ts=1728979642631&w=315&f=auto', 1),
+(3, 2, 'P3', 'T-SHIRT SHAPEWEAR DE TREINO', 22.95, 3, 'https://static.zara.net/assets/public/84b7/6ada/03824ecd9b3f/93a0244cbae3/04087429803-a1/04087429803-a1.jpg?ts=1728979642631&w=315&f=auto', 1),
+(4, 2, 'P4', 'CALÇAS CARGO REGULAR FIT', 39.95, 1, 'https://static.zara.net/assets/public/84b7/6ada/03824ecd9b3f/93a0244cbae3/04087429803-a1/04087429803-a1.jpg?ts=1728979642631&w=315&f=auto', 1),
+(5, 3, 'P5', 'CASACO BOMBER BÁSICO', 45.95, 1, 'https://static.zara.net/assets/public/84b7/6ada/03824ecd9b3f/93a0244cbae3/04087429803-a1/04087429803-a1.jpg?ts=1728979642631&w=315&f=auto', 1),
+(6, 4, 'P6', 'SAPATOS DERBY EM PELE', 69.95, 1, 'https://static.zara.net/assets/public/84b7/6ada/03824ecd9b3f/93a0244cbae3/04087429803-a1/04087429803-a1.jpg?ts=1728979642631&w=315&f=auto', 1),
+(7, 5, 'P7', 'BLAZER SLIM FIT', 89.95, 1, 'https://static.zara.net/assets/public/84b7/6ada/03824ecd9b3f/93a0244cbae3/04087429803-a1/04087429803-a1.jpg?ts=1728979642631&w=315&f=auto', 1);
 
 -- Insert payments (added moeda, dates are now VARCHAR)
 INSERT INTO pagamento (idpagamento, clienteidcliente, codigo, total, local_entrega, inicio_aluguer, fim_aluguer, modo_pagamento, status, moeda) VALUES

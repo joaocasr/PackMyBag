@@ -32,7 +32,7 @@ public class Pagamento implements Serializable {
 	private double total;
 	
 	@Column(name="Moeda", nullable=true, length=255)	
-	private String moeda;
+	private String moeda; //Para remover
 	
 	@Column(name="LocalEntrega", nullable=true, length=255)	
 	private String localEntrega;

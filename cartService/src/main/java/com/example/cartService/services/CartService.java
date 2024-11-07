@@ -82,6 +82,7 @@ public class CartService {
             Item cartItem = new Item();
             cartItem.setCodigo(item.getCodigo());
             cartItem.setDesignacao(item.getDesignacao());
+            cartItem.setImagem(item.getImagem());
             cartItem.setPreco(item.getPreco());
             cartItem.setQuantidade(item.getQuantidade());
             cart.getItens().add(cartItem);
@@ -142,8 +143,16 @@ public class CartService {
         if (cliente == null) {
             throw new NoClientException("Client not found with username: " + username);
         }
-
-        cliente.setCart(null);
+        
+        Cart cart = cliente.getCart();
+        if (cart != null) {
+            cart.getItens().clear();
+        } else {
+            cart = new Cart();
+            cart.setItens(new HashSet<>());
+            cliente.setCart(cart);
+        }
+        
         clientCartRepository.save(cliente);
     }
 
@@ -183,17 +192,32 @@ public class CartService {
         payment.setModoPagamento(paymentInfo.getModoPagamento());
         payment.setStatus(paymentInfo.getStatus());
 
+        System.out.println("Payment info: " + paymentInfo);
+        System.out.println("Payment: " + payment);
+
         // Add payment to client's transactions
         cliente.getTransacoes().add(payment);
 
+        System.out.println("Client's transactions: " + cliente.getTransacoes());
+
         // Clear the cart after payment
-        cliente.setCart(null);
+        clearCart(paymentInfo.getUsername());
 
         // Save changes
         clientCartRepository.save(cliente);
     }
 
-    public void changePaymentStatus(CartPaymentDTO paymentInfo) throws NoClientException {
+    public Set<PagamentoDTO> getUserTransactions(String username) throws NoClientException {
+        Cliente cliente = clientCartRepository.getClienteByUsername(username);
+        if (cliente == null) {
+            throw new NoClientException("Client not found with username: " + username);
+        }
+        return cliente.getTransacoes().stream()
+            .map(ClientPagamentoMapper::toPagamentoDTO)
+            .collect(Collectors.toSet());
+    }
+
+    public void changePaymentStatus(CartPaymentStatusChangeDTO paymentInfo) throws NoClientException {
         Cliente cliente = clientCartRepository.getClienteByUsername(paymentInfo.getUsername());
         if (cliente == null) {
             throw new NoClientException("Client not found with username: " + paymentInfo.getUsername());
