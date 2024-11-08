@@ -1,21 +1,33 @@
 package com.example.cartService.services;
 
-import org.springframework.stereotype.Service;
-
-import com.example.cartService.dto.*;
-import com.example.cartService.exceptions.*;
-import com.example.cartService.model.*;
-import com.example.cartService.mappers.*;
-import com.example.cartService.repositories.ClientCartRepository;
-//import com.example.cartService.repositories.CartItemRepository;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.stereotype.Service;
-
 import java.util.HashSet;
-import java.util.Set;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
+
+import com.example.cartService.repositories.CartRepository;
+import org.springframework.stereotype.Service;
+
+import com.example.cartService.dto.CartItemChangeQuantityDTO;
+import com.example.cartService.dto.CartItemDTO;
+import com.example.cartService.dto.CartItemInsertDTO;
+import com.example.cartService.dto.CartItemRemoveDTO;
+import com.example.cartService.dto.CartPaymentDTO;
+import com.example.cartService.dto.CartPaymentStatusChangeDTO;
+import com.example.cartService.dto.ClientCartDTO;
+import com.example.cartService.dto.PagamentoDTO;
+import com.example.cartService.exceptions.NoCartException;
+import com.example.cartService.exceptions.NoClientException;
+import com.example.cartService.exceptions.NoItemException;
+import com.example.cartService.exceptions.NoPaymentException;
+import com.example.cartService.mappers.CartItemMapper;
+import com.example.cartService.mappers.ClientCartMapper;
+import com.example.cartService.mappers.ClientPagamentoMapper;
+import com.example.cartService.model.Cart;
+import com.example.cartService.model.Cliente;
+import com.example.cartService.model.Item;
+import com.example.cartService.model.Pagamento;
+import com.example.cartService.repositories.ClientCartRepository;
 /*
  * Most things here are a work in progress
  * take it with a grain of salt
@@ -25,11 +37,13 @@ import java.util.stream.Collectors;
 public class CartService {
     
     private final ClientCartRepository clientCartRepository;
+    private final CartRepository cartRepository;
     private final ClientCartMapper clientCartMapper;
     private final CartItemMapper cartItemMapper;
 
-    public CartService(ClientCartRepository clientCartRepository, ClientCartMapper clientCartMapper, CartItemMapper cartItemMapper) {
+    public CartService(ClientCartRepository clientCartRepository,CartRepository cartRepository, ClientCartMapper clientCartMapper, CartItemMapper cartItemMapper) {
         this.clientCartRepository = clientCartRepository;
+        this.cartRepository = cartRepository;
         this.clientCartMapper = clientCartMapper;
         this.cartItemMapper = cartItemMapper;
     }
@@ -56,7 +70,8 @@ public class CartService {
         Cliente cliente = clientCartRepository.getClienteByUsername(item.getUsername());
 
         if (cliente == null) {
-            throw new NoClientException("Client not found with username: " + item.getUsername());
+            //throw new NoClientException("Client not found with username: " + item.getUsername());
+            cliente = new Cliente(item.getNome(),item.getUsername(),item.getEmail());
         }
 
         Cart cart = cliente.getCart();
@@ -69,23 +84,26 @@ public class CartService {
         // Check if item already exists
         boolean itemExists = false;
         for (Item existingItem : cart.getItens()) {
-            if (existingItem.getCodigo().equals(item.getCodigo())) {
+            if (existingItem.getCodigo().equals(item.getCodigo()) && existingItem.getIdLoja()==item.getIdLoja()) {
                 // Update quantity if item exists
                 existingItem.setQuantidade(existingItem.getQuantidade() + item.getQuantidade());
+                cartRepository.save(cart);
                 itemExists = true;
                 break;
             }
         }
-
+        Item cartItem;
         if (!itemExists) {
             // Add new item
-            Item cartItem = new Item();
+            cartItem = new Item();
             cartItem.setCodigo(item.getCodigo());
+            cartItem.setIdLoja(item.getIdLoja());
             cartItem.setDesignacao(item.getDesignacao());
             cartItem.setImagem(item.getImagem());
             cartItem.setPreco(item.getPreco());
             cartItem.setQuantidade(item.getQuantidade());
             cart.getItens().add(cartItem);
+            cartRepository.save(cart);
         }
 
         clientCartRepository.save(cliente);

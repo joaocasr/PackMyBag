@@ -41,7 +41,7 @@
             						<img class="vector-icon" alt="" src="/NavBarIMG/Vector.svg">
             						
           					</div>
-          					<div v-if="this.role=='Cliente'" class="cart1-with-buy" id="cart1WithBuy">
+          					<div v-if="this.role=='Cliente'" @click="gotoCart()" class="cart1-with-buy" id="cart1WithBuy">
             						<img class="cart1-icon" alt="" src="/NavBarIMG/Cart1.svg">
             						
           					</div>
@@ -106,6 +106,9 @@ export default {
 		},
 		gotoLogin(){
 			this.$router.push({path:'/login'})
+		},
+		gotoCart(){
+			this.$router.push({path:'/cart'})
 		},	
 		logout(){
 			this.$store.dispatch('auth/logout').then(()=>{

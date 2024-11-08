@@ -14,10 +14,22 @@
 package com.example.cartService.model;
 
 import java.io.Serializable;
-import jakarta.persistence.*;
-
 import java.util.HashSet;
 import java.util.Set;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.ForeignKey;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinColumns;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
 
 @Entity
 @org.hibernate.annotations.Proxy(lazy=false)
@@ -52,6 +64,13 @@ public class Cliente implements Serializable {
 	@org.hibernate.annotations.LazyCollection(org.hibernate.annotations.LazyCollectionOption.TRUE)	
 	private Set<Pagamento> transacoes = new HashSet<Pagamento>();
 	
+	public Cliente(String nome,String username, String email){
+		this.nome = nome;
+		this.username = username;
+		this.email= email;
+		this.cart = null;
+	}
+
 	private void setIDCliente(int value) {
 		this.IDCliente = value;
 	}

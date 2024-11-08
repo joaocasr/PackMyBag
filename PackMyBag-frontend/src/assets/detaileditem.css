@@ -279,7 +279,11 @@
     text-align: center;
     font-size: 14px;
     color: #fff;
+    cursor:pointer;
     font-family: 'Tenor Sans';
+}
+.addtocartbutton:active{
+    transform: translateY(4px);
 }
 .priceitem {
     position: absolute;

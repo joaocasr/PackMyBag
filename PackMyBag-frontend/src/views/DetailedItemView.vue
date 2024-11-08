@@ -37,7 +37,7 @@
 						<button v-bind:style="{ 'background-image': 'url(' + bellImage + ')' }" @click="changeBell()" class="button-bell"></button>
       			</div>
     		</div>
-    		<div class="addtocartbutton">
+    		<div @click="handleAddToCart()" class="addtocartbutton">
 				<img class="bag-outline-icon" alt="" src="/DetailedItemIMG/Bag.svg">
       			<div class="div">Add to cart</div>
       			<div class="arrowright">
@@ -175,7 +175,6 @@ export default {
 			heart:"/DetailedItemIMG/FvrtEmpty.svg",
 			bellImage: "/DetailedItemIMG/bell.png",
 			idLoja:0
-
 		}
 	},	
 	methods:{
@@ -365,10 +364,9 @@ export default {
 		async changeBell(){
 			const result = await this.$swal.fire({
 				title: "Do you want to receive notifications of " + this.designacao.toLowerCase() + "'s availability?",
-				showDenyButton: true,
+				showDenyButton: false,
 				showCancelButton: true,
-				confirmButtonText: "Save",
-				denyButtonText: `Don't save`
+				confirmButtonText: "Yes"
 			});
 			if(result.isConfirmed){
 				console.log("confirmado");
@@ -387,6 +385,48 @@ export default {
 				this.bellImage="/DetailedItemIMG/bell.png";
 
 			}			
+		},
+		async addToCart(){
+			const header = authHeader();
+			let config = {headers:header}
+			header['Content-Type'] = 'application/json';
+			try{
+				let r = await axios.post('http://localhost:8888/api/cartService/addItem',
+				{
+					"codigo":this.itemCode,
+					"idLoja":this.idLoja,
+					"username":this.username,
+					"nome":this.nome,
+					"email":this.email,
+					"designacao":this.designacao,
+					"imagem":this.imgItem,
+					"preco":this.preco,
+					"quantidade":1
+				},
+				config
+				);
+				return r;
+			}catch(err){
+				return err;
+			}
+		},
+		async handleAddToCart(){
+			const result = await this.$swal.fire({
+				title: "Do you want to add " + this.designacao.toLowerCase() + " to your cart?",
+				showDenyButton: false,
+				showCancelButton: true,
+				confirmButtonText: "Yes"
+			});
+			if(result.isConfirmed){
+				let r = await this.addToCart();
+				if (r && r.status == 200) {
+					this.$swal.fire("The item was inserted successfully!", "", "success");
+				} else {
+					let msg="";
+					if(r.response) msg = r.response.data.message;
+					this.$swal.fire("Something went wrong! "+msg, "", "error");
+				}
+			}
 		}
 		
 	},

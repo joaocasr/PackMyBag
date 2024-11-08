@@ -2,15 +2,24 @@ package com.example.cartService.dto;
 
 public class CartItemInsertDTO {
     private String codigo;
+    private int idLoja;
     private String username;
+    private String nome;
+    private String email;
     private String designacao;
     private String imagem;
     private double preco;
     private int quantidade;
 
-    public CartItemInsertDTO(String codigo, String username, String designacao, String imagem,  double preco, int quantidade) {
+    public CartItemInsertDTO() {
+    }
+
+    public CartItemInsertDTO(String codigo, int loja, String username, String nome, String email, String designacao, String imagem, double preco, int quantidade) {
         this.codigo = codigo;
+        this.idLoja = loja;
         this.username = username;
+        this.nome = nome;
+        this.email = email;
         this.designacao = designacao;
         this.imagem = imagem;
         this.preco = preco;
@@ -25,6 +34,26 @@ public class CartItemInsertDTO {
         this.codigo = codigo;
     }
 
+    public int getIdLoja() {
+        return idLoja;
+    }
+
+    public void setIdLoja(int idLoja) {
+        this.idLoja = idLoja;
+    }
+
+    public String getNome(){
+        return this.nome;
+    }
+    public String getEmail(){
+        return this.email;
+    }
+    public void setNome(String nome){
+        this.nome = nome;
+    }
+    public void setEmail(String email){
+        this.email = email;
+    }
     public String getUsername() {
         return username;
     }

@@ -139,6 +139,7 @@ export default {
                         icon: "success",
                         title: "Success!",
                         text: "Your account was successfully created."});
+                    this.$router.push({"path":"/login"})
                 },error => {
                     if(error.response){
                         this.$swal({
@@ -156,6 +157,7 @@ export default {
                         icon: "success",
                         title: "Success!",
                         text: "Your account was successfully created."});
+                    this.$router.push({"path":"/login"})
                 },error => {
                     if(error.response){
                         this.$swal({
@@ -173,6 +175,7 @@ export default {
                         icon: "success",
                         title: "Success!",
                         text: "Your account was successfully created."});
+                    this.$router.push({"path":"/login"})
                 },error => {
                     if(error.response){
                         this.$swal({

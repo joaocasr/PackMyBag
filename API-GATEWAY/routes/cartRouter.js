@@ -14,11 +14,11 @@ router.get("/:username", function(req, res, next) {
 });
 
 /* Add Item to Cart */
-router.post("/addItem", function(req, res, next) {
+router.post("/addItem", validate.verifyToken, function(req, res, next) {
   cartService.addToCart(req.body).then(resp => {
     res.jsonp(resp);
   }).catch(err => {
-    res.status(err.error.status).jsonp(err);
+    res.status(403).jsonp(err);
   });
 });
 
