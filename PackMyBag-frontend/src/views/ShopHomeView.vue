@@ -32,7 +32,6 @@ import NavBarComponent from '@/components/NavBarComponent.vue';
 import FooterComponent from '@/components/FooterComponent.vue';
 import TrendItemComponent from '@/components/TrendItemComponent.vue';
 import authService from '@/services/auth-service';
-import authHeader from '@/services/auth-header';
 import axios from 'axios';
 export default {
 	components:{

@@ -108,7 +108,8 @@ export default {
 			this.$router.push({path:'/login'})
 		},
 		gotoCart(){
-			this.$router.push({path:'/cart'})
+			const url = new URL('/cart', window.location.origin)
+			window.location.href = url.toString()
 		},	
 		logout(){
 			this.$store.dispatch('auth/logout').then(()=>{

@@ -1,11 +1,11 @@
 package com.example.cartService.services;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.example.cartService.repositories.CartRepository;
 import org.springframework.stereotype.Service;
 
 import com.example.cartService.dto.CartItemChangeQuantityDTO;
@@ -26,8 +26,11 @@ import com.example.cartService.mappers.ClientPagamentoMapper;
 import com.example.cartService.model.Cart;
 import com.example.cartService.model.Cliente;
 import com.example.cartService.model.Item;
+import com.example.cartService.model.ItemEncomenda;
 import com.example.cartService.model.Pagamento;
+import com.example.cartService.repositories.CartRepository;
 import com.example.cartService.repositories.ClientCartRepository;
+import com.example.cartService.repositories.PagamentoRepository;
 /*
  * Most things here are a work in progress
  * take it with a grain of salt
@@ -39,10 +42,12 @@ public class CartService {
     private final ClientCartRepository clientCartRepository;
     private final CartRepository cartRepository;
     private final ClientCartMapper clientCartMapper;
+    private final PagamentoRepository pagamentoRepository;
     private final CartItemMapper cartItemMapper;
 
-    public CartService(ClientCartRepository clientCartRepository,CartRepository cartRepository, ClientCartMapper clientCartMapper, CartItemMapper cartItemMapper) {
+    public CartService(ClientCartRepository clientCartRepository,PagamentoRepository pagamentoRepository ,CartRepository cartRepository, ClientCartMapper clientCartMapper, CartItemMapper cartItemMapper) {
         this.clientCartRepository = clientCartRepository;
+        this.pagamentoRepository = pagamentoRepository;
         this.cartRepository = cartRepository;
         this.clientCartMapper = clientCartMapper;
         this.cartItemMapper = cartItemMapper;
@@ -59,7 +64,7 @@ public class CartService {
     public List<CartItemDTO> getCartItems(String username) throws NoClientException {
         Cliente cliente = clientCartRepository.getClienteByUsername(username);
         if (cliente == null) {
-            throw new NoClientException("Client not found with username: " + username);
+            return new ArrayList<>();
         }
         return cliente.getCart().getItens().stream()
             .map(CartItemMapper::toCartItemDTO)
@@ -87,11 +92,11 @@ public class CartService {
             if (existingItem.getCodigo().equals(item.getCodigo()) && existingItem.getIdLoja()==item.getIdLoja()) {
                 // Update quantity if item exists
                 existingItem.setQuantidade(existingItem.getQuantidade() + item.getQuantidade());
-                cartRepository.save(cart);
                 itemExists = true;
                 break;
             }
         }
+        cartRepository.save(cart);
         Item cartItem;
         if (!itemExists) {
             // Add new item
@@ -152,7 +157,7 @@ public class CartService {
             throw new NoCartException("Cart not found for client: " + itemToRemove.getUsername());
         }
 
-        cart.getItens().removeIf(cartItem -> cartItem.getCodigo().equals(itemToRemove.getCodigo()));
+        cart.removeItem(itemToRemove.getCodigo(),itemToRemove.getIdLoja());
         clientCartRepository.save(cliente);
     }
 
@@ -210,19 +215,26 @@ public class CartService {
         payment.setModoPagamento(paymentInfo.getModoPagamento());
         payment.setStatus(paymentInfo.getStatus());
 
+        paymentInfo.getItems().stream().map(x->new ItemEncomenda(x.getQuantidade(),x.getCodigo(),x.getIdloja())).forEach(
+                payment::addItemEncomenda
+        );
+
         System.out.println("Payment info: " + paymentInfo);
         System.out.println("Payment: " + payment);
 
         // Add payment to client's transactions
-        cliente.getTransacoes().add(payment);
+        cliente.addTransaction(payment);
 
         System.out.println("Client's transactions: " + cliente.getTransacoes());
+        System.out.println("Nº of Client's transactions: " + cliente.getTransacoes().size());
+        // Save changes
+        clientCartRepository.save(cliente);
+        //pagamentoRepository.save(payment);
 
         // Clear the cart after payment
         clearCart(paymentInfo.getUsername());
 
-        // Save changes
-        clientCartRepository.save(cliente);
+
     }
 
     public Set<PagamentoDTO> getUserTransactions(String username) throws NoClientException {

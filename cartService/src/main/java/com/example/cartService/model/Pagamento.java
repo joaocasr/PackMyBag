@@ -14,6 +14,8 @@
 package com.example.cartService.model;
 
 import java.io.Serializable;
+import java.util.HashSet;
+
 import jakarta.persistence.*;
 @Entity
 @org.hibernate.annotations.Proxy(lazy=false)
@@ -30,9 +32,6 @@ public class Pagamento implements Serializable {
 	
 	@Column(name="Total", nullable=false)	
 	private double total;
-	
-	@Column(name="Moeda", nullable=true, length=255)	
-	private String moeda; //Para remover
 	
 	@Column(name="LocalEntrega", nullable=true, length=255)	
 	private String localEntrega;
@@ -51,7 +50,17 @@ public class Pagamento implements Serializable {
 	
 	@Column(name="Status", nullable=true, length=255)	
 	private String status;
-	
+
+	@OneToMany(orphanRemoval=true, targetEntity=ItemEncomenda.class)
+	@org.hibernate.annotations.Cascade({org.hibernate.annotations.CascadeType.ALL})
+	@JoinColumns({ @JoinColumn(name="PagamentoIDPagamento", nullable=false) })
+	@org.hibernate.annotations.LazyCollection(org.hibernate.annotations.LazyCollectionOption.TRUE)
+	private java.util.Set<ItemEncomenda> itemEncomendas = new java.util.HashSet();
+
+	public void addItemEncomenda(ItemEncomenda i){
+		this.itemEncomendas.add(i);
+	}
+
 	private void setIDPagamento(int value) {
 		this.IDPagamento = value;
 	}
@@ -71,15 +80,7 @@ public class Pagamento implements Serializable {
 	public double getTotal() {
 		return total;
 	}
-	
-	public void setMoeda(String value) {
-		this.moeda = value;
-	}
-	
-	public String getMoeda() {
-		return moeda;
-	}
-	
+
 	public void setLocalEntrega(String value) {
 		this.localEntrega = value;
 	}

@@ -59,16 +59,21 @@ public class Cliente implements Serializable {
 	private String email;
 	
 	@OneToMany(targetEntity=com.example.cartService.model.Pagamento.class)	
-	@org.hibernate.annotations.Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE, org.hibernate.annotations.CascadeType.LOCK})	
+	@org.hibernate.annotations.Cascade({org.hibernate.annotations.CascadeType.ALL})	
 	@JoinColumns({ @JoinColumn(name="ClienteIDCliente", nullable=false) })	
 	@org.hibernate.annotations.LazyCollection(org.hibernate.annotations.LazyCollectionOption.TRUE)	
-	private Set<Pagamento> transacoes = new HashSet<Pagamento>();
+	private Set<Pagamento> transacoes = new HashSet<>();
 	
 	public Cliente(String nome,String username, String email){
 		this.nome = nome;
 		this.username = username;
 		this.email= email;
 		this.cart = null;
+		this.transacoes = new HashSet<>();
+	}
+
+	public void addTransaction(Pagamento p){
+		this.transacoes.add(p);
 	}
 
 	private void setIDCliente(int value) {

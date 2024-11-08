@@ -14,10 +14,19 @@
 package com.example.cartService.model;
 
 import java.io.Serializable;
-import jakarta.persistence.*;
-
-import java.util.Set;
 import java.util.HashSet;
+import java.util.Set;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinColumns;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
 
 @Entity
 @org.hibernate.annotations.Proxy(lazy=false)
@@ -58,6 +67,9 @@ public class Cart implements Serializable {
 		return itens;
 	}
 	
+	public void removeItem(String codigo, int idloja){
+		this.itens.removeIf(cartItem -> cartItem.getCodigo().equals(codigo) && cartItem.getIdLoja()==idloja);
+	}
 	
 	public String toString() {
 		return String.valueOf(getIDCart());

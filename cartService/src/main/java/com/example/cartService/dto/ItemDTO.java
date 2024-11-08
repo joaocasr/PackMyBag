@@ -2,20 +2,17 @@ package com.example.cartService.dto;
 
 public class ItemDTO {
     private String codigo;
-    private String designacao;
-    private double preco;
-    private int quantidade; 
+    private int idloja;
+    private int quantidade;
 
     public ItemDTO() {
     }
 
     public ItemDTO(String codigo, 
-                   String designacao, 
-                   double preco, 
+                   int idloja,
                    int quantidade) {
         this.codigo = codigo;
-        this.designacao = designacao;
-        this.preco = preco;
+        this.idloja = idloja;
         this.quantidade = quantidade;
     }
 
@@ -27,21 +24,14 @@ public class ItemDTO {
         this.codigo = codigo;
     }
 
-    public String getDesignacao() {
-        return designacao;
+    public int getIdloja() {
+        return idloja;
     }
 
-    public void setDesignacao(String designacao) {
-        this.designacao = designacao;
+    public void setIdloja(int idloja) {
+        this.idloja = idloja;
     }
 
-    public double getPreco() {
-        return preco;
-    }
-
-    public void setPreco(double preco) {
-        this.preco = preco;
-    }
 
     public int getQuantidade() {
         return quantidade;

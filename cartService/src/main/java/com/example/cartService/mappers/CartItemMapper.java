@@ -9,6 +9,7 @@ public class CartItemMapper {
     public static CartItemDTO toCartItemDTO(Item item) {
         return new CartItemDTO(
             item.getCodigo(),
+            item.getIdLoja(),
             item.getQuantidade(),
             item.getImagem(),
             item.getPreco(),

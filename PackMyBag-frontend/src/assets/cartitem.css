@@ -60,7 +60,7 @@
     top: 12.11%;
     right: 88.48%;
     bottom: 26.03%;
-    left: 2.69%;
+    left: 1.5%;
     max-width: 100%;
     overflow: hidden;
     max-height: 100%;
@@ -75,10 +75,11 @@
 .icon-cancel {
     position: absolute;
     top: 22px;
-    left: 25px;
+    left: 10px;
     width: 24px;
     height: 24px;
     overflow: hidden;
+    cursor:pointer
 }
 .cart-section {
     width: 65%;

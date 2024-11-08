@@ -10,38 +10,90 @@
         </div>
         </div>
         </div>
-        <img class="image-18-icon" alt="" src="/FavouritesIMG/image 18.png">
+        <img class="image-18-icon" alt="" :src="image">
         <div class="cutwork-poplin-dress">{{ nome }}</div>
-        <img class="icon-cancel" alt="" src="/FavouritesIMG/icon-cancel.svg">
+        <div @click="handleItemRemove()">
+            <img class="icon-cancel" alt="" src="/FavouritesIMG/icon-cancel.svg">
+        </div>
     </div>
     
 </template>
 <script>
 import VueSelect from "vue3-select-component";
+import axios from 'axios';
+import authHeader from "@/services/auth-header";
 export default {
     props:{
         preco:Number,
         nome:String,
         codigo:String,
-        image:String
+        image:String,
+        quantidade:Number,
+        idloja:Number,
+        username:String
     },
     components:{
         VueSelect
     },
     data(){
         return {
-            selectedOption:'1',
-			typeOptions: [{ label: '1', value: '1' },{ label: '2', value: '2' },{ label: '3', value: '3' }],
+            selectedOption:'',
+			typeOptions: [],
             subtotal: 0
         }
     },
     created(){
+        let nr = 3;
+        this.selectedOption = ''+this.quantidade;
+        for(let l = 1 ; l<=nr; l+=1){
+            let v = ''+l
+            this.typeOptions.push({label: v, value: v});
+        }
         this.subtotal = this.preco;
     },
     watch:{
         selectedOption:function(newvalue,oldvalue){
             this.subtotal = this.preco * newvalue;
             this.$emit('newQuantity',newvalue)
+        }
+    },
+    methods:{
+        async removeItemCart(){
+            const header = authHeader();
+			let config = {headers:header}
+			header['Content-Type'] = 'application/json';
+            try{
+                let r = await axios.post('http://localhost:8888/api/cartService/removeItem',
+                    {
+                        "codigo":this.codigo,
+                        "idloja":this.idloja,
+                        "username":this.username
+                    },
+                    config
+                );
+                return r;
+            }catch(err){
+                return err;
+            }
+        },
+        async handleItemRemove(){
+            const result = await this.$swal.fire({
+				title: "Do you want to remove the item '" + this.nome.toLowerCase() + "' from your cart?",
+				showDenyButton: false,
+				showCancelButton: true,
+				confirmButtonText: "Remove"
+			});
+			if (result.isConfirmed) {
+				let r = await this.removeItemCart();
+				if (r && r.status == 200) {
+					this.$swal.fire("Removed! The item was removed from your cart.", "", "success");
+                    this.$emit('itemRemoved',{"codigo":this.codigo,"idloja":this.idloja})
+				} else {
+					let msg="";
+					if(r.response) msg = r.response.data.message;
+					this.$swal.fire("Something went wrong! "+msg, "", "error");
+				}
+			}
         }
     }
 }

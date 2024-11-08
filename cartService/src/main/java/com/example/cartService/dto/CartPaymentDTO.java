@@ -1,5 +1,7 @@
 package com.example.cartService.dto;
 
+import java.util.List;
+
 public class CartPaymentDTO {
     private String username;
     private String codigo;
@@ -8,9 +10,12 @@ public class CartPaymentDTO {
     private String fimAluguer;
     private String modoPagamento;
     private String status;
+    //criar a lista do item
+    private List<ItemDTO> items;
 
     // Constructor
-    public CartPaymentDTO(String username, String codigo, String localEntrega, String inicioAluguer, String fimAluguer, String modoPagamento, String status) {
+
+    public CartPaymentDTO(String username, String codigo, String localEntrega, String inicioAluguer, String fimAluguer, String modoPagamento, String status, List<ItemDTO> items) {
         this.username = username;
         this.codigo = codigo;
         this.localEntrega = localEntrega;
@@ -18,6 +23,7 @@ public class CartPaymentDTO {
         this.fimAluguer = fimAluguer;
         this.modoPagamento = modoPagamento;
         this.status = status;
+        this.items = items;
     }
 
     // Getters and Setters
@@ -41,4 +47,12 @@ public class CartPaymentDTO {
 
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
+
+    public List<ItemDTO> getItems() {
+        return items;
+    }
+
+    public void setItems(List<ItemDTO> items) {
+        this.items = items;
+    }
 }

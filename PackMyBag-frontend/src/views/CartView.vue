@@ -10,7 +10,7 @@ minDate.setDate(minDate.getDate() + 5); // 5 dias de antecedencia
     		<img class="encomendaspage-child" alt="" src="/CartIMG/Line 17.png">
     		
 
-            <div class="shop-cart-frame">
+            <div v-if="this.itemsEncomenda.length!=0" class="shop-cart-frame">
                 <div v-bind:class="{ hide: !preCheck }" class="cart-main-section">
                     <div class="product-parent">
                         <div class="product">Product</div>
@@ -20,12 +20,18 @@ minDate.setDate(minDate.getDate() + 5); // 5 dias de antecedencia
                     </div>
                 </div>
             </div>
+            <div class="infoEmpty" v-if="this.itemsEncomenda.length==0">Your cart is empty. Go rent some clothes!</div>
             <div v-bind:class="{ hide: !preCheck }" v-for="(item, key) in itemsEncomenda">
                 <CartItemComponent
-                :codigo="item.codigo"
-                :nome="item.nome"
-                :preco="item.preco"
+                :codigo = "item.codigo"
+                :nome = "item.designacao"
+                :preco = "item.price"
+                :image = "item.imagem"
+                :quantidade = "item.nraquisicoes"
+                :idloja = "item.idloja"
+                :username = this.username
                 @newQuantity="changeQuantity($event,key)"
+                @itemRemoved="removeItem($event,item)"
                 ></CartItemComponent>
             </div>
 
@@ -48,16 +54,16 @@ minDate.setDate(minDate.getDate() + 5); // 5 dias de antecedencia
             </div>
 
 
-            <div class="summary">
+            <div v-if="this.itemsEncomenda.length!=0" class="summary">
                 <div class="summary-title">Summary</div> 
                 <div v-for="(i, idx) in itemsEncomenda">
-                    <p class="summary-details">x{{ i.quantity }}&emsp;&emsp;{{ i.nome }}&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;{{ getSubTotal(idx) }}€</p>                 
+                    <p class="summary-details">x{{ i.nraquisicoes }}&emsp;&emsp;{{ i.designacao }}&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;{{ getSubTotal(idx) }}€</p>                 
                 </div>
                 <br>
                 <p class="summary-details">{{itemsEncomenda.length}} items</p>
                 <p class="summary-details">Total:&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;{{ getTotal }}€</p>
             </div>
-    		<div class="button-parent">      			
+    		<div v-if="this.itemsEncomenda.length!=0" class="button-parent">      			
         		<button v-if="preCheck==false" class="button1">Checkout</button>
         		<button v-if="preCheck==true" class="button1" @click="changeNext()">Next</button>
     		</div>
@@ -72,6 +78,8 @@ import FooterComponent from '@/components/FooterComponent.vue';
 import CartItemComponent from '@/components/CartItemComponent.vue';
 import Calendar from 'primevue/calendar';
 import { Loader } from '@googlemaps/js-api-loader';
+import authService from '@/services/auth-service';
+import axios from 'axios';
 
 let map;
 let key = `${import.meta.env.VITE_API_KEY}`;
@@ -99,33 +107,41 @@ export default {
                 },
                 zoom: 20
             },
+			token:null,
+			username:String,
             begindate:'',
             enddate:'',
             checkedAddress:'',
-            itemsEncomenda : [{"nome":"Cutwork Poplin Dress","preco":23.2,"codigo":"P1","idloja":1, "quantity":1},{"nome":"Cutwork Poplin Dress","preco":23.2,"codigo":"P2","idloja":1,"quantity":1}]
+            itemsEncomenda : []
         }
     },
     computed:{
         getTotal(){
             let t = 0;
             for(let i=0; i<this.itemsEncomenda.length;i+=1){
-                t += this.itemsEncomenda[i].quantity * this.itemsEncomenda[i].preco;
+                t += this.itemsEncomenda[i].nraquisicoes * this.itemsEncomenda[i].price;
             }
             return t;
         }
         
     },
     async created(){
+        let token = authService.getToken();
+        if(token!=null){
+			this.token = token;
+			this.username=token.username;
+		}
+        this.getCartItems();
         this.loadMap();
     },
     methods:{
         changeQuantity(event,key){
-            this.itemsEncomenda[key].quantity = event;
+            this.itemsEncomenda[key].nraquisicoes = event;
         },
         getSubTotal(idx){
             console.log(idx);
             let t = 0;
-            t = this.itemsEncomenda[idx].quantity * this.itemsEncomenda[idx].preco;
+            t = this.itemsEncomenda[idx].nraquisicoes * this.itemsEncomenda[idx].price;
             return t;
         },
         changeNext(){
@@ -168,6 +184,17 @@ export default {
                     map = new google.maps.Map(document.getElementById("map"), this.mapOptions);
                 }
             });
+        },
+        getCartItems(){
+            axios.get('http://localhost:8888/api/cartService/'+this.username).then(items=>{
+                this.itemsEncomenda = items.data;
+                console.log(this.itemsEncomenda)
+            }).catch(err=>{
+                console.log(err)
+            })
+        },
+        removeItem(event,item){
+            this.itemsEncomenda = this.itemsEncomenda.filter((i) => i.codigo !== item.codigo && i.idloja !== item.idloja);
         }
     }
 }
