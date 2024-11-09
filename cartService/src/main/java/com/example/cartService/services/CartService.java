@@ -31,6 +31,11 @@ import com.example.cartService.model.Pagamento;
 import com.example.cartService.repositories.CartRepository;
 import com.example.cartService.repositories.ClientCartRepository;
 import com.example.cartService.repositories.PagamentoRepository;
+import com.paypal.core.PayPalEnvironment;
+import com.paypal.core.PayPalHttpClient;
+import com.paypal.orders.*;
+import java.io.IOException;
+import org.springframework.beans.factory.annotation.Value;
 /*
  * Most things here are a work in progress
  * take it with a grain of salt
@@ -45,12 +50,23 @@ public class CartService {
     private final PagamentoRepository pagamentoRepository;
     private final CartItemMapper cartItemMapper;
 
+    private final PayPalHttpClient payPalClient;
+    
+    @Value("${paypal.client.id}")
+    private String paypalClientId;
+    
+    @Value("${paypal.client.secret}")
+    private String paypalClientSecret;
+
     public CartService(ClientCartRepository clientCartRepository,PagamentoRepository pagamentoRepository ,CartRepository cartRepository, ClientCartMapper clientCartMapper, CartItemMapper cartItemMapper) {
         this.clientCartRepository = clientCartRepository;
         this.pagamentoRepository = pagamentoRepository;
         this.cartRepository = cartRepository;
         this.clientCartMapper = clientCartMapper;
         this.cartItemMapper = cartItemMapper;
+
+        PayPalEnvironment environment = new PayPalEnvironment.Sandbox(paypalClientId, paypalClientSecret);
+        this.payPalClient = new PayPalHttpClient(environment);
     }
 
     public ClientCartDTO getUserCart(String username) throws NoClientException {
@@ -215,9 +231,12 @@ public class CartService {
         payment.setModoPagamento(paymentInfo.getModoPagamento());
         payment.setStatus(paymentInfo.getStatus());
 
-        paymentInfo.getItems().stream().map(x->new ItemEncomenda(x.getQuantidade(),x.getCodigo(),x.getIdloja())).forEach(
-                payment::addItemEncomenda
-        );
+        paymentInfo.getItems()
+                    .stream()
+                    .map(x->new ItemEncomenda(x.getQuantidade(),x.getCodigo(),x.getIdloja()))
+                    .forEach(
+                        payment::addItemEncomenda
+                    );
 
         System.out.println("Payment info: " + paymentInfo);
         System.out.println("Payment: " + payment);
@@ -264,5 +283,38 @@ public class CartService {
 
         payment.setStatus(paymentInfo.getStatus());
         clientCartRepository.save(cliente);
+    }
+
+    public String processPayPalPayment(CartPaymentPaypalDTO paymentInfo) throws NoClientException {
+        // Verify the client and cart
+        Cliente cliente = clientCartRepository.getClienteByUsername(paymentInfo.getUsername());
+        if (cliente == null) {
+            throw new NoClientException("Client not found with username: " + paymentInfo.getUsername());
+        }
+
+        Cart cart = cliente.getCart();
+        if (cart == null || cart.getItens().isEmpty()) {
+            throw new NoCartException("Cart is empty for client: " + paymentInfo.getUsername());
+        }
+        
+        // Capture the PayPal order
+        OrdersCaptureRequest request = new OrdersCaptureRequest(paymentInfo.getPaypalOrderId());
+        OrdersCapture response = payPalClient.execute(request);
+        
+        if (response.result().status().equals("COMPLETED")) {
+            // Create payment record
+            CartPaymentDTO paymentInfo = new CartPaymentDTO();
+            paymentInfo.setUsername(paymentInfo.getUsername());
+            paymentInfo.setCodigo(paymentInfo.getCodigo());
+            paymentInfo.setModoPagamento("PAYPAL");
+            paymentInfo.setStatus("PAID");
+            
+            // Use existing createPayment method to save the transaction
+            createPayment(paymentInfo);
+            
+            return "Payment processed successfully";
+        } else {
+            throw new RuntimeException("PayPal payment failed with status: " + response.result().status());
+        }
     }
 }

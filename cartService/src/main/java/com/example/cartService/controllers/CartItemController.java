@@ -100,4 +100,14 @@ public class CartItemController {
             return new ResponseEntity<>(new ErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage()), HttpStatus.BAD_REQUEST);
         }
     }
+
+    @PostMapping("/processPayPalPayment")
+    public ResponseEntity<?> processPayPalPayment(@RequestBody CartPaymentPaypalDTO paymentInfo) {
+        try {
+            cartService.processPayPalPayment(paymentInfo);
+            return ResponseEntity.ok().body("Payment processed successfully!");
+        } catch (Exception e) {
+            return new ResponseEntity<>(new ErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage()), HttpStatus.BAD_REQUEST);
+        }
+    }
 }
