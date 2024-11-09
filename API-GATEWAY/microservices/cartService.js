@@ -46,3 +46,20 @@ module.exports.removeFromCart = (itemBody) => {
         }
     });
 }
+
+
+module.exports.createPayment = async (itemBody) => {
+    try{
+        let r = await axios.post(`${ap}/createPayment`,
+                itemBody,
+                {
+                    headers: {
+                        'Content-Type': 'application/json;charset=UTF-8',
+                    }
+                })
+        return r.data;
+    }catch(err){
+        return err;
+    } 
+        
+}

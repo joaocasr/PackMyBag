@@ -86,41 +86,37 @@ receber no body seguinte estrutura:
                 ]
               }
 */
-/*
-//adicionar a nova encomenda no servico de encomendas e notificacoes
-            const codigo = "ENC"+username.toUpperCase()+Date.now(); //ex: ENCJOHNNY1730756161725
-
-*/
-router.post("/order", async function(req,res,next){ //depois inserir funcao middleware
+router.post("/order", validate.verifyToken, async function(req,res,next){
   const itensObj = req.body.itensObj;
   const username = req.body.username;
   try{
+    console.log(itensObj);
     const result = await catalogoService.verifyAvailability(itensObj);
     if(result.status==200){
-      cartService.clearCart(username).then(resp => { // clear cart 
-
+          console.log("passou")
+          console.log(username)
+    
+          const codigo = "ENC"+username.toUpperCase()+Date.now();
           const payment = {
                             "username":username,
+                            "codigo": codigo,
                             "localEntrega":req.body.localEntrega,
                             "inicioAluguer":req.body.inicioAluguer,
                             "fimAluguer":req.body.fimAluguer,
                             "modoPagamento":req.body.modoPagamento,
-                            "status": "PENDING"
+                            "status": "PENDING",
+                            "items":itensObj.itens
                           }
-
-          cartService.createPayment(payment).then(resp => { // create payment
-            
-            
-          }).catch(err => {
+          console.log(payment);
+          try{
+            let r = await cartService.createPayment(payment); // create payment
+            res.status(200).jsonp(r);
+          }catch(err){
             res.status(400).jsonp(err);
-          });  
-        
-      }).catch(err => {
-        res.status(400).jsonp(err);
-      });
+          }            
     }
   }catch(err){
-    res.status(err.response.data.status || 500).jsonp(err.response.message || "verifyAvailability error.");
+    res.status(400).jsonp(err);
 
   }
 })

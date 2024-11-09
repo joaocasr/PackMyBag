@@ -30,7 +30,8 @@ export default {
         image:String,
         quantidade:Number,
         idloja:Number,
-        username:String
+        username:String,
+        index:Number
     },
     components:{
         VueSelect
@@ -87,7 +88,7 @@ export default {
 				let r = await this.removeItemCart();
 				if (r && r.status == 200) {
 					this.$swal.fire("Removed! The item was removed from your cart.", "", "success");
-                    this.$emit('itemRemoved',{"codigo":this.codigo,"idloja":this.idloja})
+                    this.$emit('itemRemoved',this.index)
 				} else {
 					let msg="";
 					if(r.response) msg = r.response.data.message;

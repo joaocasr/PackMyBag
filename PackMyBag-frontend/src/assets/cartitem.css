@@ -68,9 +68,12 @@
 }
 .cutwork-poplin-dress {
     position: absolute;
-    top: 75px;
     left: 160px;
     line-height: 24px;
+    width: 120px;
+    height: 400px;
+    margin-top: 65px;
+    font-size: 13px;
 }
 .icon-cancel {
     position: absolute;

@@ -23,19 +23,20 @@ minDate.setDate(minDate.getDate() + 5); // 5 dias de antecedencia
             <div class="infoEmpty" v-if="this.itemsEncomenda.length==0">Your cart is empty. Go rent some clothes!</div>
             <div v-bind:class="{ hide: !preCheck }" v-for="(item, key) in itemsEncomenda">
                 <CartItemComponent
-                :codigo = "item.codigo"
-                :nome = "item.designacao"
-                :preco = "item.price"
-                :image = "item.imagem"
-                :quantidade = "item.nraquisicoes"
-                :idloja = "item.idloja"
-                :username = this.username
-                @newQuantity="changeQuantity($event,key)"
-                @itemRemoved="removeItem($event,item)"
-                ></CartItemComponent>
+                    :codigo = "item.codigo"
+                    :nome = "item.designacao"
+                    :preco = "item.price"
+                    :image = "item.imagem"
+                    :quantidade = "item.nraquisicoes"
+                    :idloja = "item.idloja"
+                    :username = this.username
+                    :index = key
+                    @newQuantity="changeQuantity($event,key)"
+                    @itemRemoved="removeItem($event,key)">
+                </CartItemComponent>
             </div>
 
-            <div class="form-section" v-bind:class="{ hide: preCheck }">
+            <div v-if="this.itemsEncomenda.length!=0" class="form-section" v-bind:class="{ hide: preCheck }">
                 <button class="button2" @click="changePrevious()">BACK</button>
                 <input v-model="address" class="searchAddress" placeholder="Please indicate the address of your staying..." />
                 <button @click="getLocation()" class="addressbtn">GO</button>
@@ -64,7 +65,7 @@ minDate.setDate(minDate.getDate() + 5); // 5 dias de antecedencia
                 <p class="summary-details">Total:&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;{{ getTotal }}€</p>
             </div>
     		<div v-if="this.itemsEncomenda.length!=0" class="button-parent">      			
-        		<button v-if="preCheck==false" class="button1">Checkout</button>
+        		<button v-if="preCheck==false" @click="handlePayment()" class="button1">Checkout</button>
         		<button v-if="preCheck==true" class="button1" @click="changeNext()">Next</button>
     		</div>
   	</div>
@@ -79,6 +80,7 @@ import CartItemComponent from '@/components/CartItemComponent.vue';
 import Calendar from 'primevue/calendar';
 import { Loader } from '@googlemaps/js-api-loader';
 import authService from '@/services/auth-service';
+import authHeader from '@/services/auth-header';
 import axios from 'axios';
 
 let map;
@@ -193,8 +195,71 @@ export default {
                 console.log(err)
             })
         },
-        removeItem(event,item){
-            this.itemsEncomenda = this.itemsEncomenda.filter((i) => i.codigo !== item.codigo && i.idloja !== item.idloja);
+        removeItem(event,idx){
+            console.log("aquiiii")
+            console.log(idx)
+            this.itemsEncomenda = this.itemsEncomenda.filter((item,index) => index !== idx);
+            console.log(this.itemsEncomenda);
+        },
+        async handlePayment(){
+            const result = await this.$swal.fire({
+				title: "Are you sure you want to procede and generate the payment?",
+				showDenyButton: false,
+				showCancelButton: true,
+				confirmButtonText: "Yes"
+			});
+			if (result.isConfirmed) {
+				let r = await this.generatePayment();
+                console.log(r)
+				if (r && r.status == 200) {
+                        this.$swal.fire({
+                            title: "Success! A new payment was generated for your order.",
+                            type: "success",
+                            showConfirmButton: true,
+                            confirmButtonText:"Payments",
+                            showCancelButton:true
+                            }, function(){
+                                // window.location.href = "/payments"
+                            });
+                    this.itemsEncomenda=[];
+				} else {
+					let msg="";
+					if(r.response) msg = r.response.data.message;
+					this.$swal.fire("Something went wrong! "+msg, "", "error");
+				}
+			}
+        },
+        async generatePayment(){
+            
+            const header = authHeader();
+			let config = {headers:header}
+			header['Content-Type'] = 'application/json';
+            
+            let itens = [];
+            this.itemsEncomenda.forEach((x) =>
+                itens.push({"codigo":x.codigo,"idloja":x.idloja,"quantidade":x.nraquisicoes})
+            )
+            let itensObj = {
+                "itens" : itens
+            }
+            try{
+                let r = await axios.post('http://localhost:8888/api/cartService/order',
+                    {
+                        "username":this.username,
+                        "itensObj":itensObj,
+                        "localEntrega":"Braga",
+                        "inicioAluguer":"8/11/2024",
+                        "fimAluguer":"12/11/2024",
+                        "modoPagamento":"MBWAY"
+                        
+                    },
+                    config
+                );
+                console.log(r);
+                return r;
+            }catch(err){
+                console.log(err)
+            }
         }
     }
 }

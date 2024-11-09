@@ -284,18 +284,45 @@ module.exports.removeItem = (code,lojaid) => {
     })
 }
 
-module.exports.verifyAvailability = async (listEncomenda) =>{
-    const resp = await axios.post(`${ap}/disponibilidade/`, 
-                { 
-                    itens:listEncomenda
-                },
+/*
+
+{
+	
+	"itens":[
+			{
+				"codigo":"P945",
+			 	"idloja":1,
+			 	"quantidade":"1"
+			},
+			{
+				"codigo":"P141",
+				"idloja":1,
+				"quantidade":"1"
+			}
+	]
+}
+
+*/
+
+module.exports.verifyAvailability = async (encomenda) =>{
+
+    try {
+        const resp = await axios.post(`${ap}/disponibilidade/`, 
+            encomenda,
             {
                 headers: { 
                     'Content-Type': 'application/json;charset=UTF-8',
                 }
             }
         );
-    return resp.data;
+        return resp;
+    } catch (err) {
+        if (err.response) {
+            throw { error: err.response.data, status: err.response.status };
+        } else {
+            throw { error: "Unknown error", status: 500 };
+        }
+    }
 }
 
 module.exports.getTrendingItems = (idloja) => {
