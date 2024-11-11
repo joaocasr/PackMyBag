@@ -15,6 +15,8 @@ public class EncomendaDTO {
     private int lojaId;
     // FALTA o set com os itens da encomenda
     private Set<ItemDTO> itens;
+    private Double preco;
+    private Double taxaEntrega;
     
     public EncomendaDTO() {
     }
@@ -97,5 +99,21 @@ public class EncomendaDTO {
 
     public void setClienteEmail(String clienteEmail) {
         this.clienteEmail = clienteEmail;
+    }
+
+    public Double getPreco() {
+        return preco;
+    }
+
+    public void setPreco(Double preco) {
+        this.preco = preco;
+    }
+
+    public Double getTaxaEntrega() {
+        return taxaEntrega;
+    }
+
+    public void setTaxaEntrega(Double taxaEntrega) {
+        this.taxaEntrega = taxaEntrega;
     }
 }

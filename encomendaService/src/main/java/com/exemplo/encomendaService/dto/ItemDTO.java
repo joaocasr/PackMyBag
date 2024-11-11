@@ -10,6 +10,7 @@ public class ItemDTO {
     private String cor;
     private String tamanho;
     private String genero;
+    private String imagemUrl;
 
     public ItemDTO() {
     }
@@ -89,6 +90,14 @@ public class ItemDTO {
         this.genero = genero;
     }
 
+    public String getImagemUrl() {
+        return imagemUrl;
+    }
+
+    public void setImagemUrl(String imagemUrl) {
+        this.imagemUrl = imagemUrl;
+    }
+
     @Override
     public String toString() {
         return "ItemDTO{" +
@@ -100,9 +109,9 @@ public class ItemDTO {
                 ", cor='" + cor + '\'' +
                 ", tamanho='" + tamanho + '\'' +
                 ", genero='" + genero + '\'' +
+                ", imagemUrl='" + imagemUrl + '\'' +
                 '}';
 
     }
 
 }
-                

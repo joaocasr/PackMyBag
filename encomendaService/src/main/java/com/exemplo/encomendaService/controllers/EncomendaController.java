@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.exemplo.encomendaService.services.LojaService;
 
+import jakarta.persistence.EntityNotFoundException;
 
 import java.util.List;
 
@@ -232,4 +233,23 @@ public class EncomendaController {
         }
     }
 
+    // Endpoint para procurar encomendas por username do cliente
+    @GetMapping("/cliente/username/{username}")
+    public ResponseEntity<List<EncomendaDTO>> getEncomendasByClienteUsername(@PathVariable String username) {
+        List<EncomendaDTO> encomendas = encomendaService.findEncomendasByClienteUsername(username);
+        return new ResponseEntity<>(encomendas, HttpStatus.OK);
+    }
+
+        // **Novo Endpoint para buscar uma encomenda específica por username e código da encomenda**
+    @GetMapping("/cliente/username/{username}/codigoEncomenda/{codigoEncomenda}")
+    public ResponseEntity<EncomendaDTO> getEncomendaByClienteUsernameAndCodigoEncomenda(
+            @PathVariable String username,
+            @PathVariable String codigoEncomenda) {
+        try {
+            EncomendaDTO encomenda = encomendaService.findEncomendaByClienteUsernameAndCodigoEncomenda(username, codigoEncomenda);
+            return new ResponseEntity<>(encomenda, HttpStatus.OK);
+        } catch (EntityNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 }

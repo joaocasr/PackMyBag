@@ -19,6 +19,7 @@ public class ItemMapper {
         dto.setCor(item.getCor());
         dto.setTamanho(item.getTamanho());
         dto.setGenero(item.getGenero());
+        dto.setImagemUrl(item.getImagemUrl());
         return dto;
     }
 
@@ -33,6 +34,7 @@ public class ItemMapper {
         item.setCor(dto.getCor());
         item.setTamanho(dto.getTamanho());
         item.setGenero(dto.getGenero());
+        item.setImagemUrl(dto.getImagemUrl());
         return item;
     }
 }

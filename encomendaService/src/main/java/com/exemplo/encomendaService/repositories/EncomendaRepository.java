@@ -52,6 +52,14 @@ public interface EncomendaRepository extends JpaRepository<Encomenda, Integer> {
     @Modifying
     @Query("UPDATE Encomenda e SET e.status = :novoStatus WHERE e.codigoEncomenda = :codigo")
     int updateStatusByCodigo(@Param("codigo") String codigo, @Param("novoStatus") String novoStatus);
+
+    // Procurar encomendas por username do cliente
+    @Query("SELECT e FROM Encomenda e WHERE e.cliente.username = :username")
+    List<Encomenda> findEncomendasByClienteUsername(@Param("username") String username);
+
+    Optional<Encomenda> findByClienteUsernameAndCodigoEncomenda(String clienteUsername, String codigoEncomenda);
+
+
 }
 
     //Metodo personalizado para encotnrar encontrar todas as encomendas

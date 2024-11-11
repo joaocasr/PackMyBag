@@ -36,6 +36,12 @@ public class Encomenda implements Serializable {
 	
 	@Column(name="Status", nullable=true, length=255)	
 	private String status;
+
+	@Column(name="Preco", nullable=true, length=255)
+	private Double preco;
+
+	@Column(name="TaxaEntrega", nullable=true, length=255)
+	private Double taxaEntrega;
 	
 	@OneToMany(orphanRemoval=true, targetEntity=Item.class)	
 	@org.hibernate.annotations.Cascade({org.hibernate.annotations.CascadeType.ALL})	
@@ -115,9 +121,26 @@ public class Encomenda implements Serializable {
 	public Set<Item> getItems() {
 		return items;
 	}
-	
+
+	public Double getPreco() {
+		return preco;
+	}
+
+	public void setPreco(Double preco) {
+		this.preco = preco;
+	}
+
+	public Double getTaxaEntrega() {
+		return taxaEntrega;
+	}
+
+	public void setTaxaEntrega(Double taxaEntrega) {
+		this.taxaEntrega = taxaEntrega;
+	}
+
 	public String toString() {
 		return String.valueOf(getIDEncomenda());
 	}
+
 	
 }

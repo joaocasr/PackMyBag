@@ -39,6 +39,9 @@ public class Item implements Serializable {
 	
 	@Column(name="Genero", nullable=true, length=255)	
 	private String genero;
+
+	@Column(name="ImagemUrl", nullable=true, length=255)
+	private String imagemUrl;
 	
 	private void setIDItem(int value) {
 		this.IDItem = value;
@@ -118,6 +121,14 @@ public class Item implements Serializable {
 	
 	public String toString() {
 		return String.valueOf(getIDItem());
+	}
+
+	public void setImagemUrl(String value) {
+		this.imagemUrl = value;
+	}
+
+	public String getImagemUrl() {
+		return imagemUrl;
 	}
 	
 }

@@ -29,6 +29,8 @@ public class EncomendaMapper {
         dto.setClienteEmail(encomenda.getCliente().getEmail());
         //dto.setLojaId(encomenda.getLoja().getIDLoja()); // A loja nao pode ser associada porque estamos a usar classes, e a entidade Loja é que tem uma lista com as encomendas para isto funcionar o lojaid tinha de estar definido na classe encomenda
         dto.setItens(encomenda.getItems().stream().map(ItemMapper::toDTO).collect(Collectors.toSet()));
+        dto.setPreco(encomenda.getPreco());
+        dto.setTaxaEntrega(encomenda.getTaxaEntrega());
         return dto;
     }
 
@@ -42,6 +44,8 @@ public class EncomendaMapper {
         encomenda.setStatus(dto.getStatus());
         encomenda.setCliente(cliente); // Define o cliente na encomenda
         //encomenda.setLojaId(encomenda.getLoja().getIDLoja()); // Associa a loja
+        encomenda.setPreco(dto.getPreco());
+        encomenda.setTaxaEntrega(dto.getTaxaEntrega());
         return encomenda;
     }
 
@@ -56,9 +60,11 @@ public class EncomendaMapper {
         // o hibernate nao deixa apagar o set de itens e adicionar um novo, por isso temos de limpar o set e adicionar os novos
         encomenda.getItems().clear();
         encomenda.getItems().addAll(dto.getItens().stream().map(ItemMapper::toEntity).collect(Collectors.toSet()));
+        encomenda.setPreco(dto.getPreco());
+        encomenda.setTaxaEntrega(dto.getTaxaEntrega());
 }
 
-    // Converte de Encomenda para EncomendaNotificationDTO
+    // Converte de Encomenda para EncomendaDateReturnDTO
     public static EncomendaDateReturnDTO toEncomendaDateReturnDTO(Encomenda encomenda, int tempoRestante) {
         EncomendaDateReturnDTO notificationDTO = new EncomendaDateReturnDTO();
         notificationDTO.setCodigoEncomenda(encomenda.getCodigoEncomenda());

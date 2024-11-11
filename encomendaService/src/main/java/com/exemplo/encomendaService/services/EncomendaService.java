@@ -19,6 +19,8 @@ import jakarta.persistence.EntityNotFoundException;
 import com.exemplo.encomendaService.repositories.ClienteRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import org.springframework.kafka.core.KafkaTemplate;
@@ -27,7 +29,8 @@ import com.exemplo.encomendaService.dto.EncomendaStatusDTO;
 import org.springframework.scheduling.annotation.Scheduled;
 
 import org.springframework.transaction.annotation.Transactional;
-
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.Arrays;
 import java.util.List;
@@ -330,5 +333,22 @@ public class EncomendaService {
     
         return EncomendaMapper.toEncomendaStatusDTO(encomenda);
     }
+
+    public List<EncomendaDTO> findEncomendasByClienteUsername(String username) {
+        List<Encomenda> encomendas = encomendaRepository.findEncomendasByClienteUsername(username);
+        return encomendas.stream().map(EncomendaMapper::toDTO).collect(Collectors.toList());
+    }
+
+
+    public EncomendaDTO findEncomendaByClienteUsernameAndCodigoEncomenda(String clienteUsername, String codigoEncomenda) {
+        Optional<Encomenda> encomendaOpt = encomendaRepository.findByClienteUsernameAndCodigoEncomenda(clienteUsername, codigoEncomenda);
+        
+        if (encomendaOpt.isPresent()) {
+            return EncomendaMapper.toDTO(encomendaOpt.get());
+        } else {
+            throw new EntityNotFoundException("Encomenda não encontrada para o usuário " + clienteUsername + " com o código " + codigoEncomenda);
+        }
+    }
+
     
 }
