@@ -1,0 +1,221 @@
+.nmero-de-encomenda {
+    position: absolute;
+    top: 45px;
+    left: 0px;
+    line-height: 24px;
+}
+.apt08087 {
+    position: absolute;
+    top: 45px;
+    left: 330px;
+    line-height: 24px;
+}
+.div {
+    position: absolute;
+    top: 84px;
+    left: 330px;
+    line-height: 24px;
+}
+.data-de-entrega {
+    position: absolute;
+    top: 84px;
+    left: 0px;
+    line-height: 24px;
+}
+.devolvido {
+    position: absolute;
+    top: 162px;
+    left: 330px;
+    line-height: 24px;
+}
+.status {
+    position: absolute;
+    top: 162px;
+    left: 0px;
+    line-height: 24px;
+}
+.div1 {
+    position: absolute;
+    top: 123px;
+    left: 330px;
+    line-height: 24px;
+}
+.data-de-devoluo {
+    position: absolute;
+    top: 123px;
+    left: 1px;
+    line-height: 24px;
+}
+.detalhes-da-encomenda {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    font-size: 16px;
+    line-height: 120%;
+    font-weight: 800;
+}
+.nmero-de-encomenda-parent {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 401px;
+    height: 186px;
+}
+.artigos {
+    position: absolute;
+    top: 33px;
+    left: 0px;
+    font-size: 18px;
+    line-height: 24px;
+    display: inline-block;
+    width: 79px;
+}
+.div2 {
+    position: absolute;
+    top: 33px;
+    left: 328px;
+    font-size: 18px;
+    line-height: 24px;
+    display: inline-block;
+    width: 75px;
+}
+.div3 {
+    position: absolute;
+    top: 176px;
+    left: 334px;
+    font-size: 18px;
+    line-height: 24px;
+    display: inline-block;
+    width: 68px;
+}
+
+
+.artigos-parent {
+    position: absolute;
+    top: 224px;
+    left: 0px;
+    width: 403px;
+    height: 200px;
+    font-size: 17px;
+}
+.group-parent {
+    width: 100%;
+    position: relative;
+    height: 424px;
+    text-align: left;
+    font-size: 18px;
+    color: #000;
+    font-family: Poppins;
+}
+
+.group-parent {
+    width: 100%;
+    top: 220px;
+    left: 950px;
+    position: absolute;
+    height: 424px;
+    text-align: left;
+    font-size: 18px;
+    color: #000;
+    font-family: Poppins;
+    margin-top: 20px; /* Adiciona espaço acima do grupo */
+}
+
+.encomenda-id {
+    position: absolute;
+    top: 150px;
+    left: 87px;
+    font-size: 32px;
+    font-family: Abel;
+ 
+}
+
+.item {
+    position: relative;
+    top: 240px;
+    left: 100px;
+    width: 30%;
+    height: 50%;
+    background-color: #f5f5f5;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+    padding: 120px;
+
+    
+}
+
+.item-container{
+    position: relative;
+    top: 60px;
+    left: 20px;
+    gap: 0px;
+    margin-bottom: -24px;
+}
+
+.item-nome{
+    position: relative;
+}
+
+.item-preco{
+    position: relative;
+    left: 310px;
+    top: -20px;
+}
+
+.resumo {
+    display: relative;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 40px; /* Espaçamento entre os elementos de resumo */
+    margin-top: 60px;
+}
+
+.preco-entrega, .total-final,.encomenda-preco {
+    position: relative;
+    left: 330px;
+    top: -20px;
+}
+
+.total-final{  
+    position: relative;
+    left: 330px;
+    top: -40px;
+}
+
+.total {
+    width: 46px;
+    position: relative;
+    top: -25px;
+    font-size: 14px;
+    line-height: 120%;
+    font-weight: 800;
+    font-family: Poppins;
+    color: #000;
+    text-align: left;
+    display: inline-block;
+}
+
+.button {
+    position: absolute;
+    top: 160px;
+    left: 1100px;
+    border-radius: 8px;
+    background-color: #2c2c2c;
+    border: 0px solid #2c2c2c;
+    padding: 10px ;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.button:hover {
+    background-color: #0056b3;
+}
+
+.button1 {
+    position: relative;
+    line-height: 100%;
+    color: #f5f5f5;
+    font-family: Inter;
+    line-height: 100%;
+}
+

@@ -10,6 +10,8 @@ import FormsView from '@/views/FormsView.vue'
 import FavouritesView from '@/views/FavouritesView.vue'
 import CartView from '@/views/CartView.vue'
 import ShopHomeView from '@/views/ShopHomeView.vue'
+import OrderView from '@/views/OrderView.vue'
+import OrderDetailsView from '@/views/OrderDetailsView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -77,6 +79,23 @@ const router = createRouter({
       path: '/stylists/forms',
       name: 'forms',
       component: FormsView
+    },
+    {
+      path: '/orders',
+      name: 'orders',
+      component: OrderView,
+      // meta: {
+      //   requiresAuth: true,
+      // }
+    },
+    {
+      path: '/ordersdetails/:orderCode',
+      name: 'ordersdetails',
+      component: OrderDetailsView,
+      props: true 
+      // meta: {
+      //   requiresAuth: true,
+      // }
     }
   ]
 })

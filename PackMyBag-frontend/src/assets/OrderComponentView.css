@@ -1,0 +1,195 @@
+
+body {
+    margin: 0;
+    line-height: normal;
+    }
+    
+
+.pedido-efetuado {
+    width: 169px;
+    position: relative;
+    line-height: 24px;
+    display: inline-block;
+    flex-shrink: 0;
+}
+.preo {
+    position: relative;
+    line-height: 24px;
+}
+.pedido-efetuado-parent {
+    position: absolute;
+    top: 12px;
+    left: 40px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 284px;
+}
+.div {
+    position: absolute;
+    top: 36px;
+    left: 40px;
+    line-height: 24px;
+    font-weight: 600;
+}
+.div1 {
+    position: absolute;
+    top: 36px;
+    left: 493px;
+    line-height: 24px;
+    font-weight: 600;
+}
+.entregue {
+    position: absolute;
+    top: 36px;
+    left: 814px;
+    line-height: 24px;
+    font-weight: 600;
+}
+.apt091231312 {
+    position: absolute;
+    top: 42px;
+    left: 1136px;
+    line-height: 24px;
+    font-weight: 600;
+}
+.encomenda-main-section {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    box-shadow: 0px 1px 13px rgba(0, 0, 0, 0.05);
+    border-radius: 4px;
+    background-color: #f5f5f5;
+    width: 1389px;
+    height: 72px;
+}
+.image-18-icon {
+    position: absolute;
+    height: 45.44%;
+    width: 4.52%;
+    top: 12.11%;
+    right: 92.96%;
+    bottom: 42.45%;
+    left: 2.52%;
+    max-width: 100%;
+    overflow: hidden;
+    max-height: 100%;
+    object-fit: cover;
+}
+.conjunto-verao- {
+    position: absolute;
+    top: 23px;
+    left: 289px;
+    font-size: 18px;
+    line-height: 24px;
+}
+.image-20-icon {
+    position: absolute;
+    height: 45.44%;
+    width: 4.52%;
+    top: 12.11%;
+    right: 81.73%;
+    bottom: 42.45%;
+    left: 13.75%;
+    max-width: 100%;
+    overflow: hidden;
+    max-height: 100%;
+    object-fit: cover;
+}
+
+.button {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    border-radius: 8px;
+    background-color: #2c2c2c;
+    border: 1px solid #2c2c2c;
+    box-sizing: border-box;
+    width: 290px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    color: #ffffff;
+    cursor: pointer;
+    
+}
+
+.button:hover {
+    background-color: #0056b3;
+}
+
+.button-wrapper {
+    position: absolute;
+    top: 100px;
+    left: 1068px;
+    width: 290px;
+    height: 40px;
+    color: #f5f5f5;
+    font-family: Inter;
+    
+}
+.numero-de-artigos {
+    position: absolute;
+    top: 59px;
+    left: 289px;
+    line-height: 24px;
+    color: #757575;
+}
+.cart-section {
+    position: absolute;
+    top: 72px;
+    left: 5px;
+    box-shadow: 0px 1px 13px rgba(0, 0, 0, 0.05);
+    border-radius: 4px;
+    background-color: #fff;
+    width: 1389px;
+    height: 239px;
+    overflow: hidden;
+}
+.encomenda-inner {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 1394px;
+    height: 311px;
+}
+.image-18-icon1 {
+    position: absolute;
+    height: 34.73%;
+    width: 4.52%;
+    top: 32.48%;
+    right: 86.87%;
+    bottom: 32.8%;
+    left: 8.61%;
+    max-width: 100%;
+    overflow: hidden;
+    max-height: 100%;
+    object-fit: cover;
+}
+.encomenda {
+    width: 100%;
+    position: relative;
+    height: 311px;
+    text-align: left;
+    font-size: 16px;
+    color: #000;
+    font-family: Poppins;
+}
+
+
+/* Adicionar estilos para as imagens diretamente */
+.order-item-images {
+    display: flex;
+    gap: 10px;
+    }
+    
+.mini-image {
+width: 50px;
+height: 50px;
+object-fit: cover;
+}
+
