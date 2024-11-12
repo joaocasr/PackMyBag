@@ -11,6 +11,12 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 import java.util.Optional;
 
 
@@ -95,6 +101,37 @@ public class NotificationsService implements NotificationCallback {
             encomenda.setDiasRestantes(tempoRestante);
             encomenda.notifyObservers("RETURN", this);
         }
+    }
+
+    @Transactional
+    public void removeNotificationFromClient(String username, Notificacao id){
+        Optional<Cliente> c = clienteRepository.getClienteByUsername(username);
+        if(c.isPresent()){
+            Cliente cliente = c.get();
+            cliente.removeNotification(id);
+            clienteRepository.save(cliente);
+        }
+    }
+
+    @Transactional
+    public void clearNotificationsFromClient(String username){
+        Optional<Cliente> c = clienteRepository.getClienteByUsername(username);
+        if(c.isPresent()){
+            Cliente cliente = c.get();
+            cliente.setNotificacoes(null);
+            clienteRepository.save(cliente);
+        }
+    }
+
+    @Transactional
+    public List<NotificationDTO> getAllNotificationsFromClient(String username){
+        Optional<Cliente> c = clienteRepository.getClienteByUsername(username);
+        Set<Notificacao> notif = new HashSet<>();
+        if(c.isPresent()){
+            Cliente cliente = c.get();
+            notif = cliente.getNotificacoes();
+        }
+        return notif.stream().map(x -> new NotificationDTO(x.getTipo(),x.getDescricao(),x.getData())).collect(Collectors.toList());
     }
 
     @Transactional
