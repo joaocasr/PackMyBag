@@ -116,6 +116,10 @@ public class Cliente implements Observer, Serializable {
 	public java.util.Set<Notificacao> getNotificacoes() {
 		return notificacoes;
 	}
+
+	public void removeNotification(Notificacao n){
+		this.notificacoes.remove(n);
+	}
 	
 	
 	public String toString() {
