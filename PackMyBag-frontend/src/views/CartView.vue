@@ -54,6 +54,19 @@ minDate.setDate(minDate.getDate() + 5); // 5 dias de antecedencia
                 </div>
             </div>
 
+            <div class="payment-container">
+                <h4>PAYMENT</h4>
+                <div class="payment-options">
+                <div class="payment-option" @click="selectPayment('paypal')">
+                    <p>PayPal</p>
+                    <img width="20px" height="20px" src="/CartIMG/paypal.png" alt="PayPal" />
+                </div>
+                <div class="payment-option" @click="selectPayment('credit-card')">
+                    <p>Credit Card</p>
+                    <img width="20px" height="20px" src="/CartIMG/creditcard.png" alt="Cartão de Crédito" />
+                </div>
+                </div>
+            </div>
 
             <div v-if="this.itemsEncomenda.length!=0" class="summary">
                 <div class="summary-title">Summary</div> 

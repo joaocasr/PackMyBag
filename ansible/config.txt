@@ -1,0 +1,16 @@
+users:
+- name: gke_packmybag_us-central1-a_packmybag-cluster
+  user:
+    auth-provider:
+      name: gcp
+      config:
+        credential-file: /home/joao/keys/packmybag-592e3f998351.json
+        idp-issuer-url: https://accounts.google.com
+        project-id: packmybag
+
+
+gcloud container clusters get-credentials packmybag-cluster --zone us-central1-a --project packmybag
+kubectl cluster-info
+kubectl get nodes
+kubectl create namespace packmybag
+kubectl config set-context packmybag

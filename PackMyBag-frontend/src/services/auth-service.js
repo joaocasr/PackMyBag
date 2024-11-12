@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { jwtDecode } from "jwt-decode";
 import { auth } from '@/store/auth-module';
+//const API_URL = "http://apigateway-service/api/utilizadoresService/"
 
 const API_URL = "http://localhost:8888/api/utilizadoresService/"
 const headers = {

@@ -1,5 +1,5 @@
 var axios = require('axios')
-const ap = "http://localhost:8083/api/favoritos"
+var ap = process.env.FAVORITOS_SERVICE_URL || "http://localhost:8083/api/favoritos"
 
 /*
 

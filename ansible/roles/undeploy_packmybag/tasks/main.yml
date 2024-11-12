@@ -1,0 +1,25 @@
+---
+
+- name: Undeploy postgres service
+  shell: kubectl delete services postgres-service
+
+- name: Undeploy postgres Deployment
+  shell: kubectl delete deployment postgres-deployment
+
+- name: Undeploy utilizadores service
+  shell: kubectl delete services utilizadores-service
+
+- name: Undeploy utilizadores Deployment
+  shell: kubectl delete deployment utilizadores-deployment
+
+- name: Undeploy apigateway service
+  shell: kubectl delete services apigateway-service
+
+- name: Undeploy postgres Deployment
+  shell: kubectl delete deployment apigateway-deployment
+
+- name: Undeploy frontend service
+  shell: kubectl delete services frontend-service
+
+- name: Undeploy postgres Deployment
+  shell: kubectl delete deployment frontend-deployment

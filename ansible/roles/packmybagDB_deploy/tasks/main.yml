@@ -1,0 +1,27 @@
+---
+# Playbook to deploy PVC, Postgres, and Postgres service
+- name: PVC
+  shell: kubectl apply -f roles/packmybagDB_deploy/k8s/pvc.yml --validate=false
+
+- name: POSTGRES DEPLOYMENT
+  shell: kubectl apply -f roles/packmybagDB_deploy/k8s/deploy.yml --validate=false
+
+- name: POSTGRES SERVICE
+  shell: kubectl apply -f roles/packmybagDB_deploy/k8s/service.yml --validate=false
+
+- name: Wait for Postgres objects to be ready
+  command: kubectl get pods
+  register: kubectl_get_pods
+  until: "{{ kubectl_get_pods.stdout_lines[1:] | select('search', '1/1') | list | length == kubectl_get_pods.stdout_lines[1:] | length }}"
+  retries: 30
+  delay: 5
+  
+- name: Retrieve pod name
+  shell: "kubectl get pods | grep postgres | awk '{print $1}'"
+  register: pod
+
+- name: Copy Database script file to pod
+  shell: kubectl cp db-init/db.sql {{ pod.stdout }}:/tmp/db.sql
+
+- name: Populate Databases
+  shell: kubectl exec -it {{ pod.stdout }} -- psql -U postgres -f /tmp/db.sql

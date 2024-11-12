@@ -1,0 +1,19 @@
+---
+# Playbook to deploy frontend service
+- name: deploy template
+  template:
+    src: deploy.yml.j2
+    dest: /tmp/deploy.yml
+
+- name: apply deploy
+  shell: kubectl apply -f /tmp/deploy.yml --validate=false
+
+- name: frontend service
+  shell: kubectl apply -f roles/frontend_deploy/k8s/service.yml --validate=false
+
+- name: Wait for frontend objects to be ready
+  command: kubectl get pods
+  register: kubectl_get_pods
+  until: "{{ kubectl_get_pods.stdout_lines[1:] | select('search', '1/1') | list | length == kubectl_get_pods.stdout_lines[1:] | length }}"
+  retries: 30
+  delay: 5

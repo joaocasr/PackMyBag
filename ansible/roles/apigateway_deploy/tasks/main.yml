@@ -1,0 +1,36 @@
+---
+# Playbook to deploy api gateway service
+- name: api gateway deploy
+  shell: kubectl apply -f roles/apigateway_deploy/k8s/deploy.yml --validate=false
+
+- name: api gateway service
+  shell: kubectl apply -f roles/apigateway_deploy/k8s/service.yml --validate=false
+
+- name: Wait for api gateway objects to be ready
+  command: kubectl get pods
+  register: kubectl_get_pods
+  until: "{{ kubectl_get_pods.stdout_lines[1:] | select('search', '1/1') | list | length == kubectl_get_pods.stdout_lines[1:] | length }}"
+  retries: 30
+  delay: 5
+
+- name: Retrieve external IP
+  shell: "kubectl get service apigateway-service --output=wide | grep apigateway-service | awk '{print $3}'"
+  register: gateway_ip
+  until: 
+    - gateway_ip.stdout != ""
+    - gateway_ip.stdout != "<pending>"
+  retries: 10
+  delay: 15
+
+- name: Set gateway_ip in memory
+  ansible.builtin.set_fact:
+    gateway_ip: "{{ gateway_ip.stdout }}"
+    app_port: "{{ app_port }}"
+
+- name: Updating gateway_ip Inventory Variable
+  ansible.builtin.lineinfile: 
+    path: inventory/gcp.yml
+    state: present
+    regexp:  'gateway_ip:.*'
+    line: '  gateway_ip: {{ gateway_ip }}'
+    backrefs: yes

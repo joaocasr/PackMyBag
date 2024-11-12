@@ -1,0 +1,10 @@
+---
+# Playbook to deploy PackMyBag and its components
+
+- name: Deploy PackMyBag
+  hosts: localhost
+  roles:
+    - packmybagDB_deploy
+    - utilizadores_deploy
+    - apigateway_deploy
+    - frontend_deploy

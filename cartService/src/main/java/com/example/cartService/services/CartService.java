@@ -6,16 +6,10 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.example.cartService.dto.*;
+import com.paypal.http.HttpResponse;
 import org.springframework.stereotype.Service;
 
-import com.example.cartService.dto.CartItemChangeQuantityDTO;
-import com.example.cartService.dto.CartItemDTO;
-import com.example.cartService.dto.CartItemInsertDTO;
-import com.example.cartService.dto.CartItemRemoveDTO;
-import com.example.cartService.dto.CartPaymentDTO;
-import com.example.cartService.dto.CartPaymentStatusChangeDTO;
-import com.example.cartService.dto.ClientCartDTO;
-import com.example.cartService.dto.PagamentoDTO;
 import com.example.cartService.exceptions.NoCartException;
 import com.example.cartService.exceptions.NoClientException;
 import com.example.cartService.exceptions.NoItemException;
@@ -50,14 +44,14 @@ public class CartService {
     private final PagamentoRepository pagamentoRepository;
     private final CartItemMapper cartItemMapper;
 
-    private final PayPalHttpClient payPalClient;
+   /* private final PayPalHttpClient payPalClient;
     
     @Value("${paypal.client.id}")
     private String paypalClientId;
     
     @Value("${paypal.client.secret}")
     private String paypalClientSecret;
-
+*/
     public CartService(ClientCartRepository clientCartRepository,PagamentoRepository pagamentoRepository ,CartRepository cartRepository, ClientCartMapper clientCartMapper, CartItemMapper cartItemMapper) {
         this.clientCartRepository = clientCartRepository;
         this.pagamentoRepository = pagamentoRepository;
@@ -65,8 +59,8 @@ public class CartService {
         this.clientCartMapper = clientCartMapper;
         this.cartItemMapper = cartItemMapper;
 
-        PayPalEnvironment environment = new PayPalEnvironment.Sandbox(paypalClientId, paypalClientSecret);
-        this.payPalClient = new PayPalHttpClient(environment);
+        //PayPalEnvironment environment = new PayPalEnvironment.Sandbox(paypalClientId, paypalClientSecret);
+        //this.payPalClient = new PayPalHttpClient(environment);
     }
 
     public ClientCartDTO getUserCart(String username) throws NoClientException {
@@ -284,8 +278,8 @@ public class CartService {
         payment.setStatus(paymentInfo.getStatus());
         clientCartRepository.save(cliente);
     }
-
-    public String processPayPalPayment(CartPaymentPaypalDTO paymentInfo) throws NoClientException {
+    /*
+    public String processPayPalPayment(CartPaymentPaypalDTO paymentInfo) throws NoClientException, IOException {
         // Verify the client and cart
         Cliente cliente = clientCartRepository.getClienteByUsername(paymentInfo.getUsername());
         if (cliente == null) {
@@ -296,25 +290,25 @@ public class CartService {
         if (cart == null || cart.getItens().isEmpty()) {
             throw new NoCartException("Cart is empty for client: " + paymentInfo.getUsername());
         }
-        
+
         // Capture the PayPal order
         OrdersCaptureRequest request = new OrdersCaptureRequest(paymentInfo.getPaypalOrderId());
-        OrdersCapture response = payPalClient.execute(request);
+        HttpResponse<Order> response = payPalClient.execute(request);
         
         if (response.result().status().equals("COMPLETED")) {
             // Create payment record
-            CartPaymentDTO paymentInfo = new CartPaymentDTO();
-            paymentInfo.setUsername(paymentInfo.getUsername());
-            paymentInfo.setCodigo(paymentInfo.getCodigo());
-            paymentInfo.setModoPagamento("PAYPAL");
-            paymentInfo.setStatus("PAID");
+            CartPaymentDTO newpaymentInfo = new CartPaymentDTO();
+            newpaymentInfo.setUsername(paymentInfo.getUsername());
+            newpaymentInfo.setCodigo(paymentInfo.getCodigo());
+            newpaymentInfo.setModoPagamento("PAYPAL");
+            newpaymentInfo.setStatus("PAID");
             
             // Use existing createPayment method to save the transaction
-            createPayment(paymentInfo);
+            createPayment(newpaymentInfo);
             
             return "Payment processed successfully";
         } else {
             throw new RuntimeException("PayPal payment failed with status: " + response.result().status());
         }
-    }
+    }*/
 }

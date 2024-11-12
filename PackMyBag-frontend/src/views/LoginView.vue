@@ -13,7 +13,7 @@
     		
             
             <div class="alreadyAccount">
-                <p>Don't have an account? <a href="/signup">Sign Up here.</a></p>
+                <p>aqui: {{ dominio }} .Don't have an account? <a href="/signup">Sign Up here.</a></p>
             </div>            
         </div>
         <FooterComponent></FooterComponent>
@@ -21,15 +21,17 @@
 </template>
 
 <script>
-
 import NavBarComponent from '@/components/NavBarComponent.vue';
 import FooterComponent from '@/components/FooterComponent.vue';
-import User from "@/models/user"
+import User from "@/models/user";
+
+
 export default {
 
     data(){
 		return{
-            user: new User('', '', '', '')
+            user: new User('', '', '', ''),
+            dominio: 'Por enquanto nada'
 		}
 	},
     components:{
@@ -37,29 +39,25 @@ export default {
         FooterComponent
     },
     methods:{
-        doLogin(){
+        async doLogin(){
             console.log(this.user);
-               this.$store.dispatch('auth/login',this.user).then(resp=>{
+            try{
+               let resp = await this.$store.dispatch('auth/login',this.user)
                 //console.log(resp);
                 this.$swal({
                     icon: "success",
                     title: "Success!",
                     text: "You are logged in."});
                 this.$router.push({path:'/'})
-           }, err=>{
-                if(err.response){
-                    this.$swal({
-                            icon: "error",
-                            title: "Error!",
-                            text: err.response.data.message});
-                }else{
-                    this.$swal({
-                            icon: "error",
-                            title: "Error!",
-                            text: "Something went wrong."});
-                }
-            }      
-            );
+            }catch(err){
+                console.log(err)
+                let m = "Error!";
+                if(err.response) m = err.response.data.message;
+                this.$swal({
+                    icon: "error",
+                    title: "Error!",
+                    text: m});
+            }
         }   
     }
 }

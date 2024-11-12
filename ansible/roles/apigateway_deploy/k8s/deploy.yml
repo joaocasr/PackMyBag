@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: apigateway-deployment
+spec:
+  selector:
+    matchLabels:
+      app: apigateway
+  template:
+    metadata:
+      labels:
+        app: apigateway
+    spec:
+      containers:
+        - name: apigateway-container
+          image: joaoppc2002/apigateway:latest
+          env:
+            - name: UTILIZADORES_SERVICE_URL
+              value: "http://utilizadores-service:8087/api/utilizadores"
+          ports:
+            - containerPort: 8888

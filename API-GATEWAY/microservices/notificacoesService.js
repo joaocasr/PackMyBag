@@ -1,6 +1,5 @@
 const axios = require('axios');
-var ap = "http://localhost:8086/api/notificacoes"
-
+var ap = process.env.NOTIFICACOES_SERVICE_URL || "http://localhost:8086/api/notificacoes"
 module.exports.addInterested = async (codigo,designacao,disponibilidade,idLoja,username,nomeuser,email) =>{
     try{
         const resp = await axios.post(`${ap}/addItemInterested`, {

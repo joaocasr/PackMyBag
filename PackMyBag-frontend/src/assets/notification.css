@@ -1,7 +1,32 @@
 .notificationClass {
-    position: fixed;
     right: 0;
     bottom: 0;
     color: black;
     margin-right: 20px;
+    background-color:rgb(189, 189, 189);
+    width: 420px;
+    justify-content: center;
+    align-content: center;
+    text-align: center;
+    height: 120px;
+    border-radius: 20px;
+    box-shadow: 5px 10px #888888;
+}
+.notification-container {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    display: flex;
+    margin-bottom: 20px;
+    flex-direction: column;
+    gap: 15px;
+}
+.icon-cancel {
+    position: relative;
+    top: -32px;
+    left: 200px;
+    cursor:pointer;
+    width: 24px;
+    height: 24px;
+    overflow: hidden;
 }

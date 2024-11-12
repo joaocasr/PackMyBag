@@ -1,5 +1,5 @@
 var axios=require('axios');
-var ap = "http://localhost:8087/api/utilizadores"
+var ap = process.env.UTILIZADORES_SERVICE_URL || "http://localhost:8087/api/utilizadores"
 
 module.exports.signUpUser = async (username,nome,password,email,genero,morada,nrTelemovel) =>{
     try {
@@ -99,11 +99,8 @@ module.exports.signUpTecnico = async (username, nome, password, email,nomeLoja) 
         );
         return resp.data;
     } catch (err) {
-        if (err.response) {
-            throw { error: err.response.data, status: err.response.status };
-        } else {
-            throw { error: "Unknown error", status: 500 };
-        }
+        console.log(err);
+
     }
 }
 

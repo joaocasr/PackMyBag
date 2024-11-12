@@ -1,0 +1,61 @@
+version: "3"
+services:
+  frontend:
+    build: ./PackMyBag-frontend
+    container_name: frontend-container
+    restart: always
+    ports: 
+      - '5176:5176'
+    depends_on:
+      - apigatewayservice
+    networks:
+      - packmybag
+
+  apigatewayservice:
+    build: ./API-GATEWAY
+    container_name: apigateway-container
+    restart: always
+    ports: 
+      - '8888:8888'
+    depends_on: # colocar os outros servicos
+      - utilizadoresservice
+    networks:
+      - packmybag
+
+  utilizadoresservice:
+    build: ./utilizadoresService
+    container_name: utilizadores-container
+    restart: always
+    ports: 
+      - '8087:8087'
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/utilizadores
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - SECURITY_JWT_SECRETS-KEY=PEI-PROJECT
+      - SECURITY_JWT_EXPIRATION-TIME=3600000
+    depends_on:
+      - db
+    networks:
+      - packmybag
+
+  db:
+    image: postgres
+    restart: always
+    container_name: postgres-container
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=utilizadores
+    volumes:
+      - ./db-init:/docker-entrypoint-initdb.d
+    networks:
+      - packmybag
+
+networks:
+  packmybag:
+    driver: bridge
+volumes:
+  db:

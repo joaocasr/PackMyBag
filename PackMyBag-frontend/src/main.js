@@ -1,5 +1,6 @@
 import './assets/main.css';
 
+
 import { createApp } from 'vue'
 
 import PrimeVue from 'primevue/config';
@@ -20,6 +21,8 @@ app.use(PrimeVue, {
         preset: Aura
     }
 });
+
 app.use(VueSweetalert2);
 app.use(VuePhoneNumberInput);
+
 app.mount('#app')

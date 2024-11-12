@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: utilizadores-deployment
+spec:
+  selector:
+    matchLabels:
+      app: utilizadores
+  template:
+    metadata:
+      labels:
+        app: utilizadores
+    spec:
+      containers:
+      - name: utilizadores-container
+        image: joaoppc2002/utilizadores:latest
+        ports:
+        - containerPort: 8087
+        env:
+        - name: SPRING_DATASOURCE_URL
+          value: "jdbc:postgresql://postgres-service:5432/utilizadores"
+        - name: SPRING_DATASOURCE_USERNAME
+          value: "postgres"
+        - name: SPRING_DATASOURCE_PASSWORD
+          value: "postgres"
+        - name: SECURITY_JWT_SECRETS-KEY
+          value: "PEI-PROJECT"
+        - name: SECURITY_JWT_EXPIRATION-TIME
+          value: "3600000"

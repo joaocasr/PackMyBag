@@ -1,0 +1,7 @@
+---
+# Playbook to undeploy PackMyBag and its components
+
+- name: Undeploy PackMyBag
+  hosts: localhost
+  roles:
+    - undeploy_packmybag

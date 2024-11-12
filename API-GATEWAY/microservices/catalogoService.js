@@ -1,5 +1,5 @@
 var axios = require('axios')
-const ap = "http://localhost:8081/api/catalogo"
+var ap = process.env.CATALOGO_SERVICE_URL || "http://localhost:8081/api/catalogo"
 
 module.exports.getItemsByPage = (page,number) => {
     return axios.get(`${ap}/?page=${page}&number=${number}`).then(resp => {

@@ -9,8 +9,11 @@ router.post('/signin', async function(req,res,next){
     const password = req.body.password;
     try {
         const resp = await utilizadoresService.signIn(username, password);
-        res.jsonp(resp);
+        //console.log(resp.response);
+        if(resp.response) res.status(resp.response.status).jsonp(resp);
+        else res.jsonp(resp);
     } catch (err) {
+        //console.log(err);
         res.status(err.status || 500).jsonp(err.error || "Internal Server Error");
     }
 });
@@ -43,8 +46,10 @@ router.post('/signup/estilista', async function(req,res,next){
 
     try {
         const resp = await utilizadoresService.signUpEstilista(username, nome, password, email,genero,bio);
+        console.log(resp);
         res.jsonp(resp);
     } catch (err) {
+        console.log(err);
         res.status(err.status || 500).jsonp(err.error || "Internal Server Error");
     }
 });
