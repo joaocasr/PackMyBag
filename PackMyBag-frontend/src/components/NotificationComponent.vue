@@ -1,8 +1,8 @@
 <template>
     <div class="notification-container">
-        <div v-for="i in notificacoes" class="notificationClass">
+        <div v-for="i in notifs" class="notificationClass">
             <img @click="closeNotification(i.id)" src="/FavouritesIMG/icon-cancel.svg" class="icon-cancel">
-            {{i.message}}
+            <h2 style="margin-top:-40px">{{ i.tipo }}</h2> {{i.descricao}}
         </div>
     </div>
 </template>
@@ -10,14 +10,13 @@
 
 <script>
 export default {
-    data(){
-        return {
-            notificacoes:[{"id":1,"message":"notification1"},{"id":2,"message":"notification 2"},{"id":3,"message":"notification3"}]
-        }
+    props:{
+        notifs:Array
     },
     methods:{
         closeNotification(id){
-            this.notificacoes = this.notificacoes.filter( (n)=> n.id !== id);
+
+            this.$emit('closeNotification', id);
         }
     }
 }

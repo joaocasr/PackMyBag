@@ -15,14 +15,19 @@ router.post('/getnotifications/:username', function(req,res,next){
     }else{
         notifications.set(username,[req.body])
     }
+    const newNotification = req.body;
+
 
     console.log(notifications.get(username));
     if (clients.has(username)) {
         const res = clients.get(username);
-        res.write(`notificacao: ${JSON.stringify(req.body)}\n\n`); 
-        let notificacoes = notifications.get(username);
-        notificacoes.pop()
-        notifications.set(username,notificacoes);
+        res.write(`data: ${JSON.stringify(newNotification)}\n\n`);
+    }else{
+        if(notifications.get(username)) {
+            notifications.get(username).push(req.body);
+        }else{
+            notifications.set(username,[req.body])
+        }
     }
 
     res.status(200).jsonp({"msg":"insertion done"});
@@ -34,23 +39,32 @@ router.get('/notifications/retrieve/:username', (req, res) => {
     res.setHeader('Content-Type', 'text/event-stream');
     res.setHeader('Cache-Control', 'no-cache');
     res.setHeader('Connection', 'keep-alive');
+    res.setHeader('Transfer-Encoding', 'identity');
     res.flushHeaders();
 
-    if(notifications.get(username)){
-        notifications.get(username).forEach(notificacao => {            
-            res.write(`notificacao: ${JSON.stringify(notificacao)}\n\n`)
+    console.log("Checking notifications for client: " + username);
+    const userNotifications = notifications.get(username);
+
+    if (userNotifications && userNotifications.length > 0) {
+        userNotifications.forEach(notificacao => {
+            console.log("Sending notification to client...");
+            console.log(notificacao);
+            res.write(`data: ${JSON.stringify(notificacao)}\n\n`);
         });
-        notifications.delete(username)
-    }else{
-        res.write(``)
+        notifications.set(username,[])
+
+    } else {
+        res.write(`:\n\n`);
     }
 
     clients.set(username, res);
 
     req.on('close', () => {
+        console.log("Connection closed for client: " + username);
         clients.delete(username);
     });
 });
+
 
 router.post('/addInterested', validateToken.verifyToken, async function(req,res,next){
     const codigo = req.body.codigo;

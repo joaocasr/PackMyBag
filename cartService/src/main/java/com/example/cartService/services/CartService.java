@@ -6,10 +6,16 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.example.cartService.dto.*;
-import com.paypal.http.HttpResponse;
 import org.springframework.stereotype.Service;
 
+import com.example.cartService.dto.CartItemChangeQuantityDTO;
+import com.example.cartService.dto.CartItemDTO;
+import com.example.cartService.dto.CartItemInsertDTO;
+import com.example.cartService.dto.CartItemRemoveDTO;
+import com.example.cartService.dto.CartPaymentDTO;
+import com.example.cartService.dto.CartPaymentStatusChangeDTO;
+import com.example.cartService.dto.ClientCartDTO;
+import com.example.cartService.dto.PagamentoDTO;
 import com.example.cartService.exceptions.NoCartException;
 import com.example.cartService.exceptions.NoClientException;
 import com.example.cartService.exceptions.NoItemException;
@@ -25,11 +31,6 @@ import com.example.cartService.model.Pagamento;
 import com.example.cartService.repositories.CartRepository;
 import com.example.cartService.repositories.ClientCartRepository;
 import com.example.cartService.repositories.PagamentoRepository;
-import com.paypal.core.PayPalEnvironment;
-import com.paypal.core.PayPalHttpClient;
-import com.paypal.orders.*;
-import java.io.IOException;
-import org.springframework.beans.factory.annotation.Value;
 /*
  * Most things here are a work in progress
  * take it with a grain of salt
@@ -210,19 +211,14 @@ public class CartService {
             throw new NoCartException("Cart is empty for client: " + paymentInfo.getUsername());
         }
 
-        // Calculate total amount
-        double totalAmount = cart.getItens().stream()
-                .mapToDouble(item -> item.getPreco() * item.getQuantidade())
-                .sum();
-
-        // Create new payment
+        
         Pagamento payment = new Pagamento();
         payment.setCodigo(paymentInfo.getCodigo());
-        payment.setTotal(totalAmount);
         payment.setLocalEntrega(paymentInfo.getLocalEntrega());
         payment.setInicioAluguer(paymentInfo.getInicioAluguer());
         payment.setFimAluguer(paymentInfo.getFimAluguer());
         payment.setModoPagamento(paymentInfo.getModoPagamento());
+        payment.setTotal(paymentInfo.getTotal());
         payment.setStatus(paymentInfo.getStatus());
 
         paymentInfo.getItems()

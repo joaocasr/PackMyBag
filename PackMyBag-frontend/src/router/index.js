@@ -12,6 +12,7 @@ import CartView from '@/views/CartView.vue'
 import ShopHomeView from '@/views/ShopHomeView.vue'
 import OrderView from '@/views/OrderView.vue'
 import OrderDetailsView from '@/views/OrderDetailsView.vue'
+import PaymentsView from '@/views/PaymentsView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -48,6 +49,14 @@ const router = createRouter({
       path: '/favourites',
       name: 'favourites',
       component: FavouritesView,
+      meta: {
+        requiresAuth: true,
+      }
+    },
+    {
+      path: '/payments',
+      name: 'payments',
+      component: PaymentsView,
       meta: {
         requiresAuth: true,
       }

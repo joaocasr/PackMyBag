@@ -60,7 +60,7 @@
     border-radius: 4px;
     border: 1px solid rgba(0, 0, 0, 0.5);
     box-sizing: border-box;
-    width: 326.1px;
+    width: 320px;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -238,12 +238,14 @@
 .addressbtn{
     background-color: #000;
     position: relative;
-    color:white;
+    color: white;
     border-radius: 10px;
-    left:-50px;
+    left: -80px;
     font-size: 18px;
-    border:0;
-    cursor:pointer;
+    border: 0;
+    cursor: pointer;
+    width: 65px;
+    height: 40px;
 }
 .deliveryClass{
     margin-left:570px; margin-top: -250px;
@@ -261,7 +263,7 @@
     display: flex;
     margin-bottom: 20px;
     margin-top:-140px;
-    margin-left: 54px;
+    margin-left: 74px;
   }
   
   .payment-options {
@@ -275,7 +277,7 @@
   .payment-option {
     cursor: pointer;
     padding: 15px;
-    border: 1px solid #ccc;
+    border: 1px solid;
     background-color: #f1eeee;
     border-radius: 10px;
     transition: transform 0.2s;

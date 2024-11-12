@@ -103,6 +103,7 @@ router.post("/order", validate.verifyToken, async function(req,res,next){
                             "localEntrega":req.body.localEntrega,
                             "inicioAluguer":req.body.inicioAluguer,
                             "fimAluguer":req.body.fimAluguer,
+                            "total":req.body.total,
                             "modoPagamento":req.body.modoPagamento,
                             "status": "PENDING",
                             "items":itensObj.itens

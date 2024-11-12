@@ -8,6 +8,7 @@ public class CartPaymentDTO {
     private String localEntrega;
     private String inicioAluguer;
     private String fimAluguer;
+    private double total;
     private String modoPagamento;
     private String status;
     //criar a lista do item
@@ -15,12 +16,13 @@ public class CartPaymentDTO {
 
     // Constructor
 
-    public CartPaymentDTO(String username, String codigo, String localEntrega, String inicioAluguer, String fimAluguer, String modoPagamento, String status, List<ItemDTO> items) {
+    public CartPaymentDTO(String username, String codigo, String localEntrega, String inicioAluguer, String fimAluguer, double total, String modoPagamento, String status, List<ItemDTO> items) {
         this.username = username;
         this.codigo = codigo;
         this.localEntrega = localEntrega;
         this.inicioAluguer = inicioAluguer;
         this.fimAluguer = fimAluguer;
+        this.total = total;
         this.modoPagamento = modoPagamento;
         this.status = status;
         this.items = items;
@@ -45,7 +47,10 @@ public class CartPaymentDTO {
     
     public String getFimAluguer() { return fimAluguer; }
     public void setFimAluguer(String fimAluguer) { this.fimAluguer = fimAluguer; }
-    
+
+    public double getTotal() { return total; }
+    public void setTotal(double total) { this.total = total; }
+
     public String getModoPagamento() { return modoPagamento; }
     public void setModoPagamento(String modoPagamento) { this.modoPagamento = modoPagamento; }
 

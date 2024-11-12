@@ -54,14 +54,14 @@ minDate.setDate(minDate.getDate() + 5); // 5 dias de antecedencia
                 </div>
             </div>
 
-            <div class="payment-container">
+            <div v-if="checkedAddress.length!=0 && this.itemsEncomenda.length!=0" class="payment-container">
                 <h4>PAYMENT</h4>
                 <div class="payment-options">
-                <div class="payment-option" @click="selectPayment('paypal')">
+                <div @click="paymentMode('paypal')" class="payment-option" v-bind:style="{'border-color':paymentColor1,'border-width': paymentBorder1}">
                     <p>PayPal</p>
                     <img width="20px" height="20px" src="/CartIMG/paypal.png" alt="PayPal" />
                 </div>
-                <div class="payment-option" @click="selectPayment('credit-card')">
+                <div @click="paymentMode('credit')" class="payment-option" v-bind:style="{'border-color':paymentColor2,'border-width': paymentBorder2}">
                     <p>Credit Card</p>
                     <img width="20px" height="20px" src="/CartIMG/creditcard.png" alt="Cartão de Crédito" />
                 </div>
@@ -75,6 +75,7 @@ minDate.setDate(minDate.getDate() + 5); // 5 dias de antecedencia
                 </div>
                 <br>
                 <p class="summary-details">{{itemsEncomenda.length}} items</p>
+                <p class="summary-details">{{ taxaDias }}</p>
                 <p class="summary-details">Total:&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;{{ getTotal }}€</p>
             </div>
     		<div v-if="this.itemsEncomenda.length!=0" class="button-parent">      			
@@ -124,9 +125,18 @@ export default {
             },
 			token:null,
 			username:String,
+            color:"red",
             begindate:'',
             enddate:'',
             checkedAddress:'',
+            taxaDias:'',
+            totalPagamento:0,
+            paymentBorder1:'0 px',
+            paymentColor1: '',
+            paymentBorder2:'0 px',
+            paymentColor2: '',
+            modoPagamento:'',
+            adicional:0,
             itemsEncomenda : []
         }
     },
@@ -136,6 +146,8 @@ export default {
             for(let i=0; i<this.itemsEncomenda.length;i+=1){
                 t += this.itemsEncomenda[i].nraquisicoes * this.itemsEncomenda[i].price;
             }
+            t+=this.adicional;
+            this.totalPagamento = t;
             return t;
         }
         
@@ -148,6 +160,42 @@ export default {
 		}
         this.getCartItems();
         this.loadMap();
+    },
+    watch:{
+        begindate:function(newv,oldv){
+            if(this.enddate!==''){
+                let date1 = new Date(newv);
+                let date2 = new Date(this.enddate);
+
+                let Difference_In_Time =
+                    date2.getTime() - date1.getTime();
+
+                let nrDays =Math.round(Difference_In_Time / (1000 * 3600 * 24));
+                            
+            
+                this.adicional =  0.5 * nrDays;
+                this.totalPagamento = this.adicional + this.totalPagamento; //já não me lembro qual era a formula
+                this.taxaDias = ' + '+ this.adicional + '€ (0.5 per day) -  Rental Time' 
+            }
+        },
+        enddate:function(newv,oldv){
+            if(this.begindate!==''){
+                let date1 = new Date(this.begindate);
+                let date2 = new Date(newv);
+
+                let Difference_In_Time =
+                    date2.getTime() - date1.getTime();
+
+                let nrDays =
+                    Math.round
+                        (Difference_In_Time / (1000 * 3600 * 24));
+                            
+            
+                this.adicional =  0.5 * nrDays;
+                this.totalPagamento = this.adicional + this.totalPagamento; //já não me lembro qual era a formula
+                this.taxaDias = ' + '+this.adicional + '€ (0.5 per day) -  Rental Time' 
+            }
+        }
     },
     methods:{
         changeQuantity(event,key){
@@ -164,7 +212,22 @@ export default {
         },
         changePrevious(){
             this.preCheck=true;
-
+        },
+        paymentMode(mode){
+            if(mode==='paypal'){
+                this.paymentColor2='';
+                this.paymentBorder2='0 px'
+                this.paymentColor1='blue';
+                this.paymentBorder1='8 px';
+                this.modoPagamento = 'PAYPAL';
+            }
+            if(mode==='credit'){
+                this.paymentColor1='';
+                this.paymentBorder1='0 px'
+                this.paymentColor2='blue';
+                this.paymentBorder2='8 px';
+                this.modoPagamento = 'CREDIT';
+            }
         },
         async getLocation(){
             loader.load().then(() => {
@@ -209,12 +272,14 @@ export default {
             })
         },
         removeItem(event,idx){
-            console.log("aquiiii")
-            console.log(idx)
             this.itemsEncomenda = this.itemsEncomenda.filter((item,index) => index !== idx);
             console.log(this.itemsEncomenda);
         },
         async handlePayment(){
+            if(this.begindate==='' || this.enddate==='' || this.modoPagamento===''){
+                this.$swal.fire("Complete all the fields!", "", "error");
+                return;
+            } 
             const result = await this.$swal.fire({
 				title: "Are you sure you want to procede and generate the payment?",
 				showDenyButton: false,
@@ -222,28 +287,30 @@ export default {
 				confirmButtonText: "Yes"
 			});
 			if (result.isConfirmed) {
-				let r = await this.generatePayment();
-                console.log(r)
-				if (r && r.status == 200) {
-                        this.$swal.fire({
-                            title: "Success! A new payment was generated for your order.",
-                            type: "success",
-                            showConfirmButton: true,
-                            confirmButtonText:"Payments",
-                            showCancelButton:true
-                            }, function(){
-                                // window.location.href = "/payments"
+                try{
+                    let r = await this.generatePayment();
+                    if (r && r.status == 200) {
+                            this.$swal.fire({
+                                title: "Success! A new payment was generated for your order.",
+                                type: "success",
+                                showConfirmButton: true,
+                                confirmButtonText:"Payments",
+                                showCancelButton:true
+                                }).then((result) => {
+                            if (result.isConfirmed) {
+                                this.$router.push({path:'/payments'});
+                            }
                             });
-                    this.itemsEncomenda=[];
-				} else {
-					let msg="";
-					if(r.response) msg = r.response.data.message;
-					this.$swal.fire("Something went wrong! "+msg, "", "error");
-				}
+                        this.itemsEncomenda=[];
+                    }
+                    
+                }catch(err){
+                    this.$swal.fire("Something went wrong!", "", "error");
+                    return;
+                }
 			}
         },
         async generatePayment(){
-            
             const header = authHeader();
 			let config = {headers:header}
 			header['Content-Type'] = 'application/json';
@@ -260,18 +327,20 @@ export default {
                     {
                         "username":this.username,
                         "itensObj":itensObj,
-                        "localEntrega":"Braga",
-                        "inicioAluguer":"8/11/2024",
-                        "fimAluguer":"12/11/2024",
-                        "modoPagamento":"MBWAY"
-                        
+                        "localEntrega":this.checkedAddress,
+                        "inicioAluguer":this.begindate,
+                        "fimAluguer":this.enddate,
+                        "modoPagamento":this.modoPagamento,
+                        "total":this.totalPagamento
                     },
                     config
                 );
                 console.log(r);
                 return r;
             }catch(err){
-                console.log(err)
+                let msg="";
+                if(err.response) msg = err.response.data.error.message;
+                this.$swal.fire("Something went wrong! "+msg, "", "error");
             }
         }
     }
