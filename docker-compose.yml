@@ -1,5 +1,27 @@
 version: "3"
 services:
+  kafka:
+    image: confluentinc/cp-kafka:7.4.0
+    container_name: kafka
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    ports:
+      - "9092:9092"
+    depends_on:
+      - zookeeper
+
+  zookeeper:
+    container_name: zookeeper
+    image: confluentinc/cp-zookeeper:7.4.0
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - "2181:2181"
+
   frontend:
     build: ./PackMyBag-frontend
     container_name: frontend-container
@@ -17,10 +39,116 @@ services:
     restart: always
     ports: 
       - '8888:8888'
-    depends_on: # colocar os outros servicos
+    depends_on:
+      - catalogoservice
+      - encomendasservice
+      - favoritosservice
+      - cartservice
+      - notificacoesservice
+      - recomendacoesservice
       - utilizadoresservice
     networks:
       - packmybag
+
+  catalogoservice:
+    build: ./catalogService
+    container_name: catalogo-container
+    restart: always
+    ports: 
+      - '8081:8081'
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/catalogo
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+    depends_on:
+      - db
+      - kafka
+    networks:
+      - packmybag
+
+  encomendasservice:
+    build: ./encomendaService
+    container_name: encomendas-container
+    restart: always
+    ports: 
+      - '8082:8082'
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/encomenda
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+    depends_on:
+      - db
+      - kafka
+    networks:
+      - packmybag
+
+  favoritosservice:
+    build: ./favoritosService
+    container_name: favoritos-container
+    restart: always
+    ports: 
+      - '8083:8083'
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/favoritos
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+    depends_on:
+      - db
+    networks:
+      - packmybag
+
+  cartservice:
+    build: ./cartService
+    container_name: cart-container
+    restart: always
+    ports: 
+      - '8084:8084'
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/cart
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+    depends_on:
+      - db
+    networks:
+      - packmybag
+
+  notificacoesservice:
+    build: ./notificacoesService
+    container_name: notificacoes-container
+    restart: always
+    ports: 
+      - '8085:8085'
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/notificacoes
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+      - SPRING_KAFKA_CONSUMER_GROUP_ID=notificacoesService
+      - SPRING_KAFKA_CONSUMER_AUTO_OFFSET_RESET=earliest
+    depends_on:
+      - db
+      - kafka
+    networks:
+      - packmybag
+
+
+  recomendacoesservice:
+    build: ./recomendacoesservice
+    container_name: recomendacoes-container
+    restart: always
+    ports: 
+      - '8086:8086'
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/recomendacoes
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+    depends_on:
+      - db
+    networks:
+      - packmybag
+
 
   utilizadoresservice:
     build: ./utilizadoresService

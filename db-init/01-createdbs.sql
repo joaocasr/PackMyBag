@@ -1,0 +1,7 @@
+CREATE DATABASE utilizadores;
+CREATE DATABASE catalogo;
+CREATE DATABASE favoritos;
+CREATE DATABASE encomendas;
+CREATE DATABASE cart;
+CREATE DATABASE notificacoes;
+CREATE DATABASE recomendacoes;
