@@ -1,0 +1,77 @@
+.payment-c01-asdx {
+    position: absolute;
+    top: 14px;
+    left: 37px;
+    font-size: 16px;
+    line-height: 24px;
+}
+.pending {
+    color: #8f7f07;
+}
+.status-pending {
+    position: absolute;
+    top: 38px;
+    left: 53px;
+    line-height: 24px;
+}
+.generated-13112024-11h17 {
+    position: absolute;
+    top: 62px;
+    left: 53px;
+    line-height: 24px;
+}
+.deliver-braga {
+    position: absolute;
+    top: 86px;
+    left: 53px;
+    line-height: 24px;
+}
+.arrival-20112024 {
+    position: absolute;
+    top: 110px;
+    left: 54px;
+    line-height: 24px;
+}
+.departure-25112024 {
+    position: absolute;
+    top: 134px;
+    left: 54px;
+    line-height: 24px;
+}
+.finish {
+    position: absolute;
+    top: 11px;
+    left: 14px;
+    line-height: 24px;
+    font-weight: 600;
+}
+.finish-wrapper {
+    position: absolute;
+    top: 12px;
+    left: 560px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    background-color: #2f2f2f;
+    width: 73px;
+    height: 46px;
+    overflow: hidden;
+    cursor: pointer;
+    color: #fff;
+}
+.payment {
+    width: 650px;
+    position: relative;
+    border-radius: 20px;
+    background-color: #f7f7f7;
+    border: 1px solid #000;
+    box-sizing: border-box;
+    height: 172px;
+    overflow: hidden;
+    text-align: left;
+    margin-left:100px;
+    margin-bottom:30px;
+    font-size: 14px;
+    color: #000;
+    font-family: Poppins;
+}
+

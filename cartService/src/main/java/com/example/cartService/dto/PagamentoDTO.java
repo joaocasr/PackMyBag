@@ -7,17 +7,19 @@ public class PagamentoDTO {
     private String inicioAluguer;
     private String fimAluguer;
     private String modoPagamento;
+    private String dataGeracao;
     private String status;
 
     public PagamentoDTO(String codigo, double total, String localEntrega, 
                        String inicioAluguer, String fimAluguer, 
-                       String modoPagamento, String status) {
+                       String modoPagamento, String dataGeracao, String status) {
         this.codigo = codigo;
         this.total = total;
         this.localEntrega = localEntrega;
         this.inicioAluguer = inicioAluguer;
         this.fimAluguer = fimAluguer;
         this.modoPagamento = modoPagamento;
+        this.dataGeracao = dataGeracao;
         this.status = status;
     }
 
@@ -69,6 +71,13 @@ public class PagamentoDTO {
         this.modoPagamento = modoPagamento;
     }
 
+    public String getDataGeracao() {
+        return dataGeracao;
+    }
+
+    public void setDataGeracao(String data) {
+        this.dataGeracao = data;
+    }
     public String getStatus() {
         return status;
     }

@@ -15,6 +15,7 @@ public class ClientPagamentoMapper {
             pagamento.getInicioAluguer(), 
             pagamento.getFimAluguer(), 
             pagamento.getModoPagamento(), 
+            pagamento.getdataGeracao(),
             pagamento.getStatus());
     }
 }

@@ -1,3 +1,34 @@
+.payments {
+    position: absolute;
+    top: 143px;
+    left: 99px;
+}
+.paymentspage-child {
+    position: absolute;
+    top: 194px;
+    left: 68px;
+    max-height: 100%;
+    width: 1389px;
+}
+
+.payment-container{
+    position: relative;
+    margin-top: 240px;
+}
+
+.paymentspage {
+    width: 100%;
+    position: relative;
+    background-color: #fff;
+    margin-top:30px;
+    height: 2941px;
+    overflow: hidden;
+    text-align: left;
+    font-size: 32px;
+    color: #000;
+    font-family: Abel;
+}
+
 .footer {
     position: absolute;
     height: 65%;

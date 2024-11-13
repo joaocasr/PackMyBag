@@ -40,21 +40,12 @@ router.post("/clearCart", function(req, res, next) {
   });
 });
 
-/* Change Item Quantity */
-router.post("/changeQuantity", function(req, res, next) {
-  cartService.changeItemQuantity(req.body).then(resp => {
+/* Get User transactions */
+router.get("/transactions/:username", function(req, res, next) {
+  cartService.getTransactions(req.params.username).then(resp => {
     res.jsonp(resp);
   }).catch(err => {
-    res.status(err.error.status).jsonp(err);
-  });
-});
-
-/* Create Payment */
-router.post("/createPayment", function(req, res, next) {
-  cartService.createPayment(req.body).then(resp => {
-    res.jsonp(resp);
-  }).catch(err => {
-    res.status(err.error.status).jsonp(err);
+    res.status(404).jsonp(err);
   });
 });
 
@@ -67,25 +58,7 @@ router.post("/changePaymentStatus", function(req, res, next) {
   });
 });
 
-/* Possivel rota para alugar os items do cesto */
-/*
-receber no body seguinte estrutura:
-
- itensObj=   {
-                "itens": [
-                        {
-                            codigo: "P1",
-                            idloja: 1
-                            quantidade: 2
-                        },
-                        {
-                            codigo: "P2",
-                            idloja: 1
-                            quantidade: 1
-                        }
-                ]
-              }
-*/
+/* rota para alugar os items do cesto */
 router.post("/order", validate.verifyToken, async function(req,res,next){
   const itensObj = req.body.itensObj;
   const username = req.body.username;
@@ -105,6 +78,7 @@ router.post("/order", validate.verifyToken, async function(req,res,next){
                             "fimAluguer":req.body.fimAluguer,
                             "total":req.body.total,
                             "modoPagamento":req.body.modoPagamento,
+                            "dataGeracao":req.body.dataGeracao,
                             "status": "PENDING",
                             "items":itensObj.itens
                           }

@@ -14,9 +14,17 @@
 package com.example.cartService.model;
 
 import java.io.Serializable;
-import java.util.HashSet;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinColumns;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
 @Entity
 @org.hibernate.annotations.Proxy(lazy=false)
 @Table(name="Pagamento")
@@ -48,6 +56,9 @@ public class Pagamento implements Serializable {
 	@Column(name="ModoPagamento", nullable=true, length=255)	
 	private String modoPagamento;
 	
+	@Column(name="DataGeracao", nullable=true, length=255)	
+	private String dataGeracao;
+
 	@Column(name="Status", nullable=true, length=255)	
 	private String status;
 
@@ -119,6 +130,14 @@ public class Pagamento implements Serializable {
 	
 	public String getModoPagamento() {
 		return modoPagamento;
+	}
+
+	public void setdataGeracao(String data) {
+		this.dataGeracao = data;
+	}
+	
+	public String getdataGeracao() {
+		return dataGeracao;
 	}
 	
 	public void setStatus(String value) {

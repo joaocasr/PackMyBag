@@ -322,6 +322,7 @@ export default {
             let itensObj = {
                 "itens" : itens
             }
+            let dataGeracao = new Date();
             try{
                 let r = await axios.post('http://localhost:8888/api/cartService/order',
                     {
@@ -331,6 +332,7 @@ export default {
                         "inicioAluguer":this.begindate,
                         "fimAluguer":this.enddate,
                         "modoPagamento":this.modoPagamento,
+                        "dataGeracao": dataGeracao.toISOString(),
                         "total":this.totalPagamento
                     },
                     config

@@ -47,6 +47,15 @@ module.exports.removeFromCart = (itemBody) => {
     });
 }
 
+module.exports.getTransactions = (username) => {
+    return axios.get(`${ap}/transactions/${username}`).then(resp => {
+        return resp.data;
+    }).catch(err => {
+        throw { error: err.response.data };
+    });
+}
+
+
 
 module.exports.createPayment = async (itemBody) => {
     try{

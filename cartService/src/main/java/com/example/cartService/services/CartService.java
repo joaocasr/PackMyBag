@@ -219,6 +219,7 @@ public class CartService {
         payment.setFimAluguer(paymentInfo.getFimAluguer());
         payment.setModoPagamento(paymentInfo.getModoPagamento());
         payment.setTotal(paymentInfo.getTotal());
+        payment.setdataGeracao(paymentInfo.getDataGeracao());
         payment.setStatus(paymentInfo.getStatus());
 
         paymentInfo.getItems()
