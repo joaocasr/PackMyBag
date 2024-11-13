@@ -11,7 +11,9 @@
     		<b class="trending-items">Trending Items</b>
 
 			<button class="inventorybtn">Inventory</button>
-			<button class="inventorybtn1">Manage Items</button>
+			<button type="button" @click= "addFootWear()" class="inventorybtn1">Add FootWear</button>
+			<button type="button" @click= "addPart()"class="inventorybtn2">Add Part</button>
+			<button type="button" @click= "addSet()" class="inventorybtn3">Add Set</button>
 
 			<div class="rowhomecatalogue">
 				<!--colocar aqui-->
@@ -58,7 +60,15 @@ export default {
 		this.getTopItems();
 	},
 	methods:{
-		
+		addPart(){
+			this.$router.push('/addpart');
+		},
+		addFootWear(){
+			this.$router.push('/addfootwear');
+		},
+		addSet() {
+			this.$router.push('/addset');
+		},	
 		getTopItems(){
 			axios.get('http://localhost:8888/api/catalogoService/trending/'+this.idloja).then(items=>{
 				console.log(items.data);
@@ -72,5 +82,5 @@ export default {
 </script>
 
 <style lang="css" scoped>
-@import '../assets/homeshop.css';
+@import '../assets/ShopHome.css';
 </style>

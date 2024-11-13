@@ -2,7 +2,7 @@
 	<div class="AddPartView">
 		<NavBarComponent class="NavBar"></NavBarComponent>
 		<div class="inventario">
-		<h1>Adicionar Nova Peça</h1>
+		<h1>Add Part</h1>
 		<form @submit.prevent="addItem" class="add-part-form">
 			<div class="form-group">
 			<label for="codigo">Código da Peça:</label>
@@ -96,14 +96,25 @@
   <script>
 import NavBarComponent from '@/components/NavBarComponent.vue';
 import FooterComponent from '@/components/FooterComponent.vue';
+import authService from '@/services/auth-service';
 import axios from 'axios';
 export default {
 	components:{
 		NavBarComponent,
 		FooterComponent
 	},
+	created(){
+		let token = authService.getToken();
+		console.log(token);
+		if(token!=null){
+			this.token = token;
+			this.idloja=token.idloja; 
+		}
+	},
 	data() {
 	  return {
+		idloja:Number,
+		token:null,
 		availableColors: ['Azul', 'Preto', 'Vermelho', 'Verde', 'Amarelo', 'Branco', 'Cinza'],
 		otherColor: '',
 		colorError: false, 
@@ -115,7 +126,7 @@ export default {
 		  cores: [],
 		  tamanho: '',
 		  imagem: '',
-		  idLoja: 1,
+		  idLoja: this.idloja,
 		  nrdisponiveis: 0,
 		  tipo: '',
 		  disponibilidade: ''
@@ -157,7 +168,7 @@ export default {
 		  cores: [],
 		  tamanho: '',
 		  imagem: '',
-		  idLoja: '',
+		  idLoja: this.idloja,
 		  nrdisponiveis: 0,
 		  tipo: '',
 		  disponibilidade: ''

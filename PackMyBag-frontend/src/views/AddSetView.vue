@@ -2,7 +2,7 @@
 	<div class="AddPartView">
 		<NavBarComponent class="NavBar"></NavBarComponent>
 		<div class="inventario">
-			<h1>Adicionar Novo Set</h1>
+			<h1>Add Set</h1>
 			<form @submit.prevent="addItem" class="add-part-form">
 				<div class="form-group">
 					<label for="codigo">Código do Set:</label>
@@ -79,6 +79,7 @@
 <script>
 import NavBarComponent from '@/components/NavBarComponent.vue';
 import FooterComponent from '@/components/FooterComponent.vue';
+import authService from '@/services/auth-service';
 import axios from 'axios';
 
 export default {
@@ -86,8 +87,18 @@ export default {
 		NavBarComponent,
 		FooterComponent
 	},
+    created(){
+		let token = authService.getToken();
+		console.log(token);
+		if(token!=null){
+			this.token = token;
+			this.idloja=token.idloja; 
+		}
+	},
 	data() {
 		return {
+            idloja:Number,
+            token:null,
 			form: {
 				codigo: '',
 				designacao: '',
@@ -97,7 +108,7 @@ export default {
 				tipo: '',
 				disponibilidade: '',
 				imagem: '',
-				idLoja: 1,
+				idLoja: this.idloja,
 				codigoPecas: []
 			},
 			pecaError: false 
@@ -157,7 +168,7 @@ export default {
 				tipo: '',
 				disponibilidade: '',
 				imagem: '',
-				idLoja: 1,
+				idLoja: this.idloja,
 				codigoPecas: [] 
 			};
 			this.pecaError = false;
