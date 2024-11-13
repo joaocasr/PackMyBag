@@ -13,6 +13,7 @@ import ShopHomeView from '@/views/ShopHomeView.vue'
 import OrderView from '@/views/OrderView.vue'
 import OrderDetailsView from '@/views/OrderDetailsView.vue'
 import PaymentsView from '@/views/PaymentsView.vue'
+import AddFootWear from '@/views/AddFootWear.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -105,6 +106,22 @@ const router = createRouter({
       // meta: {
       //   requiresAuth: true,
       // }
+    },
+    {
+      path: '/addpart',
+      name: 'addpart',
+      component: () => import('@/views/AddPartView.vue'),
+    },
+    {
+      path: '/addset',
+      name: 'addset',
+      component: () => import('@/views/AddSetView.vue'),
+    },
+    {
+      path: '/addfootwear',
+      name: 'addfootwear',
+      component: AddFootWear,
+      // component: () => import('@/views/AddFootWearView.vue'),
     }
   ]
 })

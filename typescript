@@ -1,0 +1,11 @@
+Script started on Wed Nov 13 14:59:48 2024
+[?1034hsh-3.2# ©
+sh-3.2# 
+sh-3.2# :Q
+sh: :Q: command not found
+sh-3.2# :q
+sh: :q: command not found
+sh-3.2# 
+sh-3.2# exit
+
+Script done on Wed Nov 13 14:59:56 2024
