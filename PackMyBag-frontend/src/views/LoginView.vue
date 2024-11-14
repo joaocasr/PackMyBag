@@ -13,7 +13,7 @@
     		
             
             <div class="alreadyAccount">
-                <p>aqui: {{ dominio }} .Don't have an account? <a href="/signup">Sign Up here.</a></p>
+                <p>Don't have an account? <a href="/signup">Sign Up here.</a></p>
             </div>            
         </div>
         <FooterComponent></FooterComponent>
@@ -30,8 +30,7 @@ export default {
 
     data(){
 		return{
-            user: new User('', '', '', ''),
-            dominio: 'Por enquanto nada'
+            user: new User('', '', '', '')
 		}
 	},
     components:{

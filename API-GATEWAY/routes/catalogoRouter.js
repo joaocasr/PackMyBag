@@ -14,6 +14,22 @@ router.get("/", function(req, res, next) {
   });
 });
 
+
+
+/*Get Items By Name*/
+router.get("/allitems", function(req, res, next) {
+  const designacao = req.query.designacao;
+  const page = req.query.page;
+  const number = req.query.number;
+
+  catalogoService.getItemsByName(designacao,page,number).then(items => {
+      res.jsonp(items);
+  }).catch(err => {
+    res.status(404).jsonp(err);
+  });
+});
+
+
 /*Get All Items*/
 router.get("/all", function(req, res, next) {
   catalogoService.getAllItems().then(items => {
@@ -118,6 +134,22 @@ router.get("/type/:type/price",function(req,res,next){
   })
 })
 
+/*Obter itens por tipo, preco e nome*/
+router.get("/type/:type/price/:name",function(req,res,next){
+  const name = req.params.name;
+  const type = req.params.type;
+  const page = req.query.page;
+  const number = req.query.number;
+  const min = req.query.min;
+  const max = req.query.max;
+  catalogoService.getPerPriceTypeNameItems(type,name,min,max,page,number).then(items=>{
+    res.jsonp(items)
+  }).catch(err=>{
+    res.status(err.error.status).jsonp(err);
+  })
+})
+
+
 /*Obter itens por preco*/
 router.get("/price",function(req,res,next){
   const page = req.query.page;
@@ -130,6 +162,21 @@ router.get("/price",function(req,res,next){
     res.status(err.error.status).jsonp(err);
   })
 })
+
+/*Obter itens por preco e nome*/
+router.get("/price/:name",function(req,res,next){
+  const name = req.params.name;
+  const page = req.query.page;
+  const number = req.query.number;
+  const min = req.query.min;
+  const max = req.query.max;
+  catalogoService.getPerPriceNameItems(name,min,max,page,number).then(items=>{
+    res.jsonp(items)
+  }).catch(err=>{
+    res.status(err.error.status).jsonp(err);
+  })
+})
+
 
 /*Adicionar item Peça*/
 router.post("/addItem/Peca", function(req, res, next) {

@@ -9,7 +9,7 @@ router.get("/:username", function(req, res, next) {
   cartService.getCartItems(req.params.username).then(resp => {
     res.jsonp(resp);
   }).catch(err => {
-    res.status(err.error.status).jsonp(err);
+    res.status(400).jsonp(err);
   });
 });
 
@@ -27,7 +27,7 @@ router.post("/removeItem", function(req, res, next) {
   cartService.removeFromCart(req.body).then(resp => {
     res.jsonp(resp);
   }).catch(err => {
-    res.status(err.error.status).jsonp(err);
+    res.status(400).jsonp(err);
   });
 });
 
@@ -36,7 +36,7 @@ router.post("/clearCart", function(req, res, next) {
   cartService.clearCart(req.body).then(resp => {
     res.jsonp(resp);
   }).catch(err => {
-    res.status(err.error.status).jsonp(err);
+    res.status(400).jsonp(err);
   });
 });
 
@@ -54,7 +54,7 @@ router.post("/changePaymentStatus", function(req, res, next) {
   cartService.changePaymentStatus(req.body).then(resp => {
     res.jsonp(resp);
   }).catch(err => {
-    res.status(err.error.status).jsonp(err);
+    res.status(400).jsonp(err);
   });
 });
 

@@ -38,7 +38,7 @@ minDate.setDate(minDate.getDate() + 5); // 5 dias de antecedencia
 
             <div v-if="this.itemsEncomenda.length!=0" class="form-section" v-bind:class="{ hide: preCheck }">
                 <button class="button2" @click="changePrevious()">BACK</button>
-                <input v-model="address" class="searchAddress" placeholder="Please indicate the address of your staying..." />
+                <input v-model="checkedAddress" class="searchAddress" placeholder="Please indicate the address of your staying..." />
                 <button @click="getLocation()" class="addressbtn">GO</button>
                 <div class="map" id="map" style="left:50px; top: 50px; width: 500px;height: 300px;" ></div>
                 <div v-if="checkedAddress.length!=0" class="deliveryClass">
@@ -92,11 +92,11 @@ import NavBarComponent from '@/components/NavBarComponent.vue';
 import FooterComponent from '@/components/FooterComponent.vue';
 import CartItemComponent from '@/components/CartItemComponent.vue';
 import Calendar from 'primevue/calendar';
-import { Loader } from '@googlemaps/js-api-loader';
+//import { Loader } from '@googlemaps/js-api-loader';
 import authService from '@/services/auth-service';
 import authHeader from '@/services/auth-header';
 import axios from 'axios';
-
+/*
 let map;
 let key = `${import.meta.env.VITE_API_KEY}`;
 
@@ -106,7 +106,7 @@ const options = {
     libraries: ["places"]
 }
 const loader = new Loader(options);
-
+*/
 export default {
     components:{
         NavBarComponent,
@@ -159,7 +159,7 @@ export default {
 			this.username=token.username;
 		}
         this.getCartItems();
-        this.loadMap();
+        //this.loadMap();
     },
     watch:{
         begindate:function(newv,oldv){
@@ -229,6 +229,7 @@ export default {
                 this.modoPagamento = 'CREDIT';
             }
         },
+        /*
         async getLocation(){
             loader.load().then(() => {
 
@@ -253,7 +254,7 @@ export default {
                 }).catch(e => {
                     console.error(e);
                 });
-        },
+        }*/
         async loadMap(){
             loader.loadCallback(async e => {
                 if (e) {

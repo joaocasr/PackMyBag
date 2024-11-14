@@ -14,7 +14,7 @@
       			</div>
 				<!--colocar aqui-->
 				<div class="container-favourite" v-for="i in favourites">
-					<FavouriteComponent @removedFavourite="updateFavourite(i.identificador)"
+					<FavouriteComponent @removedFavourite="updateFavourite"
 					:nome="i.designacao"
 					:username=this.username
 					:codigo="i.codigo"
@@ -124,7 +124,7 @@ export default {
 		},
 		updateFavourite(id){
 			console.log(id);
-			this.favourites = this.favourites.filter(x=>x.identificador!=id)
+			this.favourites = this.favourites.filter((x)=> x.identificador !== id)
 		},
 		handlePage(action){
 			if(action=='previous' && this.current_page==0){

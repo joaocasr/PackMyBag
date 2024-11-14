@@ -1,22 +1,50 @@
 package com.example.catalogService.services;
 
-import com.example.catalogService.dto.*;
-import com.example.catalogService.exceptions.*;
-import com.example.catalogService.mappers.ItemMapper;
-import com.example.catalogService.model.*;
-import com.example.catalogService.model.Set;
-import com.example.catalogService.repositories.ClientRepository;
-import com.example.catalogService.repositories.ItemRepository;
-import com.example.catalogService.repositories.LojaRepository;
-import com.example.catalogService.repositories.ReviewRepository;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.OptionalDouble;
+import java.util.stream.Collectors;
 
 import org.hibernate.StaleObjectStateException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import com.example.catalogService.dto.CalcadoInsertDTO;
+import com.example.catalogService.dto.CatalogoItemDTO;
+import com.example.catalogService.dto.EditItemDTO;
+import com.example.catalogService.dto.EncomendaDTO;
+import com.example.catalogService.dto.FullDetailedItemDTO;
+import com.example.catalogService.dto.InsertReviewDTO;
+import com.example.catalogService.dto.ItemEncomenda;
+import com.example.catalogService.dto.PecaInsertDTO;
+import com.example.catalogService.dto.RemoveItemDTO;
+import com.example.catalogService.dto.ReviewDTO;
+import com.example.catalogService.dto.SetInsertDTO;
+import com.example.catalogService.dto.TrendingItemDTO;
+import com.example.catalogService.exceptions.InexistentItemCodeException;
+import com.example.catalogService.exceptions.InexistentItemException;
+import com.example.catalogService.exceptions.ItemCodeAlreadyExists;
+import com.example.catalogService.exceptions.ItemUnavailableException;
+import com.example.catalogService.exceptions.NoCatalogItemsException;
+import com.example.catalogService.exceptions.NoCatalogItemsGenderException;
+import com.example.catalogService.exceptions.NoCatalogItemsPriceException;
+import com.example.catalogService.mappers.ItemMapper;
+import com.example.catalogService.model.Calcado;
+import com.example.catalogService.model.Cliente;
+import com.example.catalogService.model.Item;
+import com.example.catalogService.model.Loja;
+import com.example.catalogService.model.Peca;
+import com.example.catalogService.model.Review;
+import com.example.catalogService.model.Set;
+import com.example.catalogService.repositories.ClientRepository;
+import com.example.catalogService.repositories.ItemRepository;
+import com.example.catalogService.repositories.LojaRepository;
+import com.example.catalogService.repositories.ReviewRepository;
 
 @Service
 public class ItemService {
@@ -287,4 +315,17 @@ public class ItemService {
     public List<TrendingItemDTO> getTrendingItems(int loja){
         return itemRepository.getTopItems(loja).stream().map(x->itemMapper.toTrendingItemDTO(x)).collect(Collectors.toList());
     }
+
+    public List<CatalogoItemDTO> getItemsByDesignation(String name,int page, int number){
+        return itemRepository.findByDesignation(name.toUpperCase(),PageRequest.of(page,number)).stream().map(x->itemMapper.toCatalogoItemDTO(x)).collect(Collectors.toList());
+    }
+
+    public List<CatalogoItemDTO> getPerPriceTypeNameItems(int page,int number,int min, int max, String type, String name){
+        return itemRepository.getItemsByPriceandTypeandName(min,max,type,name.toUpperCase(),PageRequest.of(page, number)).stream().map(x->itemMapper.toCatalogoItemDTO(x)).collect(Collectors.toList());
+    }
+
+    public List<CatalogoItemDTO> getPerPriceNameItems(int page,int number,int min, int max,String name){
+        return itemRepository.getItemsByPriceName(min,max,name.toUpperCase(),PageRequest.of(page, number)).stream().map(x->itemMapper.toCatalogoItemDTO(x)).collect(Collectors.toList());
+    }
+    
 }

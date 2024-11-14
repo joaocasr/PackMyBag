@@ -1,17 +1,43 @@
 package com.example.catalogService.controllers;
 
-import com.example.catalogService.dto.*;
-import com.example.catalogService.exceptions.*;
-import com.example.catalogService.model.Item;
-import com.example.catalogService.services.ItemService;
-import com.example.catalogService.services.ProducerService;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.List;
+import com.example.catalogService.dto.CalcadoInsertDTO;
+import com.example.catalogService.dto.CatalogoItemDTO;
+import com.example.catalogService.dto.EditItemDTO;
+import com.example.catalogService.dto.EncomendaDTO;
+import com.example.catalogService.dto.InsertReviewDTO;
+import com.example.catalogService.dto.ItemUpdate;
+import com.example.catalogService.dto.PecaInsertDTO;
+import com.example.catalogService.dto.RemoveItemDTO;
+import com.example.catalogService.dto.ReviewDTO;
+import com.example.catalogService.dto.SetInsertDTO;
+import com.example.catalogService.dto.TrendingItemDTO;
+import com.example.catalogService.exceptions.ErrorResponse;
+import com.example.catalogService.exceptions.InexistentItemCodeException;
+import com.example.catalogService.exceptions.InexistentItemException;
+import com.example.catalogService.exceptions.ItemCodeAlreadyExists;
+import com.example.catalogService.exceptions.ItemUnavailableException;
+import com.example.catalogService.exceptions.NoCatalogItemsException;
+import com.example.catalogService.exceptions.NoCatalogItemsGenderException;
+import com.example.catalogService.exceptions.NoCatalogItemsPriceException;
+import com.example.catalogService.model.Item;
+import com.example.catalogService.services.ItemService;
+import com.example.catalogService.services.ProducerService;
 
 @RestController
 @RequestMapping("/api/catalogo")
@@ -107,6 +133,11 @@ public class ItemController {
         }
     }
 
+    @GetMapping("/type/{type}/price/{name}")
+    public List<CatalogoItemDTO> getPerPriceTypeNameItems(@RequestParam int min, @RequestParam int max,@PathVariable String type,@PathVariable String name,@RequestParam int page, @RequestParam int number){
+        return itemService.getPerPriceTypeNameItems(page,number, min, max,type,name);
+    }
+
     @GetMapping("/price")
     public List<CatalogoItemDTO> getPerPriceItems(@RequestParam int page, @RequestParam int number,@RequestParam int min, @RequestParam int max){
         try{
@@ -114,6 +145,19 @@ public class ItemController {
         }catch (NoCatalogItemsPriceException n){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,n.getMessage());
         }
+    }
+
+
+    @GetMapping("/price/{name}")
+    public List<CatalogoItemDTO> getPerPriceNameItems(@PathVariable String name,@RequestParam int min, @RequestParam int max,@RequestParam int page, @RequestParam int number){
+        return itemService.getPerPriceNameItems(page,number, min, max,name);
+    }
+
+
+
+    @GetMapping("/allitems")
+    public List<CatalogoItemDTO> getItemsByDesignation(@RequestParam String name,@RequestParam int page, @RequestParam int number){
+        return itemService.getItemsByDesignation(name,page,number);
     }
 
     @PostMapping("/addItem/Peca")

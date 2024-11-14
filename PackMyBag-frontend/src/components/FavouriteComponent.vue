@@ -11,6 +11,7 @@
 </template>
 
 <script>
+import authHeader from '../services/auth-header.js'
 import axios from 'axios';
 export default {
     props:{
@@ -37,7 +38,7 @@ export default {
 				let r = await this.removeFromFavourites();
 				if (r && r.status == 200) {
 					this.$swal.fire("Sucess! The item was removed from your favourites.", "", "success");
-                    this.$emit('removedFavourite');
+                    this.$emit('removedFavourite',this.idItem);
 				} else {
 					this.$swal.fire("Something went wrong! The item does not belong to your favourites.", "", "error");
 				}
@@ -47,16 +48,12 @@ export default {
 		},
 		async removeFromFavourites() {
 			try {
-				let data = {username: this.username,itemCode: this.codigo,idLoja: this.idloja} 
+				let data = {username: this.username,itemCode: this.codigo,idLoja: this.idloja};
 				const header = authHeader();
-				let config = {headers:header}
 				header['Content-Type'] = 'application/json';
 
 				const resp = await axios.delete('http://localhost:8888/api/favoritosService/removeItem',
-				{
-					data,
-					config
-				}
+				{ data, headers: header }
 				);
 				console.log(resp);
 				return resp;

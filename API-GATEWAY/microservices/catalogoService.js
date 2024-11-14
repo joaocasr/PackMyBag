@@ -14,6 +14,20 @@ module.exports.getItemsByPage = (page,number) => {
       });
 }
 
+module.exports.getItemsByName = (name,page,number) => {
+    return axios.get(`${ap}/allitems?name=${name}&page=${page}&number=${number}`).then(resp => {
+        return resp.data;
+    })
+    .catch(err => {
+        if (err.response) {
+            throw { error: err.response.data };
+        }else {
+            throw err
+        }
+      });
+}
+
+
 module.exports.getAllItems = () => {
     return axios.get(`${ap}/all`).then(resp => {
         return resp.data;
@@ -143,8 +157,35 @@ module.exports.getPerPriceandTypeItems = (type,min,max,page,number) =>{
     })
 }
 
+module.exports.getPerPriceTypeNameItems = (type,name,min,max,page,number) =>{
+    return axios.get(`${ap}/type/${type}/price/${name}?min=${min}&max=${max}&page=${page}&number=${number}`)
+    .then(items =>{
+        return items.data;
+    }).catch(err=>{
+        if (err.response) {
+            throw { error: err.response.data };
+        }else {
+            throw err
+        }
+    })
+}
+
+
 module.exports.getPerPriceItems = (min,max,page,number) =>{
     return axios.get(`${ap}/price?min=${min}&max=${max}&page=${page}&number=${number}`)
+    .then(items =>{
+        return items.data;
+    }).catch(err=>{
+        if (err.response) {
+            throw { error: err.response.data };
+        }else {
+            throw err
+        }
+    })
+}
+
+module.exports.getPerPriceNameItems = (name,min,max,page,number) =>{
+    return axios.get(`${ap}/price/${name}?min=${min}&max=${max}&page=${page}&number=${number}`)
     .then(items =>{
         return items.data;
     }).catch(err=>{

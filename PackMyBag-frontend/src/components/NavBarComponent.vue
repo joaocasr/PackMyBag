@@ -33,8 +33,9 @@
           					</div>
         				</div>
       			</div>
-      			<input placeholder="What are you looking for?" class="search-component-set-parent"/>            						
-          					
+				  <form @submit.prevent="handleSearch">
+					<input v-model="itemName" placeholder="What are you looking for?" class="search-component-set-parent"/>            						
+				  </form>
         			
         				<div class="wishlist-parent">
           					<div v-if="this.role=='Cliente'" @click="gotoFavourites()" class="wishlist" id="wishlistContainer">
@@ -47,11 +48,11 @@
           					</div>
 							<div class="selectwrapper">
 
-								<select class="selectClass" v-model="selected">
-									<option v-if="token!=null" @click="logout()">Logout</option>
-									<option v-if="token==null" @click="gotoLogin()">Login</option>
+								<select class="selectClass" @change="onChange($event)" v-model="selected">
+									<option v-if="token!=null" value="logout">Logout</option>
+									<option v-if="token==null" value="login">Login</option>
 									<option v-if="this.role=='Cliente'">My Notifications</option>
-									<option v-if="this.role=='Cliente'" >Payments</option>
+									<option v-if="this.role=='Cliente'" value="payments">Payments</option>
 									<option>Profile</option>
 								</select>
 							</div>
@@ -72,7 +73,8 @@ export default {
             selected:"",
 			username:"",
 			role:"",
-			token:null
+			token:null,
+			itemName:""
         }
     },
 	created(){
@@ -108,8 +110,12 @@ export default {
 			this.$router.push({path:'/login'})
 		},
 		gotoCart(){
-			const url = new URL('/cart', window.location.origin)
-			window.location.href = url.toString()
+			this.$router.push({path:'/cart'})
+			//const url = new URL('/cart', window.location.origin)
+			//window.location.href = url.toString()
+		},
+		gotoPayments(){
+			this.$router.push({path:'/payments'})
 		},	
 		logout(){
 			this.$store.dispatch('auth/logout').then(()=>{
@@ -118,6 +124,17 @@ export default {
 			},error=>{
 				console.log(error);
 			})
+		},
+		onChange(event){
+			let val = event.target.value;
+			if(val==='login') this.gotoLogin();
+			if(val==='logout') this.logout();
+			if(val==='payments') this.gotoPayments();
+		},
+		handleSearch(){
+			if(this.itemName!==''){
+				this.$router.push({name:'catalogue', query: { q : this.itemName }})
+			}
 		}
 	}
 }

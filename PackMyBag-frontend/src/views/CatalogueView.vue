@@ -70,6 +70,8 @@ import ItemCatalogueView from '@/components/ItemCatalogueView.vue';
 import Slider from '@vueform/slider';
 import VueSelect from "vue3-select-component";
 import axios from 'axios';
+import { useRoute } from 'vue-router'
+
 export default {
 	data(){
 		return{
@@ -78,7 +80,9 @@ export default {
 			typeOptions: [{ label: 'Male', value: 'Male' },{ label: 'Female', value: 'Female' },{ label: 'Child', value: 'Child' }],
 			items: [],
 			filtered: [],
-			current_page:0
+			current_page:0,
+			isquery:false,
+			queryname:""
 		}
 	},
 	components: {
@@ -89,11 +93,27 @@ export default {
 		VueSelect
 	},
 	created(){
-		this.getCatalogueItems()
+		const route = useRoute()
+
+		if(route.query.q!==undefined){
+			this.isquery = true;
+			this.queryname = route.query.q;
+			this.getQueryResult(this.queryname);
+		}
+		else this.getCatalogueItems()
 	},
 	methods: {
 		getCatalogueItems(){
+			console.log("fecth items normally")
 			axios.get('http://localhost:8888/api/catalogoService/?page='+this.current_page+"&number=12")
+			.then(resp=>{
+				this.items = resp.data;
+			}).catch(err=>{
+				console.log(err)
+			})
+		},
+		getQueryResult(name){
+			axios.get('http://localhost:8888/api/catalogoService/allitems?designacao='+name+'&page='+this.current_page+"&number=12")
 			.then(resp=>{
 				this.items = resp.data;
 			}).catch(err=>{
@@ -106,7 +126,7 @@ export default {
 			this.getItemsperTypeAndPrice(this.selectedOption,this.value[0],this.value[1])
 		},
 		getItemsperTypeAndPrice(tipo,min,max){
-			if(tipo!=''){
+			if(tipo!='' && this.isquery===false){
 				axios.get('http://localhost:8888/api/catalogoService/type/'+tipo+'/price?min='+min+'&max='+max+'&page='+this.current_page+"&number=12")
 				.then(resp=>{
 					this.items = resp.data;
@@ -114,13 +134,36 @@ export default {
 				}).catch(err=>{
 					console.log(err);
 				})
-			}else{
+				return;
+			}
+			if(tipo!='' && this.isquery===true){
+				axios.get('http://localhost:8888/api/catalogoService/type/'+tipo+'/price/'+ this.queryname +'?min='+min+'&max='+max+'&page='+this.current_page+"&number=12")
+				.then(resp=>{
+					this.items = resp.data;
+					console.log(this.items)
+				}).catch(err=>{
+					console.log(err);
+				})
+				return;
+			}
+			if(this.isquery===true){
+				console.log("entrou bem")
+				axios.get('http://localhost:8888/api/catalogoService/price/'+this.queryname+'?min='+min+'&max='+max+'&page='+this.current_page+"&number=12")
+				.then(resp=>{
+					this.items = resp.data;
+				}).catch(err=>{
+					console.log(err);
+				})
+				return;
+			}
+			if(this.isquery===false){
 				axios.get('http://localhost:8888/api/catalogoService/price?min='+min+'&max='+max+'&page='+this.current_page+"&number=12")
 				.then(resp=>{
 					this.items = resp.data;
 				}).catch(err=>{
 					console.log(err);
 				})
+				return;
 			}
 		},
 		searchItems(){
