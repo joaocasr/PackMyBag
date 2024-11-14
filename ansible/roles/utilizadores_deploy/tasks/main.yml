@@ -6,6 +6,9 @@
 - name: utilizadores service
   shell: kubectl apply -f roles/utilizadores_deploy/k8s/service.yml --validate=false
 
+# - name: utilizadores HPA
+#   shell: kubectl apply -f roles/utilizadores_deploy/k8s/hpa.yml --validate=false
+
 - name: Wait for utilizadores service objects to be ready
   command: kubectl get pods
   register: kubectl_get_pods

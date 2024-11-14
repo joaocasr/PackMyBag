@@ -3,6 +3,7 @@ kind: Deployment
 metadata:
   name: utilizadores-deployment
 spec:
+  #replicas: 1  # Número inicial de réplicas ( HPA Horizontal Pod Autoscaler)
   selector:
     matchLabels:
       app: utilizadores

@@ -135,7 +135,7 @@ router.beforeEach((to, from, next) => {
   }
   if (to.meta.requiresAuth==true) {
     if(authService.getToken()==null){
-      next("login");
+      next("/login");
     }
     if(authService.getToken()!=null){
       next();
