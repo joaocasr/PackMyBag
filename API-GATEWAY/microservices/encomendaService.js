@@ -1,5 +1,5 @@
 const axios = require('axios');
-const baseURL = "http://127.0.0.1:8082/api/encomendas";
+var baseURL = process.env.ENCOMENDA_SERVICE_URL || "http://localhost:8082/api/encomendas"
 
 module.exports = {
   getAllEncomendas: () => {

@@ -84,9 +84,10 @@ router.get("/lojas/:lojaid",function(req,res,next){
   const page = req.query.page;
   const number = req.query.number;
   catalogoService.getItemsByShop(lojaid,page,number).then(items=>{
+    console.log(items)
     res.jsonp(items)
   }).catch(err=>{
-    res.status(err.error.status).jsonp(err);
+    res.status(404).jsonp(err);
   })
 })
 
@@ -170,7 +171,7 @@ router.post("/addItem/Set", function(req, res, next) {
     idLoja,codigoPecas).then(resp => {
       res.jsonp(resp);
   }).catch(err => {
-    res.status(err.error.status).jsonp(err);
+    res.status(404).jsonp(err);
   });
 });
 

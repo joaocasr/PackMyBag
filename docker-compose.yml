@@ -12,6 +12,8 @@ services:
       - "9092:9092"
     depends_on:
       - zookeeper
+    networks:
+      - packmybag
 
   zookeeper:
     container_name: zookeeper
@@ -21,13 +23,15 @@ services:
       ZOOKEEPER_TICK_TIME: 2000
     ports:
       - "2181:2181"
+    networks:
+      - packmybag
 
   frontend:
     build: ./PackMyBag-frontend
     container_name: frontend-container
     restart: always
     ports: 
-      - '5176:5176'
+      - '80:8080'
     depends_on:
       - apigatewayservice
     networks:
@@ -39,6 +43,14 @@ services:
     restart: always
     ports: 
       - '8888:8888'
+    environment:
+      - CATALOGO_SERVICE_URL=http://catalogoservice:8081/api/catalogo
+      - ENCOMENDA_SERVICE_URL=http://encomendasservice:8082/api/encomendas
+      - FAVORITOS_SERVICE_URL=http://favoritosservice:8083/api/favoritos
+      - RECOMENDACOES_SERVICE_URL=http://recomendacoesservice:8084/api/recomendacoes
+      - CESTO_SERVICE_URL=http://cartservice:8085/api/cart
+      - NOTIFICACOES_SERVICE_URL=http://notificacoesservice:8086/api/notificacoes
+      - UTILIZADORES_SERVICE_URL=http://utilizadoresservice:8087/api/utilizadores
     depends_on:
       - catalogoservice
       - encomendasservice
@@ -114,12 +126,27 @@ services:
     networks:
       - packmybag
 
+  recomendacoesservice:
+    build: ./recomendacoesservice
+    container_name: recomendacoes-container
+    restart: always
+    ports: 
+      - '8085:8085'
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/recomendacoes
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+    depends_on:
+      - db
+    networks:
+      - packmybag
+
   notificacoesservice:
     build: ./notificacoesService
     container_name: notificacoes-container
     restart: always
     ports: 
-      - '8085:8085'
+      - '8086:8086'
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/notificacoes
       - SPRING_DATASOURCE_USERNAME=postgres
@@ -132,23 +159,6 @@ services:
       - kafka
     networks:
       - packmybag
-
-
-  recomendacoesservice:
-    build: ./recomendacoesservice
-    container_name: recomendacoes-container
-    restart: always
-    ports: 
-      - '8086:8086'
-    environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/recomendacoes
-      - SPRING_DATASOURCE_USERNAME=postgres
-      - SPRING_DATASOURCE_PASSWORD=postgres
-    depends_on:
-      - db
-    networks:
-      - packmybag
-
 
   utilizadoresservice:
     build: ./utilizadoresService
