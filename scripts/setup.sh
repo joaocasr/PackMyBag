@@ -7,4 +7,13 @@ docker start postgres
 sleep 3
 
 docker exec -it postgres psql -U postgres -c "CREATE DATABASE catalogo;"
+docker exec -it postgres psql -U postgres -c "CREATE DATABASE favoritos;"
+docker exec -it postgres psql -U postgres -c "CREATE DATABASE encomenda;"
+docker exec -it postgres psql -U postgres -c "CREATE DATABASE cart;"
+docker exec -it postgres psql -U postgres -c "CREATE DATABASE notificacoes;"
+docker exec -it postgres psql -U postgres -c "CREATE DATABASE recomendacoes;"
+
+
+
+
  
