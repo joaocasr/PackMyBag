@@ -8,6 +8,7 @@ import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.multipart.MultipartFile;
 
 @Entity
 @org.hibernate.annotations.Proxy(lazy=false)
@@ -37,7 +38,7 @@ public class Cliente implements Serializable, UserDetails {
 	private String password;
 	
 	@Column(name="ProfileImage", nullable=true, length=255)	
-	private String profileImage;
+	private MultipartFile profileImage;
 
 
 	private void setIDCliente(int value) {
@@ -84,11 +85,11 @@ public class Cliente implements Serializable, UserDetails {
 		return password;
 	}
 	
-	public void setProfileImage(String value) {
+	public void setProfileImage(MultipartFile value) {
 		this.profileImage = value;
 	}
 	
-	public String getProfileImage() {
+	public MultipartFile getProfileImage() {
 		return profileImage;
 	}
 
@@ -104,7 +105,7 @@ public class Cliente implements Serializable, UserDetails {
 
 	}
 
-	public Cliente(String nome, String username, String email, String password, String profileImage) {
+	public Cliente(String nome, String username, String email, String password, MultipartFile profileImage) {
 		this.nome = nome;
 		this.username = username;
 		this.email = email;

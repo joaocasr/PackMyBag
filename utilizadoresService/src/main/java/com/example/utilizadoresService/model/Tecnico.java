@@ -2,6 +2,8 @@ package com.example.utilizadoresService.model;
 
 import java.io.Serializable;
 import jakarta.persistence.*;
+import org.springframework.web.multipart.MultipartFile;
+
 @Entity
 @org.hibernate.annotations.Proxy(lazy=false)
 @Table(name="Tecnico")
@@ -29,7 +31,7 @@ public class Tecnico extends Cliente implements Serializable {
 		return super.toString();
 	}
 
-	public Tecnico(String nome, String username, String email, String password, String profileimage, Loja loja) {
+	public Tecnico(String nome, String username, String email, String password, MultipartFile profileimage, Loja loja) {
 		super(nome, username, email,  password,profileimage);
 		this.loja = loja;
 	}

@@ -31,6 +31,8 @@ public class AuthConfig {
                         .requestMatchers(HttpMethod.POST, "/api/utilizadores/signup/tecnico").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/utilizadores/signup/user").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/utilizadores/signup/estilista").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/utilizadores/image").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/utilizadores/image/{username}").permitAll()
                         .anyRequest().authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
