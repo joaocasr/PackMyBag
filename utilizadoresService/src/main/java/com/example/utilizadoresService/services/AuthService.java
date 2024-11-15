@@ -94,4 +94,8 @@ public class AuthService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return clienteRepository.getClienteByUsername(username);
     }
+
+    public UserDetails loadStylistByUsername(String username) throws UsernameNotFoundException {
+        return estilistaRepository.getClienteByUsername(username);
+    }
 }
