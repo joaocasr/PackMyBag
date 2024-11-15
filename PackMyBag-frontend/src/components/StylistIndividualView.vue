@@ -19,7 +19,7 @@
     		<div class="an-expert-in-container">
       			<p class="an-expert-in">{{bio}}</p>
     		</div>
-			<button class="vector-icon" @click="goToForms()"></button>
+			<button class="vector-icon" @click="goToForms(nome)"></button>
     		
   	</div>
 
@@ -45,9 +45,17 @@ export default {
 		Rating
 	},
 	methods:{
-		goToForms(){
-			this.$router.push({ path: '/stylists/forms' });
+		/*
+		goToForms(nome){
+			this.$router.push({ path: '/stylists/forms/{nome}' });
 		}
+			*/
+		goToForms(nome) {
+		this.$router.push({ 
+			path: '/stylists/forms', 
+			query: { stylistName: nome } // Passa o nome como query param
+		});
+	}
 	}
 }
 </script>

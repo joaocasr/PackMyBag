@@ -12,7 +12,7 @@
                                 <div class="icon-send">
                                 </div>
                         </div>
-                        <div class="enter-your-email">{{ nomeEstilista }}</div>
+                        <div class="enter-your-email"> {{nomeEstilista}} </div>
                         <div class="avatar">
                                 <img class="shape-icon" alt="" src="/FormsIMG/Shape.png">
                                 
@@ -66,6 +66,7 @@
                                 </div>
                                 <div class="how-do-you">How do you describe your style? (Select up to 3 options)</div>
 
+                                <!--
                                 <div class="form-option">
                                     <input class="esportivo" type="checkbox" name="question1" value="Sportif" onclick="limitCheckboxes()"/>
                                     <div class="form-option-child"> Sportif</div>
@@ -108,6 +109,17 @@
                                 <div class="form-option9">
                                     <div class="outro">Other:</div>
                                     <div class="form-option-child"> <input type="text" style="border: none; border-bottom: 1px solid #000; outline: none; width: 540px; font-size: 18px; background-color: #f3f4f6;" onclick="limitCheckboxes()"></div>
+                                </div>
+                                -->
+                                <div class="form-option" v-for="(option, index) in options" :key="index">
+                                <input
+                                    type="checkbox"
+                                    :value="option.value"
+                                    v-model="selectedOptions"
+                                    :disabled="selectedOptions.length >= 3 && !selectedOptions.includes(option.value)"
+                                    @change="limitCheckboxes"
+                                />
+                                <div class="form-option-child">{{ option.label }}</div>
                                 </div>
                         </div>
 
@@ -272,7 +284,7 @@ data(){
         filtered: [],
         current_page:0,
         showOverlay: false, // Inicialmente oculto
-        nomeEstilista:String,
+        nomeEstilista:'' ,
 
         // cenas do pedido (formulario)
         pedidoInfo: new Pedido('','','','','','','','',''),
@@ -290,7 +302,26 @@ data(){
         ocasioes:String,
         paymentType:0
         */
+
+        options: [
+        { value: "Sportif", label: "Sportif" },
+        { value: "Minimalist", label: "Minimalist" },
+        { value: "Streetwear", label: "Streetwear" },
+        { value: "Punk", label: "Punk" },
+        { value: "Romantic", label: "Romantic" },
+        { value: "Vintage", label: "Vintage" },
+        { value: "Classic", label: "Classic" },
+        { value: "Casual", label: "Casual" },
+        { value: "Boho", label: "Boho" },
+      ],
+      selectedOptions: [], // Armazena as opções selecionadas
+
     }
+},
+
+mounted() {
+    // Obtém o nome do estilista dos query params
+    this.nomeEstilista = this.$route.query.stylistName || "Guest";
 },
 
 methods:{
@@ -309,34 +340,7 @@ methods:{
         }
 	},
     limitCheckboxes() {
-        // Seleciona todas as checkboxes
-        const checkboxes = document.querySelectorAll('input[type="checkbox"].esportivo');
-        // Conta quantas estão selecionadas
-        const checkedCount = Array.from(checkboxes).filter(checkbox => checkbox.checked).length;
-
-        // Desabilita as checkboxes não selecionadas quando 3 estão marcadas
-        checkboxes.forEach(checkbox => {
-        if (checkedCount >= 3 && !checkbox.checked) {
-            checkbox.disabled = true;
-        } else {
-            checkbox.disabled = false;
-        }
-        });
-    },
-    limitCheckboxes2() {
-        // Seleciona todas as checkboxes
-        const checkboxes = document.querySelectorAll('input[type="checkbox"].esportivo');
-        // Conta quantas estão selecionadas
-        const checkedCount = Array.from(checkboxes).filter(checkbox => checkbox.checked).length;
-
-        // Desabilita as checkboxes não selecionadas quando 3 estão marcadas
-        checkboxes.forEach(checkbox => {
-        if (checkedCount >= 3 && !checkbox.checked) {
-            checkbox.disabled = true;
-        } else {
-            checkbox.disabled = false;
-        }
-        });
+      // Limitação já gerenciada pelo `v-model` e `:disabled`, mas você pode executar lógica adicional aqui se necessário.
     },
     changePaymentType(value) {
       this.paymentType = value;
