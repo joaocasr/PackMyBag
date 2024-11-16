@@ -12,7 +12,7 @@
                                 <div class="icon-send">
                                 </div>
                         </div>
-                        <div class="enter-your-email"> {{nomeEstilista}} </div>
+                        <div class="enter-your-email"> {{this.nomeEstilista}} </div>
                         <div class="avatar">
                                 <img class="shape-icon" alt="" src="/FormsIMG/Shape.png">
                                 
@@ -26,7 +26,7 @@
                                 </div>
 
                                 <!-- <div class="next">NEXT</div> -->
-                                <button class="next" @click="gotToPayment()">NEXT</button>
+                                <button class="next" @click="showPaymentPopup">NEXT</button>
                         </div>
                         <img class="image-36-icon" alt="" src="/FormsIMG/image 36.png">
                         
@@ -66,61 +66,29 @@
                                 </div>
                                 <div class="how-do-you">How do you describe your style? (Select up to 3 options)</div>
 
-                                <!--
                                 <div class="form-option">
-                                    <input class="esportivo" type="checkbox" name="question1" value="Sportif" onclick="limitCheckboxes()"/>
-                                    <div class="form-option-child"> Sportif</div>
+                                    <!--<li v-for="item in options">-->
+                                    <li v-for="(item, index) in options" :key="index" class="checkbox-item">
+                                        <input
+                                            type="checkbox"
+                                            :id="'checkbox-' + index"
+                                            style="top: 18.52%; left: 1.5%; transform: scale(2.5);  left: 1.5%;; margin-top: 15px; margin-bottom: 15px;"
+                                            :value="item"
+                                            :disabled="disabledItems[index]"
+                                            v-model="selectedOptions"
+                                        />
+                                        <label :for="'checkbox-' + index">{{ item }}</label>
+                                    </li>
+                                    <p> </p>
+                                    <!-- <p>Selected: {{ selectedOptions.join(", ") }}</p> -->
                                 </div>
 
-                
-                                <div class="form-option1">
-                                    <input class="esportivo" type="checkbox" name="question1" value="Minimalist" onclick="limitCheckboxes()"/>
-                                    <div class="form-option-child"> Minimalist</div>
-                                </div>
-                                
-                                <div class="form-option2">
-                                    <input class="esportivo" type="checkbox" name="question1" value="Streetwear" onclick="limitCheckboxes()"/>
-                                    <div class="form-option-child"> Streetwear</div>
-                                </div>
-                                <div class="form-option3">
-                                    <input class="esportivo" type="checkbox" name="question1" value="Punk" onclick="limitCheckboxes()"/>
-                                    <div class="form-option-child"> Punk</div>
-                                </div>
-                                <div class="form-option4">
-                                    <input class="esportivo" type="checkbox" name="question1" value="Romantic" onclick="limitCheckboxes()"/>
-                                    <div class="form-option-child"> Romantic</div>
-                                </div>
-                                <div class="form-option5">
-                                    <input class="esportivo" type="checkbox" name="question1" value="Vintage" onclick="limitCheckboxes()"/>
-                                    <div class="form-option-child"> Vintage</div>
-                                </div>
-                                <div class="form-option6">
-                                    <input class="esportivo" type="checkbox" name="question1" value="Classic" onclick="limitCheckboxes()"/>
-                                    <div class="form-option-child"> Classic</div>
-                                </div>
-                                <div class="form-option7">
-                                    <input class="esportivo" type="checkbox" name="question1" value="Casual" onclick="limitCheckboxes()"/>
-                                    <div class="form-option-child"> Casual</div>
-                                </div>
-                                <div class="form-option8">
-                                    <input class="esportivo" type="checkbox" name="question1" value="Boho" onclick="limitCheckboxes()"/>
-                                    <div class="form-option-child"> Boho</div>
-                                </div>
+                                    <!--
                                 <div class="form-option9">
                                     <div class="outro">Other:</div>
                                     <div class="form-option-child"> <input type="text" style="border: none; border-bottom: 1px solid #000; outline: none; width: 540px; font-size: 18px; background-color: #f3f4f6;" onclick="limitCheckboxes()"></div>
                                 </div>
-                                -->
-                                <div class="form-option" v-for="(option, index) in options" :key="index">
-                                <input
-                                    type="checkbox"
-                                    :value="option.value"
-                                    v-model="selectedOptions"
-                                    :disabled="selectedOptions.length >= 3 && !selectedOptions.includes(option.value)"
-                                    @change="limitCheckboxes"
-                                />
-                                <div class="form-option-child">{{ option.label }}</div>
-                                </div>
+                                    -->  
                         </div>
 
                         <div class="form2">
@@ -155,34 +123,32 @@
 
                                 <div class="how-many-outfits">How many outfits do you want to make?</div>
 
-                                
+
 
                                 <div class="form-option10">
-                                    <input class="esportivo" type="checkbox" name="question2" value="Work" onclick="limitCheckboxes2()" />
-                                    <div class="form-option-child">Work</div>
+                                    <!--<li v-for="item in options">-->
+                                    <li v-for="(item, index) in options2" :key="index" class="checkbox-item">
+                                        <input
+                                            type="checkbox"
+                                            :id="'checkbox-' + index"
+                                            style="top: 18.52%; left: 1.5%; transform: scale(2.5);  left: 1.5%;; margin-top: 15px; margin-bottom: 15px;"
+                                            :value="item"
+                                            :disabled="disabledItems2[index]"
+                                            v-model="selectedOptions2"
+                                        />
+                                        <label :for="'checkbox-' + index">{{ item }}</label>
+                                    </li>
+                                    <p> </p>
+                                    <!-- <p>Selected2: {{ selectedOptions2.join(", ") }}</p> -->
                                 </div>
+
                                 
-
-                                <div class="form-option11">
-                                    <input class="esportivo" type="checkbox" name="question2" value="Formal event (e.g. wedding)" onclick="limitCheckboxes2()" />
-                                    <div class="form-option-child">Formal event (e.g. wedding)</div>
-                                </div>
-
-                                <div class="form-option12">
-                                    <input class="esportivo" type="checkbox" name="question2" value="Leisure/Travel" onclick="limitCheckboxes2()"/>
-                                    <div class="form-option-child">Leisure/Travel</div>
-                                </div>
-
+                                <!--
                                 <div class="form-option13">
                                     <div class="outro">Other:</div>
                                     <div class="form-option-child"> <input type="text" style="border: none; border-bottom: 1px solid #000; outline: none; width: 540px; font-size: 18px; background-color: #f3f4f6;" onclick="limitCheckboxes()"></div>
                                 </div>
-
-                                <div class="form-option14">
-
-                                    <input class="esportivo" type="checkbox" name="question2" value="Casual event (e.g. dinner)" onclick="limitCheckboxes2()"/>
-                                    <div class="form-option-child">Casual event (e.g. dinner)</div>
-                                </div>
+                                -->
 
                                 
                                 <div class="what-is-your">What is your budget for this outfit combination?</div>
@@ -190,6 +156,7 @@
                                     <input type="text" v-model="pedidoInfo.orcamento" style="border: none; border-bottom: 1px solid #000; outline: none; width: 568px; font-size: 18px; background-color: #f3f4f6;">
                                 </div>
                                 
+                                <!--
                                 <div class="select-the-brands">Select the brands you want to receive recommendations for (optional):</div>
                                 <div class="option1" id="option1Container">
                                     <div class="zara">ZARA</div>
@@ -197,35 +164,51 @@
                                 <div class="option2" id="option2Container">
                                     <div class="primark">PRIMARK</div>
                                 </div>
+                                -->
                         </div>
                     </div>
             </div>
             
             
-            <div v-if="showOverlay" id="form5Container" class="popup-overlay" style="display:none">
-                    
+            <div v-if="showOverlay==true" id="form5Container" class="popup-overlay"> 
                     <div class="form5">
                         <div class="rectangleform4">
                         </div>
                         <div class="q12">
-                                <p class="payment-made-successfully">Payment made successfully!</p>
-                                <p class="payment-made-successfully">You will hear back from the stylist soon!</p>
+                                <p class="payment-made-successfully">New payment created successfully!</p>
+                                <p class="payment-made-successfully">Go to your payments page to conclude the process!</p>
                         </div>
                         <div class="nextbtn1" id="popupnextBtnContainer">
-                                <div class="nextbtn-item">
-                                </div>
-                                <div class="next1">RETURN</div>
+                                <div class="nextbtn-item"></div>
+                                <!-- <div class="next1">RETURN</div> -->
+                                <button class="next1" @click="goToMyPayments">CHECK MY PAYMENTS</button>
                         </div>
                     </div>
                       
             </div>
 
+            <div v-if="showWarning==true" id="form5Container" class="popup-overlay"> 
+                    <div class="form5">
+                        <div class="rectangleform4">
+                        </div>
+                        <div class="q12">
+                                <p class="payment-made-successfully">&emsp;&emsp;&emsp;&emsp;Please finish filling the form!</p>
+                        </div>
+                        <div class="nextbtn1" id="popupnextBtnContainer">
+                                <div class="nextbtn-item"></div>
+                                <!-- <div class="next1">RETURN</div> -->
+                                <button class="next1" @click="closeWarningPopup">RETURN</button>
+                        </div>
+                    </div>
+                      
+            </div>
 
+            <!--
             <div v-if="showOverlay" class="overlay">
                 <div class="overlay-content">
                     <h2>Payment Details</h2>
                     <button @click="showOverlay = false">Close</button>
-                    <!-- Adicione o conteúdo do overlay aqui -->
+                    
                 </div>
             </div>
 
@@ -247,9 +230,7 @@
                     
                     
             </div>
-  	
-  	
-            
+            -->
   	
         <FooterComponent></FooterComponent>
     </main>
@@ -262,9 +243,10 @@ import FooterComponent from '@/components/FooterComponent.vue';
 import StylistIndividualView from '@/components/StylistIndividualView.vue';
 import VueSelect from "vue3-select-component";
 import Pedido from '@/models/pedido';
+import Estilista from '@/models/estilista';
+import authService from '@/services/auth-service';
 
-const maxSelections = 3;
-let selectedCount = 0;
+
 
 export default {
 
@@ -284,64 +266,146 @@ data(){
         filtered: [],
         current_page:0,
         showOverlay: false, // Inicialmente oculto
+        showWarning: false, // Inicialmente oculto
         nomeEstilista:'' ,
+        aux:'' ,
 
         // cenas do pedido (formulario)
         pedidoInfo: new Pedido('','','','','','','','',''),
+        Estilista: new Estilista('','','','','',''),
 
-        // cenas do formulário
-        /*
-        idPedido:Number,
-        idCliente:String,
-        estilos:String,
-        cores:String,
-        nrOutfits:Number,
-        orcamento:Number,
-        pecasExcluidas:String,
-        fabricsPrefered:String,
-        ocasioes:String,
-        paymentType:0
-        */
+        username:"",
+        role:"",
+        token:null,
 
-        options: [
-        { value: "Sportif", label: "Sportif" },
-        { value: "Minimalist", label: "Minimalist" },
-        { value: "Streetwear", label: "Streetwear" },
-        { value: "Punk", label: "Punk" },
-        { value: "Romantic", label: "Romantic" },
-        { value: "Vintage", label: "Vintage" },
-        { value: "Classic", label: "Classic" },
-        { value: "Casual", label: "Casual" },
-        { value: "Boho", label: "Boho" },
-      ],
+        paymentType:0,
+
+      options: ["Sportif", "Minimalist", "Streetwear", "Punk", "Romantic", "Vintage", "Classic", "Casual", "Boho"],
       selectedOptions: [], // Armazena as opções selecionadas
 
+      options2: ["Work", "Formal event (e.g. wedding)", "Leisure/Travel", "Casual event (e.g. dinner)"],
+      selectedOptions2: [], // Armazena as opções selecionadas
+
     }
+},
+
+created(){
+		let token = authService.getToken();
+		console.log(token);
+		if(token!=null){
+			this.token = token;
+			this.username = token.username;
+			this.role = token.role;
+		}
+},
+
+computed: {
+    // A computed property to handle disabling logic
+    disabledItems() {
+      return this.options.map(
+        (item) => this.selectedOptions.length >= 3 && !this.selectedOptions.includes(item)
+      );
+    },
+    disabledItems2() {
+      return this.options2.map(
+        (item) => this.selectedOptions2.length >= 3 && !this.selectedOptions2.includes(item)
+      );
+    },
 },
 
 mounted() {
     // Obtém o nome do estilista dos query params
     this.nomeEstilista = this.$route.query.stylistName || "Guest";
+    
+    //aux = this.$route.query.stylistName || "Guest";
+    //this.Estilista = getStylistWithUSername(aux);
 },
 
 methods:{
-        toggleSelection(element) {
-            if (element.classList.contains('selected')) {
-                element.classList.remove('selected');
-                selectedCount--;
+    toggleSelection(element) {
+        if (element.classList.contains('selected')) {
+            element.classList.remove('selected');
+            selectedCount--;
+        } else {
+            if (selectedCount < maxSelections) {
+                element.classList.add('selected');
+                selectedCount++;
             } else {
-                if (selectedCount < maxSelections) {
-                    element.classList.add('selected');
-                    selectedCount++;
-                } else {
-                    alert('Você pode selecionar apenas até 3 opções.');
-                }
+                alert('Você pode selecionar apenas até 3 opções.');
             }
         }
-	},
-    limitCheckboxes() {
-      // Limitação já gerenciada pelo `v-model` e `:disabled`, mas você pode executar lógica adicional aqui se necessário.
     },
+
+
+
+    checkIfPedidoIsFullyFilled(){
+        console.log(
+           "New pedido\n" +
+           this.pedidoInfo.idPedido + ";\n" +
+           this.pedidoInfo.idCliente + ";\n" +
+           this.pedidoInfo.estilos + ";\n" +
+           this.pedidoInfo.cores + ";\n" +
+           this.pedidoInfo.nrOutfits + ";\n" +
+           this.pedidoInfo.orcamento + ";\n" +
+           this.pedidoInfo.pecasExcluidas + ";\n" +
+           this.pedidoInfo.fabricsPrefered + ";\n" +
+           this.pedidoInfo.ocasioes + "\n"
+        )
+
+        if(this.pedidoInfo.idPedido != 0 &&
+           this.pedidoInfo.idCliente != "" &&
+           this.pedidoInfo.estilos != "" &&
+           this.pedidoInfo.cores != "" &&
+           this.pedidoInfo.nrOutfits != 0 &&
+           this.pedidoInfo.orcamento != 0 &&
+           this.pedidoInfo.pecasExcluidas != "" &&
+           this.pedidoInfo.fabricsPrefered != "" &&
+           this.pedidoInfo.ocasioes != "" ){
+        
+            return true;
+        }
+
+        else{
+            return false;
+        }
+    },
+
+    selectedOptionsString() {
+      return this.selectedOptions.join(", "); // Convert the array to a comma-separated string
+    },
+
+    selectedOptions2String() {
+      return this.selectedOptions2.join(", "); // Convert the array to a comma-separated string
+    },
+
+    showPaymentPopup() {
+      if(this.paymentType != 0 && this.selectedOptions.length > 0 && this.selectedOptions2.length > 0){
+
+        this.pedidoInfo.idPedido = 1;   // 1 atua como placeholder
+        this.pedidoInfo.idCliente = this.username;
+        this.pedidoInfo.estilos = this.selectedOptionsString();
+        this.pedidoInfo.ocasioes = this.selectedOptions2String();
+
+        if(this.checkIfPedidoIsFullyFilled()){
+            this.showOverlay = true;
+        }
+        else{
+            this.showWarning = true;
+        }
+      }
+      else{
+        this.showWarning = true;
+      }
+    },
+
+    closeWarningPopup() {
+      this.showWarning = false;
+    },
+
+    goToMyPayments() {
+        this.$router.push({path:'/payments'})
+    },
+
     changePaymentType(value) {
       this.paymentType = value;
       if (this.paymentType == 1){
@@ -353,19 +417,14 @@ methods:{
       if (this.paymentType == 3){
         console.log("Paying with paypal");
       }
-      else{
-        console.log("Payment not selected");
-      }
     },
-    goToPayment() {
-        this.showOverlay = true;  // Exibe o overlay
-    },
-    getStylistWithUSername(){
+
+    getStylistWithUSername(nameToSearch){
         const header = authHeader();
         let config = {headers:header}
         header['Content-Type'] = 'application/json';
 
-        axios.get('http://localhost:8888/api/utilizadoresService/estilistas/'+id).then(resp=>{
+        axios.get('http://localhost:8888/api/utilizadoresService/estilistas/'+nameToSearch, config).then(resp=>{
 				let estilista = resp.data;
 				this.nomeEstilista = estilista.nome;
 			
@@ -375,6 +434,7 @@ methods:{
 				console.log(err);
 			})
     },
+
     handlePage(action){
         if(action=='previous' && this.current_page==0){
             this.showbtnprevious=false;
@@ -393,6 +453,7 @@ methods:{
             this.getStylists();
         }
     }
+},
 
 }
 
@@ -403,3 +464,11 @@ methods:{
 @import '../assets/forms.css';
 </style>
 <style src="@vueform/slider/themes/default.css"></style>
+
+<style>
+
+label {
+  margin-left: 15px; /* Shift the label slightly to the left */
+}
+
+</style>

@@ -265,70 +265,7 @@
 }
 .form-option {
     position: absolute;
-    top: 191px;
-    left: 101px;
-    width: 366px;
-    height: 54px;
-}
-.form-option1 {
-    position: absolute;
-    top: 237px;
-    left: 101px;
-    width: 366px;
-    height: 54px;
-}
-.form-option2 {
-    position: absolute;
-    top: 284px;
-    left: 101px;
-    width: 366px;
-    height: 54px;
-}
-.form-option3 {
-    position: absolute;
-    top: 331px;
-    left: 101px;
-    width: 366px;
-    height: 54px;
-}
-.form-option4 {
-    position: absolute;
-    top: 377px;
-    left: 101px;
-    width: 366px;
-    height: 54px;
-}
-.form-option5 {
-    position: absolute;
-    top: 424px;
-    left: 101px;
-    width: 366px;
-    height: 54px;
-}
-.form-option6 {
-    position: absolute;
-    top: 146px;
-    left: 101px;
-    width: 366px;
-    height: 54px;
-}
-.form-option7 {
-    position: absolute;
-    top: 101px;
-    left: 101px;
-    width: 366px;
-    height: 54px;
-}
-.form-option8 {
-    position: absolute;
-    top: 474px;
-    left: 101px;
-    width: 366px;
-    height: 54px;
-}
-.form-option9 {
-    position: absolute;
-    top: 524px;
+    top: 100px;
     left: 101px;
     width: 366px;
     height: 54px;
@@ -396,19 +333,18 @@
 }
 .form3-child {
     position: absolute;
-    top: 269.5px;
+    top: 339.5px;
     left: 99.5px;
     width: 568px;
 }
 .how-many-outfits {
     position: absolute;
-    top: 238px;
+    top: 298px;
     left: 100px;
     font-size: 20px;
     display: inline-block;
     width: 957px;
 }
-
 .form-option10 {
     position: absolute;
     top: 77px;
@@ -416,38 +352,16 @@
     width: 366px;
     height: 54px;
 }
-.form-option11 {
-    position: absolute;
-    top: 119px;
-    left: 101px;
-    width: 366px;
-    height: 54px;
-}
-.form-option12 {
-    position: absolute;
-    top: 77px;
-    left: 388px;
-    width: 366px;
-    height: 54px;
-}
 .form-option13 {
     position: absolute;
-    top: 161px;
+    top: 251px;
     left: 101px;
     width: 366px;
     height: 54px;
 }
-.form-option14 {
-    position: absolute;
-    top: 119px;
-    left: 388px;
-    width: 366px;
-    height: 54px;
-}
-
 .what-is-your {
     position: absolute;
-    top: 307px;
+    top: 387px;
     left: 100px;
     font-size: 20px;
     line-height: 24px;
@@ -457,7 +371,7 @@
 }
 .form3-inner {
     position: absolute;
-    top: 335.5px;
+    top: 425.5px;
     left: 100.5px;
     width: 568px;
 }
@@ -603,20 +517,26 @@
 .nextbtn-item {
     position: absolute;
     height: 100%;
-    width: 100%;
+    width: 120%;
     top: 0%;
     right: 0%;
     bottom: 0%;
-    left: 0%;
+    left: -25px;
     border-radius: 10px;
     background-color: #7072ff;
 }
 .next1 {
     position: absolute;
     top: 15.52%;
-    left: 25.68%;
+    left: -12px;
     letter-spacing: 0.15em;
     line-height: 39px;
+    border: none;        /* Remove a borda do botão */
+    outline: none;       /* Remove o contorno ao focar */
+    background: none;    /* Remove a cor de fundo */
+    cursor: pointer;
+    color: white;
+    width: 200px;
 }
 .nextbtn1 {
     position: absolute;
@@ -642,4 +562,16 @@
     color: #000;
     font-family: Poppins;
 }
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
 
