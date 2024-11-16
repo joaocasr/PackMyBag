@@ -38,11 +38,11 @@
 				  </form>
         			
         				<div class="wishlist-parent">
-          					<div v-if="this.role=='Cliente'" @click="gotoFavourites()" class="wishlist" id="wishlistContainer">
+          					<div v-if="this.role=='Cliente' && token!==null" @click="gotoFavourites()" class="wishlist" id="wishlistContainer">
             						<img class="vector-icon" alt="" src="/NavBarIMG/Vector.svg">
             						
           					</div>
-          					<div v-if="this.role=='Cliente'" @click="gotoCart()" class="cart1-with-buy" id="cart1WithBuy">
+          					<div v-if="this.role=='Cliente' && token!==null" @click="gotoCart()" class="cart1-with-buy" id="cart1WithBuy">
             						<img class="cart1-icon" alt="" src="/NavBarIMG/Cart1.svg">
             						
           					</div>
@@ -85,7 +85,7 @@ export default {
 		if(token!=null){
 			this.token = token;
 			this.username = token.username;
-			if(token.profileImage!=="") this.profileImg = "url(http://localhost:8087/api/utilizadores/image/"+this.username+")";
+			if(token.profileImage!=="") this.profileImg = "url(http://localhost:8888/api/utilizadoresService/profileImg/"+this.username+")";
 			this.role = token.role;
 		}
 	}

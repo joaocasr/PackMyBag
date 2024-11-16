@@ -79,5 +79,16 @@ router.get('/estilistas',validate.verifyToken, async function(req,res,next){
     }
 });
 
+router.get('/profileImg/:username', async function(req,res,next){
+    try {
+        const username = req.params.username;
+        const resp = await utilizadoresService.getProfileImg(username);
+        res.set('Content-Type', resp.headers['content-type']);
+        res.send(resp.data); 
+    } catch (err) {
+        res.status(err.status || 500).jsonp(err.error || "Internal Server Error");
+    }
+});
+
 
 module.exports = router;

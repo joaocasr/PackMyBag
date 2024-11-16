@@ -123,3 +123,18 @@ module.exports.getEstilistas = async (token,page,number) =>{
         }
     }
 }
+
+module.exports.getProfileImg = async (username) =>{
+    try {
+        const resp = await axios.get(`${ap}/image/${username}`, {
+            responseType: 'arraybuffer'
+        });
+        return resp;
+    } catch (err) {
+        if (err.response) {
+            throw { error: err.response.data, status: err.response.status };
+        } else {
+            throw { error: "Unknown error", status: 500 };
+        }
+    }
+}

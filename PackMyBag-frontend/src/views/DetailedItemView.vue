@@ -140,7 +140,7 @@ export default {
 		if(token!=null){
 			this.token = token;
 			this.username=token.username;
-			if(token.profileImage!=="") this.profileImg = "http://localhost:8087/api/utilizadores/image/"+this.username;
+			if(token.profileImage!=="") this.profileImg = "http://localhost:8888/api/utilizadoresService/profileImg/"+this.username;
 			this.nome=token.nome;
 			this.email=token.email;
 		}
