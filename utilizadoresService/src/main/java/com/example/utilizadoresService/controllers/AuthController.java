@@ -51,7 +51,7 @@ public class AuthController {
 
 
     @Autowired
-    public AuthController(AuthenticationManager authenticationManager, AuthService service, TokenProvider tokenService, ClienteRepository clienteRepository) {
+    public AuthController(AuthenticationManager authenticationManager, AuthService service, TokenProvider tokenService) {
         this.authenticationManager = authenticationManager;
         this.service = service;
         this.tokenService = tokenService;
@@ -120,11 +120,11 @@ public class AuthController {
     }
 
     @PostMapping("/image")
-    public ResponseEntity<String> uploadImage(@RequestBody @Valid UploadProfileImageDto data) {
+    public ResponseEntity<String> uploadImage(@ModelAttribute UploadProfileImageDto data) {
         try {
 
             service.saveUserImagePath(data);
-            return ResponseEntity.ok("Image uploaded successfully: " + data.profile_image());
+            return ResponseEntity.ok("Image uploaded successfully: " + data.getProfile_image());
         } catch (InexistentImage e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error uploading image");
         }
@@ -132,10 +132,8 @@ public class AuthController {
 
 
 
-
-
     @GetMapping("/image/{username}")
-    public ResponseEntity<Resource> getImage(@PathVariable String username) {
+    public ResponseEntity<UrlResource> getImage(@PathVariable String username) {
         return ResponseEntity.ok()
                 .contentType(MediaType.IMAGE_JPEG)
                 .body(service.getImage(username));

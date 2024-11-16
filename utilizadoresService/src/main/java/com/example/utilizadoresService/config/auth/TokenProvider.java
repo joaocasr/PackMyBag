@@ -30,7 +30,7 @@ public class TokenProvider {
                         .withClaim("username", user.getUsername())
                         .withClaim("nome", user.getNome())
                         .withClaim("email", user.getEmail())
-                        .withClaim("profileImage", user.getProfileImage().getOriginalFilename())
+                        .withClaim("profileImage", user.getProfileImage())
                         .withClaim("idloja",  ((Tecnico) user).getLoja().getIDLoja())
                         .withExpiresAt(genAccessExpirationDate())
                         .sign(algorithm);
@@ -41,7 +41,7 @@ public class TokenProvider {
                         .withClaim("username", user.getUsername())
                         .withClaim("nome", user.getNome())
                         .withClaim("email", user.getEmail())
-                        .withClaim("profileImage", user.getProfileImage().getOriginalFilename())
+                        .withClaim("profileImage", user.getProfileImage())
                         .withClaim("rating", ((Estilista) user).getRating())
                         .withExpiresAt(genAccessExpirationDate())
                         .sign(algorithm);
@@ -52,7 +52,7 @@ public class TokenProvider {
                         .withClaim("username", user.getUsername())
                         .withClaim("nome", user.getNome())
                         .withClaim("email", user.getEmail())
-                        .withClaim("profileImage", user.getProfileImage().getOriginalFilename())
+                        .withClaim("profileImage", user.getProfileImage())
                         .withExpiresAt(genAccessExpirationDate())
                         .sign(algorithm);
             }

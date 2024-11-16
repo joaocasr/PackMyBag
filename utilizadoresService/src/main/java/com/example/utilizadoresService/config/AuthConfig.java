@@ -27,12 +27,12 @@ public class AuthConfig {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers(HttpMethod.POST, "/api/utilizadores/image").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/utilizadores/signin").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/utilizadores/signup/tecnico").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/utilizadores/signup/user").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/utilizadores/signup/estilista").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/utilizadores/image").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/utilizadores/image/{username}").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/utilizadores/image/**").permitAll()
                         .anyRequest().authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

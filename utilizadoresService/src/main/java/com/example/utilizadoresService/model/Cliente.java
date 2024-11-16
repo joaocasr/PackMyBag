@@ -38,7 +38,7 @@ public class Cliente implements Serializable, UserDetails {
 	private String password;
 	
 	@Column(name="ProfileImage", nullable=true, length=255)	
-	private MultipartFile profileImage;
+	private String profileImage;
 
 
 	private void setIDCliente(int value) {
@@ -85,11 +85,11 @@ public class Cliente implements Serializable, UserDetails {
 		return password;
 	}
 	
-	public void setProfileImage(MultipartFile value) {
+	public void setProfileImage(String value) {
 		this.profileImage = value;
 	}
 	
-	public MultipartFile getProfileImage() {
+	public String getProfileImage() {
 		return profileImage;
 	}
 
@@ -105,7 +105,7 @@ public class Cliente implements Serializable, UserDetails {
 
 	}
 
-	public Cliente(String nome, String username, String email, String password, MultipartFile profileImage) {
+	public Cliente(String nome, String username, String email, String password, String profileImage) {
 		this.nome = nome;
 		this.username = username;
 		this.email = email;

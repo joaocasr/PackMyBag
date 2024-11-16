@@ -86,7 +86,7 @@
 				</div>
 				<div class="gabriel-r" v-if="username!=''" >{{ username }}</div>
 				<div class="gabriel-r" v-if="username==''" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
-				<img class="generic-user-icon-13-262266219" alt="" src="/DetailedItemIMG/generic-user-icon-13-2622662197-removebg-preview 1.png">
+				<img class="generic-user-icon-13-262266219" alt="" :src="profileImg">
 
 				<div class="star-parent">
 					<Rating id="myestrelas" :modelValue="myrate" @update:modelValue="myrate = $event" :cancel="false" />
@@ -140,6 +140,7 @@ export default {
 		if(token!=null){
 			this.token = token;
 			this.username=token.username;
+			if(token.profileImage!=="") this.profileImg = "http://localhost:8087/api/utilizadores/image/"+this.username;
 			this.nome=token.nome;
 			this.email=token.email;
 		}
@@ -159,7 +160,7 @@ export default {
 			nome:"",
 			email:"",
 			token:null,
-			profileImg: "xxx",
+			profileImg: "/DetailedItemIMG/generic-user-icon-13-2622662197-removebg-preview 1.png",
 			current_page:0,
 			reviews:[],
 			myrate:0,

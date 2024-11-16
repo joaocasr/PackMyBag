@@ -4,7 +4,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 public record EstilistaDto(
         String username,
-        MultipartFile profileImage,
+        String profileImage,
         String nome,
         String bio,
         int rating) {

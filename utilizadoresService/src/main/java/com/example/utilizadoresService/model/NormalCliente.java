@@ -65,7 +65,7 @@ public class NormalCliente extends Cliente implements Serializable {
 		return super.toString();
 	}
 
-	public NormalCliente(String nome, String username, String email, String password, MultipartFile profileImage, String morada, String cartaoCredito, String nrTelemovel, String genero) {
+	public NormalCliente(String nome, String username, String email, String password, String profileImage, String morada, String cartaoCredito, String nrTelemovel, String genero) {
 		super(nome, username, email, password, profileImage);
 		this.morada = morada;
 		this.cartaoCredito = cartaoCredito;

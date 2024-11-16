@@ -48,7 +48,7 @@
           					</div>
 							<div class="selectwrapper">
 
-								<select class="selectClass" @change="onChange($event)" v-model="selected">
+								<select class="selectClass" v-bind:style="{backgroundImage:profileImg}" @change="onChange($event)" v-model="selected">
 									<option v-if="token!=null" value="logout">Logout</option>
 									<option v-if="token==null" value="login">Login</option>
 									<option v-if="this.role=='Cliente'">My Notifications</option>
@@ -72,6 +72,7 @@ export default {
         return {
             selected:"",
 			username:"",
+			profileImg:"url(/NavBarIMG/user-icon.png)",
 			role:"",
 			token:null,
 			itemName:""
@@ -84,6 +85,7 @@ export default {
 		if(token!=null){
 			this.token = token;
 			this.username = token.username;
+			if(token.profileImage!=="") this.profileImg = "url(http://localhost:8087/api/utilizadores/image/"+this.username+")";
 			this.role = token.role;
 		}
 	}
@@ -120,6 +122,7 @@ export default {
 		logout(){
 			this.$store.dispatch('auth/logout').then(()=>{
 				this.token=null;
+				this.profileImg = 'url(/NavBarIMG/user-icon.png)';
 				this.$router.push({path:'/'})
 			},error=>{
 				console.log(error);

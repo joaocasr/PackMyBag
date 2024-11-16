@@ -1,28 +1,35 @@
+select {
+    outline: none;
+    cursor: pointer;
+    background: transparent;
+    text-indent: 5px;
+    position: relative;
+    padding-right: 20px;
+}
 
-.selectClass{
+.selectClass {
     border: 0;
-    width: 32px;
+    width: 50px;
     height: 32px;
     background-color: #f7f7f7;
-    color:#f7f7f7;
+    color: black;
     background-size: 32px;
-    margin-left: 14px;
-    background-image: url('/NavBarIMG/user-icon.png');
     margin-bottom: 2px;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 .selectwrapper{
-    background-color: #f7f7f7;
-    color:#f7f7f7;
-    padding-right: 10px;
-    outline: none;
+    width:40px;
 }
-
-select {
-    outline: none; 
-    text-indent: 100px;
-    appearance: none;
-    text-overflow: '';
-    cursor: pointer;
+/* Custom arrow styling */
+.selectClass::after {
+    content: '▼'; /* Unicode for a down arrow */
+    font-size: 12px;
+    position: absolute;
+    right: 8px; /* Position the arrow */
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none; /* Prevent the arrow from interfering with clicks */
 }
 
 body {

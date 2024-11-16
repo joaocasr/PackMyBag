@@ -48,7 +48,7 @@ public class Estilista extends Cliente implements Serializable {
 		this.bio = bio;
 	}
 
-	public Estilista(String nome, String username, String email, String password, MultipartFile profileImage, int rating, String genero, String bio) {
+	public Estilista(String nome, String username, String email, String password, String profileImage, int rating, String genero, String bio) {
 		super(nome, username, email, password, profileImage);
 		this.rating = rating;
 		this.genero = genero;

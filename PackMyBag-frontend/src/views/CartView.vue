@@ -10,7 +10,7 @@ minDate.setDate(minDate.getDate() + 5); // 5 dias de antecedencia
     		<img class="encomendaspage-child" alt="" src="/CartIMG/Line 17.png">
     		
 
-            <div v-if="this.itemsEncomenda.length!=0" class="shop-cart-frame">
+            <div v-if="itemsEncomenda.length!=0" class="shop-cart-frame">
                 <div v-bind:class="{ hide: !preCheck }" class="cart-main-section">
                     <div class="product-parent">
                         <div class="product">Product</div>
@@ -20,7 +20,7 @@ minDate.setDate(minDate.getDate() + 5); // 5 dias de antecedencia
                     </div>
                 </div>
             </div>
-            <div class="infoEmpty" v-if="this.itemsEncomenda.length==0">Your cart is empty. Go rent some clothes!</div>
+            <div class="infoEmpty" v-if="itemsEncomenda.length==0">Your cart is empty. Go rent some clothes!</div>
             <div v-bind:class="{ hide: !preCheck }" v-for="(item, key) in itemsEncomenda">
                 <CartItemComponent
                     :codigo = "item.codigo"
@@ -36,11 +36,24 @@ minDate.setDate(minDate.getDate() + 5); // 5 dias de antecedencia
                 </CartItemComponent>
             </div>
 
-            <div v-if="this.itemsEncomenda.length!=0" class="form-section" v-bind:class="{ hide: preCheck }">
+            <div v-if="itemsEncomenda.length!=0" class="form-section" v-bind:class="{ hide: preCheck }">
                 <button class="button2" @click="changePrevious()">BACK</button>
-                <input v-model="checkedAddress" class="searchAddress" placeholder="Please indicate the address of your staying..." />
+                <input v-model="addressInput" class="searchAddress" placeholder="Please indicate the address of your staying..." />
                 <button @click="getLocation()" class="addressbtn">GO</button>
-                <div class="map" id="map" style="left:50px; top: 50px; width: 500px;height: 300px;" ></div>
+
+
+                <l-map ref="map" :use-global-leaflet="false" v-model:zoom="zoom" style="left:50px; top: 50px; width: 500px;height: 300px;z-index:0;" :center="centermap">
+                    <l-tile-layer
+                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                        layer-type="base"
+                        name="OpenStreetMap"
+                    ></l-tile-layer>
+
+                    <l-marker :lat-lng="markCoords" ></l-marker>
+                    
+                </l-map>
+
+                <!--<div class="map" id="map" style="left:50px; top: 50px; width: 500px;height: 300px;" ></div>-->
                 <div v-if="checkedAddress.length!=0" class="deliveryClass">
                     <img src="/CartIMG/validated.jpg" width="40px" height="40px"/>
                     <div class="period-title2">Delivery Location</div>
@@ -54,7 +67,7 @@ minDate.setDate(minDate.getDate() + 5); // 5 dias de antecedencia
                 </div>
             </div>
 
-            <div v-if="checkedAddress.length!=0 && this.itemsEncomenda.length!=0" class="payment-container">
+            <div v-if="checkedAddress.length!=0 && itemsEncomenda.length!=0" class="payment-container">
                 <h4>PAYMENT</h4>
                 <div class="payment-options">
                 <div @click="paymentMode('paypal')" class="payment-option" v-bind:style="{'border-color':paymentColor1,'border-width': paymentBorder1}">
@@ -68,7 +81,7 @@ minDate.setDate(minDate.getDate() + 5); // 5 dias de antecedencia
                 </div>
             </div>
 
-            <div v-if="this.itemsEncomenda.length!=0" class="summary">
+            <div v-if="itemsEncomenda.length!=0" class="summary">
                 <div class="summary-title">Summary</div> 
                 <div v-for="(i, idx) in itemsEncomenda">
                     <p class="summary-details">x{{ i.nraquisicoes }}&emsp;&emsp;{{ i.designacao }}&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;{{ getSubTotal(idx) }}€</p>                 
@@ -78,7 +91,7 @@ minDate.setDate(minDate.getDate() + 5); // 5 dias de antecedencia
                 <p class="summary-details">{{ taxaDias }}</p>
                 <p class="summary-details">Total:&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;{{ getTotal }}€</p>
             </div>
-    		<div v-if="this.itemsEncomenda.length!=0" class="button-parent">      			
+    		<div v-if="itemsEncomenda.length!=0" class="button-parent">      			
         		<button v-if="preCheck==false" @click="handlePayment()" class="button1">Checkout</button>
         		<button v-if="preCheck==true" class="button1" @click="changeNext()">Next</button>
     		</div>
@@ -96,48 +109,42 @@ import Calendar from 'primevue/calendar';
 import authService from '@/services/auth-service';
 import authHeader from '@/services/auth-header';
 import axios from 'axios';
-/*
-let map;
-let key = `${import.meta.env.VITE_API_KEY}`;
+import "leaflet/dist/leaflet.css";
+import { LMap, LMarker, LTileLayer } from "@vue-leaflet/vue-leaflet";
 
-const options = {
-    apiKey:key,
-    version: "weekly",
-    libraries: ["places"]
-}
-const loader = new Loader(options);
-*/
+
 export default {
     components:{
         NavBarComponent,
         FooterComponent,
         CartItemComponent,
-        Calendar
+        Calendar,
+        LMap,
+        LTileLayer,
+        LMarker
     },
     data(){
         return {
             preCheck:true,
-            mapOptions : {
-                center: 
-                    { lat: 41.553, lng: -8.425 
-                },
-                zoom: 20
-            },
+            zoom:5,
 			token:null,
 			username:String,
             color:"red",
             begindate:'',
             enddate:'',
             checkedAddress:'',
+            addressInput:'',
             taxaDias:'',
             totalPagamento:0,
-            paymentBorder1:'0 px',
+            paymentBorder1:'thin',
             paymentColor1: '',
-            paymentBorder2:'0 px',
+            paymentBorder2:'thin',
             paymentColor2: '',
             modoPagamento:'',
             adicional:0,
-            itemsEncomenda : []
+            itemsEncomenda : [],
+            markCoords:[0,0],
+            centermap:[39.3999, -8.2245]
         }
     },
     computed:{
@@ -216,53 +223,18 @@ export default {
         paymentMode(mode){
             if(mode==='paypal'){
                 this.paymentColor2='';
-                this.paymentBorder2='0 px'
+                this.paymentBorder2='thin'
                 this.paymentColor1='blue';
-                this.paymentBorder1='8 px';
+                this.paymentBorder1='thick';
                 this.modoPagamento = 'PAYPAL';
             }
             if(mode==='credit'){
                 this.paymentColor1='';
-                this.paymentBorder1='0 px'
+                this.paymentBorder1='thin'
                 this.paymentColor2='blue';
-                this.paymentBorder2='8 px';
+                this.paymentBorder2='thick';
                 this.modoPagamento = 'CREDIT';
             }
-        },
-        /*
-        async getLocation(){
-            loader.load().then(() => {
-
-                const geocoder = new google.maps.Geocoder();
-                const address = this.address;
-
-
-                geocoder.geocode({ address: address }, (results, status) => {
-                    if (status === "OK") {
-
-                        console.log(results[0]);
-                    
-
-                        const location = results[0].geometry.location;
-                        map.setCenter(location);
-                        this.checkedAddress=results[0].formatted_address;
-
-                    } else {
-                        console.error("error", status);
-                    }
-                });
-                }).catch(e => {
-                    console.error(e);
-                });
-        }*/
-        async loadMap(){
-            loader.loadCallback(async e => {
-                if (e) {
-                    console.log(e);
-                } else {
-                    map = new google.maps.Map(document.getElementById("map"), this.mapOptions);
-                }
-            });
         },
         getCartItems(){
             axios.get('http://localhost:8888/api/cartService/'+this.username).then(items=>{
@@ -270,6 +242,20 @@ export default {
                 console.log(this.itemsEncomenda)
             }).catch(err=>{
                 console.log(err)
+            })
+        },
+        getLocation(){
+            axios.get('https://nominatim.openstreetmap.org/search?q='+this.addressInput+'&format=json')
+            .then(resp=>{
+                this.checkedAddress = resp.data[0].display_name;
+                let latitude = resp.data[0].lat;
+                let longitude = resp.data[0].lon;
+                this.centermap=[latitude,longitude];
+                this.zoom = 14;
+                this.markCoords = [latitude,longitude];
+                console.log(resp.data);
+            }).catch(err=>{
+                console.log(err);
             })
         },
         removeItem(event,idx){

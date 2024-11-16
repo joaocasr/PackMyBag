@@ -84,7 +84,7 @@ public class AuthService implements UserDetailsService {
         Loja l;
         if (loja.isEmpty()) {throw new InexistentLojaException(data.nomeLoja());} else {l = loja.get();}
         String encryptedPassword = new BCryptPasswordEncoder().encode(data.password());
-        Tecnico newUser = new Tecnico(data.nome(), data.username(), data.email(), encryptedPassword,null, l);
+        Tecnico newUser = new Tecnico(data.nome(), data.username(), data.email(), encryptedPassword,"", l);
         return tecnicoRepository.save(newUser);
     }
 
@@ -93,7 +93,7 @@ public class AuthService implements UserDetailsService {
             throw new InvalidJwtException("Username already exists");
         }
         String encryptedPassword = new BCryptPasswordEncoder().encode(data.password());
-        NormalCliente newUser = new NormalCliente(data.nome(), data.username(), data.email(), encryptedPassword, null, data.morada(), "", data.nrTelemovel(), data.genero());
+        NormalCliente newUser = new NormalCliente(data.nome(), data.username(), data.email(), encryptedPassword, "", data.morada(), "", data.nrTelemovel(), data.genero());
         return clienteNormalrepository.save(newUser);
     }
 
@@ -102,7 +102,7 @@ public class AuthService implements UserDetailsService {
             throw new InvalidJwtException("Username already exists");
         }
         String encryptedPassword = new BCryptPasswordEncoder().encode(data.password());
-        Estilista newUser = new Estilista(data.nome(), data.username(), data.email(), encryptedPassword,null,0, data.genero(),data.bio());
+        Estilista newUser = new Estilista(data.nome(), data.username(), data.email(), encryptedPassword,"",0, data.genero(),data.bio());
         return estilistaRepository.save(newUser);
     }
 
@@ -117,10 +117,11 @@ public class AuthService implements UserDetailsService {
     }
 
     public UserDetails saveUserImagePath(UploadProfileImageDto data) {
-        Cliente user = clienteRepository.getClienteByUsername(data.username());
-        user.setProfileImage(data.profile_image());
+        Cliente user = clienteRepository.getClienteByUsername(data.getUsername());
+        user.setProfileImage(data.getProfile_image().getOriginalFilename());
+        clienteRepository.save(user);
         try {
-            saveImage(data.profile_image());
+            saveImage(data.getProfile_image());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -143,14 +144,14 @@ public class AuthService implements UserDetailsService {
     }
 
 
-    public  Resource getImage( String username) {
+    public UrlResource getImage( String username) {
         try {
             Cliente user = clienteRepository.getClienteByUsername(username);
-            Path filePath = Paths.get(uploadDir).resolve(Objects.requireNonNull(user.getProfileImage().getOriginalFilename()));
-            UrlResource resource =  new UrlResource(filePath.toUri());
+            Path filePath = Paths.get(uploadDir).resolve(Objects.requireNonNull(user.getProfileImage()));
+            UrlResource resource = new UrlResource(filePath.toUri());
 
             if (resource.exists()) {
-                return (Resource) resource;
+                return resource;
             } else {
                 return null;
             }
