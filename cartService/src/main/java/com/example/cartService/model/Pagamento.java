@@ -72,6 +72,8 @@ public class Pagamento implements Serializable {
 		this.itemEncomendas.add(i);
 	}
 
+	public java.util.Set<ItemEncomenda> getitens(){return this.itemEncomendas;}
+
 	private void setIDPagamento(int value) {
 		this.IDPagamento = value;
 	}

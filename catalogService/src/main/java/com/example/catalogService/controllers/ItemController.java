@@ -240,5 +240,18 @@ public class ItemController {
     public List<TrendingItemDTO> getTrendingItems(@PathVariable int lojaid) {
         return itemService.getTrendingItems(lojaid);
     }
+
+    @PostMapping("/updateItems")
+    public ResponseEntity<?> freeItems(@RequestBody EncomendaDTO encomendaDTO) {
+        try {
+            itemService.updateItems(encomendaDTO);
+            return ResponseEntity.status(200).body("Items da encomenda foram libertados.");
+
+        }catch (Exception e){
+            return new ResponseEntity<>(new ErrorResponse(HttpStatus.BAD_REQUEST,e.getMessage()),HttpStatus.BAD_REQUEST);
+        }
+    }
+
+
 }
 

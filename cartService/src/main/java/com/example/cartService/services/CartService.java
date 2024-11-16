@@ -6,7 +6,10 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
 import com.example.cartService.dto.CartItemChangeQuantityDTO;
 import com.example.cartService.dto.CartItemDTO;
@@ -15,6 +18,8 @@ import com.example.cartService.dto.CartItemRemoveDTO;
 import com.example.cartService.dto.CartPaymentDTO;
 import com.example.cartService.dto.CartPaymentStatusChangeDTO;
 import com.example.cartService.dto.ClientCartDTO;
+import com.example.cartService.dto.FreeResourcesDTO;
+import com.example.cartService.dto.ItemDTO;
 import com.example.cartService.dto.PagamentoDTO;
 import com.example.cartService.exceptions.NoCartException;
 import com.example.cartService.exceptions.NoClientException;
@@ -43,9 +48,9 @@ public class CartService {
     private final CartRepository cartRepository;
     private final ClientCartMapper clientCartMapper;
     private final PagamentoRepository pagamentoRepository;
-    private final CartItemMapper cartItemMapper;
-
-   /* private final PayPalHttpClient payPalClient;
+    private final List<Thread> paymentThreads = new ArrayList<>();
+    private RestTemplate restTemplate;
+    /* private final PayPalHttpClient payPalClient;
     
     @Value("${paypal.client.id}")
     private String paypalClientId;
@@ -53,12 +58,12 @@ public class CartService {
     @Value("${paypal.client.secret}")
     private String paypalClientSecret;
 */
-    public CartService(ClientCartRepository clientCartRepository,PagamentoRepository pagamentoRepository ,CartRepository cartRepository, ClientCartMapper clientCartMapper, CartItemMapper cartItemMapper) {
+    public CartService(ClientCartRepository clientCartRepository,PagamentoRepository pagamentoRepository ,CartRepository cartRepository, ClientCartMapper clientCartMapper, RestTemplate restTemplate) {
         this.clientCartRepository = clientCartRepository;
         this.pagamentoRepository = pagamentoRepository;
         this.cartRepository = cartRepository;
         this.clientCartMapper = clientCartMapper;
-        this.cartItemMapper = cartItemMapper;
+        this.restTemplate = restTemplate;
 
         //PayPalEnvironment environment = new PayPalEnvironment.Sandbox(paypalClientId, paypalClientSecret);
         //this.payPalClient = new PayPalHttpClient(environment);
@@ -200,6 +205,8 @@ public class CartService {
                 .sum();
     }
 
+    @Transactional
+    @Async
     public void createPayment(CartPaymentDTO paymentInfo) throws NoClientException {
         Cliente cliente = clientCartRepository.getClienteByUsername(paymentInfo.getUsername());
         if (cliente == null) {
@@ -243,8 +250,7 @@ public class CartService {
 
         // Clear the cart after payment
         clearCart(paymentInfo.getUsername());
-
-
+        this.checkPayment(payment.getCodigo());
     }
 
     public Set<PagamentoDTO> getUserTransactions(String username) throws NoClientException {
@@ -275,6 +281,32 @@ public class CartService {
         payment.setStatus(paymentInfo.getStatus());
         clientCartRepository.save(cliente);
     }
+
+    @Transactional
+    @Async
+    public void checkPayment(String codigo) {
+        Thread t = new Thread(() -> {
+            try {
+                Thread.sleep(100000);
+                Pagamento p = pagamentoRepository.findByCode(codigo);
+                if(p.getStatus().equals("PENDING")) {
+                    pagamentoRepository.deleteById(p.getIDPagamento());
+                    String gatewayUrl = "http://localhost:8888/api/catalogoService/freeItems";
+                    restTemplate.postForObject(gatewayUrl, new FreeResourcesDTO(p.getitens().stream().map(x->new ItemDTO(x.getCodigo(),x.getIdLoja(),x.getQuantidade())).toList()), String.class);
+                }
+                this.paymentThreads.removeIf((x)->x.getName().equals(codigo));
+
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        });
+        t.setName(codigo);
+        this.paymentThreads.add(t);
+        t.start();
+    }
+
+
+
     /*
     public String processPayPalPayment(CartPaymentPaypalDTO paymentInfo) throws NoClientException, IOException {
         // Verify the client and cart

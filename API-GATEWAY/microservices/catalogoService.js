@@ -197,6 +197,28 @@ module.exports.getPerPriceNameItems = (name,min,max,page,number) =>{
     })
 }
 
+module.exports.freeItems = (items) => {
+    
+    return axios.post(`${ap}/updateItems`,
+        items,
+        {
+            headers: {
+                'Content-Type': 'application/json;charset=UTF-8',
+            }
+        }
+    ).then(resp=>{
+        return resp.data
+    }).catch(err=>{
+        if (err.response) {
+            throw { error: err.response.data };
+        }else {
+            throw err
+        }
+    })
+}
+
+
+
 module.exports.adicionaPeca = (codigo,designacao,
     preco,estilo,cores,tamanho,tipo,disponibilidade,imagem,
     idLoja,nrdisponiveis) => {

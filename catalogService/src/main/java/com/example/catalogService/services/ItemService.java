@@ -327,5 +327,18 @@ public class ItemService {
     public List<CatalogoItemDTO> getPerPriceNameItems(int page,int number,int min, int max,String name){
         return itemRepository.getItemsByPriceName(min,max,name.toUpperCase(),PageRequest.of(page, number)).stream().map(x->itemMapper.toCatalogoItemDTO(x)).collect(Collectors.toList());
     }
-    
+
+
+    public void updateItems(EncomendaDTO encomendaDTO) throws InexistentItemCodeException {
+        for(ItemEncomenda i : encomendaDTO.getItens()){
+            Optional<Item> itemOptional = checkIfItemCodeAlreadyExists(i.getCodigo(),i.getIdloja());
+            if(itemOptional.isEmpty()) throw new InexistentItemCodeException(i.getCodigo());
+            Item oldItem = itemOptional.get();
+            System.out.println("updating item "+oldItem.getCodigo());
+            int newavailable = oldItem.getNrDisponiveis()+i.getQuantidade();
+            oldItem.setNrDisponiveis(newavailable);
+            oldItem.setDisponibilidade("In Stock");
+            itemRepository.save(oldItem);
+        }
+    }
 }
