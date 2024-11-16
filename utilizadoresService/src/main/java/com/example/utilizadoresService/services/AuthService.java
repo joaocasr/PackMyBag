@@ -7,6 +7,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -74,6 +75,10 @@ public class AuthService implements UserDetailsService {
         this.estilistaRepository = estilistaRepository;
         this.tecnicoRepository = tecnicoRepository;
         this.estilistamapper = estilistamapper;
+    }
+
+    public String getUploadDir() {
+        return uploadDir;
     }
 
     public UserDetails signUpTecnico(SignUpTecnicoDto data) throws InvalidJwtException, InexistentLojaException {
@@ -163,4 +168,43 @@ public class AuthService implements UserDetailsService {
     public UserDetails loadStylistByUsername(String username) throws UsernameNotFoundException {
         return estilistaRepository.getClienteByUsername(username);
     }
+
+
+
+    public UserDetails editProfile(String username, String newName, String newEmail, String newProfileImage, Map<String, Object> additionalFields) {
+        Optional<Cliente> userOptional = Optional.ofNullable(clienteRepository.getClienteByUsername(username));
+        if (userOptional.isEmpty()) {
+            throw new UsernameNotFoundException("User not found with username: " + username);
+        }
+
+        Cliente user = userOptional.get();
+
+        // Common fields for all users
+        user.setNome(newName != null ? newName : user.getNome());
+        user.setEmail(newEmail != null ? newEmail : user.getEmail());
+        user.setProfileImage(newProfileImage != null ? newProfileImage : user.getProfileImage());
+
+        // Handle type-specific fields
+        if (user instanceof Tecnico tecnico) {
+            if (additionalFields.containsKey("lojaId")) {
+                Long lojaId = (Long) additionalFields.get("lojaId");
+                Loja loja = lojaRepository.findById(Math.toIntExact(lojaId)).orElseThrow(() -> new IllegalArgumentException("Invalid Loja ID"));
+                tecnico.setLoja(loja);
+            }
+        } else if (user instanceof NormalCliente normalCliente) {
+            normalCliente.setMorada((String) additionalFields.getOrDefault("morada", normalCliente.getMorada()));
+            normalCliente.setNrTelemovel((String) additionalFields.getOrDefault("nrTelemovel", normalCliente.getNrTelemovel()));
+            normalCliente.setGenero((String) additionalFields.getOrDefault("genero", normalCliente.getGenero()));
+        } else if (user instanceof Estilista estilista) {
+            estilista.setBio((String) additionalFields.getOrDefault("bio", estilista.getBio()));
+            estilista.setGenero((String) additionalFields.getOrDefault("genero", estilista.getGenero()));
+        }
+        return clienteRepository.save(user);
+    }
+
+
+    public Cliente getUserInfo(String username) {
+        return clienteRepository.getClienteByUsername(username);
+    }
+
 }

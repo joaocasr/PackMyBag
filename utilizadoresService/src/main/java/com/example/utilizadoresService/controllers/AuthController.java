@@ -7,9 +7,13 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
+import java.util.Map;
 
 import com.example.utilizadoresService.Exceptions.InexistentImage;
 import com.example.utilizadoresService.dtos.*;
+import com.example.utilizadoresService.model.Estilista;
+import com.example.utilizadoresService.model.NormalCliente;
+import com.example.utilizadoresService.model.Tecnico;
 import com.example.utilizadoresService.repositories.ClienteRepository;
 import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +26,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
@@ -138,6 +143,62 @@ public class AuthController {
                 .contentType(MediaType.IMAGE_JPEG)
                 .body(service.getImage(username));
     }
+
+
+
+
+    @GetMapping("/userinfo/{username}")
+    public ResponseEntity<?> getUserInfo(@PathVariable String username) {
+        try {
+            Cliente user = service.getUserInfo(username);
+
+
+            if (user instanceof Tecnico tecnico) {
+                return ResponseEntity.ok(new TecnicoDto(tecnico.getUsername(), tecnico.getProfileImage(), tecnico.getNome(), tecnico.getLoja()));
+            } else if (user instanceof NormalCliente normalCliente) {
+                return ResponseEntity.ok(new NormalClienteDto(normalCliente.getUsername(), normalCliente.getProfileImage(), normalCliente.getNome(), normalCliente.getMorada(), normalCliente.getCartaoCredito(), normalCliente.getNrTelemovel(), normalCliente.getGenero()));
+            } else if (user instanceof Estilista estilista) {
+                return ResponseEntity.ok(new EstilistaDto(estilista.getUsername(), estilista.getProfileImage(), estilista.getNome(), estilista.getBio(), estilista.getRating()));
+            } else {
+                return ResponseEntity.ok(user);
+            }
+        } catch (UsernameNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
+
+
+    @PostMapping("/edit-profile")
+    public ResponseEntity<?> editProfile(@RequestBody EditProfileDto data) {
+        try {
+            String profileImagePath = null;
+
+            // Handle profile image upload via UploadProfileImageDto
+            if (data.newProfileImage() != null && !data.newProfileImage().isEmpty()) {
+                UploadProfileImageDto uploadDto = new UploadProfileImageDto(data.username(), data.newProfileImage());
+                UserDetails updatedUser = service.saveUserImagePath(uploadDto); // Save image and update path
+                profileImagePath = updatedUser instanceof Cliente ? ((Cliente) updatedUser).getProfileImage() : null;
+            }
+
+            // Update other user details
+            UserDetails updatedUser = service.editProfile(
+                    data.username(),
+                    data.newName(),
+                    data.newEmail(),
+                    profileImagePath,
+                    data.additionalFields()
+            );
+
+            return ResponseEntity.ok("Profile updated successfully for user: " + updatedUser.getUsername());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Error updating profile: " + e.getMessage());
+        }
+    }
+
+
+
+
 
 
 
