@@ -2572,7 +2572,7 @@ VALUES
     ('M',1264);
 
 
-CREATE TABLE IF NOT EXISTS 'set' (
+CREATE TABLE IF NOT EXISTS "set" (
     nr_pecas integer NOT NULL,
     tamanho character varying(255),
     itemiditem integer NOT NULL,
@@ -2629,7 +2629,7 @@ CREATE TABLE IF NOT EXISTS set_peca (
     set_itemiditem integer NOT NULL,
     CONSTRAINT set_peca_pkey PRIMARY KEY (peca_itemiditem, set_itemiditem),
     CONSTRAINT fkafkbb3mg8fbyassutlr02o2kx FOREIGN KEY (peca_itemiditem) REFERENCES peca (itemiditem),
-    CONSTRAINT fkcic43882h9qvxr18uvtkdqpsj FOREIGN KEY (set_itemiditem) REFERENCES 'set' (itemiditem)
+    CONSTRAINT fkcic43882h9qvxr18uvtkdqpsj FOREIGN KEY (set_itemiditem) REFERENCES "set" (itemiditem)
 );
 
 INSERT INTO set_peca (peca_itemiditem, set_itemiditem)

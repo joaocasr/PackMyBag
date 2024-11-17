@@ -2,7 +2,10 @@ var express = require('express')
 var router = express.Router();
 var utilizadoresService = require('../microservices/utilizadoresService')
 const validate = require('../middleware/index')
-
+const multer = require('multer');
+const FormData = require('form-data');
+const fs = require('fs');
+const upload = multer();
 
 router.post('/signin', async function(req,res,next){
     const username = req.body.username;
@@ -90,5 +93,34 @@ router.get('/profileImg/:username', async function(req,res,next){
     }
 });
 
+
+router.get('/profileInfo/:username', async function(req,res,next){
+    try {
+        const username = req.params.username;
+        const resp = await utilizadoresService.getProfileInfo(username);
+        res.send(resp); 
+    } catch (err) {
+        res.status(err.status || 500).jsonp(err.error || "Internal Server Error");
+    }
+});
+
+
+router.post('/updateImage', upload.single('profile_image'), async function(req,res,next){
+    try {
+
+        const form = new FormData();
+        
+        form.append('profile_image', fs.createReadStream(req.file.originalname), {
+            filename: req.file.originalname, 
+            contentType: req.file.mimetype   
+        });
+        form.append('username', req.body.username);
+        
+        const resp = await utilizadoresService.saveImage(form);
+        res.send(resp); 
+    } catch (err) {
+        res.status(err.status || 500).jsonp(err.error || "Internal Server Error");
+    }
+});
 
 module.exports = router;

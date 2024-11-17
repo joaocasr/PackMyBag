@@ -14,7 +14,7 @@
   delay: 5
 
 - name: Retrieve external IP
-  shell: "kubectl get service apigateway-service --output=wide | grep apigateway-service | awk '{print $3}'"
+  shell: "kubectl get service apigateway-container --output=wide | grep apigateway-container | awk '{print $3}'"
   register: gateway_ip
   until: 
     - gateway_ip.stdout != ""

@@ -74,7 +74,7 @@ class AuthService{
         if(user==null) return null;
         let decoded= jwtDecode(JSON.parse(user).accessToken);
         if(decoded.exp < (Date.now()/1000)){
-            auth.state.status.loggedIn=false;
+            this.logout();
             return null;
         }
         else{

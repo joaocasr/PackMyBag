@@ -53,7 +53,7 @@
 									<option v-if="token==null" value="login">Login</option>
 									<option v-if="this.role=='Cliente'">My Notifications</option>
 									<option v-if="this.role=='Cliente'" value="payments">Payments</option>
-									<option>Profile</option>
+									<option v-if="token!==null" value="profile">Profile</option>
 								</select>
 							</div>
 							<div v-if="token!=null" class="welcomeclass">Hello, {{username}}!
@@ -118,7 +118,10 @@ export default {
 		},
 		gotoPayments(){
 			this.$router.push({path:'/payments'})
-		},	
+		},
+		gotoprofile(){
+			this.$router.push({path:'/profile'})
+		},
 		logout(){
 			this.$store.dispatch('auth/logout').then(()=>{
 				this.token=null;
@@ -132,6 +135,7 @@ export default {
 			let val = event.target.value;
 			if(val==='login') this.gotoLogin();
 			if(val==='logout') this.logout();
+			if(val==='profile') this.gotoprofile();
 			if(val==='payments') this.gotoPayments();
 		},
 		handleSearch(){

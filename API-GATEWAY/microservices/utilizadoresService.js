@@ -138,3 +138,36 @@ module.exports.getProfileImg = async (username) =>{
         }
     }
 }
+
+module.exports.getProfileInfo = async (username) =>{
+    try {
+        const resp = await axios.get(`${ap}/userinfo/${username}`);
+        return resp.data;
+    } catch (err) {
+        if (err.response) {
+            throw { error: err.response.data, status: err.response.status };
+        } else {
+            throw { error: "Unknown error", status: 500 };
+        }
+    }
+}
+
+module.exports.saveImage = async (form) => {
+    try {
+      const resp = await axios.post(`${ap}/image`, 
+        form, 
+        {
+            headers: {
+                ...form.getHeaders()
+            }
+        }    
+    );
+      return resp.data;
+    } catch (err) {
+      if (err.response) {
+        throw { error: err.response.data, status: err.response.status };
+      } else {
+        throw { error: "Unknown error", status: 500 };
+      }
+    }
+  };

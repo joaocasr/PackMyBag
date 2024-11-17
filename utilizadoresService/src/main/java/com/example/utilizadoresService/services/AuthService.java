@@ -12,21 +12,16 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import com.example.utilizadoresService.dtos.*;
-import com.example.utilizadoresService.model.*;
-import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.utilizadoresService.Exceptions.InexistentLojaException;
 import com.example.utilizadoresService.Exceptions.InvalidJwtException;
@@ -34,7 +29,9 @@ import com.example.utilizadoresService.dtos.EstilistaDto;
 import com.example.utilizadoresService.dtos.SignUpEstilistaDto;
 import com.example.utilizadoresService.dtos.SignUpTecnicoDto;
 import com.example.utilizadoresService.dtos.SignUpUserDto;
+import com.example.utilizadoresService.dtos.UploadProfileImageDto;
 import com.example.utilizadoresService.mapper.EstilistaMapper;
+import com.example.utilizadoresService.model.Cliente;
 import com.example.utilizadoresService.model.Estilista;
 import com.example.utilizadoresService.model.Loja;
 import com.example.utilizadoresService.model.NormalCliente;
@@ -44,8 +41,6 @@ import com.example.utilizadoresService.repositories.EstilistaRepository;
 import com.example.utilizadoresService.repositories.LojaRepository;
 import com.example.utilizadoresService.repositories.NormalClienteRepository;
 import com.example.utilizadoresService.repositories.TecnicoRepository;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class AuthService implements UserDetailsService {
@@ -123,10 +118,11 @@ public class AuthService implements UserDetailsService {
 
     public UserDetails saveUserImagePath(UploadProfileImageDto data) {
         Cliente user = clienteRepository.getClienteByUsername(data.getUsername());
-        user.setProfileImage(data.getProfile_image().getOriginalFilename());
+
+        if(data.getProfile_image()!=null) user.setProfileImage(data.getProfile_image().getOriginalFilename());
         clienteRepository.save(user);
         try {
-            saveImage(data.getProfile_image());
+            saveImage(data.getProfile_image(),data.getUsername());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -135,8 +131,8 @@ public class AuthService implements UserDetailsService {
 
     }
 
-    private String saveImage(MultipartFile file) throws IOException {
-        Path uploadPath = Paths.get(uploadDir);
+    private String saveImage(MultipartFile file,String username) throws IOException {
+        Path uploadPath = Paths.get(uploadDir+"/"+username);
         if (!Files.exists(uploadPath)) {
             Files.createDirectories(uploadPath);
         }
@@ -152,7 +148,7 @@ public class AuthService implements UserDetailsService {
     public UrlResource getImage( String username) {
         try {
             Cliente user = clienteRepository.getClienteByUsername(username);
-            Path filePath = Paths.get(uploadDir).resolve(Objects.requireNonNull(user.getProfileImage()));
+            Path filePath = Paths.get(uploadDir+"/"+username).resolve(Objects.requireNonNull(user.getProfileImage()));
             UrlResource resource = new UrlResource(filePath.toUri());
 
             if (resource.exists()) {
