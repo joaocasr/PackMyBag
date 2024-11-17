@@ -1,0 +1,57 @@
+.group {
+    position: relative;
+    width: 970px;
+    height: 184px;
+    background-color: #f4f2f2;
+    border-radius: 30px;
+}
+
+.group .text-wrapper {
+    width: 547px;
+    top: 38px;
+    left: 53px;
+    font-family: "Inter-Regular", Helvetica;
+    font-size: 32px;
+    letter-spacing: 4.80px;
+    line-height: 10px;
+    position: absolute;
+    font-weight: 400;
+    color: #000000;
+}
+
+.group .div {
+    width: 549px;
+    top: 89px;
+    left: 63px;
+    font-family: "Raleway-Regular", Helvetica;
+    font-size: 24px;
+    letter-spacing: 0;
+    line-height: 18px;
+    position: absolute;
+    font-weight: 400;
+    color: #000000;
+}
+
+.group .trash-icon {
+    position: absolute;
+    width: 32px;
+    height: 40px;
+    top: 72px;
+    left: 759px;
+    object-fit: cover;
+}
+
+.group .text-wrapper-2 {
+    position: absolute;
+    width: 176px;
+    height: 22px;
+    top: 16px;
+    left: 691px;
+    font-family: var(--semibold-16-font-family);
+    font-weight: var(--semibold-16-font-weight);
+    color: #000000;
+    font-size: var(--semibold-16-font-size);
+    letter-spacing: var(--semibold-16-letter-spacing);
+    line-height: var(--semibold-16-line-height);
+    font-style: var(--semibold-16-font-style);
+}

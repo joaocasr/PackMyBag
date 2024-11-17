@@ -82,4 +82,38 @@ router.post('/addInterested', validateToken.verifyToken, async function(req,res,
     }
 })
 
+router.get('/getmyNotifications/:username/:page/:number', async function(req,res,next){
+    const username = req.params.username;
+    const page = req.query.page;
+    const number = req.query.number;
+    try {
+        const resp = await notificacoesService.getMyNotifications(username,page,number);
+        res.jsonp(resp);
+    } catch (err) {
+        res.status(err.status || 500).jsonp(err);
+    }
+});
+
+router.delete('/removeMyNotification/:username/:id', async function(req,res,next){
+    const username = req.params.username;
+    const id = req.params.id;
+    try {
+        const resp = await notificacoesService.removeNotificationFromClientByID(username,id);
+        res.jsonp(resp);
+    } catch (err) {
+        res.status(err.status || 500).jsonp(err);
+    }
+});
+
+router.delete('/clearNotifications/:username', async function(req,res,next){
+    const username = req.params.username;
+    try {
+        const resp = await notificacoesService.clearNotifications(username);
+        res.jsonp(resp);
+    } catch (err) {
+        res.status(err.status || 500).jsonp(err);
+    }
+});
+
+
 module.exports = router;

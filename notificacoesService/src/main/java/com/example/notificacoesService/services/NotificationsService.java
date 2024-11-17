@@ -6,7 +6,10 @@ import com.example.notificacoesService.repositories.ClienteRepository;
 import com.example.notificacoesService.repositories.EncomendaRepository;
 import com.example.notificacoesService.repositories.ItemRepository;
 import com.example.notificacoesService.repositories.NotificacaoRepository;
+import org.springframework.data.domain.Page;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +17,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Set;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
@@ -30,6 +34,7 @@ public class NotificationsService implements NotificationCallback {
     private EncomendaRepository encomendaRepository;
     private RestTemplate restTemplate;
 
+    @Autowired
     public NotificationsService(ClienteRepository clienteRepository,ItemRepository itemRepository,NotificacaoRepository notificacaoRepository,RestTemplate restTemplate, EncomendaRepository encomendaRepository){
         this.clienteRepository = clienteRepository;
         this.itemRepository = itemRepository;
@@ -114,6 +119,16 @@ public class NotificationsService implements NotificationCallback {
     }
 
     @Transactional
+    public void removeNotificationFromClientByID(String username, Integer codigo){
+        Optional<Cliente> c = clienteRepository.getClienteByUsername(username);
+        if(c.isPresent()){
+            Cliente cliente = c.get();
+            cliente.removeNotificationByID(codigo);
+            clienteRepository.save(cliente);
+        }
+    }
+
+    @Transactional
     public void clearNotificationsFromClient(String username){
         Optional<Cliente> c = clienteRepository.getClienteByUsername(username);
         if(c.isPresent()){
@@ -124,14 +139,11 @@ public class NotificationsService implements NotificationCallback {
     }
 
     @Transactional
-    public List<NotificationDTO> getAllNotificationsFromClient(String username){
-        Optional<Cliente> c = clienteRepository.getClienteByUsername(username);
-        Set<Notificacao> notif = new HashSet<>();
-        if(c.isPresent()){
-            Cliente cliente = c.get();
-            notif = cliente.getNotificacoes();
-        }
-        return notif.stream().map(x -> new NotificationDTO(x.getTipo(),x.getDescricao(),x.getData())).collect(Collectors.toList());
+    public List<NotificationDTO> getAllNotificationsFromClient(String username, int page, int number){
+        Page<Notificacao> p = notificacaoRepository.getNotificationsUser(username,PageRequest.of(page,number));
+        if(p.getSize()>0) return p.stream().map(x->new NotificationDTO(x.getTipo(),x.getDescricao(),x.getData(),x.getIDNotificacao())).toList();    
+        List<NotificationDTO> l = new ArrayList<>();
+        return l;
     }
 
     @Transactional

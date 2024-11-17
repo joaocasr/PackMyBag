@@ -10,4 +10,6 @@ public interface ClienteRepository extends JpaRepository<Cliente,Integer> {
 
     @Query("select c from Cliente c where c.username=:username")
     Optional<Cliente> getClienteByUsername(@Param("username") String username);
+
+
 }

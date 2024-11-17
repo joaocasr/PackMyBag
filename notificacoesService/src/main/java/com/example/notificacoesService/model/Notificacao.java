@@ -41,10 +41,14 @@ public class Notificacao implements Serializable {
 	@Column(name="Data", nullable=true, length=255)
 	private String data;
 
-	public Notificacao(String tipo, String descricao, String data) {
+	@Column(name="ID", nullable=true, length=255)
+	private Integer id;
+
+	public Notificacao(String tipo, String descricao, String data, Integer id) {
 		this.tipo = tipo;
 		this.descricao = descricao;
 		this.data = data;
+		this.id = id;
 	}
 
 	public Notificacao(Cliente cliente, String tipo, String descricao, String data) {

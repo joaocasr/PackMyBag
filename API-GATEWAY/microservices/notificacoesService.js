@@ -24,3 +24,42 @@ module.exports.addInterested = async (codigo,designacao,disponibilidade,idLoja,u
         }
     }
 }
+
+module.exports.getMyNotifications = async (username,page,number) =>{
+    try{
+        const resp = await axios.get(`${ap}/getAllNotificationsFromClient/${username}/${page}/${number}`);
+        return resp.data;
+    }catch(err){
+        if (err.response) {
+            throw { error: err.response.data, status: err.response.status };
+        } else {
+            throw { error: "Unknown error", status: 500 };
+        }
+    }
+}
+
+module.exports.removeMyNotification = async (username, id) =>{
+    try{
+        const resp = await axios.delete(`${ap}/removeNotificationFromClientByID/${username}/${id}`);
+        return resp.data;
+    }catch(err){
+        if (err.response) {
+            throw { error: err.response.data, status: err.response.status };
+        } else {
+            throw { error: "Unknown error", status: 500 };
+        }
+    }
+}
+
+module.exports.clearNotifications = async (username) =>{
+    try{
+        const resp = await axios.delete(`${ap}/clearNotificationsFromClient/${username}`);
+        return resp.data;
+    }catch(err){
+        if (err.response) {
+            throw { error: err.response.data, status: err.response.status };
+        } else {
+            throw { error: "Unknown error", status: 500 };
+        }
+    }
+}
