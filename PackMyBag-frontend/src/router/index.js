@@ -14,6 +14,7 @@ import OrderView from '@/views/OrderView.vue'
 import OrderDetailsView from '@/views/OrderDetailsView.vue'
 import PaymentsView from '@/views/PaymentsView.vue'
 import AddFootWear from '@/views/AddFootWear.vue'
+import ProfileView from '@/views/ProfileView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -79,6 +80,11 @@ const router = createRouter({
       path: '/login',
       name: 'login',
       component: LoginView
+    },
+    {
+      path: '/profile',
+      name: 'profile',
+      component: ProfileView
     },
     {
       path: '/stylists',

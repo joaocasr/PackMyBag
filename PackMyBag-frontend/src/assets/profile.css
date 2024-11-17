@@ -1,0 +1,162 @@
+.profile-page {
+    max-width: 800px;
+    margin: 150px auto;
+    border: 1px solid #e0e0e0;
+    border-radius: 15px;
+    padding: 30px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  .profile-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .profile-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+  }
+  
+  .avatar {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    overflow: hidden;
+    cursor: pointer;
+    border: 4px solid #0f205a;
+    position: relative;
+    transition: transform 0.3s;
+  }
+  
+  .avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .avatar-overlay {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    font-size: 18px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  
+  .avatar:hover .avatar-overlay {
+    opacity: 1;
+  }
+  
+  .file-input {
+    display: none;
+  }
+  
+  .save-button {
+    margin-top: 15px;
+    padding: 10px 20px;
+    background-color: #0f205a;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s, box-shadow 0.3s;
+  }
+  
+  .save-button:hover {
+    background-color: #0f205a;
+    box-shadow: 0 4px 10px rgba(98, 0, 234, 0.3);
+  }
+  
+  .profile-info {
+    width: 100%;
+    margin-top: 20px;
+    display: grid;
+    gap: 15px;
+  }
+  
+  .profile-info-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: black;
+  }
+  
+  .field-container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    position: relative;
+    color: black;
+  }
+  
+  .field-value {
+    padding: 10px;
+    flex-grow: 1;
+  }
+  .pencil{
+    width:100px;
+  }
+  .field-input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    font-size: 14px;
+    flex-grow: 1;
+  }
+  
+.edit-button {
+    background: none;
+    background-image: url('/ProfileIMG/pencil.jpg');
+    width: 40px;
+    height: 40px;
+    border-width: 1px;
+    border-color: black;
+    border-radius: 10px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    cursor: pointer;
+}
+  
+  .edit-button:hover {
+    color: #0f205a;
+  }
+  
+  .fa-pencil {
+    font-size: 18px;
+    color: #0f205a;
+  }
+
+  .footer {
+    position: absolute;
+    height: 65%;
+    width: 100%;
+    top: 0%;
+    right: 0%;
+    bottom: 0%;
+    left: 0%;
+    background-color: #111827;
+    overflow: hidden;
+}
+.myfooter {
+    position: absolute;
+    top: 2669px;
+    left: 0px;
+    background-color: #f7f7f7;
+    width: 1535px;
+    height: 340px;
+    font-size: 16px;
+    color: #fff;
+    font-family: Poppins;
+}

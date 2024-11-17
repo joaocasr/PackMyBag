@@ -12,7 +12,7 @@ spec:
         app: apigateway
     spec:
       containers:
-        - name: apigateway-container
+        - name: apigatewaycontainer
           image: joaoppc2002/apigateway:latest
           env:
             - name: UTILIZADORES_SERVICE_URL

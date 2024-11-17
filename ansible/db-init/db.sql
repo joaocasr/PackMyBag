@@ -1,10 +1,10 @@
-CREATE DATABASE utilizadores;
 CREATE DATABASE catalogo;
 CREATE DATABASE favoritos;
-CREATE DATABASE encomendas;
+CREATE DATABASE encomenda;
 CREATE DATABASE cart;
 CREATE DATABASE notificacoes;
 CREATE DATABASE recomendacoes;
+
 
 \c utilizadores;
 
@@ -36,6 +36,13 @@ INCREMENT BY 50
 MINVALUE 1
 NO MAXVALUE
 CACHE 1;
+
+CREATE TABLE IF NOT EXISTS loja (
+    idloja integer PRIMARY KEY,
+    localizacao character varying(255),
+    marca character varying(255),
+    nome character varying(255)
+);
 
 INSERT INTO loja (idloja, localizacao, marca, nome)
 VALUES
@@ -2573,7 +2580,7 @@ VALUES
     ('M',1264);
 
 
-CREATE TABLE IF NOT EXISTS 'set' (
+CREATE TABLE IF NOT EXISTS "set" (
     nr_pecas integer NOT NULL,
     tamanho character varying(255),
     itemiditem integer NOT NULL,
@@ -2630,7 +2637,7 @@ CREATE TABLE IF NOT EXISTS set_peca (
     set_itemiditem integer NOT NULL,
     CONSTRAINT set_peca_pkey PRIMARY KEY (peca_itemiditem, set_itemiditem),
     CONSTRAINT fkafkbb3mg8fbyassutlr02o2kx FOREIGN KEY (peca_itemiditem) REFERENCES peca (itemiditem),
-    CONSTRAINT fkcic43882h9qvxr18uvtkdqpsj FOREIGN KEY (set_itemiditem) REFERENCES 'set' (itemiditem)
+    CONSTRAINT fkcic43882h9qvxr18uvtkdqpsj FOREIGN KEY (set_itemiditem) REFERENCES "set" (itemiditem)
 );
 
 INSERT INTO set_peca (peca_itemiditem, set_itemiditem)
