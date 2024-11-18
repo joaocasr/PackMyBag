@@ -51,7 +51,8 @@
 								<select class="selectClass" v-bind:style="{backgroundImage:profileImg}" @change="onChange($event)" v-model="selected">
 									<option v-if="token!=null" value="logout">Logout</option>
 									<option v-if="token==null" value="login">Login</option>
-									<option v-if="this.role=='Cliente'">My Notifications</option>
+									<option v-if="this.role=='Cliente'" value="notifications">My Notifications</option>
+									<option v-if="this.role=='Estilista'" value="requests">My Requests</option>
 									<option v-if="this.role=='Cliente'" value="payments">Payments</option>
 									<option v-if="token!==null" value="profile">Profile</option>
 								</select>
@@ -113,8 +114,12 @@ export default {
 		},
 		gotoCart(){
 			this.$router.push({path:'/cart'})
-			//const url = new URL('/cart', window.location.origin)
-			//window.location.href = url.toString()
+		},
+		goToNotifications(){
+			this.$router.push({path:'/notifications'})
+		},
+		goToRequests(){
+			this.$router.push({path:'/requests'})
 		},
 		gotoPayments(){
 			this.$router.push({path:'/payments'})
@@ -136,6 +141,8 @@ export default {
 			if(val==='login') this.gotoLogin();
 			if(val==='logout') this.logout();
 			if(val==='profile') this.gotoprofile();
+			if(val==='notifications') this.goToNotifications();
+			if(val==='requests') this.goToRequests();
 			if(val==='payments') this.gotoPayments();
 		},
 		handleSearch(){

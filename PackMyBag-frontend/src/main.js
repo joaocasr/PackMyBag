@@ -25,4 +25,6 @@ app.use(PrimeVue, {
 app.use(VueSweetalert2);
 app.use(VuePhoneNumberInput);
 
+app.config.globalProperties.$apiGatewayUrl = import.meta.env.VITE_GATEWAY_DOMAIN;
+
 app.mount('#app')

@@ -15,6 +15,8 @@ import OrderDetailsView from '@/views/OrderDetailsView.vue'
 import PaymentsView from '@/views/PaymentsView.vue'
 import AddFootWear from '@/views/AddFootWear.vue'
 import ProfileView from '@/views/ProfileView.vue'
+import ClientNotificationsView from '@/views/ClientNotificationsView.vue'
+import StylistsRequestsView from '@/views/StylistsRequestsView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -41,6 +43,16 @@ const router = createRouter({
       path: '/about',
       name: 'about',
       component: AboutView
+    },
+    {
+      path: '/notifications',
+      name: 'notifications',
+      component: ClientNotificationsView
+    },
+    {
+      path: '/requests',
+      name: 'requests',
+      component: StylistsRequestsView
     },
     {
       path: '/items/:id',

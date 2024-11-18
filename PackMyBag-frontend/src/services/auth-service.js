@@ -3,14 +3,16 @@ import { jwtDecode } from "jwt-decode";
 import { auth } from '@/store/auth-module';
 //const API_URL = "http://apigateway-service/api/utilizadoresService/"
 
-const API_URL = "http://localhost:8888/api/utilizadoresService/"
 const headers = {
     'Content-Type': 'application/json',
 }
 
 class AuthService{
+    constructor() {
+        this.API_URL = import.meta.env.VITE_GATEWAY_DOMAIN + "/api/utilizadoresService/"
+    }
     async login(user){
-        let response = await axios.post(API_URL+"signin",
+        let response = await axios.post(this.API_URL+"signin",
             {
                 username: user.username,
                 password: user.password
@@ -27,7 +29,7 @@ class AuthService{
         localStorage.removeItem('user');
     };
     async signUpUser(user){
-        let response = await axios.post(API_URL+"signup/user",
+        let response = await axios.post(this.API_URL+"signup/user",
             {
                 username: user.username,
                 password: user.password,
@@ -42,7 +44,7 @@ class AuthService{
         return response;
     };
     async signUpEstilista(estilista){
-        let response = await axios.post(API_URL+"signup/estilista",
+        let response = await axios.post(this.API_URL+"signup/estilista",
             {
                 username: estilista.username,
                 password: estilista.password,
@@ -56,7 +58,7 @@ class AuthService{
         return response;
     };
     async signUpTecnico(tecnico){
-        let response = await axios.post(API_URL+"signup/tecnico",
+        let response = await axios.post(this.API_URL+"signup/tecnico",
             {
                 username: tecnico.username,
                 nome: tecnico.nome,

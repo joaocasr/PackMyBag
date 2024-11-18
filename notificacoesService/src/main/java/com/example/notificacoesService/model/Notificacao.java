@@ -13,7 +13,19 @@ package com.example.notificacoesService.model; /**
  */
 
 import java.io.Serializable;
-import jakarta.persistence.*;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.ForeignKey;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinColumns;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
 @Entity
 @org.hibernate.annotations.Proxy(lazy=false)
 @Table(name="Notificacao")
@@ -40,16 +52,6 @@ public class Notificacao implements Serializable {
 
 	@Column(name="Data", nullable=true, length=255)
 	private String data;
-
-	@Column(name="ID", nullable=true, length=255)
-	private Integer id;
-
-	public Notificacao(String tipo, String descricao, String data, Integer id) {
-		this.tipo = tipo;
-		this.descricao = descricao;
-		this.data = data;
-		this.id = id;
-	}
 
 	public Notificacao(Cliente cliente, String tipo, String descricao, String data) {
 		this.cliente = cliente;

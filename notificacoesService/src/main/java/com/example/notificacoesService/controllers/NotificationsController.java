@@ -43,13 +43,13 @@ public class NotificationsController {
         return notificationsService.getAllNotificationsFromClient(username,page,number);
     }
 
-    @DeleteMapping("/removeNotificationFromClientByID/{username}")
-    public void removeNotificationFromClientByID(@RequestParam String username, @RequestParam Integer codigo){
+    @DeleteMapping("/removeNotificationFromClientByID/{username}/{codigo}")
+    public void removeNotificationFromClientByID(@PathVariable String username, @PathVariable Integer codigo){
         notificationsService.removeNotificationFromClientByID(username,codigo);
     }
 
     @DeleteMapping("/clearNotificationsFromClient/{username}")
-    public void clearNotificationsFromClient(@RequestParam String username){
+    public void clearNotificationsFromClient(@PathVariable String username){
         notificationsService.clearNotificationsFromClient(username);
     }
 

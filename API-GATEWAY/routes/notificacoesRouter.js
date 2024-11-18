@@ -82,7 +82,7 @@ router.post('/addInterested', validateToken.verifyToken, async function(req,res,
     }
 })
 
-router.get('/getmyNotifications/:username/:page/:number', async function(req,res,next){
+router.get('/getmyNotifications/:username', async function(req,res,next){
     const username = req.params.username;
     const page = req.query.page;
     const number = req.query.number;

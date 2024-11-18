@@ -42,7 +42,78 @@
     letter-spacing: 0;
     line-height: normal;
 }
+.notificationspage-inner{
+    margin-top: 140px;
+}
+.notificationspage-child{
+    color: #1e1e1e;
+    margin-left: 100px;
+    font-size: 22px;
+}
 
+.notificationspage-item{
+    margin-left: 240px;
+    margin-top: -32px;
+    position: absolute;
+}
+.footer {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0%;
+    right: 0%;
+    bottom: 0%;
+    left: 0%;
+    background-color: #111827;
+    overflow: hidden;
+}
+.notificacoescontainer{
+    margin-top:100px;
+    margin-left:300px;
+}
+.parent {
+    position: absolute;
+    top: 1350px;
+    left: 700px;
+    width: 177px;
+    height: 39px;
+    text-align: left;
+    font-size: 24px;
+}
+.dividx{
+    color:black;
+}
+.group-item1 {
+    position: absolute;
+    height: 35px;
+    top: 4%;
+    bottom: 30%;
+    left: calc(50% - 140px);
+    max-height: 100%;
+    width: 35px;
+    object-fit: contain;
+}
+.group-item2 {
+    position: absolute;
+    height: 40px;
+    top: 3%;
+    bottom: 30%;
+    left: calc(50% - 0px);
+    max-height: 100%;
+    width: 40px;
+    object-fit: contain;
+}
+.myfooter {
+    position: absolute;
+    top: 2669px;
+    left: 0px;
+    background-color: #f7f7f7;
+    width: 1535px;
+    height: 340px;
+    font-size: 16px;
+    color: #fff;
+    font-family: Poppins;
+}
 .notifications-page .footer {
     position: absolute;
     width: 1535px;
@@ -51,7 +122,13 @@
     left: 0;
     background-color: #f6f6f6;
 }
-
+.notifications-line {
+    position: absolute;
+    top: 200px;
+    left: 68px;
+    max-height: 100%;
+    width: 1389px;
+}
 .notifications-page .footer-2 {
     position: relative;
     height: 440px;

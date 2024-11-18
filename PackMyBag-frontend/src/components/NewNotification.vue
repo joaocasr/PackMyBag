@@ -2,7 +2,7 @@
     <div class="group">
         <div class="text-wrapper">{{ tipo }}</div>
         <p class="div">{{ descricao }}!</p>
-        <img class="trash-icon" @click="deleteNotification" src="img/trash-icon-9-1540048380-removebg-preview-1.png" />
+        <img class="trash-icon" @click="deleteNotification" src="/NotificationsIMG/trash.png" />
         <div class="text-wrapper-2">{{ data }}</div>
     </div>
 </template>
@@ -13,7 +13,7 @@ export default {
         tipo:String,
         descricao:String,
         data:String,
-        id:Integer
+        id:Number
     },
     methods:{
         deleteNotification(){
@@ -26,5 +26,5 @@ export default {
 
 
 <style lang="css" scoped>
-    @import '../assets/newcomponent.css';
+    @import '../assets/newnotification.css';
 </style>

@@ -27,7 +27,7 @@ module.exports.addInterested = async (codigo,designacao,disponibilidade,idLoja,u
 
 module.exports.getMyNotifications = async (username,page,number) =>{
     try{
-        const resp = await axios.get(`${ap}/getAllNotificationsFromClient/${username}/${page}/${number}`);
+        const resp = await axios.get(`${ap}/getAllNotificationsFromClient/${username}?page=${page}&number=${number}`);
         return resp.data;
     }catch(err){
         if (err.response) {

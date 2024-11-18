@@ -115,7 +115,7 @@ router.get("/type/:type",function(req,res,next){
   catalogoService.getItemsByType(type,page,number).then(items=>{
     res.jsonp(items)
   }).catch(err=>{
-    res.status(err.error.status).jsonp(err);
+    res.status(400).jsonp(err);
   })
 })
 
@@ -130,7 +130,7 @@ router.get("/type/:type/price",function(req,res,next){
   catalogoService.getPerPriceandTypeItems(type,min,max,page,number).then(items=>{
     res.jsonp(items)
   }).catch(err=>{
-    res.status(err.error.status).jsonp(err);
+    res.status(400).jsonp(err);
   })
 })
 
@@ -145,7 +145,7 @@ router.get("/type/:type/price/:name",function(req,res,next){
   catalogoService.getPerPriceTypeNameItems(type,name,min,max,page,number).then(items=>{
     res.jsonp(items)
   }).catch(err=>{
-    res.status(err.error.status).jsonp(err);
+    res.status(400).jsonp(err);
   })
 })
 
@@ -159,7 +159,7 @@ router.get("/price",function(req,res,next){
   catalogoService.getPerPriceItems(min,max,page,number).then(items=>{
     res.jsonp(items)
   }).catch(err=>{
-    res.status(err.error.status).jsonp(err);
+    res.status(400).jsonp(err);
   })
 })
 
@@ -173,7 +173,7 @@ router.get("/price/:name",function(req,res,next){
   catalogoService.getPerPriceNameItems(name,min,max,page,number).then(items=>{
     res.jsonp(items)
   }).catch(err=>{
-    res.status(err.error.status).jsonp(err);
+    res.status(400).jsonp(err);
   })
 })
 
@@ -207,7 +207,7 @@ router.post("/addItem/Peca", function(req, res, next) {
     idLoja,nrdisponiveis).then(resp => {
       res.jsonp(resp);
   }).catch(err => {
-    res.status(err.error.status).jsonp(err);
+    res.status(400).jsonp(err);
   });
 });  
 
@@ -252,7 +252,7 @@ router.post("/addItem/Calcado", function(req, res, next) {
     idLoja,nrdisponiveis).then(resp => {
       res.jsonp(resp);
   }).catch(err => {
-    res.status(err.error.status).jsonp(err);
+    res.status(400).jsonp(err);
   });
 });
 
@@ -263,7 +263,7 @@ router.delete("/deleteItem",function(req,res,next){
   catalogoService.removeItem(code,lojaid).then(resp=>{
     res.jsonp(resp);
   }).catch(err=>{
-    res.status(err.error.status).jsonp(err);
+    res.status(400).jsonp(err);
   })
 });
 
@@ -273,7 +273,7 @@ router.get("/trending/:lojaid",function(req,res,next){
   catalogoService.getTrendingItems(lojaid).then(items=>{
     res.jsonp(items)
   }).catch(err=>{
-    res.status(err.error.status).jsonp(err);
+    res.status(400).jsonp(err);
   })
 })
 
