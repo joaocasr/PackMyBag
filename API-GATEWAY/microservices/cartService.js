@@ -59,7 +59,7 @@ module.exports.getTransactions = (username) => {
 
 module.exports.createPayment = async (itemBody) => {
     try{
-        let r = await axios.post(`${ap}/createPayment`,
+        let r = await axios.post(`${ap}/createPaymentCartClean`,
                 itemBody,
                 {
                     headers: {

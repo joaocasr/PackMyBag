@@ -249,7 +249,7 @@ public class CartService {
         //pagamentoRepository.save(payment);
 
         // Clear the cart after payment
-        clearCart(paymentInfo.getUsername());
+        //clearCart(paymentInfo.getUsername());
         this.checkPayment(payment.getCodigo());
     }
 

@@ -86,6 +86,17 @@ public class CartItemController {
         }
     }
 
+    @PostMapping("/createPaymentCartClean")
+    public ResponseEntity<?> createPaymentCartClean(@RequestBody CartPaymentDTO paymentInfo) {
+        try {
+            cartService.createPayment(paymentInfo);
+            cartService.clearCart(paymentInfo.getUsername());
+            return ResponseEntity.ok().body("Payment created successfully!");
+        } catch (Exception e) {
+            return new ResponseEntity<>(new ErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage()), HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @GetMapping("/transactions/{username}") //a funcionar
     public Set<PagamentoDTO> getUserTransactions(@PathVariable String username) {
         return cartService.getUserTransactions(username);
