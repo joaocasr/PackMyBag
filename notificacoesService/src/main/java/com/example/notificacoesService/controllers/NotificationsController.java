@@ -38,13 +38,14 @@ public class NotificationsController {
         notificationsService.encomendaInsertDTO(encomendainsertdto);
     }
 
+
     @GetMapping("/getAllNotificationsFromClient/{username}")
-    public List<NotificationDTO> getAllNotificationsFromClient(@PathVariable String username, @RequestParam Integer page, @RequestParam Integer number){
+    public List<NotificationDTO> getAllNotificationsFromClient(@PathVariable String username, @RequestParam int page, @RequestParam int number){
         return notificationsService.getAllNotificationsFromClient(username,page,number);
     }
 
     @DeleteMapping("/removeNotificationFromClientByID/{username}/{codigo}")
-    public void removeNotificationFromClientByID(@PathVariable String username, @PathVariable Integer codigo){
+    public void removeNotificationFromClientByID(@PathVariable String username, @PathVariable int codigo){
         notificationsService.removeNotificationFromClientByID(username,codigo);
     }
 

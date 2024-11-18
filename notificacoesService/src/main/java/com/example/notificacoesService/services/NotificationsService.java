@@ -1,27 +1,31 @@
 package com.example.notificacoesService.services;
 
-import com.example.notificacoesService.dto.*;
-import com.example.notificacoesService.model.*;
-import com.example.notificacoesService.repositories.ClienteRepository;
-import com.example.notificacoesService.repositories.EncomendaRepository;
-import com.example.notificacoesService.repositories.ItemRepository;
-import com.example.notificacoesService.repositories.NotificacaoRepository;
-import org.springframework.data.domain.Page;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Set;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
-import java.util.Optional;
+import com.example.notificacoesService.dto.ClientItemDTO;
+import com.example.notificacoesService.dto.EncomendaInsertDTO;
+import com.example.notificacoesService.dto.ItemUpdate;
+import com.example.notificacoesService.dto.NotificationDTO;
+import com.example.notificacoesService.model.Cliente;
+import com.example.notificacoesService.model.Encomenda;
+import com.example.notificacoesService.model.Item;
+import com.example.notificacoesService.model.Notificacao;
+import com.example.notificacoesService.model.NotificationCallback;
+import com.example.notificacoesService.model.NotificationMSG;
+import com.example.notificacoesService.repositories.ClienteRepository;
+import com.example.notificacoesService.repositories.EncomendaRepository;
+import com.example.notificacoesService.repositories.ItemRepository;
+import com.example.notificacoesService.repositories.NotificacaoRepository;
 
 
 
@@ -119,12 +123,14 @@ public class NotificationsService implements NotificationCallback {
     }
 
     @Transactional
-    public void removeNotificationFromClientByID(String username, Integer codigo){
+    public void removeNotificationFromClientByID(String username, int codigo){
         Optional<Cliente> c = clienteRepository.getClienteByUsername(username);
         if(c.isPresent()){
             Cliente cliente = c.get();
             cliente.removeNotificationByID(codigo);
+            System.out.println(cliente);
             clienteRepository.save(cliente);
+            notificacaoRepository.deleteById(codigo);
         }
     }
 

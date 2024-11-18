@@ -42,6 +42,7 @@ import FooterComponent from '@/components/FooterComponent.vue';
 import authService from '@/services/auth-service';
 import axios from 'axios';
 import NewNotification from '@/components/NewNotification.vue';
+import authHeader from '@/services/auth-header';
 
 export default {
 	components:{
@@ -78,7 +79,14 @@ export default {
 
 		},
 		removeNotification(myid){
-			axios.delete('http://localhost:8888/api/notificacoesService/removeMyNotification/'+this.username+"/"+myid)
+			let data = {};
+			const header = authHeader();
+			header['Content-Type'] = 'application/json';
+
+
+			axios.delete('http://localhost:8888/api/notificacoesService/removeMyNotification/'+this.username+"/"+myid,
+				{ data, headers: header }
+			)
 			.then(resp=>{
 				this.notifications = this.notifications.filter(notification=>notification.id!==myid);
 			}).catch(err=>{

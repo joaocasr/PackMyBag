@@ -40,9 +40,21 @@ module.exports.getMyNotifications = async (username,page,number) =>{
 
 module.exports.removeMyNotification = async (username, id) =>{
     try{
-        const resp = await axios.delete(`${ap}/removeNotificationFromClientByID/${username}/${id}`);
+        data = {}
+        headers = {
+            headers: {
+                'Content-Type': 'application/json;charset=UTF-8',
+            }
+        }
+        const resp = await axios.delete(`${ap}/removeNotificationFromClientByID/${username}/${id}`,
+            {
+                data,
+                headers
+            }
+        );
         return resp.data;
     }catch(err){
+        console.log(err);
         if (err.response) {
             throw { error: err.response.data, status: err.response.status };
         } else {

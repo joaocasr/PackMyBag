@@ -25,6 +25,61 @@
     object-fit: cover;
 }
 
+.popup {
+    position: fixed;
+    margin-top:200px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 20px;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+  
+.popup-content {
+    display: flex;
+    flex-direction: column;
+    color: black;
+}
+  
+.popup button {
+    margin-top: 10px;
+}
+
+.parent {
+    position: absolute;
+    top: 2250px;
+    left: 700px;
+    width: 177px;
+    height: 39px;
+    text-align: left;
+    font-size: 24px;
+}
+.dividx{
+    color:black;
+}
+.group-item1 {
+    position: absolute;
+    height: 35px;
+    top: 4%;
+    bottom: 30%;
+    left: calc(50% - 140px);
+    max-height: 100%;
+    width: 35px;
+    object-fit: contain;
+}
+.group-item2 {
+    position: absolute;
+    height: 40px;
+    top: 3%;
+    bottom: 30%;
+    left: calc(50% - 0px);
+    max-height: 100%;
+    width: 40px;
+    object-fit: contain;
+}
+
 .stylist-requests .text-wrapper {
     position: absolute;
     top: 159px;

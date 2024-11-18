@@ -169,7 +169,6 @@
     line-height: 24px;
     white-space: nowrap;
 }
-
 .stylist-request .text-wrapper-9 {
     position: absolute;
     top: 0;
@@ -220,6 +219,7 @@
     letter-spacing: 0;
     line-height: 24px;
     white-space: nowrap;
+    color:#000000;
 }
 
 .stylist-request .frame-2 {
@@ -258,6 +258,17 @@
     margin-left: 280.50px;
     margin-right: -42.50px;
     font-size: 16px;
+    color: black;
+    white-space: nowrap;
+}
+
+.stylist-request .expand {
+    position: relative;
+    width: fit-content;
+    margin-top: 265px;
+    margin-left: 20.50px;
+    margin-right: -42.50px;
+    font-size: 14px;
     color: black;
     white-space: nowrap;
 }

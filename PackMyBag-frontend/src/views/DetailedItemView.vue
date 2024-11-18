@@ -80,6 +80,45 @@
         				
       			</div>
     		</div>
+			<button v-if="role==='Estilista'" class="addrecommendation" @click="togglePopup">Associate To Recommendations</button>
+
+
+				<!-- Pop-up -->
+				<div v-if="isPopupVisible" class="popup">
+				<div class="popup-content">
+					<h3>Associate the item to one or more of the following requests:</h3>
+
+					<input
+					type="text"
+					v-model="searchQuery"
+					placeholder="Search..."
+					class="search-bar"
+					/>
+
+				<!-- Lista de pedidos -->
+				<div class="list-container">
+				<ul>
+					<li v-for="(pedido, index) in filteredPedidos" :key="index" @mouseenter="hoveredPedido = pedido" @mouse="hoveredPedido = null">
+					<label>
+						<input type="checkbox" :value="pedido.id" v-model="selectedPedidos"/>
+						{{ pedido.nome }}
+					</label>
+					</li>
+				</ul>
+				</div>
+
+				<div v-if="hoveredPedido" class="info-extra">
+				<p>Info:</p>
+				<p>Description: {{ hoveredPedido.descricao }}</p>
+				</div>
+
+				<div class="buttons">
+				<button @click="confirmSelection">Confirm</button>
+				<button @click="togglePopup">Close</button>
+				</div>
+			</div>
+				</div>
+
     		<img class="fvrt-icon" @click="handleAddFavourite()" alt="" :src="heart">
     		<div class="myreview">
 				<div class="star">
@@ -142,6 +181,7 @@ export default {
 			this.username=token.username;
 			if(token.profileImage!=="") this.profileImg = "http://localhost:8888/api/utilizadoresService/profileImg/"+this.username;
 			this.nome=token.nome;
+			this.role = token.role;
 			this.email=token.email;
 		}
 	},
@@ -159,6 +199,7 @@ export default {
 			username:"",
 			nome:"",
 			email:"",
+			role:"",
 			token:null,
 			profileImg: "/DetailedItemIMG/generic-user-icon-13-2622662197-removebg-preview 1.png",
 			current_page:0,
@@ -175,9 +216,28 @@ export default {
 			itemCode:'',
 			heart:"/DetailedItemIMG/FvrtEmpty.svg",
 			bellImage: "/DetailedItemIMG/bell.png",
-			idLoja:0
+			idLoja:0,
+			isPopupVisible: false,
+			pedidos: [
+				{ id: 1, nome: "Pedido A", descricao: "Descrição do Pedido A" },
+				{ id: 2, nome: "Pedido B", descricao: "Descrição do Pedido B" },
+				{ id: 3, nome: "Pedido C", descricao: "Descrição do Pedido C" },
+				{ id: 4, nome: "Pedido D", descricao: "Descrição do Pedido D" },
+				{ id: 5, nome: "Pedido E", descricao: "Descrição do Pedido E" },
+				{ id: 6, nome: "Pedido F", descricao: "Descrição do Pedido F" }
+			],
+			searchQuery: "",
+			selectedPedidos: [],
+			hoveredPedido: null
 		}
 	},	
+	computed: {
+		filteredPedidos() {
+		return this.pedidos.filter((pedido) =>
+			pedido.nome.toLowerCase().includes(this.searchQuery.toLowerCase())
+		);
+		}
+	},
 	methods:{
 		getItemInfo(id){
 			axios.get('http://localhost:8888/api/catalogoService/items/'+id).then(resp=>{
@@ -428,9 +488,15 @@ export default {
 					this.$swal.fire("Something went wrong! "+msg, "", "error");
 				}
 			}
-		}
-		
-	},
+		},
+		togglePopup() {
+			this.isPopupVisible = !this.isPopupVisible;
+		},
+		confirmSelection() {
+			console.log(this.selectedPedidos);
+			this.togglePopup(); 
+		}		
+	}
 
 }
 const colorMap={
