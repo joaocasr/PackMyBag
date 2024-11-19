@@ -17,6 +17,7 @@ import AddFootWear from '@/views/AddFootWear.vue'
 import ProfileView from '@/views/ProfileView.vue'
 import ClientNotificationsView from '@/views/ClientNotificationsView.vue'
 import StylistsRequestsView from '@/views/StylistsRequestsView.vue'
+import ClientRecomendationsView from '@/views/ClientRecomendationsView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -71,6 +72,14 @@ const router = createRouter({
       path: '/payments',
       name: 'payments',
       component: PaymentsView,
+      meta: {
+        requiresAuth: true,
+      }
+    },
+    {
+      path: '/myRecomendations',
+      name: 'myRecomendations',
+      component: ClientRecomendationsView,
       meta: {
         requiresAuth: true,
       }

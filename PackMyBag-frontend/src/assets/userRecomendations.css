@@ -1,0 +1,117 @@
+.client {
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+}
+
+.client .div {
+    background-color: #ffffff;
+    overflow: hidden;
+    width: 1535px;
+    height: 2941px;
+    position: relative;
+}
+
+.client .line {
+    width: 1117px;
+    top: 170px;
+    left: 221px;
+    position: absolute;
+    height: 1px;
+    object-fit: cover;
+}
+
+.client .text-wrapper {
+    position: absolute;
+    top: 129px;
+    left: 263px;
+    font-family: "Abel-Regular", Helvetica;
+    font-weight: 400;
+    color: #000000;
+    font-size: 32px;
+    letter-spacing: 0;
+    line-height: normal;
+}
+
+.client .text-wrapper-2 {
+    position: absolute;
+    top: 191px;
+    left: 239px;
+    font-family: "Abel-Regular", Helvetica;
+    font-weight: 400;
+    color: #000000;
+    font-size: 28px;
+    letter-spacing: 0;
+    line-height: normal;
+}
+
+.dividx{
+    color: #000;
+}
+
+.group-item1 {
+    position: absolute;
+    height: 35px;
+    top: 4%;
+    bottom: 30%;
+    left: calc(50% - 140px);
+    max-height: 100%;
+    width: 35px;
+    object-fit: contain;
+}
+
+.group-item2 {
+    position: absolute;
+    height: 40px;
+    top: 3%;
+    bottom: 30%;
+    left: calc(50% - 0px);
+    max-height: 100%;
+    width: 40px;
+    object-fit: contain;
+}
+
+.client .group {
+    position: absolute;
+    width: 191px;
+    height: 39px;
+    top: 959px;
+    left: 689px;
+    color: #000000;
+
+    font-family: "Abel-Regular", Helvetica;
+    font-size: 24px;
+    letter-spacing: 3.60px;
+    line-height: 39px;
+}
+
+
+.client .recommendation {
+    position: absolute;
+    width: 1118px;
+    height: 404px;
+    top: 228px;
+    left: 221px;
+    background-color: #f3f4f6;
+    border-radius: 20px;
+}
+
+.parent {
+    position: absolute;
+    top: 1758px;
+    left: 792px;
+    width: 177px;
+    height: 39px;
+    text-align: left;
+    font-size: 24px;
+}
+
+.rectangle-parent {
+    position: absolute;
+    top: 2px;
+    left: 25px;
+    width: 35px;
+    height: 35px;
+}

@@ -1,0 +1,41 @@
+.layer-a-crisp-white {
+    position: absolute;
+    width: 239px;
+    top: 43px;
+    left: 429px;
+    font-family: var(--title-16px-regular-font-family);
+    font-weight: var(--title-16px-regular-font-weight);
+    color: #000000;
+    font-size: var(--title-16px-regular-font-size);
+    letter-spacing: var(--title-16px-regular-letter-spacing);
+    line-height: var(--title-16px-regular-line-height);
+    font-style: var(--title-16px-regular-font-style);
+}
+
+.text-wrapper-20 {
+    position: absolute;
+    top: 13px;
+    left: 49px;
+    font-family: var(--title-16px-regular-font-family);
+    font-weight: var(--title-16px-regular-font-weight);
+    color: #000000;
+    font-size: var(--title-16px-regular-font-size);
+    letter-spacing: var(--title-16px-regular-letter-spacing);
+    line-height: var(--title-16px-regular-line-height);
+    white-space: nowrap;
+    font-style: var(--title-16px-regular-font-style);
+}
+
+.text-wrapper-22 {
+    position: absolute;
+    top: 13px;
+    left: 407px;
+    font-family: var(--title-16px-regular-font-family);
+    font-weight: var(--title-16px-regular-font-weight);
+    color: #000000;
+    font-size: var(--title-16px-regular-font-size);
+    letter-spacing: var(--title-16px-regular-letter-spacing);
+    line-height: var(--title-16px-regular-line-height);
+    white-space: nowrap;
+    font-style: var(--title-16px-regular-font-style);
+}

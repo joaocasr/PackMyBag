@@ -54,6 +54,7 @@
 									<option v-if="this.role=='Cliente'" value="notifications">My Notifications</option>
 									<option v-if="this.role=='Estilista'" value="requests">My Requests</option>
 									<option v-if="this.role=='Cliente'" value="payments">Payments</option>
+									<option v-if="this.role=='Cliente'" value="recomendations">Recomendations</option>
 									<option v-if="token!==null" value="profile">Profile</option>
 								</select>
 							</div>
@@ -124,6 +125,9 @@ export default {
 		gotoPayments(){
 			this.$router.push({path:'/payments'})
 		},
+		gotoMyRecomendations(){
+			this.$router.push({path:'/myRecomendations'})
+		},
 		gotoprofile(){
 			this.$router.push({path:'/profile'})
 		},
@@ -144,6 +148,7 @@ export default {
 			if(val==='notifications') this.goToNotifications();
 			if(val==='requests') this.goToRequests();
 			if(val==='payments') this.gotoPayments();
+			if(val=='recomendations') this.gotoMyRecomendations();
 		},
 		handleSearch(){
 			if(this.itemName!==''){
