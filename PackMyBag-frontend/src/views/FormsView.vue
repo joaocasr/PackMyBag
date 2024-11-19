@@ -35,13 +35,13 @@
                         <img class="image-38-icon" alt="" src="/FormsIMG/image 38.png">
                         
                         <div class="form4-child">
-                            <input type="radio" name="paymethod" value="multibanco" style="transform: scale(2.5);" @click="changePaymentType(1)"/>
+                            <input type="radio" name="paymethod" value="multibanco" style="transform: scale(2.5);" @click="changePaymentType('multibanco')"/>
                         </div>
                         <div class="form4-item">
-                            <input type="radio" name="paymethod" value="mbway" style="transform: scale(2.5);" @click="changePaymentType(2)"/>
+                            <input type="radio" name="paymethod" value="mbway" style="transform: scale(2.5);" @click="changePaymentType('mbway')"/>
                         </div>
                         <div class="form4-inner">
-                            <input type="radio" name="paymethod" value="paypal" style="transform: scale(2.5);" @click="changePaymentType(3)"/>
+                            <input type="radio" name="paymethod" value="paypal" style="transform: scale(2.5);" @click="changePaymentType('paypal')"/>
                         </div>
                         <div class="q1">To submit this form and receive a response from the stylist, you must pay 7€</div>
                         <div class="item-history-parent">
@@ -245,6 +245,8 @@ import VueSelect from "vue3-select-component";
 import Pedido from '@/models/pedido';
 import Estilista from '@/models/estilista';
 import authService from '@/services/auth-service';
+import authHeader from '@/services/auth-header';
+import axios from 'axios';
 
 
 
@@ -278,7 +280,7 @@ data(){
         role:"",
         token:null,
 
-        paymentType:0,
+        paymentType:"",
 
       options: ["Sportif", "Minimalist", "Streetwear", "Punk", "Romantic", "Vintage", "Classic", "Casual", "Boho"],
       selectedOptions: [], // Armazena as opções selecionadas
@@ -386,6 +388,7 @@ methods:{
         this.pedidoInfo.estilos = this.selectedOptionsString();
         this.pedidoInfo.ocasioes = this.selectedOptions2String();
 
+
         if(this.checkIfPedidoIsFullyFilled()){
             this.showOverlay = true;
         }
@@ -402,21 +405,50 @@ methods:{
       this.showWarning = false;
     },
 
-    goToMyPayments() {
-        this.$router.push({path:'/payments'})
+    async goToMyPayments() {
+
+        // criar o pagamento
+        const header = authHeader();
+        let config = {headers:header}
+        header['Content-Type'] = 'application/json';
+        
+        let itens = [];
+        
+        let itensObj = {
+            "itens" : itens
+        }
+        let dataGeracao = new Date();
+        
+        try{
+            let r = await axios.post('http://localhost:8888/api/cartService/newpayment',
+                {
+                    "username":this.username,
+                    "itensObj":itensObj,
+                    "localEntrega":"",
+                    "inicioAluguer":"",
+                    "fimAluguer":"",
+                    "modoPagamento":this.paymentType,
+                    "dataGeracao": dataGeracao.toISOString(),
+                    "total":7
+                },
+                config
+            );
+            console.log(r);
+            this.$router.push({path:'/payments'})
+            return r;
+
+        }catch(err){
+            console.log(err);
+            let msg="";
+            if(err.response) msg = err.response.data.error.message;
+            this.$swal.fire("Something went wrong! "+msg, "", "error");
+        }
+
+        //this.$router.push({path:'/payments'})
     },
 
     changePaymentType(value) {
       this.paymentType = value;
-      if (this.paymentType == 1){
-        console.log("Paying with multibanco");
-      }
-      if (this.paymentType == 2){
-        console.log("Paying with mbway");
-      }
-      if (this.paymentType == 3){
-        console.log("Paying with paypal");
-      }
     },
 
     getStylistWithUSername(nameToSearch){

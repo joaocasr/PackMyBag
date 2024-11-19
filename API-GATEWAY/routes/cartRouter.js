@@ -58,6 +58,47 @@ router.post("/changePaymentStatus", function(req, res, next) {
   });
 });
 
+
+
+
+/* just payment */
+router.post("/newpayment", /*validate.verifyToken, */ async function(req,res,next){
+  const itensObj = {};
+  const username = req.body.username;
+  console.log("antes try")
+  try{
+  
+    console.log("passou")
+    console.log(username)
+
+    const codigo = "ENC"+username.toUpperCase()+Date.now();
+    const payment = {
+                      "username":username,
+                      "codigo": codigo,
+                      "localEntrega":"",
+                      "inicioAluguer":"",
+                      "fimAluguer":"",
+                      "total":req.body.total,
+                      "modoPagamento":req.body.modoPagamento,
+                      "dataGeracao":req.body.dataGeracao,
+                      "status": "PENDING",
+                      "items":itensObj
+                    }
+    console.log(payment);
+    try{
+      let r = await cartService.createPaymentForms(payment); // create payment
+      res.status(200).jsonp(r);
+    }catch(err){
+      res.status(400).jsonp(err);
+    }            
+    
+  }catch(err){
+    res.status(400).jsonp(err);
+
+  }
+})
+
+
 /* rota para alugar os items do cesto */
 router.post("/order", validate.verifyToken, async function(req,res,next){
   const itensObj = req.body.itensObj;

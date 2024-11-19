@@ -56,6 +56,22 @@ module.exports.getTransactions = (username) => {
 }
 
 
+module.exports.createPaymentForms = async (itemBody) => {
+    try{
+        let r = await axios.post(`${ap}/createPayment`,
+                itemBody,
+                {
+                    headers: {
+                        'Content-Type': 'application/json;charset=UTF-8',
+                    }
+                })
+        return r.data;
+    }catch(err){
+        return err;
+    } 
+        
+}
+
 
 module.exports.createPayment = async (itemBody) => {
     try{
