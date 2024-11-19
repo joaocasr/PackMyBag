@@ -151,10 +151,17 @@ public class Encomenda implements Serializable {
 	public void setTaxaEntrega(Double taxaEntrega) {
 		this.taxaEntrega = taxaEntrega;
 	}
-
-	public String toString() {
-		return String.valueOf(getIDEncomenda());
+	public void addItemToEncomenda(Item i){
+		this.items.add(i);
 	}
 
+    @Override
+    public String toString() {
+        return "Encomenda{" +
+                "codigo='" + codigoEncomenda + '\'' +
+                ", items=" + getItems() +
+                '}';
+
+    }
 	
 }

@@ -6,9 +6,9 @@
         <span class="pending">{{ estado }}</span>
         </div>
         <div class="generated-13112024-11h17">Generated: {{ dataGeracao }}</div>
-        <div class="deliver-braga">Deliver: {{ localEntrega }}</div>
-        <div class="arrival-20112024">Arrival: {{ inicioAluguer }}</div>
-        <div class="departure-25112024">Departure: {{ fimAluguer }}</div>
+        <div v-if="localEntrega!==''" class="deliver-braga">Deliver: {{ localEntrega }}</div>
+        <div v-if="inicioAluguer!==''" class="arrival-20112024">Arrival: {{ inicioAluguer }}</div>
+        <div v-if="fimAluguer!==''" class="departure-25112024">Departure: {{ fimAluguer }}</div>
         <button @click="finishPayment" class="finish-wrapper">FINISH</button>
     </div>
 </template>

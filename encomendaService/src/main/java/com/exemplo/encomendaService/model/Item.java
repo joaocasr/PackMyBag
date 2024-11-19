@@ -1,7 +1,13 @@
 package com.exemplo.encomendaService.model;
 
 import java.io.Serializable;
-import jakarta.persistence.*;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
 @Entity
 //@org.hibernate.annotations.Proxy(lazy=false)
 @Table(name="Item")
@@ -18,13 +24,7 @@ public class Item implements Serializable {
 	
 	@Column(name="Codigo", nullable=true, length=255)	
 	private String codigo;
-	
-	@Column(name="Designacao", nullable=true, length=255)	
-	private String designacao;
-	
-	@Column(name="Preco", nullable=true)	
-	private double preco;
-	
+
 	@Column(name="Nrpedido", nullable=false, length=10)
 	private int nrpedido;
 
@@ -51,21 +51,6 @@ public class Item implements Serializable {
 		return codigo;
 	}
 	
-	public void setDesignacao(String value) {
-		this.designacao = value;
-	}
-	
-	public String getDesignacao() {
-		return designacao;
-	}
-	
-	public void setPreco(double value) {
-		this.preco = value;
-	}
-	
-	public double getPreco() {
-		return preco;
-	}
 	
 	public void setNrpedido(int value) {
 		this.nrpedido = value;

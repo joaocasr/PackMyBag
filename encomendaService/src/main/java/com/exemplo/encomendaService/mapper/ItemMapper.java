@@ -12,8 +12,6 @@ public class ItemMapper {
     public static ItemDTO toDTO(Item item) {
         ItemDTO dto = new ItemDTO();
         dto.setCodigo(item.getCodigo());
-        dto.setDesignacao(item.getDesignacao());
-        dto.setPreco(item.getPreco());
         dto.setNrPedido(item.getNrpedido());
         dto.setIdLoja(item.getIdLoja());
         return dto;
@@ -23,8 +21,6 @@ public class ItemMapper {
     public static Item toEntity(ItemDTO dto) {
         Item item = new Item();
         item.setCodigo(dto.getCodigo());
-        item.setDesignacao(dto.getDesignacao());
-        item.setPreco(dto.getPreco());
         item.setNrpedido(dto.getNrPedido());
         item.setIdLoja(dto.getIdLoja());
         return item;

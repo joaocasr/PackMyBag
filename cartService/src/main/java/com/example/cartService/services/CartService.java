@@ -221,7 +221,7 @@ public class CartService {
             cart = new Cart();
             cliente.setCart(cart);
         }
-
+        cartRepository.save(cart);
         Pagamento payment = new Pagamento();
         payment.setCodigo(paymentInfo.getCodigo());
         payment.setLocalEntrega("");
@@ -234,6 +234,7 @@ public class CartService {
         cliente.addTransaction(payment);
 
         clientCartRepository.save(cliente);
+        System.out.println("saving:"+cliente);
         this.checkPayment(payment.getCodigo());
     }
 

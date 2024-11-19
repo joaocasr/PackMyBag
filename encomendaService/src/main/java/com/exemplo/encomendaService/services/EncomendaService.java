@@ -27,6 +27,7 @@ import com.exemplo.encomendaService.mapper.EncomendaMapper;
 import com.exemplo.encomendaService.mapper.ItemMapper;
 import com.exemplo.encomendaService.model.Cliente;
 import com.exemplo.encomendaService.model.Encomenda;
+import com.exemplo.encomendaService.model.Item;
 import com.exemplo.encomendaService.model.Loja;
 import com.exemplo.encomendaService.repositories.ClienteRepository;
 import com.exemplo.encomendaService.repositories.EncomendaRepository;
@@ -216,11 +217,13 @@ public class EncomendaService {
             EncomendaDTO newencomenda = encomendaDTO;
             newencomenda.setItens(new HashSet<>(entry.getValue()));
             Encomenda encomenda = EncomendaMapper.toEntity(newencomenda, c);
-            /*
+            
             List<Item> l = entry.getValue().stream().map(x->ItemMapper.toEntity(x)).collect(Collectors.toList());
             for (Item i : l){
                 encomenda.addItemToEncomenda(i);
-            }*/
+            }
+            System.out.println(encomenda);
+
             loja.adicionaEncomenda(encomenda);
 
             lojaRepository.save(loja);
