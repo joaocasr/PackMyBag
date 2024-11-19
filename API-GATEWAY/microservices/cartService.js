@@ -79,6 +79,19 @@ module.exports.removeFromCart = (itemBody) => {
     });
 }
 
+module.exports.getEncomendasByLojaID = (lojaid) => {
+    return axios.get(`${ap}/loja/${lojaid}`).then(resp => {
+        return resp.data;
+    }).catch(err => {
+        if (err.response) {
+            throw { error: err.response.data };
+        } else {
+            throw err;
+        }
+    });
+}
+
+
 module.exports.getTransactions = (username) => {
     return axios.get(`${ap}/transactions/${username}`).then(resp => {
         return resp.data;

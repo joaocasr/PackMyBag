@@ -1,7 +1,7 @@
 <template>
 	<div class="order-details-view">
 		<NavBarComponent></NavBarComponent>
-		<div class="encomenda-id">Encomenda {{ encomenda.codigoEncomenda }}</div>
+		<div class="encomenda-id">Encomenda {{ myordercode }}</div>
 
 		<div class="button" @click="voltarHistorico()">
 			<div class="button1">Voltar ao Histórico de Encomendas</div>
@@ -12,7 +12,6 @@
 				:key="idx"
 				:imagemUrl="item.imagemUrl"
 				:nomeArtigo="item.designacao"
-				:preco="item.preco"
 				:quantidade="item.nraquisicoes"
 				:tamanho="item.tamanho"
 				:cor="item.cor"
@@ -37,7 +36,6 @@
 					<div class="div2">€ {{totalItensPreco().toFixed(2)}}</div>
 					<div v-for="item in encomenda.itens" :key="item.codigo" class="item-container">
 						<div class="item-nome">{{ item.designacao }}</div>
-						<div class="item-preco">€ {{ item.preco.toFixed(2) }}</div>
 					</div>
 					
 					<div class="resumo">
@@ -69,20 +67,24 @@ export default {
 		FooterComponent,
 		OrderItemView
 	},
+	/*
 	props: {
 		orderCode: {
 		type: String,
 		required: true
 		}
-  },
+  	}*/
 	data() {
 		return {
 			username: '',
 			token: null,
+			myordercode:'',
 			encomenda: null
 		};
 	},
 	created() {
+		this.myordercode = this.$route.params.orderCode;
+		console.log(this.myordercode);
 		this.getUsername(); 
 		this.fetchEncomendas(); 
 	},
@@ -96,8 +98,7 @@ export default {
 			}
 		},
 		fetchEncomendas() {
-			// axios.get('http://localhost:8888/api/encomendaService/cliente/username/joaosilva/codigoEncomenda/'+this.orderCode+'')
-			axios.get(`http://localhost:8888/api/encomendaService/cliente/username/joaosilva/codigoEncomenda/${this.orderCode}`) // alterar isto para o this.username
+			axios.get(`http://localhost:8888/api/encomendaService/codigo/${this.myordercode}`) 
 			.then(response => {
 					console.log('Dados recebidos do Axios:', response.data);
 					this.encomenda = response.data; 

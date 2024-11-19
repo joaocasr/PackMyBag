@@ -113,6 +113,20 @@ module.exports = {
       });
   },
 
+  getEncomendasByLojaID: (lojaid) => {
+    return axios.get(`${baseURL}/loja/${lojaid}`)
+      .then(resp => resp.data)
+      .catch(err => {
+        if (err.response) {
+          throw { error: err.response.data };
+        } else {
+          throw err;
+        }
+      });
+  },
+
+  
+
   /* Novo Método: Get Encomenda by Cliente Username and Codigo Encomenda */
   getEncomendaByClienteUsernameAndCodigoEncomenda: (username, codigoEncomenda) => {
     return axios.get(`${baseURL}/cliente/username/${username}/codigoEncomenda/${codigoEncomenda}`)

@@ -16,13 +16,13 @@
           </div>
           <div class="cart-section">
             <div class="order-item-images">
-              <img 
+              <div 
                 v-for="(item, index) in itens" 
                 :key="index" 
-                :src="item.imagemUrl" 
+        
                 class="mini-image" 
-                alt="Item Image"
-              />
+                alt=""
+              >{{ item.codigo }}</div>
             </div>
             <div class="conjunto-verao-"> {{ conjuntoDescricao }}</div> 
             <div class="button-wrapper">
@@ -32,7 +32,7 @@
           </div>
         </div>
       </div>
-      <img class="image-18-icon1" alt="" src="">
+      <!--<img class="image-18-icon1" alt="" src="">-->
     </div>
   </template>
 

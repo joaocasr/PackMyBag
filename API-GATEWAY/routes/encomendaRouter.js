@@ -48,8 +48,15 @@ router.get("/cliente/:idCliente", (req, res, next) => {
 /* Get Encomendas by Cliente Username */
 router.get("/cliente/username/:username", (req, res, next) => {
     encomendaService.getEncomendasByClienteUsername(req.params.username)
-      .then(encomendas => res.json(encomendas))
+      .then(encomendas => res.jsonp(encomendas.data))
       .catch(err => res.status(500).json(err));
+});
+
+/* Get Encomendas by loja id */
+router.get("/loja/:lojaid", (req, res, next) => {
+  encomendaService.getEncomendasByLojaID(req.params.lojaid)
+    .then(encomendas => res.jsonp(encomendas))
+    .catch(err => res.status(500).json(err));
 });
 
 /* Get Items by Encomenda ID */

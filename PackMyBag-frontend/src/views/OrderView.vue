@@ -19,7 +19,7 @@
 					:customerId="encomenda.clienteUsername"
 					:storeId="encomenda.lojaId"
 					:itens="encomenda.itens"
-					:orderPrice="totalItensPreco(encomenda.itens,encomenda.taxaEntrega).toFixed(2)" 
+					:orderPrice="totalItensPreco(encomenda.preco,encomenda.taxaEntrega).toFixed(2)" 
 					:deliveryFee="encomenda.taxaEntrega"
 					></OrderComponentView><!-- podia passar tambem o encomenda.preco-->
 				</div>
@@ -45,6 +45,7 @@ export default {
 		return {
 			username: '',
 			token: null,
+			lojaid: 0,
 			encomendas: [] 
 
 		};
@@ -60,10 +61,11 @@ export default {
 			if (token != null) {
 				this.token = token;
 				this.username = token.username;
+				this.lojaid = token.idloja;
 			}
 		},
 		fetchEncomendas() {
-			axios.get('http://localhost:8888/api/encomendaService/cliente/username/joaosilva') // alterar isto para o this.username
+			axios.get('http://localhost:8888/api/encomendaService/loja/'+this.lojaid) // alterar isto para o this.username
 				.then(response => {
 					console.log('Dados recebidos do Axios:', response.data);
 					this.encomendas = response.data; 
@@ -72,16 +74,15 @@ export default {
 					console.error('Erro ao buscar encomendas:', error);
 				});
 		},
-		totalItensPreco(itens, taxaEntrega) {
-			if (!itens || !Array.isArray(itens)) return 0;
+		totalItensPreco(totalencomenda, taxaEntrega) {
+			//if (!itens || !Array.isArray(itens)) return 0;
 
-			const totalItens = itens.reduce((total, item) => {
-			const preco = parseFloat(item.preco);
-			return total + (isNaN(preco) ? 0 : preco);
-			}, 0);
+			//const totalItens = itens.reduce((total, item) => {
+			const preco = parseFloat(totalencomenda);
 
+			
 			const taxa = parseFloat(taxaEntrega);
-			return totalItens + (isNaN(taxa) ? 0 : taxa);
+			return preco + (isNaN(taxa) ? 0 : taxa);
 		}
 	}
 };
