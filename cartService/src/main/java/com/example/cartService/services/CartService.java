@@ -6,21 +6,12 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.example.cartService.dto.*;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
-import com.example.cartService.dto.CartItemChangeQuantityDTO;
-import com.example.cartService.dto.CartItemDTO;
-import com.example.cartService.dto.CartItemInsertDTO;
-import com.example.cartService.dto.CartItemRemoveDTO;
-import com.example.cartService.dto.CartPaymentDTO;
-import com.example.cartService.dto.CartPaymentStatusChangeDTO;
-import com.example.cartService.dto.ClientCartDTO;
-import com.example.cartService.dto.FreeResourcesDTO;
-import com.example.cartService.dto.ItemDTO;
-import com.example.cartService.dto.PagamentoDTO;
 import com.example.cartService.exceptions.NoCartException;
 import com.example.cartService.exceptions.NoClientException;
 import com.example.cartService.exceptions.NoItemException;
@@ -204,6 +195,36 @@ public class CartService {
                 .mapToInt(Item::getQuantidade)
                 .sum();
     }
+
+    public void createFormPayment(FormPaymentDTO paymentInfo) {
+        Cliente cliente = clientCartRepository.getClienteByUsername(paymentInfo.getUsername());
+        if (cliente == null) {
+            //throw new NoClientException("Client not found with username: " + item.getUsername());
+            cliente = new Cliente("",paymentInfo.getUsername(),"");
+        }
+
+        Cart cart = cliente.getCart();
+        if (cart == null) {
+            // Create new cart if user doesn't have one
+            cart = new Cart();
+            cliente.setCart(cart);
+        }
+
+        Pagamento payment = new Pagamento();
+        payment.setCodigo(paymentInfo.getCodigo());
+        payment.setLocalEntrega("");
+        payment.setInicioAluguer("");
+        payment.setFimAluguer("");
+        payment.setModoPagamento(paymentInfo.getModoPagamento());
+        payment.setTotal(paymentInfo.getTotal());
+        payment.setdataGeracao(paymentInfo.getDataGeracao());
+        payment.setStatus(paymentInfo.getStatus());
+        cliente.addTransaction(payment);
+
+        clientCartRepository.save(cliente);
+        this.checkPayment(payment.getCodigo());
+    }
+
 
     @Transactional
     @Async

@@ -14,6 +14,7 @@
 package com.example.cartService.model;
 
 import java.io.Serializable;
+import java.util.HashSet;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -30,6 +31,7 @@ import jakarta.persistence.Table;
 @Table(name="Pagamento")
 public class Pagamento implements Serializable {
 	public Pagamento() {
+		this.itemEncomendas = new HashSet<>();
 	}
 	
 	@Column(name="IDPagamento", nullable=false, length=10)	

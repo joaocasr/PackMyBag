@@ -77,9 +77,9 @@ public class CartItemController {
     }
 
     @PostMapping("/createPayment")
-    public ResponseEntity<?> createPayment(@RequestBody CartPaymentDTO paymentInfo) {
+    public ResponseEntity<?> createPayment(@RequestBody FormPaymentDTO paymentInfo) {
         try {
-            cartService.createPayment(paymentInfo);
+            cartService.createFormPayment(paymentInfo);
             return ResponseEntity.ok().body("Payment created successfully!");
         } catch (Exception e) {
             return new ResponseEntity<>(new ErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage()), HttpStatus.BAD_REQUEST);
