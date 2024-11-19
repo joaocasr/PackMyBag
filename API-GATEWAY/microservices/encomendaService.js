@@ -14,16 +14,19 @@ module.exports = {
         });
     },
 
-  createEncomenda: (encomenda) => {
-    return axios.post(baseURL, encomenda)
-      .then(resp => resp.data)
-      .catch(err => {
-        if (err.response) {
-          throw { error: err.response.data };
-        } else {
-          throw err;
-        }
-      });
+  createEncomenda: async (encomenda) => {
+    try{
+        let r = await axios.post(`${baseURL}/create`, encomenda);
+        return r;
+    }catch(err){
+      if (err.response) {
+        throw { error: err.response.data };
+      } else {
+        throw err;
+      }
+    }
+
+  
   },
 
   getEncomendaById: (id) => {

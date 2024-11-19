@@ -138,17 +138,17 @@ public class EncomendaController {
 
     // Endpoint para criar ou atualizar uma encomenda
     @PostMapping
-    public ResponseEntity<EncomendaDTO> createOrUpdateEncomenda(@RequestBody EncomendaDTO encomendaDTO) {
-        EncomendaDTO savedEncomenda = encomendaService.saveEncomenda(encomendaDTO);
-        return new ResponseEntity<>(savedEncomenda, HttpStatus.CREATED);
+    public ResponseEntity<?> createOrUpdateEncomenda(@RequestBody EncomendaDTO encomendaDTO) {
+        encomendaService.saveEncomenda(encomendaDTO);
+        return new ResponseEntity<>("Encomendas updated in shops", HttpStatus.CREATED);
     }
 
     // Endpoint para criar uma nova encomenda
     @PostMapping("/create")
-    public ResponseEntity<EncomendaDTO> createEncomenda(@RequestBody EncomendaDTO encomendaDTO) {
+    public ResponseEntity<?> createEncomenda(@RequestBody EncomendaDTO encomendaDTO) {
         try{
-            EncomendaDTO savedEncomenda = encomendaService.saveEncomenda(encomendaDTO);
-            return new ResponseEntity<>(savedEncomenda, HttpStatus.CREATED); // Retorna status 201 Created
+            encomendaService.saveEncomenda(encomendaDTO);
+            return new ResponseEntity<>("Encomendas saved in shops", HttpStatus.CREATED); // Retorna status 201 Created
         }catch(Exception e){
             e.printStackTrace();
             System.out.println("Erro ao criar encomenda: " + e.getMessage());

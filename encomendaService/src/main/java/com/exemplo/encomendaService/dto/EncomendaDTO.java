@@ -12,7 +12,7 @@ public class EncomendaDTO {
     private String clienteUsername;
     private String clienteNome;
     private String clienteEmail;
-    private int lojaId;
+//    private int lojaId;
     // FALTA o set com os itens da encomenda
     private Set<ItemDTO> itens;
     private Double preco;
@@ -68,7 +68,7 @@ public class EncomendaDTO {
     public void setClienteUsername(String clienteusername) {
         this.clienteUsername = clienteusername;
     }
-
+/*
     public int getLojaId() {
         return lojaId;
     }
@@ -76,7 +76,7 @@ public class EncomendaDTO {
     public void setLojaId(int lojaId) {
         this.lojaId = lojaId;
     }
-
+*/
     public Set<ItemDTO> getItens() {
         return itens;
     }

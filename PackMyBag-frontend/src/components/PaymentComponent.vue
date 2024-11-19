@@ -9,7 +9,7 @@
         <div class="deliver-braga">Deliver: {{ localEntrega }}</div>
         <div class="arrival-20112024">Arrival: {{ inicioAluguer }}</div>
         <div class="departure-25112024">Departure: {{ fimAluguer }}</div>
-        <button class="finish-wrapper">FINISH</button>
+        <button @click="finishPayment" class="finish-wrapper">FINISH</button>
     </div>
 </template>
 <script>
@@ -23,6 +23,11 @@ export default {
         modoPagamento:String,
         dataGeracao:String,
         estado:String
+    },
+    methods:{
+        finishPayment(){
+            this.$emit('finishPayment',{"codigo":this.codigo, "total": this.total });
+        }
     }
 }
 </script>

@@ -5,25 +5,17 @@ public class ItemDTO {
     private String codigo;
     private String designacao;
     private double preco;
-    private int nraquisicoes;
-    private String estilo;
-    private String cor;
-    private String tamanho;
-    private String genero;
-    private String imagemUrl;
-
+    private int nrPedido;
+    private int idloja;
     public ItemDTO() {
     }
 
-    public ItemDTO(String codigo, String designacao, double preco, int nraquisicoes, String estilo, String cor, String tamanho, String genero) {
+    public ItemDTO(String codigo, String designacao, double preco, int nrPedido, int idloja) {
         this.codigo = codigo;
         this.designacao = designacao;
         this.preco = preco;
-        this.nraquisicoes = nraquisicoes;
-        this.estilo = estilo;
-        this.cor = cor;
-        this.tamanho = tamanho;
-        this.genero = genero;
+        this.nrPedido = nrPedido;
+        this.idloja = idloja;
     }
 
     public String getCodigo() {
@@ -50,52 +42,21 @@ public class ItemDTO {
         this.preco = preco;
     }
 
-    public int getNraquisicoes() {
-        return nraquisicoes;
+    public void setNrPedido(int value) {
+        this.nrPedido = value;
     }
 
-    public void setNraquisicoes(int nraquisicoes) {
-        this.nraquisicoes = nraquisicoes;
+    public int getNrPedido() {
+        return nrPedido;
     }
 
-    public String getEstilo() {
-        return estilo;
+
+    public void setIdLoja(int value) {
+        this.idloja = value;
     }
 
-    public void setEstilo(String estilo) {
-        this.estilo = estilo;
-    }
-
-    public String getCor() {
-        return cor;
-    }
-
-    public void setCor(String cor) {
-        this.cor = cor;
-    }
-
-    public String getTamanho() {
-        return tamanho;
-    }
-
-    public void setTamanho(String tamanho) {
-        this.tamanho = tamanho;
-    }
-
-    public String getGenero() {
-        return genero;
-    }
-
-    public void setGenero(String genero) {
-        this.genero = genero;
-    }
-
-    public String getImagemUrl() {
-        return imagemUrl;
-    }
-
-    public void setImagemUrl(String imagemUrl) {
-        this.imagemUrl = imagemUrl;
+    public int getIdLoja() {
+        return idloja;
     }
 
     @Override
@@ -104,12 +65,8 @@ public class ItemDTO {
                 "codigo='" + codigo + '\'' +
                 ", designacao='" + designacao + '\'' +
                 ", preco=" + preco +
-                ", nraquisicoes=" + nraquisicoes +
-                ", estilo='" + estilo + '\'' +
-                ", cor='" + cor + '\'' +
-                ", tamanho='" + tamanho + '\'' +
-                ", genero='" + genero + '\'' +
-                ", imagemUrl='" + imagemUrl + '\'' +
+                ", nraquisicoes=" + nrPedido +
+                ", idloja='" + idloja +
                 '}';
 
     }

@@ -3,6 +3,7 @@ var router = express.Router();
 const cartService = require('../microservices/cartService')
 const catalogoService = require('../microservices/catalogoService')
 const validate = require('../middleware/index')
+const encomendaService = require('../microservices/encomendaService')
 
 /* Get Cart Items */
 router.get("/:username", function(req, res, next) {
@@ -49,20 +50,9 @@ router.get("/transactions/:username", function(req, res, next) {
   });
 });
 
-/* Change Payment Status */
-router.post("/changePaymentStatus", function(req, res, next) {
-  cartService.changePaymentStatus(req.body).then(resp => {
-    res.jsonp(resp);
-  }).catch(err => {
-    res.status(400).jsonp(err);
-  });
-});
-
-
-
 
 /* just payment */
-router.post("/newpayment", /*validate.verifyToken, */ async function(req,res,next){
+router.post("/newpayment", validate.verifyToken,  async function(req,res,next){
   try{
 
     const username = req.body.username;
@@ -77,6 +67,7 @@ router.post("/newpayment", /*validate.verifyToken, */ async function(req,res,nex
                     }
     
       let r = await cartService.createPaymentForms(payment); // create payment
+      //falta adicionar o pedido no estilista
       res.status(200).jsonp(r);
   }catch(err){
     res.status(400).jsonp(err);
@@ -122,6 +113,71 @@ router.post("/order", validate.verifyToken, async function(req,res,next){
 
   }
 })
+
+
+/* actually pay */
+router.post("/pay", validate.verifyToken, async function(req,res,next){
+  console.log("let's pay");
+  try{
+
+      if(req.body.ptype==="FORM"){
+        //alterar status desse pedido para payed com o codigo no microservico de recomendacoes | POST
+      }
+      if(req.body.ptype==="CART"){
+        try{
+          const statusPayment = {
+                "codigo":req.body.codigo,
+                "username":req.body.username,
+                "status":"PAYED"
+          }  
+          let resp1 = await cartService.changePaymentStatus(statusPayment);
+          console.log("resp 1")
+          console.log(resp1);
+          if(resp1==="Payment status updated successfully!"){ //get dos items associados ao pagamento
+
+            try{  
+              
+                    let resp2 = await cartService.getpayment(req.body.codigo); 
+                    console.log("resp 2");
+                    console.log(resp2);         
+                    let paymentInfoItems = resp2;
+
+                    console.log("a imprimir a nova encomenda")
+                    const encomenda = {
+                      "codigoEncomenda":req.body.codigo,
+                      "dataEntrega": paymentInfoItems.inicioAluguer,
+                      "dataDevolucao": paymentInfoItems.fimAluguer,
+                      "localEntrega": paymentInfoItems.localEntrega,
+                      "status": "Pago",
+                      "clienteUsername": req.body.username,
+                      "clienteNome": req.body.nome,
+                      "clienteEmail": req.body.email,
+                      "itens": paymentInfoItems.itens,
+                      "preco": req.body.total,
+                      "taxaEntrega": 6.0
+                    }
+                    console.log(encomenda);
+                    try{
+                      let resp3 = await encomendaService.createEncomenda(encomenda);
+                      res.jsonp(resp3.data);
+                    }catch(err){
+                      console.log(err);
+                    }
+            }catch(err){
+              console.log(err);
+            }
+          }
+        }catch(err){
+          console.log(err);
+        }
+      }
+  }catch(err){
+    console.log(err);
+    res.status(400).jsonp(err);
+
+  }
+})
+
 
 
 module.exports = router;

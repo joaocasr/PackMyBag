@@ -28,6 +28,38 @@ module.exports.addToCart = (itemBody) => {
     });
 }
 
+module.exports.getpayment = async (codigo) => {
+    try{
+        let r = await axios.get(`${ap}/transaction/${codigo}`)
+        return r.data;
+    }catch(err){
+        if (err.response) {
+            throw { error: err.response.data };
+        } else {
+            throw err;
+        }
+    }
+}
+
+module.exports.changePaymentStatus = (itemBody) => {
+    return axios.post(`${ap}/changePaymentStatus`,
+        itemBody,
+        {
+            headers: {
+                'Content-Type': 'application/json;charset=UTF-8',
+            }
+        }
+    ).then(resp => {
+        return resp.data;
+    }).catch(err => {
+        if (err.response) {
+            throw { error: err.response.data };
+        } else {
+            throw err;
+        }
+    });
+}
+
 module.exports.removeFromCart = (itemBody) => {
     return axios.post(`${ap}/removeItem`,
         itemBody,

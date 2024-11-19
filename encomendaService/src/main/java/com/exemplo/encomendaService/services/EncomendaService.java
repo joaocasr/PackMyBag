@@ -1,45 +1,38 @@
 package com.exemplo.encomendaService.services;
-import com.exemplo.encomendaService.dto.EncomendaDTO;
-import com.exemplo.encomendaService.dto.ItemDTO;
-import com.exemplo.encomendaService.dto.LojaDTO;
-import com.exemplo.encomendaService.dto.ClienteDTO;
-import com.exemplo.encomendaService.mapper.ItemMapper;
-import com.exemplo.encomendaService.mapper.LojaMapper;
-import com.exemplo.encomendaService.mapper.EncomendaMapper;
-import com.exemplo.encomendaService.mapper.ClienteMapper;
-import com.exemplo.encomendaService.model.Cliente;
-import com.exemplo.encomendaService.model.Loja;
-import com.exemplo.encomendaService.model.Encomenda;
-
-import com.exemplo.encomendaService.repositories.EncomendaRepository;
-import com.exemplo.encomendaService.repositories.LojaRepository;
-
-import jakarta.persistence.EntityNotFoundException;
-
-import com.exemplo.encomendaService.repositories.ClienteRepository;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
-
-import org.springframework.kafka.core.KafkaTemplate;
-import com.exemplo.encomendaService.dto.EncomendaDateReturnDTO;
-import com.exemplo.encomendaService.dto.EncomendaStatusDTO;
-import org.springframework.scheduling.annotation.Scheduled;
-
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.exemplo.encomendaService.dto.ClienteDTO;
+import com.exemplo.encomendaService.dto.EncomendaDTO;
+import com.exemplo.encomendaService.dto.EncomendaDateReturnDTO;
+import com.exemplo.encomendaService.dto.EncomendaStatusDTO;
+import com.exemplo.encomendaService.dto.ItemDTO;
+import com.exemplo.encomendaService.mapper.ClienteMapper;
+import com.exemplo.encomendaService.mapper.EncomendaMapper;
+import com.exemplo.encomendaService.mapper.ItemMapper;
+import com.exemplo.encomendaService.model.Cliente;
+import com.exemplo.encomendaService.model.Encomenda;
+import com.exemplo.encomendaService.model.Loja;
+import com.exemplo.encomendaService.repositories.ClienteRepository;
+import com.exemplo.encomendaService.repositories.EncomendaRepository;
+import com.exemplo.encomendaService.repositories.LojaRepository;
+
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class EncomendaService {
@@ -196,7 +189,7 @@ public class EncomendaService {
     }
 
     // Método para salvar uma nova encomenda
-    public EncomendaDTO saveEncomenda(EncomendaDTO encomendaDTO) {
+    public void saveEncomenda(EncomendaDTO encomendaDTO) {
         Cliente c;
         Optional<Cliente> cliente = clienteRepository.findByUsername(encomendaDTO.getClienteUsername());
         if(cliente.isEmpty()) {
@@ -204,16 +197,34 @@ public class EncomendaService {
             clienteRepository.save(c);
         }
         else c = cliente.get();
-        Loja loja = lojaRepository.findById(encomendaDTO.getLojaId())
-                .orElseThrow(() -> new IllegalArgumentException("Loja não encontrada"));
+        Map<Integer,List<ItemDTO>> itemsperShop = new HashMap<>();
+        for (ItemDTO i : encomendaDTO.getItens()){
+            List<ItemDTO> l = new ArrayList<>();
+            l.add(i);
+            if(!itemsperShop.containsKey(i.getIdLoja())) itemsperShop.put(i.getIdLoja(),l);
+            else{
+                List<ItemDTO> items = itemsperShop.get(i.getIdLoja());
+                items.add(i);
+                itemsperShop.put(i.getIdLoja(),items);
+            }
+        }
+        for (Map.Entry<Integer, List<ItemDTO>> entry : itemsperShop.entrySet()) {
 
-        Encomenda encomenda = EncomendaMapper.toEntity(encomendaDTO, c);
+            Loja loja = lojaRepository.findById(entry.getKey())
+                    .orElseThrow(() -> new IllegalArgumentException("Loja não encontrada"));
 
-        loja.adicionaEncomenda(encomenda);
+            EncomendaDTO newencomenda = encomendaDTO;
+            newencomenda.setItens(new HashSet<>(entry.getValue()));
+            Encomenda encomenda = EncomendaMapper.toEntity(newencomenda, c);
+            /*
+            List<Item> l = entry.getValue().stream().map(x->ItemMapper.toEntity(x)).collect(Collectors.toList());
+            for (Item i : l){
+                encomenda.addItemToEncomenda(i);
+            }*/
+            loja.adicionaEncomenda(encomenda);
 
-        lojaRepository.save(loja);
-
-        return EncomendaMapper.toDTO(encomenda);
+            lojaRepository.save(loja);
+        }
     }
 
     // Método para atualizar uma encomenda

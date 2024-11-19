@@ -25,23 +25,11 @@ public class Item implements Serializable {
 	@Column(name="Preco", nullable=true)	
 	private double preco;
 	
-	@Column(name="Nraquisicoes", nullable=false, length=10)	
-	private int nraquisicoes;
-	
-	@Column(name="Estilo", nullable=true, length=255)	
-	private String estilo;
-	
-	@Column(name="Cor", nullable=true, length=255)	
-	private String cor;
-	
-	@Column(name="Tamanho", nullable=true, length=255)	
-	private String tamanho;
-	
-	@Column(name="Genero", nullable=true, length=255)	
-	private String genero;
+	@Column(name="Nrpedido", nullable=false, length=10)
+	private int nrpedido;
 
-	@Column(name="ImagemUrl", nullable=true, length=255)
-	private String imagemUrl;
+	@Column(name="Idloja", nullable=false, length=10)
+	private int idLoja;
 	
 	private void setIDItem(int value) {
 		this.IDItem = value;
@@ -79,56 +67,24 @@ public class Item implements Serializable {
 		return preco;
 	}
 	
-	public void setNraquisicoes(int value) {
-		this.nraquisicoes = value;
+	public void setNrpedido(int value) {
+		this.nrpedido = value;
 	}
 	
-	public int getNraquisicoes() {
-		return nraquisicoes;
+	public int getNrpedido() {
+		return nrpedido;
 	}
-	
-	public void setEstilo(String value) {
-		this.estilo = value;
+
+	public void setIdLoja(int value) {
+		this.idLoja = value;
 	}
-	
-	public String getEstilo() {
-		return estilo;
+
+	public int getIdLoja() {
+		return idLoja;
 	}
-	
-	public void setCor(String value) {
-		this.cor = value;
-	}
-	
-	public String getCor() {
-		return cor;
-	}
-	
-	public void setTamanho(String value) {
-		this.tamanho = value;
-	}
-	
-	public String getTamanho() {
-		return tamanho;
-	}
-	
-	public void setGenero(String value) {
-		this.genero = value;
-	}
-	
-	public String getGenero() {
-		return genero;
-	}
-	
+
 	public String toString() {
 		return String.valueOf(getIDItem());
-	}
-
-	public void setImagemUrl(String value) {
-		this.imagemUrl = value;
-	}
-
-	public String getImagemUrl() {
-		return imagemUrl;
 	}
 	
 }

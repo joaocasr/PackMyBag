@@ -1,21 +1,29 @@
 package com.example.cartService.controllers;
 
-import com.example.cartService.dto.*;
-import com.example.cartService.services.*;
-
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-
 import java.util.List;
 import java.util.Set;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.example.cartService.dto.CartItemChangeQuantityDTO;
+import com.example.cartService.dto.CartItemDTO;
+import com.example.cartService.dto.CartItemInsertDTO;
+import com.example.cartService.dto.CartItemRemoveDTO;
+import com.example.cartService.dto.CartPaymentDTO;
+import com.example.cartService.dto.CartPaymentStatusChangeDTO;
+import com.example.cartService.dto.ErrorResponse;
+import com.example.cartService.dto.FormPaymentDTO;
+import com.example.cartService.dto.PagamentoDTO;
+import com.example.cartService.model.Pagamento;
+import com.example.cartService.services.CartService;
 
 @RestController
 @RequestMapping("/api/cart")
@@ -100,6 +108,11 @@ public class CartItemController {
     @GetMapping("/transactions/{username}") //a funcionar
     public Set<PagamentoDTO> getUserTransactions(@PathVariable String username) {
         return cartService.getUserTransactions(username);
+    }
+
+    @GetMapping("/transaction/{code}") //a funcionar
+    public Pagamento getTransaction(@PathVariable String code) {
+        return cartService.getPagamentoByCode(code);
     }
 
     @PostMapping("/changePaymentStatus")

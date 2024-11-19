@@ -6,12 +6,22 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.example.cartService.dto.*;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
+import com.example.cartService.dto.CartItemChangeQuantityDTO;
+import com.example.cartService.dto.CartItemDTO;
+import com.example.cartService.dto.CartItemInsertDTO;
+import com.example.cartService.dto.CartItemRemoveDTO;
+import com.example.cartService.dto.CartPaymentDTO;
+import com.example.cartService.dto.CartPaymentStatusChangeDTO;
+import com.example.cartService.dto.ClientCartDTO;
+import com.example.cartService.dto.FormPaymentDTO;
+import com.example.cartService.dto.FreeResourcesDTO;
+import com.example.cartService.dto.ItemDTO;
+import com.example.cartService.dto.PagamentoDTO;
 import com.example.cartService.exceptions.NoCartException;
 import com.example.cartService.exceptions.NoClientException;
 import com.example.cartService.exceptions.NoItemException;
@@ -38,6 +48,7 @@ public class CartService {
     private final ClientCartRepository clientCartRepository;
     private final CartRepository cartRepository;
     private final ClientCartMapper clientCartMapper;
+    private final ClientPagamentoMapper clientPagamentoMapper;
     private final PagamentoRepository pagamentoRepository;
     private final List<Thread> paymentThreads = new ArrayList<>();
     private RestTemplate restTemplate;
@@ -49,11 +60,12 @@ public class CartService {
     @Value("${paypal.client.secret}")
     private String paypalClientSecret;
 */
-    public CartService(ClientCartRepository clientCartRepository,PagamentoRepository pagamentoRepository ,CartRepository cartRepository, ClientCartMapper clientCartMapper, RestTemplate restTemplate) {
+    public CartService(ClientCartRepository clientCartRepository,PagamentoRepository pagamentoRepository ,CartRepository cartRepository, ClientCartMapper clientCartMapper,ClientPagamentoMapper clientPagamentoMapper, RestTemplate restTemplate) {
         this.clientCartRepository = clientCartRepository;
         this.pagamentoRepository = pagamentoRepository;
         this.cartRepository = cartRepository;
         this.clientCartMapper = clientCartMapper;
+        this.clientPagamentoMapper = clientPagamentoMapper;
         this.restTemplate = restTemplate;
 
         //PayPalEnvironment environment = new PayPalEnvironment.Sandbox(paypalClientId, paypalClientSecret);
@@ -280,8 +292,15 @@ public class CartService {
             throw new NoClientException("Client not found with username: " + username);
         }
         return cliente.getTransacoes().stream()
-            .map(ClientPagamentoMapper::toPagamentoDTO)
+            .map(x-> clientPagamentoMapper.toPagamentoDTO(x))
             .collect(Collectors.toSet());
+    }
+
+    public Pagamento getPagamentoByCode(String codigo){
+        Pagamento p = null;
+        p = pagamentoRepository.findByCode(codigo);
+        
+        return p;
     }
 
     public void changePaymentStatus(CartPaymentStatusChangeDTO paymentInfo) throws NoClientException {
@@ -308,12 +327,15 @@ public class CartService {
     public void checkPayment(String codigo) {
         Thread t = new Thread(() -> {
             try {
-                Thread.sleep(100000);
+                Thread.sleep(1000000);
                 Pagamento p = pagamentoRepository.findByCode(codigo);
                 if(p.getStatus().equals("PENDING")) {
                     pagamentoRepository.deleteById(p.getIDPagamento());
                     String gatewayUrl = "http://localhost:8888/api/catalogoService/freeItems";
                     restTemplate.postForObject(gatewayUrl, new FreeResourcesDTO(p.getitens().stream().map(x->new ItemDTO(x.getCodigo(),x.getIdLoja(),x.getQuantidade())).toList()), String.class);
+                }
+                if(p.getStatus().equals("PAYED")) {
+                    pagamentoRepository.deleteById(p.getIDPagamento());
                 }
                 this.paymentThreads.removeIf((x)->x.getName().equals(codigo));
 

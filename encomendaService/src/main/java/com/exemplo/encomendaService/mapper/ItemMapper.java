@@ -14,12 +14,8 @@ public class ItemMapper {
         dto.setCodigo(item.getCodigo());
         dto.setDesignacao(item.getDesignacao());
         dto.setPreco(item.getPreco());
-        dto.setNraquisicoes(item.getNraquisicoes());
-        dto.setEstilo(item.getEstilo());
-        dto.setCor(item.getCor());
-        dto.setTamanho(item.getTamanho());
-        dto.setGenero(item.getGenero());
-        dto.setImagemUrl(item.getImagemUrl());
+        dto.setNrPedido(item.getNrpedido());
+        dto.setIdLoja(item.getIdLoja());
         return dto;
     }
 
@@ -29,12 +25,8 @@ public class ItemMapper {
         item.setCodigo(dto.getCodigo());
         item.setDesignacao(dto.getDesignacao());
         item.setPreco(dto.getPreco());
-        item.setNraquisicoes(dto.getNraquisicoes());
-        item.setEstilo(dto.getEstilo());
-        item.setCor(dto.getCor());
-        item.setTamanho(dto.getTamanho());
-        item.setGenero(dto.getGenero());
-        item.setImagemUrl(dto.getImagemUrl());
+        item.setNrpedido(dto.getNrPedido());
+        item.setIdLoja(dto.getIdLoja());
         return item;
     }
 }
