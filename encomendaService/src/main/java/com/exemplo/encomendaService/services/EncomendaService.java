@@ -191,6 +191,8 @@ public class EncomendaService {
 
     // Método para salvar uma nova encomenda
     public void saveEncomenda(EncomendaDTO encomendaDTO) {
+        System.out.println("aqui");
+        System.out.println(encomendaDTO);
         Cliente c;
         Optional<Cliente> cliente = clienteRepository.findByUsername(encomendaDTO.getClienteUsername());
         if(cliente.isEmpty()) {
@@ -222,7 +224,6 @@ public class EncomendaService {
             for (Item i : l){
                 encomenda.addItemToEncomenda(i);
             }
-            System.out.println(encomenda);
 
             loja.adicionaEncomenda(encomenda);
 

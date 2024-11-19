@@ -13,16 +13,26 @@ public class ItemMapper {
         ItemDTO dto = new ItemDTO();
         dto.setCodigo(item.getCodigo());
         dto.setNrPedido(item.getNrpedido());
+        dto.setDesignacao(item.getDesignacao());
+        dto.setImagem(item.getImagemUrl());
+        dto.setPreco(item.getPreco());
         dto.setIdLoja(item.getIdLoja());
         return dto;
     }
 
     // Converte de DTO para Entidade
     public static Item toEntity(ItemDTO dto) {
+        System.out.println("aquiii");
+
         Item item = new Item();
         item.setCodigo(dto.getCodigo());
         item.setNrpedido(dto.getNrPedido());
         item.setIdLoja(dto.getIdLoja());
+        item.setDesignacao(dto.getDesignacao());
+        item.setImagemUrl(dto.getImagem());
+        item.setPreco(dto.getPreco());
+        System.out.println(item);
+
         return item;
     }
 }

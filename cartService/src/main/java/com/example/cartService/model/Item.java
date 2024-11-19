@@ -14,7 +14,14 @@
 package com.example.cartService.model;
 
 import java.io.Serializable;
-import jakarta.persistence.*;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
 @Entity
 @org.hibernate.annotations.Proxy(lazy=false)
 @Table(name="Item")
@@ -40,10 +47,10 @@ public class Item implements Serializable {
 	@Column(name="Imagem", nullable=true, length=255)	
 	private String imagem;
 	
-	@Column(name="IdLoja", nullable=false, length=10)	
+	@Column(name="IdLoja", length=10)	
 	private int idLoja;
 	
-	@Column(name="Quantidade", nullable=false, length=10)	
+	@Column(name="Quantidade", length=10)	
 	private int quantidade;
 	
 	private void setIDItem(int value) {
@@ -71,7 +78,7 @@ public class Item implements Serializable {
 	}
 	
 	public String getDesignacao() {
-		return designacao;
+		return this.designacao;
 	}
 	
 	public void setPreco(double value) {

@@ -19,7 +19,7 @@
 					:customerId="encomenda.clienteUsername"
 					:storeId="encomenda.lojaId"
 					:itens="encomenda.itens"
-					:orderPrice="totalItensPreco(encomenda.preco,encomenda.taxaEntrega).toFixed(2)" 
+					:orderPrice="totalItensPreco(encomenda.itens,encomenda.taxaEntrega).toFixed(2)" 
 					:deliveryFee="encomenda.taxaEntrega"
 					></OrderComponentView><!-- podia passar tambem o encomenda.preco-->
 				</div>
@@ -74,15 +74,14 @@ export default {
 					console.error('Erro ao buscar encomendas:', error);
 				});
 		},
-		totalItensPreco(totalencomenda, taxaEntrega) {
-			//if (!itens || !Array.isArray(itens)) return 0;
-
-			//const totalItens = itens.reduce((total, item) => {
-			const preco = parseFloat(totalencomenda);
-
-			
+		totalItensPreco(itens, taxaEntrega) {
+			if (!itens || !Array.isArray(itens)) return 0;
+			const totalItens = itens.reduce((total, item) => {
+			const preco = parseFloat(item.preco);
+			return total + (isNaN(preco) ? 0 : preco);
+			}, 0);
 			const taxa = parseFloat(taxaEntrega);
-			return preco + (isNaN(taxa) ? 0 : taxa);
+			return totalItens + (isNaN(taxa) ? 0 : taxa);
 		}
 	}
 };

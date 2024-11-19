@@ -14,7 +14,14 @@
 package com.example.cartService.model;
 
 import java.io.Serializable;
-import jakarta.persistence.*;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
 @Entity
 @org.hibernate.annotations.Proxy(lazy=false)
 @Table(name="ItemEncomenda")
@@ -37,8 +44,30 @@ public class ItemEncomenda implements Serializable {
 	@Column(name="Quantidade", nullable=false, length=10)	
 	private int quantidade;
 
+
+	@Column(name="Designacao", nullable=true, length=255)	
+	private String designacao;
+	
+	@Column(name="Preco", nullable=true)	
+	private double preco;
+	
+	@Column(name="Imagem", nullable=true, length=255)	
+	private String imagem;
+	
+
 	public ItemEncomenda(int quantidade, String codigo, int idLoja) {
 		this.quantidade = quantidade;
+		this.codigo = codigo;
+		this.idLoja = idLoja;
+	}
+
+
+
+	public ItemEncomenda(int quantidade, String codigo, int idLoja,String designacao, double preco, String imagem) {
+		this.quantidade = quantidade;
+		this.codigo = codigo;
+		this.designacao = designacao;
+		this.imagem = imagem;
 		this.codigo = codigo;
 		this.idLoja = idLoja;
 	}
@@ -61,6 +90,31 @@ public class ItemEncomenda implements Serializable {
 	
 	public String getCodigo() {
 		return codigo;
+	}
+	
+
+	public void setDesignacao(String value) {
+		this.designacao = value;
+	}
+	
+	public String getDesignacao() {
+		return designacao;
+	}
+	
+	public void setPreco(double value) {
+		this.preco = value;
+	}
+	
+	public double getPreco() {
+		return preco;
+	}
+	
+	public void setImagem(String value) {
+		this.imagem = value;
+	}
+	
+	public String getImagem() {
+		return imagem;
 	}
 	
 	public void setIdLoja(int value) {

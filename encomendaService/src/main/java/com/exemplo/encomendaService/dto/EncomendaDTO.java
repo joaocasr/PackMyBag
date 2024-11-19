@@ -116,4 +116,21 @@ public class EncomendaDTO {
     public void setTaxaEntrega(Double taxaEntrega) {
         this.taxaEntrega = taxaEntrega;
     }
+
+    @Override
+    public String toString() {
+        return "EncomendaDTO{" +
+                "codigoEncomenda='" + codigoEncomenda + '\'' +
+                ", dataEntrega='" + dataEntrega + '\'' +
+                ", dataDevolucao='" + dataDevolucao + '\'' +
+                ", localEntrega='" + localEntrega + '\'' +
+                ", status='" + status + '\'' +
+                ", clienteUsername='" + clienteUsername + '\'' +
+                ", clienteNome='" + clienteNome + '\'' +
+                ", clienteEmail='" + clienteEmail + '\'' +
+                ", itens=" + itens +
+                ", preco=" + preco +
+                ", taxaEntrega=" + taxaEntrega +
+                '}';
+    }
 }

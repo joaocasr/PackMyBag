@@ -12,6 +12,7 @@
 				:key="idx"
 				:imagemUrl="item.imagemUrl"
 				:nomeArtigo="item.designacao"
+				:preco="item.preco"
 				:quantidade="item.nraquisicoes"
 				:tamanho="item.tamanho"
 				:cor="item.cor"
@@ -36,6 +37,7 @@
 					<div class="div2">€ {{totalItensPreco().toFixed(2)}}</div>
 					<div v-for="item in encomenda.itens" :key="item.codigo" class="item-container">
 						<div class="item-nome">{{ item.designacao }}</div>
+						<div class="item-preco">€ {{ item.preco.toFixed(2) }}</div>
 					</div>
 					
 					<div class="resumo">

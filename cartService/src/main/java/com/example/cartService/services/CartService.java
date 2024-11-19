@@ -18,10 +18,12 @@ import com.example.cartService.dto.CartItemRemoveDTO;
 import com.example.cartService.dto.CartPaymentDTO;
 import com.example.cartService.dto.CartPaymentStatusChangeDTO;
 import com.example.cartService.dto.ClientCartDTO;
+import com.example.cartService.dto.DetailedItemDTO;
 import com.example.cartService.dto.FormPaymentDTO;
 import com.example.cartService.dto.FreeResourcesDTO;
 import com.example.cartService.dto.ItemDTO;
 import com.example.cartService.dto.PagamentoDTO;
+import com.example.cartService.dto.PagamentoEncomendaDTO;
 import com.example.cartService.exceptions.NoCartException;
 import com.example.cartService.exceptions.NoClientException;
 import com.example.cartService.exceptions.NoItemException;
@@ -36,6 +38,7 @@ import com.example.cartService.model.ItemEncomenda;
 import com.example.cartService.model.Pagamento;
 import com.example.cartService.repositories.CartRepository;
 import com.example.cartService.repositories.ClientCartRepository;
+import com.example.cartService.repositories.ItemEncomendaRepository;
 import com.example.cartService.repositories.PagamentoRepository;
 /*
  * Most things here are a work in progress
@@ -50,6 +53,7 @@ public class CartService {
     private final ClientCartMapper clientCartMapper;
     private final ClientPagamentoMapper clientPagamentoMapper;
     private final PagamentoRepository pagamentoRepository;
+    private final ItemEncomendaRepository itemEncomendaRepository;
     private final List<Thread> paymentThreads = new ArrayList<>();
     private RestTemplate restTemplate;
     /* private final PayPalHttpClient payPalClient;
@@ -60,11 +64,12 @@ public class CartService {
     @Value("${paypal.client.secret}")
     private String paypalClientSecret;
 */
-    public CartService(ClientCartRepository clientCartRepository,PagamentoRepository pagamentoRepository ,CartRepository cartRepository, ClientCartMapper clientCartMapper,ClientPagamentoMapper clientPagamentoMapper, RestTemplate restTemplate) {
+    public CartService(ClientCartRepository clientCartRepository,PagamentoRepository pagamentoRepository ,CartRepository cartRepository,ItemEncomendaRepository itemEncomendaRepository, ClientCartMapper clientCartMapper,ClientPagamentoMapper clientPagamentoMapper, RestTemplate restTemplate) {
         this.clientCartRepository = clientCartRepository;
         this.pagamentoRepository = pagamentoRepository;
         this.cartRepository = cartRepository;
         this.clientCartMapper = clientCartMapper;
+        this.itemEncomendaRepository = itemEncomendaRepository;
         this.clientPagamentoMapper = clientPagamentoMapper;
         this.restTemplate = restTemplate;
 
@@ -187,6 +192,13 @@ public class CartService {
         }
         
         Cart cart = cliente.getCart();
+        for(Item i : cart.getItens()){
+            ItemEncomenda item = itemEncomendaRepository.getItemByIdCode(i.getCodigo(), i.getIdLoja());
+            item.setImagem(i.getImagem());
+            item.setDesignacao(i.getDesignacao());
+            item.setPreco(i.getPreco());
+            itemEncomendaRepository.save(item);
+        }
         if (cart != null) {
             cart.getItens().clear();
         } else {
@@ -269,7 +281,7 @@ public class CartService {
                     .forEach(
                         payment::addItemEncomenda
                     );
-
+        
         System.out.println("Payment info: " + paymentInfo);
         System.out.println("Payment: " + payment);
 
@@ -297,11 +309,17 @@ public class CartService {
             .collect(Collectors.toSet());
     }
 
-    public Pagamento getPagamentoByCode(String codigo){
+    public PagamentoEncomendaDTO getPagamentoByCode(String codigo){
         Pagamento p = null;
         p = pagamentoRepository.findByCode(codigo);
-        
-        return p;
+        PagamentoEncomendaDTO pagamentoEncomendaDTO = new PagamentoEncomendaDTO(p);
+        Set<DetailedItemDTO> s = new HashSet<>();
+        for(ItemEncomenda i : p.getitens()){
+            ItemEncomenda item = itemEncomendaRepository.getItemByIdCode(i.getCodigo(),i.getIdLoja());
+            s.add(new DetailedItemDTO(item.getPreco(),item.getDesignacao(),item.getImagem(),item.getIdLoja(),item.getQuantidade(),item.getCodigo()));
+        }
+        pagamentoEncomendaDTO.setItems(s);
+        return pagamentoEncomendaDTO;
     }
 
     public void changePaymentStatus(CartPaymentStatusChangeDTO paymentInfo) throws NoClientException {
@@ -309,7 +327,7 @@ public class CartService {
         if (cliente == null) {
             throw new NoClientException("Client not found with username: " + paymentInfo.getUsername());
         }
-
+        
         Pagamento payment = cliente.getTransacoes().stream()
                 .filter(p -> p.getCodigo().equals(paymentInfo.getCodigo()))
                 .findFirst()
@@ -328,14 +346,14 @@ public class CartService {
     public void checkPayment(String codigo) {
         Thread t = new Thread(() -> {
             try {
-                Thread.sleep(1000000);
+                Thread.sleep(300000);
                 Pagamento p = pagamentoRepository.findByCode(codigo);
                 if(p.getStatus().equals("PENDING")) {
                     pagamentoRepository.deleteById(p.getIDPagamento());
                     String gatewayUrl = "http://localhost:8888/api/catalogoService/freeItems";
                     restTemplate.postForObject(gatewayUrl, new FreeResourcesDTO(p.getitens().stream().map(x->new ItemDTO(x.getCodigo(),x.getIdLoja(),x.getQuantidade())).toList()), String.class);
                 }
-                if(p.getStatus().equals("PAYED")) {
+                if(p.getStatus().equals("PAYED")){
                     pagamentoRepository.deleteById(p.getIDPagamento());
                 }
                 this.paymentThreads.removeIf((x)->x.getName().equals(codigo));
@@ -343,6 +361,7 @@ public class CartService {
             } catch (Exception e) {
                 System.out.println(e);
             }
+            
         });
         t.setName(codigo);
         this.paymentThreads.add(t);

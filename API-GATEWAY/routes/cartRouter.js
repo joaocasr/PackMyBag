@@ -152,7 +152,7 @@ router.post("/pay", validate.verifyToken, async function(req,res,next){
                       "clienteUsername": req.body.username,
                       "clienteNome": req.body.nome,
                       "clienteEmail": req.body.email,
-                      "itens": paymentInfoItems.itens,
+                      "itens": paymentInfoItems.items,
                       "preco": req.body.total,
                       "taxaEntrega": 6.0
                     }

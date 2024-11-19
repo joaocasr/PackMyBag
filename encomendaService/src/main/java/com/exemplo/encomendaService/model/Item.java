@@ -30,7 +30,17 @@ public class Item implements Serializable {
 
 	@Column(name="Idloja", nullable=false, length=10)
 	private int idLoja;
+
+	@Column(name="ImagemUrl", nullable=true, length=255)
+	private String imagemUrl;
 	
+
+	@Column(name="Designacao", nullable=true, length=255)
+	private String designacao;
+
+	@Column(name="Preco", nullable=true)	
+	private double preco;
+
 	private void setIDItem(int value) {
 		this.IDItem = value;
 	}
@@ -51,7 +61,30 @@ public class Item implements Serializable {
 		return codigo;
 	}
 	
+	public void setPreco(double value) {
+		this.preco = value;
+	}
+
+	public String getDesignacao() {
+		return designacao;
+	}
 	
+	public void setDesignacao(String designacao) {
+		this.designacao = designacao;
+	}
+
+	public double getPreco() {
+		return preco;
+	}
+
+	public void setImagemUrl(String value) {
+		this.imagemUrl = value;
+	}
+
+	public String getImagemUrl() {
+		return imagemUrl;
+	}
+
 	public void setNrpedido(int value) {
 		this.nrpedido = value;
 	}
@@ -68,8 +101,16 @@ public class Item implements Serializable {
 		return idLoja;
 	}
 
+	@Override
 	public String toString() {
-		return String.valueOf(getIDItem());
+		return "Item{" +
+				"IDItem=" + IDItem +
+				", codigo='" + codigo + '\'' +
+				", nrpedido=" + nrpedido +
+				", idLoja=" + idLoja +
+				", imagemUrl='" + imagemUrl + '\'' +
+				", designacao='" + designacao + '\'' +
+				", preco=" + preco +
+				'}';
 	}
-	
 }
