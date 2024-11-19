@@ -1,8 +1,8 @@
 package com.example.recomendacoesservice.dto;
 
 public class pedidoToEstilistaDTO {
-    private int IDEstilista;
-    private int IDCliente;
+    private String usernameEstilista;
+    private String usernameCliente;
     private String estilos;
     private String cores;
     private int nrOutfits;
@@ -11,9 +11,9 @@ public class pedidoToEstilistaDTO {
     private String fabricsPreferences;
     private String occasions;
 
-    public pedidoToEstilistaDTO(int IDEstilista, int IDCliente, String estilos, String cores, int nrOutfits, double orcamento, String pe, String fp, String oc) {
-        this.IDEstilista = IDEstilista;
-        this.IDCliente = IDCliente;
+    public pedidoToEstilistaDTO(String usernameEstilista, String usernameCliente, String estilos, String cores, int nrOutfits, double orcamento, String pe, String fp, String oc) {
+        this.usernameEstilista = usernameEstilista;
+        this.usernameCliente = usernameCliente;
         this.estilos = estilos;
         this.cores = cores;
         this.nrOutfits = nrOutfits;
@@ -23,17 +23,17 @@ public class pedidoToEstilistaDTO {
         this.peçasExcluidas = pe;
     }
 
-    public int getIDEstilista() {
-        return IDEstilista;
+    public String getUsernameEstilista() {
+        return this.usernameEstilista;
     }
-    public void setIDEstilista(int iDEstilista) {
-        IDEstilista = iDEstilista;
+    public void setUsernameEstilista(String usernameEstilista) {
+        this.usernameEstilista = usernameEstilista;
     }
-    public int getIDCliente() {
-        return IDCliente;
+    public String getUsernameCliente() {
+        return this.usernameCliente;
     }
-    public void setIDCliente(int iDECliente) {
-        IDCliente = iDECliente;
+    public void setUsernameCliente(String usernameCliente) {
+        this.usernameCliente = usernameCliente;
     }
     public String getEstilos() {
         return estilos;

@@ -13,10 +13,10 @@ import java.util.Optional;
 import java.util.Set;
 
 @Repository
-public interface estilistasRepository extends JpaRepository<Estilista, Integer>{
-    @Query("SELECT e FROM Estilista e WHERE e.IDEstilista = :IDEstilista")
-    Optional<Estilista> getEstilista(@Param("IDEstilista") Integer IDEstilista);
+public interface estilistasRepository extends JpaRepository<Estilista, String>{
+    @Query("SELECT e FROM Estilista e WHERE e.username = :username")
+    Optional<Estilista> getEstilista(@Param("username") String username);
 
-    @Query("SELECT e.pedidos FROM Estilista e WHERE e.IDEstilista = :IDEstilista")
-    Page<Pedido> getPedidosbyEstilista(@Param("IDEstilista") Integer IDEstilista, PageRequest pageRequest);
+    @Query("SELECT e.pedidos FROM Estilista e WHERE e.username = :username")
+    Page<Pedido> getPedidosbyEstilista(@Param("username") String username, PageRequest pageRequest);
 }

@@ -1,8 +1,14 @@
 package com.example.recomendacoesservice.dto;
 
 import com.example.recomendacoesservice.model.Pedido;
+import com.example.recomendacoesservice.dto.itemDTO;
+
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class pedidoDTO {
+    private int IDPedido;
     private String estilos;
     private String cores;
     private int nrOutfits;
@@ -10,8 +16,12 @@ public class pedidoDTO {
     private String peçasExcluidas;
     private String fabricsPreferences;
     private String occasions;
+    private String descricao;
+    private Set<itemDTO> conjunto;
+    private String status;
 
     public pedidoDTO(Pedido pedido) {
+        this.IDPedido = pedido.getIDPedido();
         this.estilos = pedido.getEstilos();
         this.cores = pedido.getCores();
         this.nrOutfits = pedido.getNrOutfits();
@@ -19,16 +29,30 @@ public class pedidoDTO {
         this.peçasExcluidas = pedido.getPeçasExcluidas();
         this.fabricsPreferences = pedido.getFabricsPreferences();
         this.occasions = pedido.getOccasions();
+        this.descricao = pedido.getDescricao();
+        this.conjunto = pedido.getConjunto().stream().map(x -> new itemDTO(x)).collect(Collectors.toSet());
+        this.status = pedido.getStatus();
     }
 
-    public pedidoDTO( String es, String crs, int nO, double orc, String pe, String fp, String oc) {
-        this.estilos = es;
-        this.cores = crs;
-        this.nrOutfits = nO;
-        this.orcamento = orc;
-        this.peçasExcluidas = pe;
-        this.fabricsPreferences = fp;
-        this.occasions = oc;
+    public pedidoDTO(int IDPedido, String estilos, String cores, int nrOutfits, double orcamento, String peçasExcluidas, String fabricsPreferences, String occasions, String descricao, Set<itemDTO> conjunto, String status) {
+        this.IDPedido = IDPedido;
+        this.estilos = estilos;
+        this.cores = cores;
+        this.nrOutfits = nrOutfits;
+        this.orcamento = orcamento;
+        this.peçasExcluidas = peçasExcluidas;
+        this.fabricsPreferences = fabricsPreferences;
+        this.occasions = occasions;
+        this.descricao = descricao == null ? "" : descricao;
+        this.conjunto = conjunto == null ? new HashSet<>() : conjunto;
+        this.status = status;
+    }
+
+    public int getIDPedido() {
+        return this.IDPedido;
+    }
+    public void setIDPedido(int IDPedido) {
+        this.IDPedido = IDPedido;
     }
 
     public String getEstilos() {
@@ -81,5 +105,24 @@ public class pedidoDTO {
 
     public void setOccasions(String occasions) {
         this.occasions = occasions;
+    }
+
+    public String getDescricao() {
+        return this.descricao;
+    }
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+    public Set<itemDTO> getConjunto() {
+        return conjunto;
+    }
+    public void setConjunto(Set<itemDTO> conjunto) {
+        this.conjunto = conjunto;
+    }
+    public String getStatus() {
+        return status;
+    }
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

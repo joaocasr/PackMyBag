@@ -3,28 +3,28 @@ package com.example.recomendacoesservice.dto;
 import java.util.HashSet;
 import java.util.Set;
 
-public class editRecomendacaoDTO {
+public class editPedidoDTO {
 
-    private int IDRecomendacao;
+    private int IDPedido;
     private String descricao;
-    private String itemsEditType; // "addItems", "removeItems"
+    private String itemsEditType; // "add", "remove"
     private Set<itemDTO> conjunto;
     private String status;
 
 
-    public editRecomendacaoDTO(int IDRecomendacao, String descricao, String itemsEditType, Set<itemDTO> conjunto, String status) {
-        this.IDRecomendacao = IDRecomendacao;
+    public editPedidoDTO(int IDPedido, String descricao, String itemsEditType, Set<itemDTO> conjunto, String status) {
+        this.IDPedido = IDPedido;
         this.descricao = descricao == null ? "" : descricao;
         this.itemsEditType = itemsEditType == null ? "" : itemsEditType;
         this.conjunto = conjunto == null? new HashSet<>() : conjunto;
         this.status = status == null ? "" : status;
     }
 
-    public int getIDRecomendacao() {
-        return this.IDRecomendacao;
+    public int getIDPedido() {
+        return this.IDPedido;
     }
-    public void setIDRecomendacao(int IDRecomendacao) {
-        this.IDRecomendacao = IDRecomendacao;
+    public void setIDPedido(int IDPedido) {
+        this.IDPedido = IDPedido;
     }
     public String getDescricao() {
         return this.descricao;

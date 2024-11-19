@@ -30,11 +30,6 @@ public class Cliente implements Serializable {
 
 	@Column(name="Username", nullable=true, length=255)
 	private String username;
-
-	@OneToMany(mappedBy="cliente", orphanRemoval=true, targetEntity=Recomendacao.class)
-	@org.hibernate.annotations.Cascade({org.hibernate.annotations.CascadeType.ALL})	
-	@org.hibernate.annotations.LazyCollection(org.hibernate.annotations.LazyCollectionOption.TRUE)	
-	private java.util.Set recomendacoes = new java.util.HashSet();
 	
 	private void setIDCliente(int value) {
 		this.IDCliente = value;
@@ -54,18 +49,6 @@ public class Cliente implements Serializable {
 	
 	public String getUsername() {
 		return username;
-	}
-	
-	public void setRecomendacoes(java.util.Set value) {
-		this.recomendacoes = value;
-	}
-	
-	public java.util.Set getRecomendacoes() {
-		return recomendacoes;
-	}
-
-	public void addRecomendacao(Recomendacao r){
-		this.recomendacoes.add(r);
 	}
 
 	public String toString() {

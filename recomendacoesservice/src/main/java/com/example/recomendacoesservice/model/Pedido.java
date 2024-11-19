@@ -14,6 +14,8 @@
 package com.example.recomendacoesservice.model;
 
 import java.io.Serializable;
+import java.util.Set;
+
 import jakarta.persistence.*;
 @Entity
 @org.hibernate.annotations.Proxy(lazy=false)
@@ -53,6 +55,18 @@ public class Pedido implements Serializable {
 
 	@Column(name="Occasions", nullable=true, length=255)
 	private String occasions;
+
+	@Column(name="Descricao", nullable=true, length=255)
+	private String descricao;
+
+	@Column(name="Status", nullable=true, length=255)
+	private String status; // 'completed' or 'pending'
+
+	@OneToMany(targetEntity=Item.class)
+	@org.hibernate.annotations.Cascade({org.hibernate.annotations.CascadeType.ALL})
+	@JoinColumns({ @JoinColumn(name="PedidoIDPedido", nullable=false) })
+	@org.hibernate.annotations.LazyCollection(org.hibernate.annotations.LazyCollectionOption.TRUE)
+	private java.util.Set<Item> conjunto = new java.util.HashSet();
 	
 	private void setIDPedido(int value) {
 		this.IDPedido = value;
@@ -129,9 +143,43 @@ public class Pedido implements Serializable {
 	public Cliente getCliente() {
 		return this.cliente;
 	}
-	
+
+	public String getDescricao() {
+		return this.descricao;
+	}
+
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
+
+	public String getStatus() {
+		return this.status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public Set<Item> getConjunto() {
+		return this.conjunto;
+	}
+
+	public void setConjunto(Set<Item> conjunto) {
+		this.conjunto = conjunto;
+	}
+
+	public void addItem(Item item) {
+		this.conjunto.add(item);
+	}
+
+	public void removeItem(Item item) {
+		this.conjunto.remove(item);
+	}
+
 	public String toString() {
 		return String.valueOf(getIDPedido());
 	}
+
+
 	
 }

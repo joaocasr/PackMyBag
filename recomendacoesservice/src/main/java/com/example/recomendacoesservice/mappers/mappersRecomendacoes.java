@@ -9,8 +9,4 @@ public class mappersRecomendacoes {
     public pedidoDTO pedidoToDTO(Pedido pedido) {
         return new pedidoDTO(pedido);
     }
-
-    public recomendacaoDTO recomendacaoToDTO(Recomendacao recomendacao) {
-        return new recomendacaoDTO(recomendacao);
-    }
 }

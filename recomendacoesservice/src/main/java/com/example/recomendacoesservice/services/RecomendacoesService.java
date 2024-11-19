@@ -17,54 +17,66 @@ public class RecomendacoesService {
     private clientesRepository clientesRepository;
     private estilistasRepository estilistaRepository;
     private pedidosRepository pedidosRepository;
-    private recomendacoesRepository recomendacoesRepository;
     private itemsRepository itemsRepository;
     private mappersRecomendacoes mappersRecomendacoes;
 
-    public RecomendacoesService(clientesRepository cR, estilistasRepository eR, pedidosRepository pR, recomendacoesRepository rR, itemsRepository iR, mappersRecomendacoes mP) {
+    public RecomendacoesService(clientesRepository cR, estilistasRepository eR, pedidosRepository pR, itemsRepository iR, mappersRecomendacoes mP) {
         clientesRepository = cR;
         estilistaRepository = eR;
         pedidosRepository = pR;
-        recomendacoesRepository = rR;
         itemsRepository = iR;
         mappersRecomendacoes = mP;
     }
 
-    private Cliente checkIfClienteExists(Integer id) throws InexistentClientID {
-        return clientesRepository.getCliente(id).orElseThrow(InexistentClientID::new);
+    private Cliente getClienteIfExists(String username) throws InexistentClientUsername {
+        return clientesRepository.getCliente(username).orElseThrow(InexistentClientUsername::new);
     }
 
-    private Estilista checkIfEstilistaExists(Integer id) throws InexistentStylistID{
-        return estilistaRepository.getEstilista(id).orElseThrow(InexistentStylistID::new);
+    private Estilista getEstilistaIfExists(String username) throws InexistentStylistUsername {
+        return estilistaRepository.getEstilista(username).orElseThrow(InexistentStylistUsername::new);
     }
 
-    private Recomendacao checkIfRecomendacaoExists(Integer id) throws InexistentRecommendationID{
-        return recomendacoesRepository.getRecomendacaoByID(id).orElseThrow(InexistentRecommendationID::new);
+    private Cliente createClienteIfDoesntExist(String username){
+        Optional<Cliente> auxOC = clientesRepository.getCliente(username);
+        if(auxOC.isPresent()){
+            return auxOC.get();
+        }else{
+            Cliente c = new Cliente();
+            c.setUsername(username);
+            clientesRepository.save(c);
+            return c;
+        }
     }
 
-    public List<pedidoDTO> getPedidosEstilista(int IDEstilista, int page, int number) throws InexistentStylistID, InexistentRequests {
-        Estilista est = checkIfEstilistaExists(IDEstilista);
-        return estilistaRepository.getPedidosbyEstilista(est.getIDEstilista(), PageRequest.of(page, number)).stream().map(x -> mappersRecomendacoes.pedidoToDTO(x)).collect(Collectors.toList());
+    private Estilista createEstilistaIfDoesntExist(String username){
+        Optional<Estilista> auxOE = estilistaRepository.getEstilista(username);
+        if(auxOE.isPresent()){
+            return auxOE.get();
+        }else{
+            Estilista c = new Estilista();
+            c.setUsername(username);
+            estilistaRepository.save(c);
+            return c;
+        }
     }
 
-    public List<pedidoDTO> getPedidosCliente(int IDCliente, int page, int number) throws InexistentClientID, InexistentRequests {
-        Cliente c = checkIfClienteExists(IDCliente);
-        return pedidosRepository.getPedidosByCliente(c.getIDCliente(), PageRequest.of(page, number)).stream().map(x -> mappersRecomendacoes.pedidoToDTO(x)).collect(Collectors.toList());
+    private Pedido checkIfPedidoExists(Integer id) throws InexistentRequestID{
+        return pedidosRepository.getPedido(id).orElseThrow(InexistentRequestID::new);
     }
 
-    public List<recomendacaoDTO> getRecomendacoesEstilista(int IDEstilista, int page, int number) throws InexistentStylistID, InexistentRecommendations {
-        Estilista est = checkIfEstilistaExists(IDEstilista);
-        return recomendacoesRepository.getRecomendacaoByEstilista(est.getIDEstilista(), PageRequest.of(page, number)).stream().map(x -> mappersRecomendacoes.recomendacaoToDTO(x)).collect(Collectors.toList());
+    public List<pedidoDTO> getPedidosEstilista(String username, int page, int number) throws InexistentStylistUsername, InexistentRequests {
+        Estilista est = getEstilistaIfExists(username);
+        return estilistaRepository.getPedidosbyEstilista(est.getUsername(), PageRequest.of(page, number)).stream().map(x -> mappersRecomendacoes.pedidoToDTO(x)).collect(Collectors.toList());
     }
 
-    public List<recomendacaoDTO> getRecomendacoesCliente(int IDCliente, int page, int number) throws InexistentClientID, InexistentRecommendations{
-        Cliente c = checkIfClienteExists(IDCliente);
-        return recomendacoesRepository.getRecomendacaoByCliente(c.getIDCliente(), PageRequest.of(page, number)).stream().map(x -> mappersRecomendacoes.recomendacaoToDTO(x)).collect(Collectors.toList());
+    public List<recomendacaoToClienteDTO> getPedidosCliente(String username, int page, int number) throws InexistentClientUsername, InexistentRequests {
+        Cliente c = getClienteIfExists(username);
+        return pedidosRepository.getPedidosByCliente(c.getIDCliente(), PageRequest.of(page, number)).stream().map(x -> new recomendacaoToClienteDTO(x)).collect(Collectors.toList());
     }
 
-    public void newPedido(pedidoToEstilistaDTO pedidoToEstilista) throws InexistentClientID, InexistentStylistID {
-        Cliente c = checkIfClienteExists(pedidoToEstilista.getIDCliente());
-        Estilista e = checkIfEstilistaExists(pedidoToEstilista.getIDEstilista());
+    public void newPedido(pedidoToEstilistaDTO pedidoToEstilista) throws InexistentClientUsername, InexistentStylistUsername {
+        Cliente c = createClienteIfDoesntExist(pedidoToEstilista.getUsernameCliente());
+        Estilista e = createEstilistaIfDoesntExist(pedidoToEstilista.getUsernameEstilista());
 
         Pedido np = new Pedido();
         np.setCliente(c);
@@ -75,6 +87,7 @@ public class RecomendacoesService {
         np.setPeçasExcluidas(pedidoToEstilista.getPeçasExcluidas());
         np.setFabricsPreferences(pedidoToEstilista.getFabricsPreferences());
         np.setOccasions(pedidoToEstilista.getOccasions());
+        np.setStatus("pending");
 
 
         e.addPedido(np);
@@ -82,91 +95,60 @@ public class RecomendacoesService {
         estilistaRepository.save(e);
     }
 
-    public void newRecomendacao(recomendacaoToClienteDTO recomendacaoToCliente) throws InexistentClientID, InexistentStylistID, CompleteWithoutItems {
-        Cliente c = checkIfClienteExists(recomendacaoToCliente.getIDCliente());
-        Estilista e = checkIfEstilistaExists(recomendacaoToCliente.getIDEstilista());
+    public void editPedido(editPedidoDTO editPedidoDTO) throws InexistentRequestID, RequestAlreadyCompleted, CompleteWithoutItemsOrDescription, NoItems, UnknownEditType{
+        // estou a assumir que apenas tens um item de cada codigo numa recomendacao
+        Pedido p = checkIfPedidoExists(editPedidoDTO.getIDPedido());
 
-        Recomendacao nR = new Recomendacao();
-        nR.setCliente(c);
-        nR.setEstilista(e);
-        nR.setDescricao(recomendacaoToCliente.getDescricao());
-        nR.setStatus(recomendacaoToCliente.getStatus());
-
-        if(recomendacaoToCliente.getConjunto().isEmpty() && recomendacaoToCliente.getStatus().equals("completed")){
-            throw new CompleteWithoutItems();
-        }else if((!nR.getStatus().equals("pending") && !nR.getStatus().equals("completed"))){
-            nR.setStatus("pending");
-        }else {
-            for (itemDTO iDTO : recomendacaoToCliente.getConjunto()) {
-                Item iTemp = iDTO.itemDTOtoItem();
-                nR.addItem(iTemp);
-            }
-            c.addRecomendacao(nR);
-        }
-
-        recomendacoesRepository.save(nR);
-        clientesRepository.save(c);
-    }
-
-    public void removeRecomendacao(int IDRecomendacao) throws InexistentRecommendationID, RecommendationAlreadyCompleted {
-        Recomendacao r = checkIfRecomendacaoExists(IDRecomendacao);
-
-        if(r.getStatus().equals("completed")) throw new RecommendationAlreadyCompleted("removed");
-        else{
-            recomendacoesRepository.delete(r);
-        }
-    }
-
-    public void editRecomendacao(editRecomendacaoDTO editRecomendacaoDTO) throws InexistentRecommendationID, RecommendationAlreadyCompleted, CompleteWithoutItems, NoItems{
-        // a parte de remover items poderá ter de ser alterada, visto que estou a assumir que
-        // apenas tens um item de cada codigo numa recomendacao
-        Recomendacao r = checkIfRecomendacaoExists(editRecomendacaoDTO.getIDRecomendacao());
-
-        if(r.getStatus().equals("completed")) throw new RecommendationAlreadyCompleted("edited");
-        else{
+        if(p.getStatus().equals("completed")) throw new RequestAlreadyCompleted("edited");
+        else {
             Set<Item> itemsToRemove = new HashSet<>();
 
-            if(!editRecomendacaoDTO.getDescricao().isEmpty()){
-                r.setDescricao(editRecomendacaoDTO.getDescricao());
+            if (!editPedidoDTO.getDescricao().isEmpty()) {
+                p.setDescricao(editPedidoDTO.getDescricao());
             }
-            if(!editRecomendacaoDTO.getConjunto().isEmpty() && !editRecomendacaoDTO.getItemsEditType().isEmpty()){
-                if(editRecomendacaoDTO.getItemsEditType().equals("addItems")){
-                    for (itemDTO iDTO : editRecomendacaoDTO.getConjunto()) {
-                        Item iTemp = iDTO.itemDTOtoItem();
-                        r.addItem(iTemp);
-                    }
-                }else if(editRecomendacaoDTO.getItemsEditType().equals("removeItems")){
-                    if(r.getConjunto().isEmpty()){
-                        throw new NoItems("items previously");
-                    }
-                    for(Item i : r.getConjunto()){ // selecionar os items a remover
-                        for(itemDTO iDTO : editRecomendacaoDTO.getConjunto()){
-                            if(i.getCodigo().equals(iDTO.getCodigo())){
-                                itemsToRemove.add(i);
+            if (!editPedidoDTO.getConjunto().isEmpty()) {
+                if (!editPedidoDTO.getItemsEditType().isEmpty()) {
+                    if (editPedidoDTO.getItemsEditType().equals("add")) {
+                        for (itemDTO iDTO : editPedidoDTO.getConjunto()) {
+                            Item iTemp = iDTO.itemDTOtoItem();
+                            p.addItem(iTemp);
+                        }
+                    } else if (editPedidoDTO.getItemsEditType().equals("remove")) {
+                        if (p.getConjunto().isEmpty()) {
+                            throw new NoItems("items previously");
+                        }
+                        for (Item i : p.getConjunto()) { // selecionar os items a remover
+                            for (itemDTO iDTO : editPedidoDTO.getConjunto()) {
+                                if (i.getCodigo().equals(iDTO.getCodigo())) {
+                                    itemsToRemove.add(i);
+                                }
                             }
                         }
+                        for (Item i : itemsToRemove) { //remover os items selecionados
+                            p.removeItem(i);
+                        }
+                    }else{
+                        throw new UnknownEditType();
                     }
-                    for(Item i : itemsToRemove){ //remover os items selecionados
-                        r.removeItem(i);
-                    }
+                }else{
+                    throw new NoItems("item edit instruction");
                 }
+            }else{
+                throw new NoItems("items");
             }
-            if(!editRecomendacaoDTO.getStatus().isEmpty()){
-                if(editRecomendacaoDTO.getStatus().equals("pending") || editRecomendacaoDTO.getStatus().equals("completed")){
-                    if(editRecomendacaoDTO.getStatus().equals("completed") && r.getConjunto().isEmpty()){
-                        throw new CompleteWithoutItems();
-                    }else if(editRecomendacaoDTO.getConjunto().isEmpty()){
-                        throw new NoItems("items");
-                    }else if(editRecomendacaoDTO.getItemsEditType().isEmpty()){
-                        throw new NoItems("item edit instruction");
+
+            if(!editPedidoDTO.getStatus().isEmpty()){
+                if(editPedidoDTO.getStatus().equals("pending") || editPedidoDTO.getStatus().equals("completed")){
+                    if(editPedidoDTO.getStatus().equals("completed") && p.getConjunto().isEmpty() && p.getDescricao().isEmpty()){
+                        throw new CompleteWithoutItemsOrDescription();
                     }
-                    r.setStatus(editRecomendacaoDTO.getStatus());
+                    p.setStatus(editPedidoDTO.getStatus());
                 }
             }
 
-            recomendacoesRepository.save(r);
-            if(!editRecomendacaoDTO.getConjunto().isEmpty() && editRecomendacaoDTO.getItemsEditType().equals("removeItems")){
-                itemsRepository.deleteAll(itemsToRemove); // apenas é realizado se itemsEditType = "removeItems"
+            pedidosRepository.save(p);
+            if(!editPedidoDTO.getConjunto().isEmpty() && editPedidoDTO.getItemsEditType().equals("remove")){
+                itemsRepository.deleteAll(itemsToRemove); // apenas é realizado se itemsEditType = "remove"
             }
         }
     }
