@@ -3,6 +3,7 @@ package com.example.recomendacoesservice.dto;
 public class pedidoToEstilistaDTO {
     private String usernameEstilista;
     private String usernameCliente;
+    private String nome;
     private String estilos;
     private String cores;
     private int nrOutfits;
@@ -11,16 +12,24 @@ public class pedidoToEstilistaDTO {
     private String fabricsPreferences;
     private String occasions;
 
-    public pedidoToEstilistaDTO(String usernameEstilista, String usernameCliente, String estilos, String cores, int nrOutfits, double orcamento, String pe, String fp, String oc) {
-        this.usernameEstilista = usernameEstilista;
-        this.usernameCliente = usernameCliente;
-        this.estilos = estilos;
-        this.cores = cores;
+    public pedidoToEstilistaDTO(String usernameEstilista, String usernameCliente, String nome, String estilos, String cores, int nrOutfits, double orcamento, String pe, String fp, String oc) {
+        this.usernameEstilista = usernameEstilista == null? "" : usernameEstilista;
+        this.usernameCliente = usernameCliente == null? "" : usernameCliente;
+        this.nome = nome == null? "" : nome;
+        this.estilos = estilos == null? "" : estilos;
+        this.cores = cores == null? "" : cores;
         this.nrOutfits = nrOutfits;
         this.orcamento = orcamento;
-        this.fabricsPreferences = fp;
-        this.occasions = oc;
-        this.peçasExcluidas = pe;
+        this.fabricsPreferences = fp == null? "" : fp;
+        this.occasions = oc == null? "" : oc;
+        this.peçasExcluidas = pe == null? "" : pe;
+    }
+
+    public String getNome(){
+        return this.nome;
+    }
+    public void setNome(String nome){
+        this.nome = nome;
     }
 
     public String getUsernameEstilista() {

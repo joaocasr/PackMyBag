@@ -16,6 +16,7 @@ package com.example.recomendacoesservice.model;
 import java.io.Serializable;
 import java.util.Set;
 
+import com.example.recomendacoesservice.dto.itemDTO;
 import jakarta.persistence.*;
 @Entity
 @org.hibernate.annotations.Proxy(lazy=false)
@@ -25,15 +26,18 @@ public class Pedido implements Serializable {
 	}
 	
 	@Column(name="IDPedido", nullable=false, length=10)	
-	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator="RECOMENDACOESSERVICE_PEDIDO_IDPEDIDO_GENERATOR")
-	@SequenceGenerator(name="RECOMENDACOESSERVICE_PEDIDO_IDPEDIDO_GENERATOR",sequenceName="RECOMENDACOESSERVICE_PEDIDO_IDPEDIDO_SEQ")
+	@Id	
+	@GeneratedValue(generator="RECOMENDACOESSERVICE_PEDIDO_IDPEDIDO_GENERATOR")	
+	@org.hibernate.annotations.GenericGenerator(name="RECOMENDACOESSERVICE_PEDIDO_IDPEDIDO_GENERATOR", strategy="native")	
 	private int IDPedido;
 	
 	@ManyToOne(targetEntity=Cliente.class, fetch=FetchType.LAZY)
-	@org.hibernate.annotations.Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE, org.hibernate.annotations.CascadeType.LOCK, org.hibernate.annotations.CascadeType.DELETE})	
+	@org.hibernate.annotations.Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE, org.hibernate.annotations.CascadeType.LOCK})
 	@JoinColumns(value={ @JoinColumn(name="ClienteIDCliente", referencedColumnName="IDCliente", nullable=false) }, foreignKey=@ForeignKey(name="FKPedido815811"))	
 	private Cliente cliente;
+
+	@Column(name="Nome", nullable=true, length=255)
+	private String nome;
 	
 	@Column(name="Estilos", nullable=true, length=255)	
 	private String estilos;
@@ -168,6 +172,14 @@ public class Pedido implements Serializable {
 		this.conjunto = conjunto;
 	}
 
+	public String getNome() {
+		return this.nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
 	public void addItem(Item item) {
 		this.conjunto.add(item);
 	}
@@ -176,22 +188,28 @@ public class Pedido implements Serializable {
 		this.conjunto.remove(item);
 	}
 
-
-	@Override
-	public String toString() {
-		return "Pedido{" +
-				"IDPedido=" + IDPedido +
-				", cliente=" + cliente +
-				", estilos='" + estilos + '\'' +
-				", cores='" + cores + '\'' +
-				", nrOutfits=" + nrOutfits +
-				", orcamento=" + orcamento +
-				", peçasExcluidas='" + peçasExcluidas + '\'' +
-				", fabricsPreferences='" + fabricsPreferences + '\'' +
-				", occasions='" + occasions + '\'' +
-				", descricao='" + descricao + '\'' +
-				", status='" + status + '\'' +
-				", conjunto=" + conjunto +
-				'}';
+	public Item getItemByDTO(itemDTO iDTO){
+		for(Item i : this.conjunto){
+			if(i.getCodigo().equals(iDTO.getCodigo()) && i.getDesignacao().equals(iDTO.getDesignacao()) && i.getIdLoja() == iDTO.getIdLoja()){
+				return i;
+			}
+		}
+		return null;
 	}
+
+	public Boolean containsItemDTO(itemDTO iDTO){
+		for(Item i : this.conjunto){
+			if(i.getCodigo().equals(iDTO.getCodigo()) && i.getIdLoja() == iDTO.getIdLoja()){
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public String toString() {
+		return String.valueOf(getIDPedido());
+	}
+
+
+	
 }

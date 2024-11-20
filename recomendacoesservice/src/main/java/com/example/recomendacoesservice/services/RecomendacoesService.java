@@ -1,37 +1,16 @@
 package com.example.recomendacoesservice.services;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
+import com.example.recomendacoesservice.exceptions.*;
+import com.example.recomendacoesservice.repositories.*;
+import com.example.recomendacoesservice.model.*;
+import com.example.recomendacoesservice.dto.*;
+import com.example.recomendacoesservice.mappers.*;
 
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import com.example.recomendacoesservice.dto.editPedidoDTO;
-import com.example.recomendacoesservice.dto.itemDTO;
-import com.example.recomendacoesservice.dto.pedidoDTO;
-import com.example.recomendacoesservice.dto.pedidoToEstilistaDTO;
-import com.example.recomendacoesservice.dto.recomendacaoToClienteDTO;
-import com.example.recomendacoesservice.exceptions.CompleteWithoutItemsOrDescription;
-import com.example.recomendacoesservice.exceptions.InexistentClientUsername;
-import com.example.recomendacoesservice.exceptions.InexistentRequestID;
-import com.example.recomendacoesservice.exceptions.InexistentRequests;
-import com.example.recomendacoesservice.exceptions.InexistentStylistUsername;
-import com.example.recomendacoesservice.exceptions.NoItems;
-import com.example.recomendacoesservice.exceptions.RequestAlreadyCompleted;
-import com.example.recomendacoesservice.exceptions.UnknownEditType;
-import com.example.recomendacoesservice.mappers.mappersRecomendacoes;
-import com.example.recomendacoesservice.model.Cliente;
-import com.example.recomendacoesservice.model.Estilista;
-import com.example.recomendacoesservice.model.Item;
-import com.example.recomendacoesservice.model.Pedido;
-import com.example.recomendacoesservice.repositories.clientesRepository;
-import com.example.recomendacoesservice.repositories.estilistasRepository;
-import com.example.recomendacoesservice.repositories.itemsRepository;
-import com.example.recomendacoesservice.repositories.pedidosRepository;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class RecomendacoesService {
@@ -50,15 +29,11 @@ public class RecomendacoesService {
     }
 
     private Cliente getClienteIfExists(String username) throws InexistentClientUsername {
-        Optional<Cliente> c =  clientesRepository.getCliente(username);
-        if(c.isPresent()) return c.get();
-        else throw new InexistentClientUsername();
+        return clientesRepository.getCliente(username).orElseThrow(InexistentClientUsername::new);
     }
 
     private Estilista getEstilistaIfExists(String username) throws InexistentStylistUsername {
-        Optional<Estilista> e =  estilistaRepository.getEstilista(username);
-        if(e.isPresent()) return e.get();
-        else throw new InexistentStylistUsername();
+        return estilistaRepository.getEstilista(username).orElseThrow(InexistentStylistUsername::new);
     }
 
     private Cliente createClienteIfDoesntExist(String username){
@@ -66,7 +41,8 @@ public class RecomendacoesService {
         if(auxOC.isPresent()){
             return auxOC.get();
         }else{
-            Cliente c = new Cliente(username);
+            Cliente c = new Cliente();
+            c.setUsername(username);
             clientesRepository.save(c);
             return c;
         }
@@ -77,25 +53,20 @@ public class RecomendacoesService {
         if(auxOE.isPresent()){
             return auxOE.get();
         }else{
-            Estilista c = new Estilista(username);
+            Estilista c = new Estilista();
+            c.setUsername(username);
             estilistaRepository.save(c);
             return c;
         }
     }
 
-    private Pedido checkIfPedidoExists(Integer id) throws InexistentRequestID{
-        return pedidosRepository.getPedido(id).orElseThrow(InexistentRequestID::new);
+    private Pedido getPedidoIfExists(String nome) throws InexistentRequestName {
+        return pedidosRepository.getPedido(nome).orElseThrow(InexistentRequestName::new);
     }
 
     public List<pedidoDTO> getPedidosEstilista(String username, int page, int number) throws InexistentStylistUsername, InexistentRequests {
         Estilista est = getEstilistaIfExists(username);
-
-
-        Page<Pedido> pedidosPage = estilistaRepository.getPedidosbyEstilista(est.getUsername(), PageRequest.of(page, number));
-
-        List<pedidoDTO> pedidoDTOList = pedidosPage.stream().map(mappersRecomendacoes::pedidoToDTO).toList();
-
-        return pedidoDTOList;
+        return estilistaRepository.getPedidosbyEstilista(est.getUsername(), PageRequest.of(page, number)).stream().filter(x -> x.getStatus().equals("PAYED")).map(x -> mappersRecomendacoes.pedidoToDTO(x)).collect(Collectors.toList());
     }
 
     public List<recomendacaoToClienteDTO> getPedidosCliente(String username, int page, int number) throws InexistentClientUsername, InexistentRequests {
@@ -103,13 +74,17 @@ public class RecomendacoesService {
         return pedidosRepository.getPedidosByCliente(c.getIDCliente(), PageRequest.of(page, number)).stream().map(x -> new recomendacaoToClienteDTO(x)).collect(Collectors.toList());
     }
 
-    public void newPedido(pedidoToEstilistaDTO pedidoToEstilista) throws InexistentClientUsername, InexistentStylistUsername {
+    public void newPedido(pedidoToEstilistaDTO pedidoToEstilista) throws InexistentClientUsername, InexistentStylistUsername, EmptyNameEstilistaCliente {
+        if(pedidoToEstilista.getNome().isEmpty() || pedidoToEstilista.getUsernameEstilista().isEmpty() || pedidoToEstilista.getUsernameCliente().isEmpty() || pedidoToEstilista.getNome().isBlank() || pedidoToEstilista.getUsernameEstilista().isBlank() || pedidoToEstilista.getUsernameCliente().isBlank()){
+            throw new EmptyNameEstilistaCliente();
+        }
+
         Cliente c = createClienteIfDoesntExist(pedidoToEstilista.getUsernameCliente());
         Estilista e = createEstilistaIfDoesntExist(pedidoToEstilista.getUsernameEstilista());
 
-    
         Pedido np = new Pedido();
         np.setCliente(c);
+        np.setNome(pedidoToEstilista.getNome());
         np.setCores(pedidoToEstilista.getCores());
         np.setEstilos(pedidoToEstilista.getEstilos());
         np.setOrcamento(pedidoToEstilista.getOrcamento());
@@ -118,6 +93,8 @@ public class RecomendacoesService {
         np.setFabricsPreferences(pedidoToEstilista.getFabricsPreferences());
         np.setOccasions(pedidoToEstilista.getOccasions());
         np.setStatus("pending");
+        np.setDescricao("");
+        np.setConjunto(new HashSet<>());
 
 
         e.addPedido(np);
@@ -125,61 +102,102 @@ public class RecomendacoesService {
         estilistaRepository.save(e);
     }
 
-    public void editPedido(editPedidoDTO editPedidoDTO) throws InexistentRequestID, RequestAlreadyCompleted, CompleteWithoutItemsOrDescription, NoItems, UnknownEditType{
-        // estou a assumir que apenas tens um item de cada codigo numa recomendacao
-        Pedido p = checkIfPedidoExists(editPedidoDTO.getIDPedido());
+    public void removePedido(String nome) throws InexistentRequestName, RequestCompletedPendingPayed {
+        Pedido p = getPedidoIfExists(nome);
+        if(p.getStatus().equals("pending")){
+            pedidosRepository.delete(p);
+        }else{
+            throw new RequestCompletedPendingPayed(p.getStatus(), "removed");
+        }
+    }
 
-        if(p.getStatus().equals("completed")) throw new RequestAlreadyCompleted("edited");
-        else {
-            Set<Item> itemsToRemove = new HashSet<>();
-
-            if (!editPedidoDTO.getDescricao().isEmpty()) {
-                p.setDescricao(editPedidoDTO.getDescricao());
+    public void changeStatusPedido(statusPedidoDTO statusPedido) throws InexistentRequestName, IllegalStatus, NoItems, RequestCompletedPendingPayed, EmptyDTO {
+        if(statusPedido.getStatus().isEmpty() || statusPedido.getStatus().isBlank()){
+            throw new EmptyDTO();
+        }
+        Pedido p = getPedidoIfExists(statusPedido.getNome());
+        if(p.getStatus().equals("pending")){
+            if(statusPedido.getStatus().equals("PAYED")){
+                p.setStatus(statusPedido.getStatus());
+                pedidosRepository.save(p);
+            }else if(statusPedido.getStatus().equals("completed")){
+                throw new IllegalStatus("change");
+            }else if(!statusPedido.getStatus().equals("pending")){
+                throw new IllegalStatus("name");
             }
-            if (!editPedidoDTO.getConjunto().isEmpty()) {
-                if (!editPedidoDTO.getItemsEditType().isEmpty()) {
-                    if (editPedidoDTO.getItemsEditType().equals("add")) {
-                        for (itemDTO iDTO : editPedidoDTO.getConjunto()) {
-                            Item iTemp = iDTO.itemDTOtoItem();
-                            p.addItem(iTemp);
-                        }
-                    } else if (editPedidoDTO.getItemsEditType().equals("remove")) {
-                        if (p.getConjunto().isEmpty()) {
-                            throw new NoItems("items previously");
-                        }
-                        for (Item i : p.getConjunto()) { // selecionar os items a remover
-                            for (itemDTO iDTO : editPedidoDTO.getConjunto()) {
-                                if (i.getCodigo().equals(iDTO.getCodigo())) {
-                                    itemsToRemove.add(i);
-                                }
-                            }
-                        }
-                        for (Item i : itemsToRemove) { //remover os items selecionados
-                            p.removeItem(i);
-                        }
-                    }else{
-                        throw new UnknownEditType();
-                    }
+        }else if(p.getStatus().equals("PAYED")) {
+            if(statusPedido.getStatus().equals("completed")){
+                if(!(p.getConjunto().isEmpty() || p.getDescricao().isEmpty() || p.getDescricao().isBlank())){
+                    p.setStatus(statusPedido.getStatus());
+                    pedidosRepository.save(p);
                 }else{
-                    throw new NoItems("item edit instruction");
+                    throw new NoItems("items or description.");
                 }
+            }else if(statusPedido.getStatus().equals("pending")){
+                throw new IllegalStatus("change");
+            }else if(!statusPedido.getStatus().equals("PAYED")){
+                throw new IllegalStatus("name");
+            }
+        }else{
+            throw new RequestCompletedPendingPayed(p.getStatus(), "changed in status");
+        }
+    }
+
+    public void addItemPedido(addRemoveItemDTO addItem) throws InexistentRequestName, ItemAlreadyAdded, RequestCompletedPendingPayed, EmptyDTO {
+        if(addItem.getItem() == null){
+            throw new EmptyDTO();
+        }
+
+        Pedido p = getPedidoIfExists(addItem.getNome());
+        if(p.getStatus().equals("PAYED")){
+            if(p.containsItemDTO(addItem.getItem())){
+                throw new ItemAlreadyAdded();
             }else{
-                throw new NoItems("items");
+                Item auxI = addItem.getItem().itemDTOtoItem();
+                p.addItem(auxI);
+                pedidosRepository.save(p);
+                //itemsRepository.save(auxI);
             }
+        }else{
+            throw new RequestCompletedPendingPayed(p.getStatus(), "have items!");
+        }
+    }
 
-            if(!editPedidoDTO.getStatus().isEmpty()){
-                if(editPedidoDTO.getStatus().equals("pending") || editPedidoDTO.getStatus().equals("completed")){
-                    if(editPedidoDTO.getStatus().equals("completed") && p.getConjunto().isEmpty() && p.getDescricao().isEmpty()){
-                        throw new CompleteWithoutItemsOrDescription();
-                    }
-                    p.setStatus(editPedidoDTO.getStatus());
-                }
+    public void removeItemPedido(addRemoveItemDTO removeItem) throws InexistentRequestName, ItemNotAdded, RequestCompletedPendingPayed, EmptyDTO {
+        if(removeItem.getItem() == null){
+            throw new EmptyDTO();
+        }
+
+        Pedido p = getPedidoIfExists(removeItem.getNome());
+        if(p.getStatus().equals("PAYED")){
+            if(p.containsItemDTO(removeItem.getItem())){
+                Item auxI = p.getItemByDTO(removeItem.getItem());
+                p.removeItem(auxI);
+                pedidosRepository.save(p);
+                itemsRepository.delete(auxI);
+            }else{
+                throw new ItemNotAdded();
             }
+        }else{
+            throw new RequestCompletedPendingPayed(p.getStatus(), "have items removed!");
+        }
+    }
 
+    public void editDescricaoOrCompletePedido(editPedidoDTO editPedidoDTO) throws InexistentRequestName, EmptyDTO, RequestCompletedPendingPayed, NoItems, IllegalStatus {
+        if((editPedidoDTO.getDescricao().isEmpty() || editPedidoDTO.getDescricao().isBlank()) && (editPedidoDTO.getStatus().isEmpty() || editPedidoDTO.getStatus().isBlank())){
+            throw new EmptyDTO();
+        }else if(editPedidoDTO.getDescricao().isEmpty() || editPedidoDTO.getDescricao().isBlank()){
+            Pedido p = getPedidoIfExists(editPedidoDTO.getNome());
+            changeStatusPedido(new statusPedidoDTO(editPedidoDTO.getNome(), editPedidoDTO.getStatus()));
+        }else if(editPedidoDTO.getStatus().isEmpty() || editPedidoDTO.getStatus().isBlank()){
+            Pedido p = getPedidoIfExists(editPedidoDTO.getNome());
+            p.setDescricao(editPedidoDTO.getDescricao());
             pedidosRepository.save(p);
-            if(!editPedidoDTO.getConjunto().isEmpty() && editPedidoDTO.getItemsEditType().equals("remove")){
-                itemsRepository.deleteAll(itemsToRemove); // apenas é realizado se itemsEditType = "remove"
-            }
+        }else{
+            Pedido p = getPedidoIfExists(editPedidoDTO.getNome());
+            p.setDescricao(editPedidoDTO.getDescricao());
+            pedidosRepository.save(p);
+            changeStatusPedido(new statusPedidoDTO(editPedidoDTO.getNome(), editPedidoDTO.getStatus()));
         }
     }
 }

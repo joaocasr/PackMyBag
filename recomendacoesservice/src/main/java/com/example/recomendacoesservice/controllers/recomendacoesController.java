@@ -24,7 +24,6 @@ public class recomendacoesController {
     @GetMapping("/pedidosE/{username}")
     public List<pedidoDTO> getPedidosEstilista(@PathVariable String username, @RequestParam int page, @RequestParam int number){
         try{
-            System.out.println("entreii");
             return recomendacoesService.getPedidosEstilista(username, page, number);
         }catch(InexistentRequests | InexistentStylistUsername e){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
@@ -49,21 +48,75 @@ public class recomendacoesController {
         try {
             recomendacoesService.newPedido(pedidoToEstilista);
             return ResponseEntity.status(200).body("New Request added with success!"); // 201 Created on success
-        } catch (InexistentClientUsername | InexistentStylistUsername e) {
+        } catch (InexistentClientUsername | InexistentStylistUsername | EmptyNameEstilistaCliente e) {
             return ResponseEntity.status(404).body(e.getMessage());
         }catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "An unexpected error occurred: " + e.getMessage());
         }
     }
 
-    @PatchMapping("/pedidoEdit")
-    public ResponseEntity<?> editPedido(@RequestBody editPedidoDTO editPedido){
-        try {
-            recomendacoesService.editPedido(editPedido);
-            return ResponseEntity.status(200).body("Recommendation edited with success!"); // 201 Created on success
-        }catch(InexistentRequestID | NoItems | UnknownEditType e){
+    @DeleteMapping("/removePedido/{nome}")
+    public ResponseEntity<?> removePedido(@PathVariable String nome) {
+        try{
+            recomendacoesService.removePedido(nome);
+            return ResponseEntity.status(200).body("Request removed with success!");
+        }catch(InexistentRequestName | RequestCompletedPendingPayed e){
             return ResponseEntity.status(404).body(e.getMessage());
-        }catch(RequestAlreadyCompleted | CompleteWithoutItemsOrDescription e){
+        }catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "An unexpected error occurred: " + e.getMessage());
+        }
+    }
+
+    @PatchMapping("/changeStatusPedido")
+    public ResponseEntity<?> changeStatusPedido(@RequestBody statusPedidoDTO statusPedido){
+        try{
+            recomendacoesService.changeStatusPedido(statusPedido);
+            return ResponseEntity.status(200).body("Request Status changed with success!");
+        }catch(InexistentRequestName | NoItems | EmptyDTO e){
+            return ResponseEntity.status(404).body(e.getMessage());
+        }catch(IllegalStatus | RequestCompletedPendingPayed e){
+            return ResponseEntity.status(409).body(e.getMessage());
+        }catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "An unexpected error occurred: " + e.getMessage());
+        }
+    }
+
+    @PutMapping("/addItem")
+    public ResponseEntity<?> addItemPedido(@RequestBody addRemoveItemDTO addItem){
+        try{
+            recomendacoesService.addItemPedido(addItem);
+            return ResponseEntity.status(200).body("Item added with success!");
+        }catch(InexistentRequestName | EmptyDTO e){
+            return ResponseEntity.status(404).body(e.getMessage());
+        }catch(ItemAlreadyAdded | RequestCompletedPendingPayed e){
+            return ResponseEntity.status(409).body(e.getMessage());
+        }catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "An unexpected error occurred: " + e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/removeItem")
+    public ResponseEntity<?> removeItemPedido(@RequestBody addRemoveItemDTO removeItem){
+        try{
+            recomendacoesService.removeItemPedido(removeItem);
+            return ResponseEntity.status(200).body("Item removed with success!");
+        }catch(InexistentRequestName | EmptyDTO e){
+            return ResponseEntity.status(404).body(e.getMessage());
+        }catch(ItemNotAdded | RequestCompletedPendingPayed e){
+            return ResponseEntity.status(409).body(e.getMessage());
+        }catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "An unexpected error occurred: " + e.getMessage());
+        }
+    }
+
+    @PatchMapping("/editDescricaoOrCompleteRequest")
+    public ResponseEntity<?> editDescricaoOrCompletePedido(@RequestBody editPedidoDTO editPedidoDTO){
+        try{
+            recomendacoesService.editDescricaoOrCompletePedido(editPedidoDTO);
+            return ResponseEntity.status(200).body("Request description edited or Request completed with success!");
+        }catch(InexistentRequestName |  NoItems | EmptyDTO e){
+            return ResponseEntity.status(404).body(e.getMessage());
+        }catch(IllegalStatus | RequestCompletedPendingPayed e){
             return ResponseEntity.status(409).body(e.getMessage());
         }catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "An unexpected error occurred: " + e.getMessage());

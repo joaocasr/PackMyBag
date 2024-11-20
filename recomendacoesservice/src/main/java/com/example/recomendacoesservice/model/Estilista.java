@@ -14,21 +14,18 @@
 package com.example.recomendacoesservice.model;
 
 import java.io.Serializable;
-import java.util.HashSet;
-
 import jakarta.persistence.*;
-
 @Entity
 @org.hibernate.annotations.Proxy(lazy=false)
 @Table(name="Estilista")
 public class Estilista implements Serializable {
-
-	
+	public Estilista() {
+	}
 	
 	@Column(name="IDEstilista", nullable=false, length=10)	
 	@Id	
-	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator="RECOMENDACOESSERVICE_ESTILISTA_IDESTILISTA_GENERATOR")
-	@SequenceGenerator(name="RECOMENDACOESSERVICE_ESTILISTA_IDESTILISTA_GENERATOR",sequenceName="RECOMENDACOESSERVICE_ESTILISTA_IDESTILISTA_SEQ")
+	@GeneratedValue(generator="RECOMENDACOESSERVICE_ESTILISTA_IDESTILISTA_GENERATOR")	
+	@org.hibernate.annotations.GenericGenerator(name="RECOMENDACOESSERVICE_ESTILISTA_IDESTILISTA_GENERATOR", strategy="native")	
 	private int IDEstilista;
 	
 	@Column(name="Username", nullable=true, length=255)
@@ -38,17 +35,8 @@ public class Estilista implements Serializable {
 	@org.hibernate.annotations.Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE, org.hibernate.annotations.CascadeType.LOCK})	
 	@JoinColumns({ @JoinColumn(name="EstilistaIDEstilista", nullable=false) })	
 	@org.hibernate.annotations.LazyCollection(org.hibernate.annotations.LazyCollectionOption.TRUE)	
-	private java.util.Set<Pedido> pedidos;
+	private java.util.Set pedidos = new java.util.HashSet();
 	
-	public Estilista(String username) {
-		this.pedidos = new HashSet<>();
-		this.username = username;
-	}
-
-	public Estilista() {
-
-	}
-
 	private void setIDEstilista(int value) {
 		this.IDEstilista = value;
 	}

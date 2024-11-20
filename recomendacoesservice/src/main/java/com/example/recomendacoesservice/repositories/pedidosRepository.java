@@ -13,9 +13,9 @@ import java.util.Set;
 
 @Repository
 public interface pedidosRepository extends JpaRepository<Pedido, Integer> {
-    @Query("select p FROM Pedido p where p.IDPedido = :IDPedido")
-    Optional<Pedido> getPedido(@Param("IDPedido") Integer IDPedido);
+    @Query("select p FROM Pedido p where p.nome = :nome")
+    Optional<Pedido> getPedido(@Param("nome") String nome);
 
-    @Query("SELECT p FROM Pedido p WHERE p.cliente.IDCliente = :IDCliente")
+    @Query("SELECT p FROM Pedido p WHERE p.cliente.IDCliente = :IDCliente AND p.status = 'completed'")
     Page<Pedido> getPedidosByCliente(@Param("IDCliente") Integer IDCliente, PageRequest pageRequest);
 }
