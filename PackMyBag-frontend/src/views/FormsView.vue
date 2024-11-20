@@ -393,6 +393,10 @@ methods:{
 
             this.showOverlay = true;
 
+            const header = authHeader();
+            let config = {headers:header}
+            header['Content-Type'] = 'application/json';
+
             // tenta criar o pedido na BD
             try{
             let r = await axios.post('http://localhost:8888/api/recomendacoesService/newPedido',
