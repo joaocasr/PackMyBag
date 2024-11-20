@@ -48,7 +48,7 @@ router.get("/cliente/:idCliente", (req, res, next) => {
 /* Get Encomendas by Cliente Username */
 router.get("/cliente/username/:username", (req, res, next) => {
     encomendaService.getEncomendasByClienteUsername(req.params.username)
-      .then(encomendas => res.jsonp(encomendas.data))
+      .then(encomendas => res.jsonp(encomendas))
       .catch(err => res.status(500).json(err));
 });
 
