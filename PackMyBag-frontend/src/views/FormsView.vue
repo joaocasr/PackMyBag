@@ -343,7 +343,7 @@ methods:{
     checkIfPedidoIsFullyFilled(){
         console.log(
            "New pedido\n" +
-           this.pedidoInfo.idPedido + ";\n" +
+           /* this.pedidoInfo.idPedido + ";\n" + */
            this.pedidoInfo.idCliente + ";\n" +
            this.pedidoInfo.estilos + ";\n" +
            this.pedidoInfo.cores + ";\n" +
@@ -354,7 +354,7 @@ methods:{
            this.pedidoInfo.ocasioes + "\n"
         )
 
-        if(this.pedidoInfo.idPedido != 0 &&
+        if(/* this.pedidoInfo.idPedido != 0 && */
            this.pedidoInfo.idCliente != "" &&
            this.pedidoInfo.estilos != "" &&
            this.pedidoInfo.cores != "" &&
@@ -380,17 +380,44 @@ methods:{
       return this.selectedOptions2.join(", "); // Convert the array to a comma-separated string
     },
 
-    showPaymentPopup() {
+    async showPaymentPopup() {
       if(this.paymentType != 0 && this.selectedOptions.length > 0 && this.selectedOptions2.length > 0){
 
-        this.pedidoInfo.idPedido = 1;   // 1 atua como placeholder
+        //this.pedidoInfo.idPedido = 1;   // 1 atua como placeholder
         this.pedidoInfo.idCliente = this.username;
         this.pedidoInfo.estilos = this.selectedOptionsString();
         this.pedidoInfo.ocasioes = this.selectedOptions2String();
 
 
         if(this.checkIfPedidoIsFullyFilled()){
+
             this.showOverlay = true;
+
+            try{
+            let r = await axios.post('http://localhost:8888/api/cartService/newpayment',
+                {
+                    "usernameEstilista":this.nomeEstilista,
+                    "usernameCliente": this.pedidoInfo.idCliente,
+                    "estilos":this.pedidoInfo.estilos,
+                    "cores":this.pedidoInfo.cores,
+                    "nrOutfits": this.pedidoInfo.nrOutfits,
+                    "orcamento":req.body.orcamento,
+                    "peçasExcluidas":req.body.pecasExcluidas,
+                    "fabricsPreferences":req.body.fabricsPrefered,
+                    "occasions":req.body.ocasioes
+                },
+                config
+                );
+                console.log(r);
+                return r;
+
+            }catch(err){
+                console.log(err);
+                let msg="";
+                if(err.response) msg = err.response.data.error.message;
+                this.$swal.fire("Something went wrong! "+msg, "", "error");
+            }
+
         }
         else{
             this.showWarning = true;
@@ -400,6 +427,7 @@ methods:{
         this.showWarning = true;
       }
     },
+    
 
     closeWarningPopup() {
       this.showWarning = false;
