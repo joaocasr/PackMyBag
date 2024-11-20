@@ -1,7 +1,6 @@
 package com.example.recomendacoesservice.dto;
 
 import com.example.recomendacoesservice.model.Pedido;
-import com.example.recomendacoesservice.dto.itemDTO;
 
 import java.util.HashSet;
 import java.util.Set;

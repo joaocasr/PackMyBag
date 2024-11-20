@@ -21,11 +21,14 @@ import jakarta.persistence.*;
 public class Estilista implements Serializable {
 	public Estilista() {
 	}
-	
+	public Estilista(String username){
+		this.username = username;
+	}
+
 	@Column(name="IDEstilista", nullable=false, length=10)	
-	@Id	
-	@GeneratedValue(generator="RECOMENDACOESSERVICE_ESTILISTA_IDESTILISTA_GENERATOR")	
-	@org.hibernate.annotations.GenericGenerator(name="RECOMENDACOESSERVICE_ESTILISTA_IDESTILISTA_GENERATOR", strategy="native")	
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator="RECOMENDACOESSERVICE_ESTILISTA_IDESTILISTA_GENERATOR")
+	@SequenceGenerator(name="RECOMENDACOESSERVICE_ESTILISTA_IDESTILISTA_GENERATOR",sequenceName="RECOMENDACOESSERVICE_ESTILISTA_IDESTILISTA_SEQ")
 	private int IDEstilista;
 	
 	@Column(name="Username", nullable=true, length=255)

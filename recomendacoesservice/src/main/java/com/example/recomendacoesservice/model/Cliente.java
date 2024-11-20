@@ -21,11 +21,14 @@ import jakarta.persistence.*;
 public class Cliente implements Serializable {
 	public Cliente() {
 	}
+	public Cliente(String username){
+		this.username = username;
+	}
 	
 	@Column(name="IDCliente", nullable=false, length=10)	
-	@Id	
-	@GeneratedValue(generator="RECOMENDACOESSERVICE_CLIENTE_IDCLIENTE_GENERATOR")	
-	@org.hibernate.annotations.GenericGenerator(name="RECOMENDACOESSERVICE_CLIENTE_IDCLIENTE_GENERATOR", strategy="native")	
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator="RECOMENDACOESSERVICE_CLIENTE_IDCLIENTE_GENERATOR")
+	@SequenceGenerator(name="RECOMENDACOESSERVICE_CLIENTE_IDCLIENTE_GENERATOR",sequenceName="RECOMENDACOESSERVICE_CLIENTE_IDCLIENTE_SEQ")
 	private int IDCliente;
 
 	@Column(name="Username", nullable=true, length=255)
