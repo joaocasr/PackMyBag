@@ -17,4 +17,6 @@ public interface LojaRepository extends JpaRepository<Loja, Integer> {
 
     @Query("SELECT l FROM Loja l LEFT JOIN FETCH l.encomendas WHERE l.IDLoja = :lojaId")
     Optional<Loja> findLojaWithEncomendas(@Param("lojaId") int lojaId);
+
+    Optional<Loja> findByNome(String nomeLoja);
 }

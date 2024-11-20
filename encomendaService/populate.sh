@@ -6,11 +6,11 @@ docker exec -it postgres psql -U postgres -d encomenda -c "INSERT INTO cliente (
 (5, 'Luiz Souza', 'luizsouza', 'luiz.souza@email.com');"
 
 docker exec -it postgres psql -U postgres -d encomenda -c "INSERT INTO Loja (IDLoja, Nome, Marca, Localizacao) VALUES
-(1, 'Loja A', 'Marca X', 'Lisboa'),
-(2, 'Loja B', 'Marca Y', 'Porto'),
-(3, 'Loja C', 'Marca Z', 'Braga'),
-(4, 'Loja D', 'Marca W', 'Coimbra'),
-(5, 'Loja E', 'Marca V', 'Faro');"
+(1, 'Os Criadores', 'Marca X', 'Lisboa'),
+(2, 'OsCriadores', 'Marca Y', 'Porto'),
+(3, 'LojaA', 'Marca Z', 'Braga'),
+(4, 'LojaB', 'Marca W', 'Coimbra'),
+(5, 'LojaC', 'Marca V', 'Faro');"
 
 # docker exec -it postgres psql -U postgres -d encomenda -c "INSERT INTO Encomenda (IDEncomenda, LojaIDLoja, ClienteIDCliente, Codigo_Encomenda, Data_Entrega, Data_Devolucao, Local_Entrega, Status, Preco) VALUES
 # (1, 1, 1, 'ENC001', '2024-10-01', '2024-10-06', 'Rua A, 123', 'Entregue', 100.00),
@@ -36,26 +36,39 @@ docker exec -it postgres psql -U postgres -d encomenda -c "INSERT INTO Encomenda
 (9, 4, 5, 'ENC009', '2024-10-09', '2024-10-14', 'Rua I, 606', 'Devolvido', 275.75, 5.75),
 (10, 5, 1, 'ENC010', '2024-10-10', '2024-10-15', 'Rua J, 707', 'Entregue', 270.00, 5.50);"
 
-docker exec -it postgres psql -U postgres -d encomenda -c "INSERT INTO Item (IDItem, EncomendaIDEncomenda, Codigo, Designacao, Preco, Nraquisicoes, Estilo, Cor, Tamanho, Genero, Imagem_Url) VALUES
-(1, 1, 'IT001', 'Camisa', 19.99, 2, 'Casual', 'Azul', 'M', 'Masculino', 'http://example.com/imagens/IT001.jpg'),
-(2, 2, 'IT002', 'Calças', 29.99, 1, 'Formal', 'Preto', 'L', 'Feminino', 'http://example.com/imagens/IT002.jpg'),
-(3, 3, 'IT003', 'Jaqueta', 49.99, 3, 'Esportivo', 'Cinza', 'G', 'Masculino', 'http://example.com/imagens/IT003.jpg'),
-(4, 4, 'IT004', 'Vestido', 39.99, 1, 'Elegante', 'Vermelho', 'M', 'Feminino', 'http://example.com/imagens/IT004.jpg'),
-(5, 5, 'IT005', 'Sapatos', 59.99, 2, 'Formal', 'Preto', '42', 'Masculino', 'http://example.com/imagens/IT005.jpg'),
-(6, 6, 'IT006', 'Blusa', 25.50, 2, 'Casual', 'Verde', 'S', 'Feminino', 'http://example.com/imagens/IT006.jpg'),
-(7, 7, 'IT007', 'Shorts', 22.75, 1, 'Esportivo', 'Azul Marinho', 'M', 'Masculino', 'http://example.com/imagens/IT007.jpg'),
-(8, 8, 'IT008', 'Saia', 30.00, 3, 'Elegante', 'Rosa', 'P', 'Feminino', 'http://example.com/imagens/IT008.jpg'),
-(9, 9, 'IT009', 'Bermuda', 18.50, 2, 'Casual', 'Bege', 'L', 'Masculino', 'http://example.com/imagens/IT009.jpg'),
-(10, 10, 'IT010', 'Camisa Polo', 35.00, 1, 'Casual', 'Branca', 'M', 'Masculino', 'http://example.com/imagens/IT010.jpg');"
+# docker exec -it postgres psql -U postgres -d encomenda -c "INSERT INTO Item (IDItem, EncomendaIDEncomenda, Codigo, Designacao, Preco, Nraquisicoes, Estilo, Cor, Tamanho, Genero, Imagem_Url) VALUES
+# (1, 1, 'IT001', 'Camisa', 19.99, 2, 'Casual', 'Azul', 'M', 'Masculino', 'http://example.com/imagens/IT001.jpg'),
+# (2, 2, 'IT002', 'Calças', 29.99, 1, 'Formal', 'Preto', 'L', 'Feminino', 'http://example.com/imagens/IT002.jpg'),
+# (3, 3, 'IT003', 'Jaqueta', 49.99, 3, 'Esportivo', 'Cinza', 'G', 'Masculino', 'http://example.com/imagens/IT003.jpg'),
+# (4, 4, 'IT004', 'Vestido', 39.99, 1, 'Elegante', 'Vermelho', 'M', 'Feminino', 'http://example.com/imagens/IT004.jpg'),
+# (5, 5, 'IT005', 'Sapatos', 59.99, 2, 'Formal', 'Preto', '42', 'Masculino', 'http://example.com/imagens/IT005.jpg'),
+# (6, 6, 'IT006', 'Blusa', 25.50, 2, 'Casual', 'Verde', 'S', 'Feminino', 'http://example.com/imagens/IT006.jpg'),
+# (7, 7, 'IT007', 'Shorts', 22.75, 1, 'Esportivo', 'Azul Marinho', 'M', 'Masculino', 'http://example.com/imagens/IT007.jpg'),
+# (8, 8, 'IT008', 'Saia', 30.00, 3, 'Elegante', 'Rosa', 'P', 'Feminino', 'http://example.com/imagens/IT008.jpg'),
+# (9, 9, 'IT009', 'Bermuda', 18.50, 2, 'Casual', 'Bege', 'L', 'Masculino', 'http://example.com/imagens/IT009.jpg'),
+# (10, 10, 'IT010', 'Camisa Polo', 35.00, 1, 'Casual', 'Branca', 'M', 'Masculino', 'http://example.com/imagens/IT010.jpg');"
+
+docker exec -it postgres psql -U postgres -d encomenda -c "INSERT INTO Item (IDItem, Nrpedido, Codigo, Designacao, Preco, Imagem_Url, Idloja, encomendaidencomenda) VALUES
+(1, 1, 'IT001', 'Camisa', 19.99, 'http://example.com/imagens/IT001.jpg', 1, 1),
+(2, 2, 'IT002', 'Calças', 29.99, 'http://example.com/imagens/IT002.jpg', 2, 2),
+(3, 3, 'IT003', 'Jaqueta', 49.99, 'http://example.com/imagens/IT003.jpg', 3, 3),
+(4, 4, 'IT004', 'Vestido', 39.99, 'http://example.com/imagens/IT004.jpg', 4, 4),
+(5, 5, 'IT005', 'Sapatos', 59.99, 'http://example.com/imagens/IT005.jpg', 1, 5),
+(6, 6, 'IT006', 'Blusa', 25.50, 'http://example.com/imagens/IT006.jpg', 1, 6),
+(7, 7, 'IT007', 'Shorts', 22.75, 'http://example.com/imagens/IT007.jpg', 1, 7),
+(8, 8, 'IT008', 'Saia', 30.00, 'http://example.com/imagens/IT008.jpg', 2, 8),
+(9, 9, 'IT009', 'Bermuda', 18.50, 'http://example.com/imagens/IT009.jpg', 2, 9),
+(10, 10, 'IT010', 'Camisa Polo', 35.00, 'http://example.com/imagens/IT010.jpg', 2, 10);"
+
 
 # Acrescentando mais artigos à Encomenda ENC001 (IDEncomenda: 1) de joaosilva
-docker exec -it postgres psql -U postgres -d encomenda -c "INSERT INTO Item (IDItem, EncomendaIDEncomenda, Codigo, Designacao, Preco, Nraquisicoes, Estilo, Cor, Tamanho, Genero, Imagem_Url) VALUES
-(11, 1, 'IT011', 'Calça Jeans', 39.99, 1, 'Casual', 'Azul', '42', 'Masculino', 'http://example.com/imagens/IT011.jpg'),
-(12, 1, 'IT012', 'Cinto de Couro', 25.50, 2, 'Formal', 'Marrom', 'M', 'Masculino', 'http://example.com/imagens/IT012.jpg');"
+# docker exec -it postgres psql -U postgres -d encomenda -c "INSERT INTO Item (IDItem, EncomendaIDEncomenda, Codigo, Designacao, Preco, Nraquisicoes, Estilo, Cor, Tamanho, Genero, Imagem_Url) VALUES
+# (11, 1, 'IT011', 'Calça Jeans', 39.99, 1, 'Casual', 'Azul', '42', 'Masculino', 'http://example.com/imagens/IT011.jpg'),
+# (12, 1, 'IT012', 'Cinto de Couro', 25.50, 2, 'Formal', 'Marrom', 'M', 'Masculino', 'http://example.com/imagens/IT012.jpg');"
 
-# Acrescentando mais artigos à Encomenda ENC010 (IDEncomenda: 10) de joaosilva
-docker exec -it postgres psql -U postgres -d encomenda -c "INSERT INTO Item (IDItem, EncomendaIDEncomenda, Codigo, Designacao, Preco, Nraquisicoes, Estilo, Cor, Tamanho, Genero, Imagem_Url) VALUES
-(13, 10, 'IT013', 'Sapato Social', 80.00, 1, 'Formal', 'Preto', '42', 'Masculino', 'http://example.com/imagens/IT013.jpg'),
-(14, 10, 'IT014', 'Relógio', 150.00, 1, 'Esportivo', 'Prata', 'Unico', 'Unissex', 'http://example.com/imagens/IT014.jpg'),
-(15, 10, 'IT015', 'Bolsa', 150.00, 1, 'Esportivo', 'Prata', 'Unico', 'Unissex', 'http://example.com/imagens/IT014.jpg'),
-(16, 10, 'IT016', 'Camisa', 150.00, 1, 'Esportivo', 'Prata', 'Unico', 'Unissex', 'http://example.com/imagens/IT014.jpg');"
+# # Acrescentando mais artigos à Encomenda ENC010 (IDEncomenda: 10) de joaosilva
+# docker exec -it postgres psql -U postgres -d encomenda -c "INSERT INTO Item (IDItem, EncomendaIDEncomenda, Codigo, Designacao, Preco, Nraquisicoes, Estilo, Cor, Tamanho, Genero, Imagem_Url) VALUES
+# (13, 10, 'IT013', 'Sapato Social', 80.00, 1, 'Formal', 'Preto', '42', 'Masculino', 'http://example.com/imagens/IT013.jpg'),
+# (14, 10, 'IT014', 'Relógio', 150.00, 1, 'Esportivo', 'Prata', 'Unico', 'Unissex', 'http://example.com/imagens/IT014.jpg'),
+# (15, 10, 'IT015', 'Bolsa', 150.00, 1, 'Esportivo', 'Prata', 'Unico', 'Unissex', 'http://example.com/imagens/IT014.jpg'),
+# (16, 10, 'IT016', 'Camisa', 150.00, 1, 'Esportivo', 'Prata', 'Unico', 'Unissex', 'http://example.com/imagens/IT014.jpg');"

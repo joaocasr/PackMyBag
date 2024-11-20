@@ -259,4 +259,16 @@ public class EncomendaController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+    @GetMapping("/loja/nome/{nomeLoja}")
+    public ResponseEntity<List<EncomendaDTO>> getEncomendasPorNomeLoja(@PathVariable String nomeLoja) {
+        List<EncomendaDTO> encomendas = encomendaService.getEncomendasPorNomeLoja(nomeLoja);
+        
+        if (encomendas.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        
+        return new ResponseEntity<>(encomendas, HttpStatus.OK);
+    }
+
 }

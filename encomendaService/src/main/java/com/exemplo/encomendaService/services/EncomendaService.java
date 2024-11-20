@@ -332,18 +332,18 @@ public class EncomendaService {
         Optional<Encomenda> e = encomendaRepository.findEncomendaByCode(codigo);
         Encomenda encomenda = e.get();
     
-        List<String> statusValidos = Arrays.asList("Pago", "Em processamento", "Enviado", "Entregue", "Devolvido");
+        List<String> statusValidos = Arrays.asList("Pago", "Processamento", "Enviado", "Entregue", "Devolvido", "Cancelado");
         if (!statusValidos.contains(novoStatus)) {
             throw new IllegalArgumentException("Status inválido");
         }
     
         if (!encomenda.getStatus().equals(novoStatus)) {
-            //encomenda.setStatus("Pago");
+            //encomenda.setStatus(novoStatus);
             encomendaRepository.updateStatusByCodigo(encomenda.getCodigoEncomenda(), novoStatus);
             //encomendaRepository.save(encomenda);
 
             // Enviar mensagem pelo Kafka
-            kafkaProducerService.sendMessage(EncomendaMapper.toEncomendaStatusDTO(encomenda).toString(), "EncomendaStatus");
+            //kafkaProducerService.sendMessage(EncomendaMapper.toEncomendaStatusDTO(encomenda).toString(), "EncomendaStatus");
         }   
     
         return EncomendaMapper.toEncomendaStatusDTO(encomenda);
@@ -362,6 +362,20 @@ public class EncomendaService {
             return EncomendaMapper.toDTO(encomendaOpt.get());
         } else {
             throw new EntityNotFoundException("Encomenda não encontrada para o usuário " + clienteUsername + " com o código " + codigoEncomenda);
+        }
+    }
+
+    public List<EncomendaDTO> getEncomendasPorNomeLoja(String nomeLoja) {
+        Optional<Loja> lojaOpt = lojaRepository.findByNome(nomeLoja);
+        
+        if (lojaOpt.isPresent()) {
+            Loja loja = lojaOpt.get();
+            return loja.getEncomendas().stream()
+                       .map(EncomendaMapper::toDTO)
+                       .collect(Collectors.toList());
+        } else {
+            // Retorna uma lista vazia se a loja não for encontrada
+            return List.of();
         }
     }
 
