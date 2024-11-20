@@ -13,7 +13,7 @@
 				:imagemUrl="item.imagemUrl"
 				:nomeArtigo="item.designacao"
 				:preco="item.preco"
-				:quantidade="item.nraquisicoes"
+				:quantidade="item.nrPedido"
 				:tamanho="item.tamanho"
 				:cor="item.cor"
 				:codigoArtigo="item.codigo"
