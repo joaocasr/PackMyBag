@@ -393,18 +393,19 @@ methods:{
 
             this.showOverlay = true;
 
+            // tenta criar o pedido na BD
             try{
-            let r = await axios.post('http://localhost:8888/api/cartService/newpayment',
+            let r = await axios.post('http://localhost:8888/api/recomendacoesService/newPedido',
                 {
                     "usernameEstilista":this.nomeEstilista,
                     "usernameCliente": this.pedidoInfo.idCliente,
                     "estilos":this.pedidoInfo.estilos,
                     "cores":this.pedidoInfo.cores,
                     "nrOutfits": this.pedidoInfo.nrOutfits,
-                    "orcamento":req.body.orcamento,
-                    "peçasExcluidas":req.body.pecasExcluidas,
-                    "fabricsPreferences":req.body.fabricsPrefered,
-                    "occasions":req.body.ocasioes
+                    "orcamento":this.pedidoInfo.orcamento,
+                    "peçasExcluidas":this.pedidoInfo.pecasExcluidas,
+                    "fabricsPreferences":this.pedidoInfo.fabricsPrefered,
+                    "occasions":this.pedidoInfo.ocasioes
                 },
                 config
                 );
