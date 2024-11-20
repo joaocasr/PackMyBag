@@ -80,11 +80,11 @@ export default {
 		getUserRecomendacoes(){
             // falta ir buscar as recomendaçoes do cliente
 
-			axios.get('http://localhost:8888/api/favoritosService/'+this.username+"?page="+this.current_page+"&number=3")
+			axios.get('http://localhost:8888/api/recomendacoesService/getpedidosC/'+this.username+"?page="+this.current_page+"&number=3")
 			.then(resp=>{
-				this.favourites = resp.data;
-				if(this.favourites.length==0) this.showbtnnext=false;
-				console.log(this.favourites);
+				this.recommendations = resp.data;
+				if(this.recommendations.length==0) this.showbtnnext=false;
+				console.log(this.recommendations);
 			}).catch(error=>{
 				console.log(error);
 			})

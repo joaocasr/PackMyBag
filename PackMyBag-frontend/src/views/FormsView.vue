@@ -335,7 +335,7 @@ methods:{
     checkIfPedidoIsFullyFilled(){
         console.log(
            "New pedido\n" +
-           this.pedidoInfo.idPedido + ";\n" +
+           /* this.pedidoInfo.idPedido + ";\n" + */
            this.pedidoInfo.idCliente + ";\n" +
            this.pedidoInfo.estilos + ";\n" +
            this.pedidoInfo.cores + ";\n" +
@@ -346,7 +346,7 @@ methods:{
            this.pedidoInfo.ocasioes + "\n"
         )
 
-        if(this.pedidoInfo.idPedido != 0 &&
+        if(/* this.pedidoInfo.idPedido != 0 && */
            this.pedidoInfo.idCliente != "" &&
            this.pedidoInfo.estilos != "" &&
            this.pedidoInfo.cores != "" &&
@@ -373,15 +373,17 @@ methods:{
     },
 
     showConfirmPopup() {
+    async showPaymentPopup() {
       if(this.paymentType != 0 && this.selectedOptions.length > 0 && this.selectedOptions2.length > 0){
 
-        this.pedidoInfo.idPedido = 1;   // 1 atua como placeholder
+        //this.pedidoInfo.idPedido = 1;   // 1 atua como placeholder
         this.pedidoInfo.idCliente = this.username;
         this.pedidoInfo.estilos = this.selectedOptionsString();
         this.pedidoInfo.ocasioes = this.selectedOptions2String();
 
 
         if(this.checkIfPedidoIsFullyFilled()){
+
             this.showOverlay = true;
         }
         else{
@@ -392,6 +394,7 @@ methods:{
         this.showWarning = true;
       }
     },
+    
 
     closeWarningPopup() {
       this.showWarning = false;
