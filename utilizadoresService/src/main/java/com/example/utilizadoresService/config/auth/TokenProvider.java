@@ -32,6 +32,7 @@ public class TokenProvider {
                         .withClaim("email", user.getEmail())
                         .withClaim("profileImage", user.getProfileImage())
                         .withClaim("idloja",  ((Tecnico) user).getLoja().getIDLoja())
+                        .withClaim("nomeloja", ((Tecnico) user).getLoja().getNome())
                         .withExpiresAt(genAccessExpirationDate())
                         .sign(algorithm);
             } else if( user instanceof Estilista) {
