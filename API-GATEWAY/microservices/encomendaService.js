@@ -141,6 +141,32 @@ module.exports = {
           throw err;
         }
       });
-  }
+  },
+
+  // Novo Método: Get Encomendas por Nome da Loja
+  getEncomendasPorNomeLoja: (nomeLoja) => {
+    return axios.get(`${baseURL}/loja/nome/${encodeURIComponent(nomeLoja)}`)
+      .then(resp => resp.data)
+      .catch(err => {
+        if (err.response) {
+          throw { error: err.response.data };
+        } else {
+          throw err;
+        }
+      });
+  },
+  
+  // Novo Método: Atualizar Status da Encomenda
+  updateEncomendaStatus: (codigoEncomenda, novoStatus) => {
+    return axios.put(`${baseURL}/status/${encodeURIComponent(codigoEncomenda)}/${encodeURIComponent(novoStatus)}`)
+      .then(resp => resp.data)
+      .catch(err => {
+        if (err.response) {
+          throw { error: err.response.data };
+        } else {
+          throw err;
+        }
+      });
+    }
   
 };

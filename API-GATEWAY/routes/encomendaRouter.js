@@ -87,4 +87,40 @@ router.get("/codigo/:codigoEncomenda", (req, res, next) => {
     .catch(err => res.status(500).json(err));
 });
 
+
+/* Novo Endpoint: Get Encomendas por Nome da Loja */
+router.get("/loja/nome/:nomeLoja", (req, res, next) => {
+  const nomeLoja = req.params.nomeLoja;
+  encomendaService.getEncomendasPorNomeLoja(nomeLoja)
+    .then(encomendas => {
+      if (encomendas && encomendas.length > 0) {
+        res.json(encomendas);
+      } else {
+        res.status(204).send(); // No Content
+      }
+    })
+    .catch(err => res.status(500).json(err));
+});
+
+/* Novo Endpoint: Atualizar Status da Encomenda */
+router.put("/status/:codigo/:novoStatus", (req, res, next) => {
+  const { codigo, novoStatus } = req.params;
+  encomendaService.updateEncomendaStatus(codigo, novoStatus)
+  .then(updatedStatus => res.json(updatedStatus))
+  .catch(err => {
+      if (err.error) {
+      // Verificar a mensagem de erro e status enviado pelo backend
+      if (err.error.includes("não encontrada")) {
+          res.status(404).json({ message: err.error });
+      } else if (err.error.includes("inválido")) {
+          res.status(400).json({ message: err.error });
+      } else {
+          res.status(500).json({ message: "Erro interno do servidor." });
+      }
+      } else {
+      res.status(500).json({ message: "Erro interno do servidor." });
+      }
+  });
+});
+
 module.exports = router;
