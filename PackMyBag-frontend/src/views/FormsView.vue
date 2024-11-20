@@ -373,7 +373,6 @@ methods:{
     },
 
     showConfirmPopup() {
-    async showPaymentPopup() {
       if(this.paymentType != 0 && this.selectedOptions.length > 0 && this.selectedOptions2.length > 0){
 
         //this.pedidoInfo.idPedido = 1;   // 1 atua como placeholder
