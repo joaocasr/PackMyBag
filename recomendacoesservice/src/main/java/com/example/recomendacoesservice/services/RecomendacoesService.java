@@ -1,16 +1,37 @@
 package com.example.recomendacoesservice.services;
 
-import com.example.recomendacoesservice.exceptions.*;
-import com.example.recomendacoesservice.repositories.*;
-import com.example.recomendacoesservice.model.*;
-import com.example.recomendacoesservice.dto.*;
-import com.example.recomendacoesservice.mappers.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import com.example.recomendacoesservice.dto.editPedidoDTO;
+import com.example.recomendacoesservice.dto.itemDTO;
+import com.example.recomendacoesservice.dto.pedidoDTO;
+import com.example.recomendacoesservice.dto.pedidoToEstilistaDTO;
+import com.example.recomendacoesservice.dto.recomendacaoToClienteDTO;
+import com.example.recomendacoesservice.exceptions.CompleteWithoutItemsOrDescription;
+import com.example.recomendacoesservice.exceptions.InexistentClientUsername;
+import com.example.recomendacoesservice.exceptions.InexistentRequestID;
+import com.example.recomendacoesservice.exceptions.InexistentRequests;
+import com.example.recomendacoesservice.exceptions.InexistentStylistUsername;
+import com.example.recomendacoesservice.exceptions.NoItems;
+import com.example.recomendacoesservice.exceptions.RequestAlreadyCompleted;
+import com.example.recomendacoesservice.exceptions.UnknownEditType;
+import com.example.recomendacoesservice.mappers.mappersRecomendacoes;
+import com.example.recomendacoesservice.model.Cliente;
+import com.example.recomendacoesservice.model.Estilista;
+import com.example.recomendacoesservice.model.Item;
+import com.example.recomendacoesservice.model.Pedido;
+import com.example.recomendacoesservice.repositories.clientesRepository;
+import com.example.recomendacoesservice.repositories.estilistasRepository;
+import com.example.recomendacoesservice.repositories.itemsRepository;
+import com.example.recomendacoesservice.repositories.pedidosRepository;
 
 @Service
 public class RecomendacoesService {
@@ -29,11 +50,15 @@ public class RecomendacoesService {
     }
 
     private Cliente getClienteIfExists(String username) throws InexistentClientUsername {
-        return clientesRepository.getCliente(username).orElseThrow(InexistentClientUsername::new);
+        Optional<Cliente> c =  clientesRepository.getCliente(username);
+        if(c.isPresent()) return c.get();
+        else throw new InexistentClientUsername();
     }
 
     private Estilista getEstilistaIfExists(String username) throws InexistentStylistUsername {
-        return estilistaRepository.getEstilista(username).orElseThrow(InexistentStylistUsername::new);
+        Optional<Estilista> e =  estilistaRepository.getEstilista(username);
+        if(e.isPresent()) return e.get();
+        else throw new InexistentStylistUsername();
     }
 
     private Cliente createClienteIfDoesntExist(String username){
@@ -41,8 +66,7 @@ public class RecomendacoesService {
         if(auxOC.isPresent()){
             return auxOC.get();
         }else{
-            Cliente c = new Cliente();
-            c.setUsername(username);
+            Cliente c = new Cliente(username);
             clientesRepository.save(c);
             return c;
         }
@@ -53,8 +77,7 @@ public class RecomendacoesService {
         if(auxOE.isPresent()){
             return auxOE.get();
         }else{
-            Estilista c = new Estilista();
-            c.setUsername(username);
+            Estilista c = new Estilista(username);
             estilistaRepository.save(c);
             return c;
         }
@@ -66,7 +89,13 @@ public class RecomendacoesService {
 
     public List<pedidoDTO> getPedidosEstilista(String username, int page, int number) throws InexistentStylistUsername, InexistentRequests {
         Estilista est = getEstilistaIfExists(username);
-        return estilistaRepository.getPedidosbyEstilista(est.getUsername(), PageRequest.of(page, number)).stream().map(x -> mappersRecomendacoes.pedidoToDTO(x)).collect(Collectors.toList());
+
+
+        Page<Pedido> pedidosPage = estilistaRepository.getPedidosbyEstilista(est.getUsername(), PageRequest.of(page, number));
+
+        List<pedidoDTO> pedidoDTOList = pedidosPage.stream().map(mappersRecomendacoes::pedidoToDTO).toList();
+
+        return pedidoDTOList;
     }
 
     public List<recomendacaoToClienteDTO> getPedidosCliente(String username, int page, int number) throws InexistentClientUsername, InexistentRequests {
@@ -78,6 +107,7 @@ public class RecomendacoesService {
         Cliente c = createClienteIfDoesntExist(pedidoToEstilista.getUsernameCliente());
         Estilista e = createEstilistaIfDoesntExist(pedidoToEstilista.getUsernameEstilista());
 
+    
         Pedido np = new Pedido();
         np.setCliente(c);
         np.setCores(pedidoToEstilista.getCores());

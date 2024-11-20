@@ -5,7 +5,10 @@ var recomendacoesService = require('../microservices/recomendacoesService');
 
 router.get('/pedidos/estilistas/:username',function(req,res,next){
     const username = req.params.username;
-    recomendacoesService.getPedidosEstilista(username).then(pedidos=>{
+    const page = req.query.page;
+    const number = req.query.number;
+    console.log("entrei")
+    recomendacoesService.getPedidosEstilista(username,page,number).then(pedidos=>{
         res.jsonp(pedidos);
     }).catch(err=>{
         res.status(400).jsonp(err);
@@ -15,7 +18,9 @@ router.get('/pedidos/estilistas/:username',function(req,res,next){
 
 router.get('/pedidos/cliente/:username',function(req,res,next){
     const username = req.params.username;
-    recomendacoesService.getPedidosCliente(username).then(pedidos=>{
+    const page = req.query.page;
+    const number = req.query.number;
+    recomendacoesService.getPedidosCliente(username,page,number).then(pedidos=>{
         res.jsonp(pedidos);
     }).catch(err=>{
         res.status(400).jsonp(err);

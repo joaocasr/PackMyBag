@@ -24,6 +24,7 @@ public class recomendacoesController {
     @GetMapping("/pedidosE/{username}")
     public List<pedidoDTO> getPedidosEstilista(@PathVariable String username, @RequestParam int page, @RequestParam int number){
         try{
+            System.out.println("entreii");
             return recomendacoesService.getPedidosEstilista(username, page, number);
         }catch(InexistentRequests | InexistentStylistUsername e){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());

@@ -25,9 +25,9 @@ public class Pedido implements Serializable {
 	}
 	
 	@Column(name="IDPedido", nullable=false, length=10)	
-	@Id	
-	@GeneratedValue(generator="RECOMENDACOESSERVICE_PEDIDO_IDPEDIDO_GENERATOR")	
-	@org.hibernate.annotations.GenericGenerator(name="RECOMENDACOESSERVICE_PEDIDO_IDPEDIDO_GENERATOR", strategy="native")	
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator="RECOMENDACOESSERVICE_PEDIDO_IDPEDIDO_GENERATOR")
+	@SequenceGenerator(name="RECOMENDACOESSERVICE_PEDIDO_IDPEDIDO_GENERATOR",sequenceName="RECOMENDACOESSERVICE_PEDIDO_IDPEDIDO_SEQ")
 	private int IDPedido;
 	
 	@ManyToOne(targetEntity=Cliente.class, fetch=FetchType.LAZY)
@@ -176,10 +176,22 @@ public class Pedido implements Serializable {
 		this.conjunto.remove(item);
 	}
 
+
+	@Override
 	public String toString() {
-		return String.valueOf(getIDPedido());
+		return "Pedido{" +
+				"IDPedido=" + IDPedido +
+				", cliente=" + cliente +
+				", estilos='" + estilos + '\'' +
+				", cores='" + cores + '\'' +
+				", nrOutfits=" + nrOutfits +
+				", orcamento=" + orcamento +
+				", peçasExcluidas='" + peçasExcluidas + '\'' +
+				", fabricsPreferences='" + fabricsPreferences + '\'' +
+				", occasions='" + occasions + '\'' +
+				", descricao='" + descricao + '\'' +
+				", status='" + status + '\'' +
+				", conjunto=" + conjunto +
+				'}';
 	}
-
-
-	
 }

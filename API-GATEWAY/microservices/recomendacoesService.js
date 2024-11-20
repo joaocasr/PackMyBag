@@ -2,8 +2,8 @@ const axios = require('axios')
 var ap = process.env.RECOMENDACOES_SERVICE_URL || "http://localhost:8084/api/recomendacoes"
 
 
-module.exports.getPedidosEstilista =  (username) =>{
-    axios.get(`${ap}/pedidosE/${username}`).then(pedidos=>{
+module.exports.getPedidosEstilista =  (username,page,number) =>{
+    return axios.get(`${ap}/pedidosE/${username}?page=${page}&number=${number}`).then(pedidos=>{
         return pedidos.data;
     }).catch(err =>{
         return err;
@@ -11,7 +11,7 @@ module.exports.getPedidosEstilista =  (username) =>{
 }
 
 module.exports.getPedidosCliente =  (username) =>{
-    axios.get(`${ap}/pedidosE/${username}`).then(pedidos=>{
+    return axios.get(`${ap}/pedidosC/${username}?page=${page}&number=${number}`).then(pedidos=>{
         return pedidos.data;
     }).catch(err =>{
         return err;
@@ -24,8 +24,8 @@ module.exports.insertPedido =  async (usernamecliente,usernameestilista,
         try{
             const resp = await axios.post(`${ap}/pedidos`, 
                 {
-                    "usernamecliente":usernamecliente,
-                    "usernameestilista":usernameestilista,
+                    "usernameCliente":usernamecliente,
+                    "usernameEstilista":usernameestilista,
                     "estilos":estilos,
                     "cores":cores,
                     "nrOutfits":nrOutfits,
