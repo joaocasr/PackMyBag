@@ -62,13 +62,19 @@ export default {
 				this.token = token;
 				this.username = token.username;
 				this.lojaid = token.idloja;
+				this.role = token.role;
+				this.nomeLoja = token.nomeloja;
 			}
 		},
 		fetchEncomendas() {
-			axios.get('http://localhost:8888/api/encomendaService/loja/'+this.lojaid) // alterar isto para o this.username
+			let url = 'http://localhost:8888/api/encomendaService/cliente/username/' + this.username;
+			if (this.token.role === 'Tecnico') {
+				url = 'http://localhost:8888/api/encomendaService/loja/nome/'+this.nomeLoja; 
+			}
+			axios.get(url)
 				.then(response => {
 					console.log('Dados recebidos do Axios:', response.data);
-					this.encomendas = response.data; 
+					this.encomendas = response.data;
 				})
 				.catch(error => {
 					console.error('Erro ao buscar encomendas:', error);

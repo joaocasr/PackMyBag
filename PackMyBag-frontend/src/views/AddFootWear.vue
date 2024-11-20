@@ -170,7 +170,7 @@ export default {
 		this.colorError = false;
 	  },
 	  goToMenu() {
-		this.$router.push('/menu'); 
+		this.$router.push('home/shop'); 
 	  }
 	}
   };

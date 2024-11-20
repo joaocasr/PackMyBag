@@ -14,6 +14,8 @@
 			<button type="button" @click= "addFootWear()" class="inventorybtn1">Add FootWear</button>
 			<button type="button" @click= "addPart()"class="inventorybtn2">Add Part</button>
 			<button type="button" @click= "addSet()" class="inventorybtn3">Add Set</button>
+			<button type="button" @click= "getOrders()" class="inventorybtn4">Orders</button>
+
 
 			<div class="rowhomecatalogue">
 				<!--colocar aqui-->
@@ -76,6 +78,9 @@ export default {
 			}).catch(err=>{
 				console.log(err);
 			})
+		},
+		getOrders(){
+			this.$router.push('/orders');
 		}
 	}
 }

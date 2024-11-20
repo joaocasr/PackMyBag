@@ -98,6 +98,24 @@
     background-color: #000000;
 }
 
+.inventorybtn4 {
+    position: absolute;
+    top: 580px;
+    left: 573px;
+    border-radius: 15px;
+    background-color: #737171;
+    width: 159px;
+    height: 49px;
+    overflow: hidden;
+    font-size: 16px;
+    color: #fff;
+    cursor:pointer;
+}
+
+.inventorybtn4:hover, .inventorybtn2:hover, .inventorybtn:hover {
+    background-color: #000000;
+}
+
 
 .manage-items {
     position: absolute;

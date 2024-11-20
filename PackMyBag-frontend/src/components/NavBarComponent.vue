@@ -20,17 +20,19 @@
 							<div v-if="this.role!='Tecnico'" @click="gotoCatalogue()" class="catalogue">
             						<div class="catalogue1">Catalogue</div>
           					</div>
-							<div v-if="this.role=='Tecnico'" class="catalogue">
+							<!-- <div v-if="this.role=='Tecnico'" class="catalogue">
             						<div class="catalogue1">Orders</div>
-          					</div>
+          					</div> -->
 
 
 							<div @click="gotoAbout()" class="about">
             						<div class="about">About</div>
           					</div>
-          					<div @click="gotoSignUp()" class="signup">
-            						<div class="signup"><a href="/signup">Sign Up</a></div>
-          					</div>
+							  <div v-if="token==null" class="login">
+								<div @click="gotoSignUp()" class="signup">
+										<div class="signup"><a href="/signup">Sign Up</a></div>
+								</div>
+							</div>
         				</div>
       			</div>
 				  <form @submit.prevent="handleSearch">
@@ -51,6 +53,7 @@
 								<select class="selectClass" v-bind:style="{backgroundImage:profileImg}" @change="onChange($event)" v-model="selected">
 									<option v-if="token!=null" value="logout">Logout</option>
 									<option v-if="token==null" value="login">Login</option>
+									<option v-if="this.role=='Cliente'" value="orders">Orders</option>
 									<option v-if="this.role=='Cliente'" value="notifications">My Notifications</option>
 									<option v-if="this.role=='Estilista'" value="requests">My Requests</option>
 									<option v-if="this.role=='Cliente'" value="payments">Payments</option>
@@ -131,6 +134,9 @@ export default {
 		gotoprofile(){
 			this.$router.push({path:'/profile'})
 		},
+		goTorders(){
+			this.$router.push({path:'/orders'})
+		},
 		logout(){
 			this.$store.dispatch('auth/logout').then(()=>{
 				this.token=null;
@@ -149,6 +155,7 @@ export default {
 			if(val==='requests') this.goToRequests();
 			if(val==='payments') this.gotoPayments();
 			if(val=='recomendations') this.gotoMyRecomendations();
+			if(val=='orders') this.goTorders();
 		},
 		handleSearch(){
 			if(this.itemName!==''){

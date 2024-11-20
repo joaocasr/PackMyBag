@@ -69,23 +69,23 @@ export default {
 		FooterComponent,
 		OrderItemView
 	},
-	/*
 	props: {
 		orderCode: {
 		type: String,
 		required: true
 		}
-  	}*/
+  	},
 	data() {
 		return {
 			username: '',
 			token: null,
 			myordercode:'',
-			encomenda: null
+			encomenda: null,
+			role: null
 		};
 	},
 	created() {
-		this.myordercode = this.$route.params.orderCode;
+		//this.myordercode = this.$route.params.orderCode;
 		console.log(this.myordercode);
 		this.getUsername(); 
 		this.fetchEncomendas(); 
@@ -97,18 +97,23 @@ export default {
 			if (token != null) {
 				this.token = token;
 				this.username = token.username;
+				this.role = token.role;
 			}
 		},
 		fetchEncomendas() {
-			axios.get(`http://localhost:8888/api/encomendaService/codigo/${this.myordercode}`) 
-			.then(response => {
+			let url = `http://localhost:8888/api/encomendaService/cliente/username/${this.username}/codigoEncomenda/${this.orderCode}`;
+			if (this.role === 'Tecnico') {
+				url = `http://localhost:8888/api/encomendaService/codigo/${this.orderCode}`;
+			}
+			axios.get(url)
+				.then(response => {
 					console.log('Dados recebidos do Axios:', response.data);
-					this.encomenda = response.data; 
+					this.encomenda = response.data;
 				})
 				.catch(error => {
 					console.error('Erro ao buscar encomendas:', error);
 				});
-				},
+		},
 		formatDate(data) {
 			if (data.toLowerCase() === 'não') return 'Não';
 			const date = new Date(data);

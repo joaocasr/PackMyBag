@@ -174,7 +174,7 @@ export default {
 			this.pecaError = false;
 		},
 		goToMenu() {
-			this.$router.push('/menu'); // Ajuste o caminho conforme necessário
+			this.$router.push('home/shop'); // Ajuste o caminho conforme necessário
 		}
 	}
 };

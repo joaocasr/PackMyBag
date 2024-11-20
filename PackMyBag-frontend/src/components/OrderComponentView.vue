@@ -12,6 +12,16 @@
             <div class="div">{{ deliveryDate }}</div>
             <div class="div1">€ {{ orderPrice }}</div>
             <div class="entregue">{{ status }}</div>
+            <div v-if="this.token.role === 'Tecnico'" >
+              <div class="status-dropdown">
+                <select v-model="newStatus">
+                  <option v-for="status in statusOptions" :key="status" :value="status">{{ status }}</option>
+                </select>
+              </div>
+              <div class="button-wrapper1">
+                <button class="button5" @click="updateStatus()">Alterar Status</button>
+              </div>
+            </div>
             <div class="apt091231312">{{ orderCode }}</div>
           </div>
           <div class="cart-section">
@@ -38,6 +48,7 @@
 
 <script>
 import axios from 'axios';
+import authService from '@/services/auth-service';
 
 export default {
   props: {
@@ -52,6 +63,17 @@ export default {
     deliveryFee: Number,
     itens: Array
     },
+    created() {
+      this.getUsername();
+    },
+    data() {
+      return {
+        newStatus: null,
+        statusOptions: ["Pago", "Processamento", "Enviado", "Entregue", "Devolvido", "Cancelado"],
+        role: null,
+        token: null
+      };
+    },
     computed: {
       conjuntoDescricao() {
       if (Array.isArray(this.itens)) {
@@ -62,8 +84,27 @@ export default {
     },
     },
     methods: {
+      getUsername() {
+        let token = authService.getToken();
+        console.log(token);
+        if (token != null) {
+          this.token = token;
+          this.role = token.role;
+        }
+        console.log('Role:', this.role);
+      },
       goToOrderDetails() {
         this.$router.push({ name: 'ordersdetails', params: { orderCode: this.orderCode } });
+      },
+      updateStatus() {
+        axios.put(`http://localhost:8888/api/encomendaService/status/${this.orderCode}/${this.newStatus}`)
+          .then(response => {
+            console.log('Status atualizado:', response.data);
+            window.location.reload(); // Refresh the page
+          })
+          .catch(error => {
+            console.error('Erro ao atualizar status:', error);
+          });
       }
     },
     
