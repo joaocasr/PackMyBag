@@ -19,7 +19,7 @@
     		<div class="an-expert-in-container">
       			<p class="an-expert-in">{{bio}}</p>
     		</div>
-			<button class="vector-icon" @click="goToForms(nome)"></button>
+			<button class="vector-icon" @click="goToForms(nome,username)"></button>
     		
   	</div>
 
@@ -31,6 +31,7 @@ import Rating from 'primevue/rating';
 export default {
 	props:{
 		nome:String,
+		username:String,
 		profileImage:String,
 		bio:String,
 		rating:String
@@ -50,11 +51,11 @@ export default {
 			this.$router.push({ path: '/stylists/forms/{nome}' });
 		}
 			*/
-		goToForms(nome) {
-		this.$router.push({ 
-			path: '/stylists/forms', 
-			query: { stylistName: nome } // Passa o nome como query param
-		});
+		goToForms(nome,username) {
+			this.$router.push({ 
+				path: '/stylists/forms', 
+				query: { stylistName: nome , stylistUsername: username} // Passa o nome como query param
+			});
 	}
 	}
 }

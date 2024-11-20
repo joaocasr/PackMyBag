@@ -5,7 +5,7 @@
   	
   	
             <div class="formpage">
-                    <img class="formpage-child" alt="" src="/SignUpIMG/Line 19.svg">
+                    <img class="formpage-child" alt="" src="/FormsIMG/Line 17.png">
                     
                     <div class="send-mail-parent">
                         <div class="send-mail">
@@ -21,13 +21,9 @@
                     <div class="form4">
                         <div class="rectangleform">
                         </div>
-                        <div class="nextbtn" id="nextBtnContainer">
-                                <div class="nextbtn-child">
-                                </div>
-
                                 <!-- <div class="next">NEXT</div> -->
-                                <button class="next" @click="showPaymentPopup">NEXT</button>
-                        </div>
+                        <button class="nextbtn" @click="showConfirmPopup">NEXT</button>
+                        
                         <img class="image-36-icon" alt="" src="/FormsIMG/image 36.png">
                         
                         <img class="image-37-icon" alt="" src="/FormsIMG/image 37.png">
@@ -176,13 +172,11 @@
                         </div>
                         <div class="q12">
                                 <p class="payment-made-successfully">New payment created successfully!</p>
-                                <p class="payment-made-successfully">Go to your payments page to conclude the process!</p>
+                                <p class="payment-made-successfully">Go to your payments page</p>
+                                <p class="payment-made-successfully">to conclude the process!</p>
                         </div>
-                        <div class="nextbtn1" id="popupnextBtnContainer">
-                                <div class="nextbtn-item"></div>
-                                <!-- <div class="next1">RETURN</div> -->
-                                <button class="next1" @click="goToMyPayments">CHECK MY PAYMENTS</button>
-                        </div>
+                        <button class="nextbtn1" @click="confirmPurchase">Confirm Purchase</button>
+                        
                     </div>
                       
             </div>
@@ -192,13 +186,11 @@
                         <div class="rectangleform4">
                         </div>
                         <div class="q12">
-                                <p class="payment-made-successfully">&emsp;&emsp;&emsp;&emsp;Please finish filling the form!</p>
+                                <p class="payment-made-successfully">&emsp;&emsp;&emsp;Please finish filling the form!</p>
                         </div>
-                        <div class="nextbtn1" id="popupnextBtnContainer">
-                                <div class="nextbtn-item"></div>
-                                <!-- <div class="next1">RETURN</div> -->
-                                <button class="next1" @click="closeWarningPopup">RETURN</button>
-                        </div>
+                        
+                        <button class="nextbtn1" @click="closeWarningPopup">Return</button>
+                        
                     </div>
                       
             </div>
@@ -270,6 +262,7 @@ data(){
         showOverlay: false, // Inicialmente oculto
         showWarning: false, // Inicialmente oculto
         nomeEstilista:'' ,
+        usernameEstilista:'',
         aux:'' ,
 
         // cenas do pedido (formulario)
@@ -317,10 +310,9 @@ computed: {
 
 mounted() {
     // Obtém o nome do estilista dos query params
-    this.nomeEstilista = this.$route.query.stylistName || "Guest";
+    this.nomeEstilista = this.$route.query.stylistName;
+    this.usernameEstilista = this.$route.query.stylistUsername;
     
-    //aux = this.$route.query.stylistName || "Guest";
-    //this.Estilista = getStylistWithUSername(aux);
 },
 
 methods:{
@@ -380,7 +372,7 @@ methods:{
       return this.selectedOptions2.join(", "); // Convert the array to a comma-separated string
     },
 
-    showPaymentPopup() {
+    showConfirmPopup() {
       if(this.paymentType != 0 && this.selectedOptions.length > 0 && this.selectedOptions2.length > 0){
 
         this.pedidoInfo.idPedido = 1;   // 1 atua como placeholder
@@ -404,8 +396,39 @@ methods:{
     closeWarningPopup() {
       this.showWarning = false;
     },
+    async insertPedidoPending(codigo){
+        const header = authHeader();
+        let config = {headers:header}
+        header['Content-Type'] = 'application/json';
+        let itens = [];
 
-    async goToMyPayments() {
+        try{
+            let r = await axios.post('http://localhost:8888/api/recomendacoesService/pedidos',
+                {
+                    "usernamecliente": this.username, 
+                    "usernameestilista": this.usernameEstilista,    
+                    "estilos" : this.pedidoInfo.estilos,
+                    "cores" : this.pedidoInfo.cores,
+                    "nrOutfits" : this.pedidoInfo.nrOutfits,
+                    "orcamento" : this.pedidoInfo.orcamento,
+                    "peçasExcluidas" : this.pedidoInfo.pecasExcluidas,
+                    "fabricsPreferences" : this.pedidoInfo.fabricsPrefered,
+                    "occasions": this.pedidoInfo.ocasioes
+                },
+                config
+            );
+            console.log(r);
+            return r;
+
+        }catch(err){
+            console.log(err);
+            let msg="";
+            if(err.response) msg = err.response.data.error.message;
+            this.$swal.fire("Something went wrong! "+msg, "", "error");
+        }
+        
+    },
+    async confirmPurchase() {
 
         // criar o pagamento
         const header = authHeader();
@@ -418,8 +441,12 @@ methods:{
             "itens" : itens
         }
         let dataGeracao = new Date();
-        
+        let codigo = "FORM_REQUEST-"+this.username + dataGeracao;
+
         try{
+
+            let resp = this.insertPedidoPending(codigo);
+            console.log(resp);
             let r = await axios.post('http://localhost:8888/api/cartService/newpayment',
                 {
                     "username":this.username,
@@ -449,22 +476,6 @@ methods:{
 
     changePaymentType(value) {
       this.paymentType = value;
-    },
-
-    getStylistWithUSername(nameToSearch){
-        const header = authHeader();
-        let config = {headers:header}
-        header['Content-Type'] = 'application/json';
-
-        axios.get('http://localhost:8888/api/utilizadoresService/estilistas/'+nameToSearch, config).then(resp=>{
-				let estilista = resp.data;
-				this.nomeEstilista = estilista.nome;
-			
-				console.log(estilista);
-
-			}).catch(err=>{
-				console.log(err);
-			})
     },
 
     handlePage(action){

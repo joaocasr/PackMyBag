@@ -4,6 +4,7 @@ const APIfavoritos="/api/favoritosService"
 const APINotificacoes="/api/notificacoesService"
 const APIUtilizadores="/api/utilizadoresService"
 const APIencomenda="/api/encomendaService"
+const APIrecomendacoes="/api/recomendacoesService"
 
 module.exports= {
     APIcatalogo,
@@ -11,5 +12,6 @@ module.exports= {
     APIfavoritos,
     APINotificacoes,
     APIUtilizadores,
-    APIencomenda
+    APIencomenda,
+    APIrecomendacoes
 }

@@ -11,6 +11,7 @@
                     <div v-for="s in estilistas">
 						<StylistIndividualView
                         :nome="s.nome"
+                        :username="s.username"
                         :profileImage="s.profileImage"
                         :bio="s.bio"
                         :rating="s.rating"
