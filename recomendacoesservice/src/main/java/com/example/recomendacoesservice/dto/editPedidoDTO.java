@@ -1,8 +1,5 @@
 package com.example.recomendacoesservice.dto;
 
-import java.util.HashSet;
-import java.util.Set;
-
 public class editPedidoDTO {
 
     private String nome;

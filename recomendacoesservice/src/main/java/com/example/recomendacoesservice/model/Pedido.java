@@ -219,8 +219,23 @@ public class Pedido implements Serializable {
 		return false;
 	}
 
+	@Override
 	public String toString() {
-		return String.valueOf(getIDPedido());
+		return "Pedido{" +
+				"IDPedido=" + IDPedido +
+				", nome=" + nome +
+				", cliente=" + cliente +
+				", estilos='" + estilos + '\'' +
+				", cores='" + cores + '\'' +
+				", nrOutfits=" + nrOutfits +
+				", orcamento=" + orcamento +
+				", peçasExcluidas='" + peçasExcluidas + '\'' +
+				", fabricsPreferences='" + fabricsPreferences + '\'' +
+				", occasions='" + occasions + '\'' +
+				", descricao='" + descricao + '\'' +
+				", status='" + status + '\'' +
+				", conjunto=" + conjunto +
+				'}';
 	}
 
 

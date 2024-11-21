@@ -1,16 +1,40 @@
 package com.example.recomendacoesservice.services;
 
-import com.example.recomendacoesservice.exceptions.*;
-import com.example.recomendacoesservice.repositories.*;
-import com.example.recomendacoesservice.model.*;
-import com.example.recomendacoesservice.dto.*;
-import com.example.recomendacoesservice.mappers.*;
+import com.example.recomendacoesservice.dto.pedidoDTO;
+import com.example.recomendacoesservice.dto.pedidoToEstilistaDTO;
+import com.example.recomendacoesservice.dto.recomendacaoToClienteDTO;
+import com.example.recomendacoesservice.dto.statusPedidoDTO;
+import com.example.recomendacoesservice.dto.editPedidoDTO;
+import com.example.recomendacoesservice.dto.addRemoveItemDTO;
+import com.example.recomendacoesservice.exceptions.InexistentClientUsername;
+import com.example.recomendacoesservice.exceptions.InexistentRequestName;
+import com.example.recomendacoesservice.exceptions.InexistentRequests;
+import com.example.recomendacoesservice.exceptions.InexistentStylistUsername;
+import com.example.recomendacoesservice.exceptions.EmptyNameEstilistaCliente;
+import com.example.recomendacoesservice.exceptions.RequestCompletedPendingPayed;
+import com.example.recomendacoesservice.exceptions.IllegalStatus;
+import com.example.recomendacoesservice.exceptions.ItemNotAdded;
+import com.example.recomendacoesservice.exceptions.EmptyDTO;
+import com.example.recomendacoesservice.exceptions.NoItems;
+import com.example.recomendacoesservice.exceptions.ItemAlreadyAdded;
+import com.example.recomendacoesservice.model.Cliente;
+import com.example.recomendacoesservice.model.Estilista;
+import com.example.recomendacoesservice.model.Pedido;
+import com.example.recomendacoesservice.model.Item;
+import com.example.recomendacoesservice.repositories.clientesRepository;
+import com.example.recomendacoesservice.repositories.estilistasRepository;
+import com.example.recomendacoesservice.repositories.pedidosRepository;
+import com.example.recomendacoesservice.repositories.itemsRepository;
+import com.example.recomendacoesservice.mappers.mappersRecomendacoes;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
+
 
 @Service
 public class RecomendacoesService {
@@ -29,11 +53,21 @@ public class RecomendacoesService {
     }
 
     private Cliente getClienteIfExists(String username) throws InexistentClientUsername {
-        return clientesRepository.getCliente(username).orElseThrow(InexistentClientUsername::new);
+        Optional<Cliente> c = clientesRepository.getCliente(username);
+        if(c.isPresent()) {
+            return c.get();
+        }else{
+            throw new InexistentClientUsername();
+        }
     }
 
     private Estilista getEstilistaIfExists(String username) throws InexistentStylistUsername {
-        return estilistaRepository.getEstilista(username).orElseThrow(InexistentStylistUsername::new);
+        Optional<Estilista> e = estilistaRepository.getEstilista(username);
+        if(e.isPresent()) {
+            return e.get();
+        }else{
+            throw new InexistentStylistUsername();
+        }
     }
 
     private Cliente createClienteIfDoesntExist(String username){
@@ -61,7 +95,12 @@ public class RecomendacoesService {
     }
 
     private Pedido getPedidoIfExists(String nome) throws InexistentRequestName {
-        return pedidosRepository.getPedido(nome).orElseThrow(InexistentRequestName::new);
+        Optional<Pedido> p = pedidosRepository.getPedido(nome);
+        if(p.isPresent()) {
+            return p.get();
+        }else{
+            throw new InexistentRequestName();
+        }
     }
 
     public List<pedidoDTO> getPedidosEstilista(String username, int page, int number) throws InexistentStylistUsername, InexistentRequests {

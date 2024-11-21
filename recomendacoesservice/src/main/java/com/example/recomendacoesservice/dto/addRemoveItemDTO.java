@@ -1,7 +1,5 @@
 package com.example.recomendacoesservice.dto;
 
-import com.example.recomendacoesservice.dto.*;
-
 public class addRemoveItemDTO {
     private String nome;
     private itemDTO item;

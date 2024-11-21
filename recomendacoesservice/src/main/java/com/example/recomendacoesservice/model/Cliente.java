@@ -28,6 +28,9 @@ import jakarta.persistence.Table;
 public class Cliente implements Serializable {
 	public Cliente() {
 	}
+	public Cliente(String username){
+		this.username = username;
+	}
 	
 	@Column(name="IDCliente", nullable=false, length=10)	
 	@Id	

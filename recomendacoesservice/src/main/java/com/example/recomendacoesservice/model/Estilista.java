@@ -31,7 +31,10 @@ import jakarta.persistence.Table;
 public class Estilista implements Serializable {
 	public Estilista() {
 	}
-	
+	public Estilista(String username){
+		this.username = username;
+	}
+
 	@Column(name="IDEstilista", nullable=false, length=10)	
 	@Id	
 	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator="RECOMENDACOESSERVICE_ESTILISTA_IDESTILISTA_GENERATOR")

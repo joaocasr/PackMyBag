@@ -1,6 +1,5 @@
 package com.example.recomendacoesservice.repositories;
 
-import com.example.recomendacoesservice.model.Estilista;
 import com.example.recomendacoesservice.model.Item;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

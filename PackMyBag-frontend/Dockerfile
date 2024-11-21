@@ -1,9 +1,24 @@
 FROM node:lts-alpine as build-stage
+
+ARG MODE=production
+ENV NODE_ENV=$MODE
+
 WORKDIR /app
 COPY package*.json ./
 RUN npm install
 COPY . .
-RUN npm run build
+
+#RUN npm run build -- --mode $MODE
+
+
+RUN if [ "$MODE" = "development" ]; then \
+      echo "Construindo no modo Production"; \
+      npm run build -- --mode $MODE; \
+    else \
+      echo "Construindo no modo Development"; \
+      npm run build; \
+    fi
+
 
 # production stage
 FROM nginx:stable-alpine as production-stage
