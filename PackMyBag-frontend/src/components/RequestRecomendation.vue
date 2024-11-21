@@ -1,7 +1,7 @@
 <template>
         <div class="stylist-request">
-            <div class="text-wrapper">Request - Client: {{ cliente }}</div>
-            <div class="div">Current Recommendation for {{ cliente }}</div>
+            <div class="text-wrapper">Request: {{ nome }} - Client: {{ cliente }}</div>
+            <div class="div">Current Recommendation for {{ nome }}</div>
             <div class="request-details">
             <div class="overlap-group">
             <div class="text-wrapper-2"><b style="font-weight:bold">Styles</b>: {{ styles }}</div>
@@ -18,15 +18,18 @@
             <div class="overlap-group-2">
             <div class="text-wrapper-9">Added items:</div>
                 <div class="text-wrapper-10">
-                    <p v-for="(item,index) in items">
-                        <p v-if="index<limit">{{ item.nome }}</p>
-                    </p>                    
+                    <div v-for="(item,index) in items">
+                        <div class="item">
+                                <p v-if="index<limit">{{ item.designacao }}- {{  item.codigo }}</p>
+                                <button @click="removeItem(index)" class="remove-button" title="Remove item">✖</button>
+
+                        </div> 
+                    </div>                    
                 </div>
-                <button class="expand" @click="expand">Expand</button>
-            </div>
+                </div>
             <div class="frame">
             <div class="text-wrapper-11">Description</div>
-            <input class="frame-2"></input>
+            <input v-model="mydescription" class="frame-2">{{descricao}}</input>
             </div>
             <button class="text-wrapper-12">Complete Recommendation</button>
             </div>
@@ -34,8 +37,12 @@
         </div>    
 </template>
 <script>
+import axios from 'axios';
+import authHeader from '@/services/auth-header';
 export default {
     props:{
+        nome:String,
+        descricao:String,
         cliente:String,
         styles:String,
         colors:String,
@@ -51,7 +58,8 @@ export default {
     data(){
         return {
             max:9,
-            limit:1
+            limit:1,
+            mydescription:""
         }
     },
     created(){
@@ -62,6 +70,30 @@ export default {
     methods:{
         expand(){
             this.$emit('expand',this.idx);
+        },
+        async removeItem(index){
+            const result = await this.$swal.fire({
+				title: "Are you sure you want to remove "+ this.items[index].designacao +" from the recommendation "+ this.nome+ " ?",
+				showDenyButton: false,
+				showCancelButton: true,
+				confirmButtonText: "Yes"
+			});
+			if(result.isConfirmed){
+				let p;
+				const header = authHeader();
+				header['Content-Type'] = 'application/json';
+                let data = {"nome": this.nome,"item": {"codigo":this.items[index].codigo,"designacao":this.items[index].designacao,"idLoja":this.items[index].idLoja}}
+				try{
+						let remove = await axios.delete('http://localhost:8888/api/recomendacoesService/removeItem',
+                        { data, headers: header });
+						if(remove.status===200) {
+                            this.items.splice(index,1);
+                            this.$swal.fire("The item was removed! ", "", "success");
+                        }
+				}catch(err){
+					this.$swal.fire("Something went wrong! "+err, "", "error");
+				}
+			}
         }
     }
 }

@@ -100,7 +100,7 @@
 				<ul>
 					<li v-for="(pedido, index) in filteredPedidos" :key="index" @mouseenter="hoveredPedido = pedido" @mouse="hoveredPedido = null">
 					<label>
-						<input type="checkbox" :value="pedido.id" v-model="selectedPedidos"/>
+						<input type="checkbox" :value="pedido.nome" v-model="selectedPedidos"/>
 						{{ pedido.nome }}
 					</label>
 					</li>
@@ -108,8 +108,15 @@
 				</div>
 
 				<div v-if="hoveredPedido" class="info-extra">
-				<p>Info:</p>
-				<p>Description: {{ hoveredPedido.descricao }}</p>
+				<p>INFO</p>
+				<p>Client: {{ hoveredPedido.usernameCliente }}</p>
+				<p>Styles: {{ hoveredPedido.estilos }}</p>
+				<p>Colors: {{ hoveredPedido.cores }}</p>
+				<p>Nro Outfits: {{ hoveredPedido.nrOutfits }}</p>
+				<p>Budget: {{ hoveredPedido.orcamento }}</p>
+				<p>Excluded: {{ hoveredPedido.peçasExcluidas }}</p>
+				<p>Preferences: {{ hoveredPedido.fabricsPreferences }}</p>
+				<p>Occassion: {{ hoveredPedido.occasions }}</p>
 				</div>
 
 				<div class="buttons">
@@ -175,7 +182,6 @@ export default {
 		this.getItemInfo(itemid);
 		this.getReviews(itemid);
 		let token = authService.getToken();
-		console.log(token);
 		if(token!=null){
 			this.token = token;
 			this.username=token.username;
@@ -183,6 +189,7 @@ export default {
 			this.nome=token.nome;
 			this.role = token.role;
 			this.email=token.email;
+			if(this.role==="Estilista") this.getPedidos();
 		}
 	},
 	data(){
@@ -218,14 +225,7 @@ export default {
 			bellImage: "/DetailedItemIMG/bell.png",
 			idLoja:0,
 			isPopupVisible: false,
-			pedidos: [
-				{ id: 1, nome: "Pedido A", descricao: "Descrição do Pedido A" },
-				{ id: 2, nome: "Pedido B", descricao: "Descrição do Pedido B" },
-				{ id: 3, nome: "Pedido C", descricao: "Descrição do Pedido C" },
-				{ id: 4, nome: "Pedido D", descricao: "Descrição do Pedido D" },
-				{ id: 5, nome: "Pedido E", descricao: "Descrição do Pedido E" },
-				{ id: 6, nome: "Pedido F", descricao: "Descrição do Pedido F" }
-			],
+			pedidos: [],
 			searchQuery: "",
 			selectedPedidos: [],
 			hoveredPedido: null
@@ -492,9 +492,48 @@ export default {
 		togglePopup() {
 			this.isPopupVisible = !this.isPopupVisible;
 		},
-		confirmSelection() {
+		async confirmSelection() {
 			console.log(this.selectedPedidos);
+			
+			const result = await this.$swal.fire({
+				title: "Are you sure you want to save this item to the recommendation(s)?",
+				showDenyButton: false,
+				showCancelButton: true,
+				confirmButtonText: "Yes"
+			});
+			if(result.isConfirmed){
+				let p;
+				const header = authHeader();
+				let config = {headers:header}
+				header['Content-Type'] = 'application/json';
+
+				for(p=0;p<this.selectedPedidos.length;p+=1){
+					try{
+						let add = await axios.put('http://localhost:8888/api/recomendacoesService/addItem',
+						{
+							"nome": this.selectedPedidos[p],
+							"item": {"codigo":this.itemCode,"designacao":this.designacao,"idLoja":this.idLoja}
+						},
+						config
+						);
+						console.log(add);
+					}catch(err){
+						this.$swal.fire("Something went wrong! "+err.data, "", "error");
+					}
+				}
+
+			}
+			
 			this.togglePopup(); 
+		},
+		getPedidos(){
+			axios.get('http://localhost:8888/api/recomendacoesService/pedidosEinfo/'+this.username)
+            .then(requests=>{
+                this.pedidos = requests.data;
+                console.log(this.pedidos);
+            }).catch(err=>{
+                console.log(err);
+            });
 		}		
 	}
 

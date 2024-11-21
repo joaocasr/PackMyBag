@@ -17,7 +17,9 @@
         <div class="requestscontainer">
             <div v-for="(pedido, index) in pedidos" :key="index">
                 <RequestRecomendation
-                    :cliente="pedido.cliente"
+                    :nome="pedido.nome"
+                    :descricao="pedido.descricao"
+                    :cliente="pedido.usernameCliente"
                     :styles="pedido.estilos"
                     :colors="pedido.cores"
                     :nroutfits="pedido.nrOutfits"
@@ -26,7 +28,7 @@
                     :preferences="pedido.fabricsPreferences"
                     :occasion="pedido.occasions"
                     :status="pedido.status"
-                    :items="pedido.items"
+                    :items="pedido.conjunto"
                     :idx="index"
                     @expand="showPopUp"
                     >
@@ -74,13 +76,7 @@ export default {
             current_page:0,
             popUpRequest:0,
             isPopupVisible:false,
-            pedidos:[
-                {"cliente":"johnny1","styles":"Casual","colors":"Blue,Yellow","nroutfits":2,"budget":"20 Eur", "dontinclude": "Skirt, Jacket", "preferences":"Denim, Cotton" , "occasion":"Beach Vacation", "status":"pending", "items":[{"nome":"item 1"},{"nome":"item 2"},{"nome":"item 3"},{"nome":"item 4"},{"nome":"item 5"},{"nome":"item 6"},{"nome":"item 7"},{"nome":"item 8"},{"nome":"item 9"},{"nome":"item 10"},{"nome":"item 11"}]},
-                {"cliente":"johnny2","styles":"Casual","colors":"Blue,Yellow","nroutfits":2,"budget":"20 Eur", "dontinclude": "Skirt, Jacket", "preferences":"Denim, Cotton" , "occasion":"Beach Vacation", "status":"pending", "items":[{"nome":"item 1"}]},
-                {"cliente":"johnny3","styles":"Casual","colors":"Blue,Yellow","nroutfits":2,"budget":"20 Eur", "dontinclude": "Skirt, Jacket", "preferences":"Denim, Cotton" , "occasion":"Beach Vacation", "status":"pending", "items":[{"nome":"item 1"}]},
-                {"cliente":"johnny4","styles":"Casual","colors":"Blue,Yellow","nroutfits":2,"budget":"20 Eur", "dontinclude": "Skirt, Jacket", "preferences":"Denim, Cotton" , "occasion":"Beach Vacation", "status":"pending", "items":[{"nome":"item 1"}]},
-                {"cliente":"johnny5","styles":"Casual","colors":"Blue,Yellow","nroutfits":2,"budget":"20 Eur", "dontinclude": "Skirt, Jacket", "preferences":"Denim, Cotton" , "occasion":"Beach Vacation", "status":"pending", "items":[{"nome":"item 1"}]}
-            ]
+            pedidos:[]
         }
     },
     methods:{

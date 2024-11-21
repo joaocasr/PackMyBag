@@ -19,6 +19,16 @@ module.exports.getPedidosCliente =  (username) =>{
 }
 
 
+module.exports.getPedidosEstilistaInfo = (username) =>{
+    return axios.get(`${ap}/pedidosEinfo/${username}`).then(pedidos=>{
+        return pedidos.data;
+    }).catch(err =>{
+        return err;
+    })
+}
+
+
+
 module.exports.changeStatus =  async (codigo,status) =>{
 
         try{
@@ -83,15 +93,13 @@ module.exports.insertPedido =  async (usernamecliente,usernameestilista,nome,
         }
 }
 
-module.exports.editPedido =  async (descricao,itemsEditType,conjunto,status) =>{
+module.exports.addItemToPedido =  async (nome,item) =>{
 
         try{
-            const resp = await axios.patch(`${ap}/pedidoEdit`, 
+            const resp = await axios.put(`${ap}/addItem`, 
                 {
-                    "descricao":descricao,
-                    "itemsEditType":itemsEditType,
-                    "conjunto":conjunto,
-                    "status":status
+                    "nome":nome,
+                    "item":item 
                 }, 
                 {
                     headers: { 'Content-Type': 'application/json;charset=UTF-8' }
@@ -101,4 +109,23 @@ module.exports.editPedido =  async (descricao,itemsEditType,conjunto,status) =>{
         }catch(err){
             return err;
         }
+}
+
+module.exports.removeItemFromPedido = async(nome,item) => {
+    try{
+        let data ={
+            "nome":nome,
+            "item":item 
+        }
+        let r = await axios.delete(`${ap}/removeItem`,
+        {
+            data,
+            headers: {
+                'Content-Type': 'application/json;charset=UTF-8',
+            }
+        });
+        return r.data;
+    }catch(err){
+        return err;
+    }
 }

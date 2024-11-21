@@ -72,11 +72,13 @@
   .list-container ul {
     list-style: none;
     padding: 0;
+    font-size: 15px;
     margin: 0;
   }
   
   .list-container li {
     margin-bottom: 5px;
+    font-size: 15px;
     padding: 5px;
     transition: background-color 0.3s;
   }
@@ -90,6 +92,7 @@
     background-color: #f9f9f9;
     border: 1px solid #ddd;
     padding: 10px;
+    font-size: 15px;
     margin-top: 10px;
     border-radius: 5px;
   }

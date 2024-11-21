@@ -14,6 +14,15 @@ router.get('/pedidos/estilistas/:username',function(req,res,next){
     })
 })
 
+router.get('/pedidosEinfo/:username',function(req,res,next){
+    const username = req.params.username;
+    recomendacoesService.getPedidosEstilistaInfo(username).then(pedidos=>{
+        res.jsonp(pedidos);
+    }).catch(err=>{
+        res.status(400).jsonp(err);
+    })
+})
+
 
 router.get('/pedidos/cliente/:username',function(req,res,next){
     const username = req.params.username;
@@ -57,20 +66,32 @@ router.post('/pedidos',function(req,res,next){
     })
 })
 
-router.put('/pedidoEdit',function(req,res,next){
+router.put('/addItem',async function(req,res,next){
     
-    const descricao = req.body.descricao;
-    const itemsEditType = req.body.itemsEditType; // "add", "remove"
-    const conjunto = req.body.conjunto; //[{codigo,designacao,idLoja}]
-    const status = req.body.status; // PENDING, PAYED, COMPLETE
-
-
-    recomendacoesService.editPedido(descricao,itemsEditType,conjunto,status
-    ).then(pedidos=>{
-        res.jsonp(pedidos);
-    }).catch(err=>{
+    const nome = req.body.nome;
+    const item = req.body.item;
+    console.log(nome);
+    console.log(item);
+    try{
+        let r = await recomendacoesService.addItemToPedido(nome,item)
+        res.jsonp(r);
+    }catch(err){
         res.status(400).jsonp(err);
-    })
+    }
+})
+
+router.delete('/removeItem',async function(req,res,next){
+    
+    const nome = req.body.nome;
+    const item = req.body.item;
+    console.log(nome);
+    console.log(item);
+    try{
+        let r = await recomendacoesService.removeItemFromPedido(nome,item)
+        res.jsonp(r);
+    }catch(err){
+        res.status(400).jsonp(err);
+    }
 })
 
 module.exports = router;
