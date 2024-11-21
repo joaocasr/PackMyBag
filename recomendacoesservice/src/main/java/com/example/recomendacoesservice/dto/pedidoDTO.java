@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 public class pedidoDTO {
     private String nome;
+    private String usernameCliente;
     private String estilos;
     private String cores;
     private int nrOutfits;
@@ -21,6 +22,7 @@ public class pedidoDTO {
 
     public pedidoDTO(Pedido pedido) {
         this.nome = pedido.getNome();
+        this.usernameCliente = pedido.getCliente().getUsername();
         this.estilos = pedido.getEstilos();
         this.cores = pedido.getCores();
         this.nrOutfits = pedido.getNrOutfits();
@@ -33,8 +35,9 @@ public class pedidoDTO {
         this.status = pedido.getStatus();
     }
 
-    public pedidoDTO(String nome, String estilos, String cores, int nrOutfits, double orcamento, String peçasExcluidas, String fabricsPreferences, String occasions, String descricao, Set<itemDTO> conjunto, String status) {
+    public pedidoDTO(String nome, String usernameCliente, String estilos, String cores, int nrOutfits, double orcamento, String peçasExcluidas, String fabricsPreferences, String occasions, String descricao, Set<itemDTO> conjunto, String status) {
         this.nome = nome;
+        this.usernameCliente = usernameCliente;
         this.estilos = estilos;
         this.cores = cores;
         this.nrOutfits = nrOutfits;
@@ -52,6 +55,13 @@ public class pedidoDTO {
     }
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public String getUsernameCliente() {
+        return this.usernameCliente;
+    }
+    public void setUsernameCliente(String usernameCliente) {
+        this.usernameCliente = usernameCliente;
     }
 
     public String getEstilos() {
