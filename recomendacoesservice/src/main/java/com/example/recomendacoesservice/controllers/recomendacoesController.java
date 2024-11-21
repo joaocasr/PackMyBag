@@ -61,6 +61,8 @@ public class recomendacoesController {
             return ResponseEntity.status(200).body("New Request added with success!"); // 201 Created on success
         } catch (InexistentClientUsername | InexistentStylistUsername | EmptyNameEstilistaCliente e) {
             return ResponseEntity.status(404).body(e.getMessage());
+        }catch(RequestNameAlreadyExists e){
+            return ResponseEntity.status(409).body(e.getMessage());
         }catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "An unexpected error occurred: " + e.getMessage());
         }

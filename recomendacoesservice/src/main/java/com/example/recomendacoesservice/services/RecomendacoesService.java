@@ -18,6 +18,7 @@ import com.example.recomendacoesservice.exceptions.ItemNotAdded;
 import com.example.recomendacoesservice.exceptions.EmptyDTO;
 import com.example.recomendacoesservice.exceptions.NoItems;
 import com.example.recomendacoesservice.exceptions.ItemAlreadyAdded;
+import com.example.recomendacoesservice.exceptions.RequestNameAlreadyExists;
 import com.example.recomendacoesservice.model.Cliente;
 import com.example.recomendacoesservice.model.Estilista;
 import com.example.recomendacoesservice.model.Pedido;
@@ -104,14 +105,19 @@ public class RecomendacoesService {
         }
     }
 
+    private Boolean checkIfNomePedidoAlreadyExists(String nome){
+        Optional<Pedido> p = pedidosRepository.getPedido(nome);
+        return p.isPresent();
+    }
+
     public List<pedidoDTO> getPedidosEstilista(String username, int page, int number) throws InexistentStylistUsername, InexistentRequests {
         Estilista est = getEstilistaIfExists(username);
-        return estilistaRepository.getPedidosbyEstilista(est.getUsername(), PageRequest.of(page, number)).stream().filter(x -> x.getStatus().equals("PAYED")).map(x -> mappersRecomendacoes.pedidoToDTO(x)).collect(Collectors.toList());
+        return estilistaRepository.getPedidosbyEstilista(est.getUsername(), PageRequest.of(page, number)).stream().filter(x -> x.getStatus().equalsIgnoreCase("PAYED")).map(x -> mappersRecomendacoes.pedidoToDTO(x)).collect(Collectors.toList());
     }
 
     public List<pedidoInfoDTO> getPedidosInfoEstilista(String username) throws InexistentStylistUsername, InexistentRequests{
         Estilista est = getEstilistaIfExists(username);
-        return estilistaRepository.getPedidosbyEstilistaList(est.getUsername()).stream().filter(x -> x.getStatus().equals("PAYED")).map(x -> mappersRecomendacoes.pedidoToInfoDTO(x)).collect(Collectors.toList());
+        return estilistaRepository.getPedidosbyEstilistaList(est.getUsername()).stream().filter(x -> x.getStatus().equalsIgnoreCase("PAYED")).map(x -> mappersRecomendacoes.pedidoToInfoDTO(x)).collect(Collectors.toList());
     }
 
     public List<recomendacaoToClienteDTO> getPedidosCliente(String username, int page, int number) throws InexistentClientUsername, InexistentRequests {
@@ -119,13 +125,17 @@ public class RecomendacoesService {
         return pedidosRepository.getPedidosByCliente(c.getIDCliente(), PageRequest.of(page, number)).stream().map(x -> new recomendacaoToClienteDTO(x)).collect(Collectors.toList());
     }
 
-    public void newPedido(pedidoToEstilistaDTO pedidoToEstilista) throws InexistentClientUsername, InexistentStylistUsername, EmptyNameEstilistaCliente {
+    public void newPedido(pedidoToEstilistaDTO pedidoToEstilista) throws InexistentClientUsername, InexistentStylistUsername, EmptyNameEstilistaCliente, RequestNameAlreadyExists {
         if(pedidoToEstilista.getNome().isEmpty() || pedidoToEstilista.getUsernameEstilista().isEmpty() || pedidoToEstilista.getUsernameCliente().isEmpty() || pedidoToEstilista.getNome().isBlank() || pedidoToEstilista.getUsernameEstilista().isBlank() || pedidoToEstilista.getUsernameCliente().isBlank()){
             throw new EmptyNameEstilistaCliente();
         }
 
         Cliente c = createClienteIfDoesntExist(pedidoToEstilista.getUsernameCliente());
         Estilista e = createEstilistaIfDoesntExist(pedidoToEstilista.getUsernameEstilista());
+
+        if(checkIfNomePedidoAlreadyExists(pedidoToEstilista.getNome())){
+            throw new RequestNameAlreadyExists();
+        }
 
         Pedido np = new Pedido();
         np.setCliente(c);
@@ -137,7 +147,7 @@ public class RecomendacoesService {
         np.setPeçasExcluidas(pedidoToEstilista.getPeçasExcluidas());
         np.setFabricsPreferences(pedidoToEstilista.getFabricsPreferences());
         np.setOccasions(pedidoToEstilista.getOccasions());
-        np.setStatus("pending");
+        np.setStatus("PENDING");
         np.setDescricao("");
         np.setConjunto(new HashSet<>());
 
@@ -149,10 +159,10 @@ public class RecomendacoesService {
 
     public void removePedido(String nome) throws InexistentRequestName, RequestCompletedPendingPayed {
         Pedido p = getPedidoIfExists(nome);
-        if(p.getStatus().equals("pending")){
+        if(p.getStatus().equalsIgnoreCase("pending")){
             pedidosRepository.delete(p);
         }else{
-            throw new RequestCompletedPendingPayed(p.getStatus(), "removed");
+            throw new RequestCompletedPendingPayed(p.getStatus().toUpperCase(), "removed");
         }
     }
 
@@ -161,26 +171,26 @@ public class RecomendacoesService {
             throw new EmptyDTO();
         }
         Pedido p = getPedidoIfExists(statusPedido.getNome());
-        if(p.getStatus().equals("pending")){
-            if(statusPedido.getStatus().equals("PAYED")){
-                p.setStatus(statusPedido.getStatus());
+        if(p.getStatus().equalsIgnoreCase("pending")){
+            if(statusPedido.getStatus().equalsIgnoreCase("PAYED")){
+                p.setStatus(statusPedido.getStatus().toUpperCase());
                 pedidosRepository.save(p);
-            }else if(statusPedido.getStatus().equals("completed")){
+            }else if(statusPedido.getStatus().equalsIgnoreCase("completed")){
                 throw new IllegalStatus("change");
-            }else if(!statusPedido.getStatus().equals("pending")){
+            }else if(!statusPedido.getStatus().equalsIgnoreCase("pending")){
                 throw new IllegalStatus("name");
             }
-        }else if(p.getStatus().equals("PAYED")) {
-            if(statusPedido.getStatus().equals("completed")){
+        }else if(p.getStatus().equalsIgnoreCase("PAYED")) {
+            if(statusPedido.getStatus().equalsIgnoreCase("completed")){
                 if(!(p.getConjunto().isEmpty() || p.getDescricao().isEmpty() || p.getDescricao().isBlank())){
-                    p.setStatus(statusPedido.getStatus());
+                    p.setStatus(statusPedido.getStatus().toUpperCase());
                     pedidosRepository.save(p);
                 }else{
                     throw new NoItems("items or description.");
                 }
-            }else if(statusPedido.getStatus().equals("pending")){
+            }else if(statusPedido.getStatus().equalsIgnoreCase("pending")){
                 throw new IllegalStatus("change");
-            }else if(!statusPedido.getStatus().equals("PAYED")){
+            }else if(!statusPedido.getStatus().equalsIgnoreCase("PAYED")){
                 throw new IllegalStatus("name");
             }
         }else{
@@ -194,7 +204,7 @@ public class RecomendacoesService {
         }
 
         Pedido p = getPedidoIfExists(addItem.getNome());
-        if(p.getStatus().equals("PAYED")){
+        if(p.getStatus().equalsIgnoreCase("PAYED")){
             if(p.containsItemDTO(addItem.getItem())){
                 throw new ItemAlreadyAdded();
             }else{
@@ -214,7 +224,7 @@ public class RecomendacoesService {
         }
 
         Pedido p = getPedidoIfExists(removeItem.getNome());
-        if(p.getStatus().equals("PAYED")){
+        if(p.getStatus().equalsIgnoreCase("PAYED")){
             if(p.containsItemDTO(removeItem.getItem())){
                 Item auxI = p.getItemByDTO(removeItem.getItem());
                 p.removeItem(auxI);

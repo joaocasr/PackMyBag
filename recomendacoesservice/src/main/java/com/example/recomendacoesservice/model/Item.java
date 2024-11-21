@@ -33,6 +33,15 @@ public class Item implements Serializable {
 	
 	@Column(name="Designacao", nullable=true, length=255)	
 	private String designacao;
+
+	@Column(name="Imagem", nullable=true, length=255)
+	private String imagem;
+
+	@Column(name="Preco", nullable=false)
+	private double preco;
+
+	@Column(name="Identificador", nullable=false, length=10)
+	private int identificador;
 	
 	@Column(name="IdLoja", nullable=false, length=10)	
 	private int idLoja;
@@ -64,7 +73,31 @@ public class Item implements Serializable {
 	public String getDesignacao() {
 		return designacao;
 	}
-	
+
+	public String getImagem() {
+		return this.imagem;
+	}
+
+	public void setImagem(String imagem) {
+		this.imagem = imagem;
+	}
+
+	public double getPreco() {
+		return this.preco;
+	}
+
+	public int getIdentificador() {
+		return this.identificador;
+	}
+
+	public void setIdentificador(int identificador) {
+		this.identificador = identificador;
+	}
+
+	public void setPreco(double value) {
+		this.preco = value;
+	}
+
 	public void setIdLoja(int value) {
 		this.idLoja = value;
 	}

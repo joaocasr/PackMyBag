@@ -15,6 +15,6 @@ public interface pedidosRepository extends JpaRepository<Pedido, Integer> {
     @Query("select p FROM Pedido p where p.nome = :nome")
     Optional<Pedido> getPedido(@Param("nome") String nome);
 
-    @Query("SELECT p FROM Pedido p WHERE p.cliente.IDCliente = :IDCliente AND p.status = 'completed'")
+    @Query("SELECT p FROM Pedido p WHERE p.cliente.IDCliente = :IDCliente AND p.status = 'COMPLETED'")
     Page<Pedido> getPedidosByCliente(@Param("IDCliente") Integer IDCliente, PageRequest pageRequest);
 }
