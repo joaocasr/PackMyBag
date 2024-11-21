@@ -88,7 +88,27 @@ export default {
 					},
 					config
 				)
-				return r;
+                console.log(r);
+
+                if(r.status==200){
+                    payment.status="PAYED";
+                    let msg = "Your order was received. See you soon!";
+                    let msgtitle =  "Your cart order was payed!";
+                    if(ptype==="FORM"){
+                        msg = "Your form was sent to the stylist!";
+                        msgtitle =  "Your form was payed!";
+                    } 
+                    this.$swal({
+                        icon: "success",
+                        title: msgtitle,
+                        text: msg
+                    });
+                    let indx = this.payments.findIndex(p=>p.codigo===payment.codigo);
+                    if(indx!==-1){
+                        this.payments[indx].status = "PAYED";
+                    }
+                }
+				//return r;
 			}catch(err){
 				console.log(err);
 				return err;

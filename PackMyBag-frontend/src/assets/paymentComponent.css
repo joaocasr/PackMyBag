@@ -5,9 +5,7 @@
     font-size: 16px;
     line-height: 24px;
 }
-.pending {
-    color: #8f7f07;
-}
+
 .status-pending {
     position: absolute;
     top: 38px;

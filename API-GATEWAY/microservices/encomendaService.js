@@ -17,7 +17,7 @@ module.exports = {
   createEncomenda: async (encomenda) => {
     try{
         let r = await axios.post(`${baseURL}/create`, encomenda);
-        return r;
+        return r.data;
     }catch(err){
       if (err.response) {
         throw { error: err.response.data };

@@ -362,9 +362,10 @@ public class CartService {
                     String gatewayUrl = "http://localhost:8888/api/recomendacoesService/removePedido";
                     restTemplate.postForObject(gatewayUrl, new RequestDTO(p.getCodigo(),"DELETED"), String.class);
                 }
+                /*
                 if(p.getStatus().equals("PAYED")){
                     pagamentoRepository.deleteById(p.getIDPagamento());
-                }
+                }*/
                 this.paymentThreads.removeIf((x)->x.getName().equals(codigo));
 
             } catch (Exception e) {

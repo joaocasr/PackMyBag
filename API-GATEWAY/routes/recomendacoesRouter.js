@@ -7,7 +7,6 @@ router.get('/pedidos/estilistas/:username',function(req,res,next){
     const username = req.params.username;
     const page = req.query.page;
     const number = req.query.number;
-    console.log("entrei")
     recomendacoesService.getPedidosEstilista(username,page,number).then(pedidos=>{
         res.jsonp(pedidos);
     }).catch(err=>{

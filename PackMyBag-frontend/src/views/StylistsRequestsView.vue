@@ -18,13 +18,13 @@
             <div v-for="(pedido, index) in pedidos" :key="index">
                 <RequestRecomendation
                     :cliente="pedido.cliente"
-                    :styles="pedido.styles"
-                    :colors="pedido.colors"
-                    :nroutfits="pedido.nroutfits"
-                    :budget="pedido.budget"
-                    :dontinclude="pedido.dontinclude"
-                    :preferences="pedido.preferences"
-                    :occasion="pedido.occasion"
+                    :styles="pedido.estilos"
+                    :colors="pedido.cores"
+                    :nroutfits="pedido.nrOutfits"
+                    :budget="pedido.orcamento"
+                    :dontinclude="pedido.peçasExcluidas"
+                    :preferences="pedido.fabricsPreferences"
+                    :occasion="pedido.occasions"
                     :status="pedido.status"
                     :items="pedido.items"
                     :idx="index"
@@ -50,15 +50,27 @@
 import NavBarComponent from '@/components/NavBarComponent.vue';
 import FooterComponent from '@/components/FooterComponent.vue';
 import RequestRecomendation from '@/components/RequestRecomendation.vue';
-
+import authService from '@/services/auth-service';
+import axios from 'axios';
 export default {
     components:{
         NavBarComponent,
         FooterComponent,
         RequestRecomendation
     },
+    created(){
+		let token = authService.getToken();
+		console.log(token);
+		if(token!=null){
+			this.token = token;
+			this.usernameEstilista=token.username;
+            this.getRequests();
+		}
+	},
     data(){
         return {
+            token:null,
+            usernameEstilista:'',
             current_page:0,
             popUpRequest:0,
             isPopupVisible:false,
@@ -80,6 +92,15 @@ export default {
         },
         togglePopup(){
             this.isPopupVisible = false;
+        },
+        getRequests(){
+            axios.get('http://localhost:8888/api/recomendacoesService/pedidos/estilistas/'+this.usernameEstilista+'?page='+this.current_page+'&number=5')
+            .then(requests=>{
+                this.pedidos = requests.data;
+                console.log(this.pedidos);
+            }).catch(err=>{
+                console.log(err);
+            });
         }
     }
 }

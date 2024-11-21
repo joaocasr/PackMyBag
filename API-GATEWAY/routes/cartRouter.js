@@ -180,7 +180,7 @@ router.post("/pay", validate.verifyToken, async function(req,res,next){
                     console.log(encomenda);
                     try{
                       let resp3 = await encomendaService.createEncomenda(encomenda);
-                      res.jsonp(resp3);
+                      res.status(200).jsonp(resp3);
                     }catch(err){
                       console.log(err);
                     }
