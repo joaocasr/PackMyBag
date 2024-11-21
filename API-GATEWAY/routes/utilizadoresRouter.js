@@ -107,6 +107,7 @@ router.get('/profileInfo/:username', async function(req,res,next){
 
 router.post('/updateImage', upload.single('profile_image'), async function(req,res,next){
     try {
+        if (!req.file || !req.body.username) { throw new Error("Missing file or username"); }
 
         const form = new FormData();
         
@@ -115,12 +116,40 @@ router.post('/updateImage', upload.single('profile_image'), async function(req,r
             contentType: req.file.mimetype   
         });
         form.append('username', req.body.username);
-        
+        console.log(form);
         const resp = await utilizadoresService.saveImage(form);
+        console.log(resp);
         res.send(resp); 
     } catch (err) {
         res.status(err.status || 500).jsonp(err.error || "Internal Server Error");
     }
 });
+
+router.post('/updateProfile', async (req, res) => {
+    try {
+      const { username, ...updatedFields } = req.body;
+  
+      if (!username) {
+        return res.status(400).json({ error: 'Username is required.' });
+      }
+  
+      if (Object.keys(updatedFields).length === 0) {
+        return res.status(400).json({ error: 'No fields to update.' });
+      }
+  
+      // Assuming you have a `User` model with an `updateProfile` method
+      const result = await utilizadoresService.updateProfile(username, updatedFields);
+  
+      if (result) {
+        res.status(200).json({ message: 'Profile updated successfully.', updatedFields });
+      } else {
+        res.status(404).json({ error: 'User not found.' });
+      }
+    } catch (error) {
+      console.error('Error updating profile:', error);
+      res.status(500).json({ error: 'Internal Server Error.' });
+    }
+  });
+  
 
 module.exports = router;

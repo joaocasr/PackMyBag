@@ -154,6 +154,7 @@ module.exports.getProfileInfo = async (username) =>{
 
 module.exports.saveImage = async (form) => {
     try {
+      console.log("cheguei aqui");
       const resp = await axios.post(`${ap}/image`, 
         form, 
         {
@@ -162,6 +163,7 @@ module.exports.saveImage = async (form) => {
             }
         }    
     );
+      console.log(resp);
       return resp.data;
     } catch (err) {
       if (err.response) {
@@ -171,3 +173,24 @@ module.exports.saveImage = async (form) => {
       }
     }
   };
+
+module.exports.updateProfile  = async (data) => {
+    try {
+      console.log("Starting profile update...");
+      const resp = await axios.post(`${ap}/edit-profile`, data, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      console.log("Field update response:", resp.data);
+      return resp.data;
+    } catch (err) {
+      if (err.response) {
+        console.error("Field update error:", err.response.data);
+        throw { error: err.response.data, status: err.response.status };
+      } else {
+        console.error("Unknown error during field update");
+        throw { error: "Unknown error", status: 500 };
+      }
+    }
+};

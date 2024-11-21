@@ -1,4 +1,5 @@
 <template>
+  <div>
     <NavBarComponent></NavBarComponent>
     <div class="profile-page">
       <div class="profile-container">
@@ -21,13 +22,20 @@
                 v-else 
                 type="text" 
                 v-model="profile['name']" 
-                class="field-input"
+                class="field-input"   
                 @keyup.enter="toggleEditMode('name')"
               />
               <button @click="toggleEditMode('name')" class="edit-button">
+                
+              </button>
+              <button 
+                v-if="editMode['name']" 
+                @click="saveField('name')" 
+                class="save-button">
+                Save
               </button>
             </div>
-            </div>
+          </div>
 
             <div v-if="this.role==='Cliente'" class="profile-info-row">
             <label>Address:</label>
@@ -41,6 +49,12 @@
                 @keyup.enter="toggleEditMode('address')"
               />
               <button @click="toggleEditMode('address')" class="edit-button">
+              </button>
+              <button 
+                v-if="editMode['address']" 
+                @click="saveField('address')" 
+                class="save-button">
+                Save
               </button>
             </div>
             </div>
@@ -58,6 +72,12 @@
               />
               <button @click="toggleEditMode('phone')" class="edit-button">
               </button>
+              <button 
+                v-if="editMode['phone']" 
+                @click="saveField('phone')" 
+                class="save-button">
+                Save
+              </button>
             </div>
             </div>
 
@@ -73,6 +93,12 @@
                 @keyup.enter="toggleEditMode('gender')"
               />
               <button @click="toggleEditMode('gender')" class="edit-button">
+              </button>
+              <button
+              v-if="editMode['phone']" 
+                @click="saveField('phone')" 
+                class="save-button">
+                Save
               </button>
             </div>
             </div>
@@ -90,6 +116,12 @@
               />
               <button @click="toggleEditMode('bio')" class="edit-button">
               </button>
+              <button 
+                v-if="editMode['bio']" 
+                @click="saveField('bio')" 
+                class="save-button">
+                Save
+              </button>
             </div>
             </div>
 
@@ -100,6 +132,7 @@
       </div>
     </div>
     <FooterComponent></FooterComponent> 
+  </div>
 </template>
 
 <script>
@@ -199,8 +232,27 @@ export default {
         }).catch(err=>{
             console.log(err);
         })
-    }
-  }
+    },
+  saveField(field) {
+      const data = {
+        username: this.username,
+        [field]: this.profile[field],
+      };
+
+      axios
+        .post('http://localhost:8888/api/utilizadoresService/updateProfile', data)
+        .then((response) => {
+          console.log(response.data);
+          this.editMode[field] = false; 
+          alert('Field updated successfully!');
+        })
+        .catch((error) => {
+          console.error(error);
+          alert('Failed to update the field.');
+        });
+    },
+  },
+  
 };
 </script>
 
