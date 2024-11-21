@@ -27,7 +27,10 @@ services:
       - packmybag
 
   frontend:
-    build: ./PackMyBag-frontend
+    build:
+      context: ./PackMyBag-frontend
+      args:
+        MODE: ${MODE}
     container_name: frontend-container
     restart: always
     ports: 

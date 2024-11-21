@@ -104,9 +104,10 @@ export default {
 		getRandomItems(){
 			axios.get(this.$apiGatewayUrl+'/api/catalogoService/random')
 			.then(items =>{
-				console.log(items.data)
+				console.log(items.data);
 				this.randomItems = items.data;
-				console.log("aqiu")
+				console.log('VITE_GATEWAY_DOMAIN:', import.meta.env.VITE_GATEWAY_DOMAIN);
+				console.log('apigatewayurl:',this.$apiGatewayUrl);
 			}).catch(error=>{
 				console.log(error);
 			})
