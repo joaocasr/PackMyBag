@@ -4,6 +4,7 @@ const cartService = require('../microservices/cartService')
 const catalogoService = require('../microservices/catalogoService')
 const validate = require('../middleware/index')
 const encomendaService = require('../microservices/encomendaService')
+const recomendacoesService = require('../microservices/recomendacoesService')
 
 /* Get Cart Items */
 router.get("/:username", function(req, res, next) {
@@ -56,10 +57,9 @@ router.post("/newpayment", validate.verifyToken,  async function(req,res,next){
   try{
 
     const username = req.body.username;
-    const codigo = "FOR"+username.toUpperCase()+Date.now();
     const payment = {
                       "username":username,
-                      "codigo": codigo,
+                      "codigo": req.body.codigo,
                       "total":req.body.total,
                       "modoPagamento":req.body.modoPagamento,
                       "status": "PENDING",
@@ -87,7 +87,7 @@ router.post("/order", validate.verifyToken, async function(req,res,next){
           console.log("passou")
           console.log(username)
     
-          const codigo = "ENC"+username.toUpperCase()+Date.now();
+          const codigo = "CART"+username.toUpperCase()+Date.now();
           const payment = {
                             "username":username,
                             "codigo": codigo,
@@ -122,6 +122,27 @@ router.post("/pay", validate.verifyToken, async function(req,res,next){
 
       if(req.body.ptype==="FORM"){
         //alterar status desse pedido para payed com o codigo no microservico de recomendacoes | POST
+        try{
+          const statusPayment = {
+                "codigo":req.body.codigo,
+                "username":req.body.username,
+                "status":"PAYED"
+          }  
+          let resp1 = await cartService.changePaymentStatus(statusPayment);
+          console.log("resp 1")
+          console.log(resp1);
+          if(resp1.status===200){ 
+
+            try{
+                let resp2 = await recomendacoesService.changeStatus(req.body.codigo,"PAYED")
+                res.jsonp(resp2);
+            }catch(err){
+              console.log(err);
+            }
+          }
+        }catch(err){
+            console.log(err);
+        }
       }
       if(req.body.ptype==="CART"){
         try{
@@ -133,7 +154,7 @@ router.post("/pay", validate.verifyToken, async function(req,res,next){
           let resp1 = await cartService.changePaymentStatus(statusPayment);
           console.log("resp 1")
           console.log(resp1);
-          if(resp1==="Payment status updated successfully!"){ //get dos items associados ao pagamento
+          if(resp1.status===200){ //get dos items associados ao pagamento
 
             try{  
               
@@ -159,7 +180,7 @@ router.post("/pay", validate.verifyToken, async function(req,res,next){
                     console.log(encomenda);
                     try{
                       let resp3 = await encomendaService.createEncomenda(encomenda);
-                      res.jsonp(resp3.data);
+                      res.jsonp(resp3);
                     }catch(err){
                       console.log(err);
                     }

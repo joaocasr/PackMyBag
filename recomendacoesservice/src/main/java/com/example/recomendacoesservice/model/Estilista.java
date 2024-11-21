@@ -14,7 +14,17 @@
 package com.example.recomendacoesservice.model;
 
 import java.io.Serializable;
-import jakarta.persistence.*;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinColumns;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
 @Entity
 @org.hibernate.annotations.Proxy(lazy=false)
 @Table(name="Estilista")
@@ -24,8 +34,8 @@ public class Estilista implements Serializable {
 	
 	@Column(name="IDEstilista", nullable=false, length=10)	
 	@Id	
-	@GeneratedValue(generator="RECOMENDACOESSERVICE_ESTILISTA_IDESTILISTA_GENERATOR")	
-	@org.hibernate.annotations.GenericGenerator(name="RECOMENDACOESSERVICE_ESTILISTA_IDESTILISTA_GENERATOR", strategy="native")	
+	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator="RECOMENDACOESSERVICE_ESTILISTA_IDESTILISTA_GENERATOR")
+	@SequenceGenerator(name="RECOMENDACOESSERVICE_ESTILISTA_IDESTILISTA_GENERATOR",sequenceName="RECOMENDACOESSERVICE_ESTILISTA_IDESTILISTA_SEQ")
 	private int IDEstilista;
 	
 	@Column(name="Username", nullable=true, length=255)

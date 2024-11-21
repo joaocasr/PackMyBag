@@ -24,6 +24,7 @@ import com.example.cartService.dto.FreeResourcesDTO;
 import com.example.cartService.dto.ItemDTO;
 import com.example.cartService.dto.PagamentoDTO;
 import com.example.cartService.dto.PagamentoEncomendaDTO;
+import com.example.cartService.dto.RequestDTO;
 import com.example.cartService.exceptions.NoCartException;
 import com.example.cartService.exceptions.NoClientException;
 import com.example.cartService.exceptions.NoItemException;
@@ -346,12 +347,20 @@ public class CartService {
     public void checkPayment(String codigo) {
         Thread t = new Thread(() -> {
             try {
-                Thread.sleep(300000);
+                Thread.sleep(100000);
+                System.out.println(codigo);
                 Pagamento p = pagamentoRepository.findByCode(codigo);
-                if(p.getStatus().equals("PENDING")) {
-                    pagamentoRepository.deleteById(p.getIDPagamento());
+                if(p==null) p = pagamentoRepository.findByCodeForm(codigo);
+                System.out.println(p);
+                if(p.getStatus().equals("PENDING") && p.getCodigo().startsWith("CART")) {
+                    pagamentoRepository.deleteById(p.getORMID());
                     String gatewayUrl = "http://localhost:8888/api/catalogoService/freeItems";
                     restTemplate.postForObject(gatewayUrl, new FreeResourcesDTO(p.getitens().stream().map(x->new ItemDTO(x.getCodigo(),x.getIdLoja(),x.getQuantidade())).toList()), String.class);
+                }
+                if(p.getStatus().equals("PENDING") && p.getCodigo().startsWith("FORM")) {
+                    pagamentoRepository.deleteById(p.getORMID());
+                    String gatewayUrl = "http://localhost:8888/api/recomendacoesService/removePedido";
+                    restTemplate.postForObject(gatewayUrl, new RequestDTO(p.getCodigo(),"DELETED"), String.class);
                 }
                 if(p.getStatus().equals("PAYED")){
                     pagamentoRepository.deleteById(p.getIDPagamento());

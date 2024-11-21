@@ -27,9 +27,20 @@ router.get('/pedidos/cliente/:username',function(req,res,next){
     })
 })
 
+router.post('/removePedido',function(req,res,next){
+    const codigo = req.body.codigo;
+
+    recomendacoesService.removePedido(codigo).then(pedido=>{
+        res.jsonp(pedido);
+    }).catch(err=>{
+        res.status(400).jsonp(err);
+    })
+})
+
 router.post('/pedidos',function(req,res,next){
     const usernamecliente = req.body.usernameCliente;    
     const usernameestilista = req.body.usernameEstilista;    
+    const nome = req.body.nome;
     const estilos = req.body.estilos;
     const cores = req.body.cores;
     const nrOutfits = req.body.nrOutfits;
@@ -38,7 +49,7 @@ router.post('/pedidos',function(req,res,next){
     const fabricsPreferences = req.body.fabricsPreferences;
     const occasions = req.body.occasions;
 
-    recomendacoesService.insertPedido(usernamecliente,usernameestilista,
+    recomendacoesService.insertPedido(usernamecliente,usernameestilista,nome,
         estilos,cores,nrOutfits,orcamento,peçasExcluidas,fabricsPreferences,occasions
     ).then(pedidos=>{
         res.jsonp(pedidos);

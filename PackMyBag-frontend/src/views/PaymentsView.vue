@@ -68,9 +68,9 @@ export default {
         },
         async completePayment(payment){
             console.log(payment);
-            let paymentType = payment.codigo.substring(0,3);
+            let paymentType = payment.codigo.substring(0,4);
             let ptype = "CART";
-            if(paymentType==="FOR") ptype = "FORM";
+            if(paymentType==="FORM") ptype = "FORM";
             const header = authHeader();
 			let config = {headers:header}
 			header['Content-Type'] = 'application/json';

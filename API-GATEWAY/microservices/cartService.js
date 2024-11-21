@@ -50,7 +50,7 @@ module.exports.changePaymentStatus = (itemBody) => {
             }
         }
     ).then(resp => {
-        return resp.data;
+        return {"status":200, "data": resp.data}
     }).catch(err => {
         if (err.response) {
             throw { error: err.response.data };

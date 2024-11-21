@@ -18,14 +18,53 @@ module.exports.getPedidosCliente =  (username) =>{
     })
 }
 
-module.exports.insertPedido =  async (usernamecliente,usernameestilista,
+
+module.exports.changeStatus =  async (codigo,status) =>{
+
+        try{
+            const resp = await axios.patch(`${ap}/changeStatusPedido`,
+                {
+                    "nome":codigo,
+                    "status":status
+                }, 
+                {
+                    headers: { 'Content-Type': 'application/json;charset=UTF-8' }
+                }
+            );
+            return resp.data;
+        }catch(err){
+            return err;
+        }
+}
+
+
+module.exports.removePedido = (nome) => {
+    return axios.delete(`${ap}/removePedido/${nome}`,
+        {
+            headers: {
+                'Content-Type': 'application/json;charset=UTF-8',
+            }
+        }
+    ).then(resp=>{
+        return resp.data
+    }).catch(err=>{
+        if (err.response) {
+            throw { error: err.response.data };
+        }else {
+            throw err
+        }
+    })  
+}
+
+module.exports.insertPedido =  async (usernamecliente,usernameestilista,nome,
     estilos,cores,nrOutfits,orcamento,peçasExcluidas,fabricsPreferences,occasions) =>{
 
         try{
             const resp = await axios.post(`${ap}/pedidos`, 
                 {
-                    "usernameCliente":usernamecliente,
                     "usernameEstilista":usernameestilista,
+                    "usernameCliente":usernamecliente,
+                    "nome":nome,
                     "estilos":estilos,
                     "cores":cores,
                     "nrOutfits":nrOutfits,

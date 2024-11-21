@@ -17,7 +17,20 @@ import java.io.Serializable;
 import java.util.Set;
 
 import com.example.recomendacoesservice.dto.itemDTO;
-import jakarta.persistence.*;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.ForeignKey;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinColumns;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
 @Entity
 @org.hibernate.annotations.Proxy(lazy=false)
 @Table(name="Pedido")
@@ -27,8 +40,8 @@ public class Pedido implements Serializable {
 	
 	@Column(name="IDPedido", nullable=false, length=10)	
 	@Id	
-	@GeneratedValue(generator="RECOMENDACOESSERVICE_PEDIDO_IDPEDIDO_GENERATOR")	
-	@org.hibernate.annotations.GenericGenerator(name="RECOMENDACOESSERVICE_PEDIDO_IDPEDIDO_GENERATOR", strategy="native")	
+	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator="RECOMENDACOESSERVICE_PEDIDO_IDPEDIDO_GENERATOR")
+	@SequenceGenerator(name="RECOMENDACOESSERVICE_PEDIDO_IDPEDIDO_GENERATOR",sequenceName="RECOMENDACOESSERVICE_PEDIDO_IDPEDIDO_SEQ")
 	private int IDPedido;
 	
 	@ManyToOne(targetEntity=Cliente.class, fetch=FetchType.LAZY)

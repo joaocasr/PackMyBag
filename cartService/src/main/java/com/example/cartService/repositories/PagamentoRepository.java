@@ -11,4 +11,8 @@ import com.example.cartService.model.Pagamento;
 public interface PagamentoRepository extends JpaRepository<Pagamento, Integer>{
     @Query("SELECT p FROM Pagamento p JOIN FETCH p.itemEncomendas WHERE p.codigo = :codigo")
     Pagamento findByCode(@Param("codigo") String codigo);
+
+    @Query("SELECT p FROM Pagamento p WHERE p.codigo = :codigo")
+    Pagamento findByCodeForm(@Param("codigo") String codigo);
+
 }

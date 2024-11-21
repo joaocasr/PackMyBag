@@ -407,8 +407,9 @@ methods:{
         try{
             let r = await axios.post('http://localhost:8888/api/recomendacoesService/pedidos',
                 {
-                    "usernamecliente": this.username, 
-                    "usernameestilista": this.usernameEstilista,    
+                    "usernameCliente": this.username, 
+                    "usernameEstilista": this.usernameEstilista,   
+                    "nome":codigo, 
                     "estilos" : this.pedidoInfo.estilos,
                     "cores" : this.pedidoInfo.cores,
                     "nrOutfits" : this.pedidoInfo.nrOutfits,
@@ -443,16 +444,15 @@ methods:{
             "itens" : itens
         }
         let dataGeracao = new Date();
-        let codigo = "FORM_REQUEST-"+this.username + dataGeracao;
+        let codigo = "FORM"+this.username + Date.now();
 
         try{
 
-            let resp = this.insertPedidoPending(codigo);
-            console.log(resp);
             let r = await axios.post('http://localhost:8888/api/cartService/newpayment',
                 {
                     "username":this.username,
                     "itensObj":itensObj,
+                    "codigo":codigo,
                     "localEntrega":"",
                     "inicioAluguer":"",
                     "fimAluguer":"",
@@ -463,6 +463,10 @@ methods:{
                 config
             );
             console.log(r);
+            if(r.status===200){
+                let resp = await this.insertPedidoPending(codigo);
+                console.log(resp);
+            }
             this.$router.push({path:'/payments'})
             return r;
 
