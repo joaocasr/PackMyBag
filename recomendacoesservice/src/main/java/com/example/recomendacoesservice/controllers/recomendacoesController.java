@@ -32,6 +32,17 @@ public class recomendacoesController {
         }
     }
 
+    @GetMapping("/pedidosEinfo/{username}")
+    public List<pedidoInfoDTO> getPedidosInfoEstilista(@PathVariable String username){
+        try{
+            return recomendacoesService.getPedidosInfoEstilista(username);
+        }catch(InexistentRequests | InexistentStylistUsername e){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "An unexpected error occurred: " + e.getMessage());
+        }
+    }
+
     @GetMapping("/pedidosC/{username}")
     public List<recomendacaoToClienteDTO> getPedidosCliente(@PathVariable String username, @RequestParam int page, @RequestParam int number){
         try{

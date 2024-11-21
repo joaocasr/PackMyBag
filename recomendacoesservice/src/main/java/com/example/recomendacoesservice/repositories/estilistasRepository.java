@@ -10,7 +10,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
-import java.util.Set;
+import java.util.List;
 
 @Repository
 public interface estilistasRepository extends JpaRepository<Estilista, String>{
@@ -19,4 +19,7 @@ public interface estilistasRepository extends JpaRepository<Estilista, String>{
 
     @Query("SELECT e.pedidos FROM Estilista e WHERE e.username = :username")
     Page<Pedido> getPedidosbyEstilista(@Param("username") String username, PageRequest pageRequest);
+
+    @Query("SELECT e.pedidos FROM Estilista e WHERE e.username = :username")
+    List<Pedido> getPedidosbyEstilistaList(@Param("username") String username);
 }

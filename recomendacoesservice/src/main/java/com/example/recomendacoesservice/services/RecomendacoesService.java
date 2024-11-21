@@ -6,6 +6,7 @@ import com.example.recomendacoesservice.dto.recomendacaoToClienteDTO;
 import com.example.recomendacoesservice.dto.statusPedidoDTO;
 import com.example.recomendacoesservice.dto.editPedidoDTO;
 import com.example.recomendacoesservice.dto.addRemoveItemDTO;
+import com.example.recomendacoesservice.dto.pedidoInfoDTO;
 import com.example.recomendacoesservice.exceptions.InexistentClientUsername;
 import com.example.recomendacoesservice.exceptions.InexistentRequestName;
 import com.example.recomendacoesservice.exceptions.InexistentRequests;
@@ -106,6 +107,11 @@ public class RecomendacoesService {
     public List<pedidoDTO> getPedidosEstilista(String username, int page, int number) throws InexistentStylistUsername, InexistentRequests {
         Estilista est = getEstilistaIfExists(username);
         return estilistaRepository.getPedidosbyEstilista(est.getUsername(), PageRequest.of(page, number)).stream().filter(x -> x.getStatus().equals("PAYED")).map(x -> mappersRecomendacoes.pedidoToDTO(x)).collect(Collectors.toList());
+    }
+
+    public List<pedidoInfoDTO> getPedidosInfoEstilista(String username) throws InexistentStylistUsername, InexistentRequests{
+        Estilista est = getEstilistaIfExists(username);
+        return estilistaRepository.getPedidosbyEstilistaList(est.getUsername()).stream().filter(x -> x.getStatus().equals("PAYED")).map(x -> mappersRecomendacoes.pedidoToInfoDTO(x)).collect(Collectors.toList());
     }
 
     public List<recomendacaoToClienteDTO> getPedidosCliente(String username, int page, int number) throws InexistentClientUsername, InexistentRequests {
