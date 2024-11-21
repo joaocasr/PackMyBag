@@ -129,3 +129,22 @@ module.exports.removeItemFromPedido = async(nome,item) => {
         return err;
     }
 }
+
+module.exports.editDescricaoOrCompletePedido =  async (nome,descricao,status) =>{
+
+    try{
+        const resp = await axios.patch(`${ap}/editDescricaoOrCompleteRequest`, 
+            {
+                "nome":nome,
+                "descricao":descricao,
+                "status":status // pending, PAYED, completed
+            }, 
+            {
+                headers: { 'Content-Type': 'application/json;charset=UTF-8' }
+            }
+        );
+        return resp.data;
+    }catch(err){
+        return err;
+    }
+}

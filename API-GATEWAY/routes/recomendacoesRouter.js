@@ -94,4 +94,30 @@ router.delete('/removeItem',async function(req,res,next){
     }
 })
 
+router.patch('/pedidosEditDescricaoOrComplete',function(req,res,next){
+    
+    const nome = req.body.nome;
+    const descricao = req.body.descricao;
+    const status = req.body.status; // pending, PAYED, completed
+
+
+    recomendacoesService.editDescricaoOrCompletePedido(nome, descricao, status
+    ).then(pedidos=>{
+        res.jsonp(pedidos);
+    }).catch(err=>{
+        res.status(400).jsonp(err);
+    })
+})
+
+router.patch('/pedidos/changeStatus',function(req,res,next){
+    const nome = req.body.nome;
+    const status = req.body.status;// pending, PAYED, completed
+
+    recomendacoesService.changeStatus(nome,status).then(pedido=>{
+        res.jsonp(pedido);
+    }).catch(err=>{
+        res.status(400).jsonp(err);
+    })
+})
+
 module.exports = router;
