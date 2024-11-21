@@ -4,12 +4,22 @@
     <div class="client">
 
         <div class="div">
-            <img class="line" src="/SignUpIMG/Line 19.svg" />
+            <img class="line" src="/SignUpIMG/Line 17.png" />
             <div class="text-wrapper">Recommendations</div>
-            <!-- <div class="text-wrapper-2">Recommendation</div> -->
 
 
-            <div class="group">
+            <!-- <div class="recommendation"> -->
+            <div v-for="rec in recommendations">
+                <div class="recommendation">
+                    <UserRecomendationIndividual
+                    :descricao="rec.descricao"
+                    :items="rec.conjunto">
+                    </UserRecomendationIndividual>
+                </div>
+            </div>
+            <!-- </div> -->
+
+			<div class="group">
                 <div class="parent">
 						<img v-if="current_page+1 > 1" @click="handlePage('previous')" class="group-item1" alt="" src="/CatalogueIMG/previousbtn.png">
                     <div v-if="recommendations.length>0" class="dividx">{{ current_page + 1}}</div>
@@ -18,18 +28,6 @@
                     </div>
 			    </div>
             </div>
-
-
-            <!-- <div class="recommendation"> -->
-            <div v-for="rec in recommendations">
-                <div class="recommendation">
-                    <UserRecomendationIndividual
-                    :descricao="rec.designacao"
-                    :items="rec.items">
-                    </UserRecomendationIndividual>
-                </div>
-            </div>
-            <!-- </div> -->
 
         </div>
     </div>
@@ -40,8 +38,7 @@
 <script>
 import NavBarComponent from '@/components/NavBarComponent.vue';
 import FooterComponent from '@/components/FooterComponent.vue';
-import Slider from '@vueform/slider';
-import VueSelect from "vue3-select-component";
+import UserRecomendationIndividual from '@/components/UserRecomendationIndividual.vue';
 import authService from '@/services/auth-service';
 import axios from 'axios';
 
@@ -49,12 +46,10 @@ export default {
 	components:{
 		NavBarComponent,
 		FooterComponent,
-		Slider,
-		VueSelect
+		UserRecomendationIndividual
 	},
 	data(){
 		return {
-			value: [0,1000],
 			current_page:0,
 			username:'',
 			token:null,
@@ -73,14 +68,14 @@ export default {
 		if(token!=null){
 			this.token = token;
 			this.username=token.username;
+			this.getUserRecomendacoes();
 		}
-		this.getUserRecomendacoes();
 	},
 	methods:{
 		getUserRecomendacoes(){
             // falta ir buscar as recomendaçoes do cliente
 
-			axios.get('http://localhost:8888/api/recomendacoesService/getpedidosC/'+this.username+"?page="+this.current_page+"&number=3")
+			axios.get('http://localhost:8888/api/recomendacoesService/pedidos/cliente/'+this.username+"?page="+this.current_page+"&number=3")
 			.then(resp=>{
 				this.recommendations = resp.data;
 				if(this.recommendations.length==0) this.showbtnnext=false;
@@ -93,7 +88,7 @@ export default {
 		handlePage(action){
 			if(action=='next') this.current_page+=1;
 			else this.current_page-=1;
-			this.getItemsperTypeAndPrice(this.selectedOption,this.value[0],this.value[1])
+			this.getUserRecomendacoes();
 		},
 		
 	}
@@ -103,4 +98,3 @@ export default {
 <style lang="css" scoped>
 @import '../assets/userRecomendations.css';
 </style>
-<style src="@vueform/slider/themes/default.css"></style>

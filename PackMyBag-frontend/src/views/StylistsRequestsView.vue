@@ -31,6 +31,7 @@
                     :items="pedido.conjunto"
                     :idx="index"
                     @expand="showPopUp"
+                    @recommendation_completed="removeRecommendation"
                     >
                 </RequestRecomendation>
             </div>
@@ -97,6 +98,9 @@ export default {
             }).catch(err=>{
                 console.log(err);
             });
+        },
+        removeRecommendation(idx){
+            this.pedidos.splice(idx,1);
         }
     }
 }

@@ -1,8 +1,8 @@
 .layer-a-crisp-white {
     position: absolute;
     width: 239px;
-    top: 43px;
-    left: 429px;
+    margin-left: 20px;
+    top: 70px;
     font-family: var(--title-16px-regular-font-family);
     font-weight: var(--title-16px-regular-font-weight);
     color: #000000;
@@ -12,14 +12,54 @@
     font-style: var(--title-16px-regular-font-style);
 }
 
+.hover_img a { position:relative; }
+.hover_img a span { position:absolute; display:none; z-index:99; }
+.hover_img a:hover span { display:block;cursor: pointer; }
+
+.txt-items{
+    position: absolute;
+    color:black;
+    margin-left: 550px;
+    margin-top: 70px;
+}
+
+.addBtn{
+    position: absolute;
+    color:black;
+    margin-left: 20px;
+    margin-top: 270px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    font-weight: 500;
+    color: #000;
+    background-color: #fff;
+    border: none;
+    border-radius: 45px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
+    outline: none;
+    width: 200px;
+    height: 45px;  
+}
+
+.addBtn:hover {
+  background-color: #1a4270;
+  box-shadow: 0px 15px 20px rgba(29, 48, 129, 0.4);
+  color: #fff;
+  transform: translateY(-17px);
+}
+
 .text-wrapper-20 {
     position: absolute;
     top: 13px;
-    left: 49px;
+    left: 700px;
     font-family: var(--title-16px-regular-font-family);
     font-weight: var(--title-16px-regular-font-weight);
     color: #000000;
-    font-size: var(--title-16px-regular-font-size);
+    font-size: 22px;
     letter-spacing: var(--title-16px-regular-letter-spacing);
     line-height: var(--title-16px-regular-line-height);
     white-space: nowrap;
@@ -27,13 +67,12 @@
 }
 
 .text-wrapper-22 {
-    position: absolute;
-    top: 13px;
-    left: 407px;
+    margin-top: 13px;
     font-family: var(--title-16px-regular-font-family);
     font-weight: var(--title-16px-regular-font-weight);
     color: #000000;
-    font-size: var(--title-16px-regular-font-size);
+    margin-left: 20px;
+    font-size: 22px;
     letter-spacing: var(--title-16px-regular-letter-spacing);
     line-height: var(--title-16px-regular-line-height);
     white-space: nowrap;

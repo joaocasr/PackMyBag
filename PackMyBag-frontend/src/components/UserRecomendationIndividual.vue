@@ -2,14 +2,19 @@
 
     <div class="text-wrapper-20">Items:</div>
 
-    <p v-for="(item,index) in items">
-            <p v-if="index<limit">{{ item.nome }}</p>
-    </p> 
+    <ul v-for="item in items">
+        <div class="hover_img">
+            <li class="txt-items">{{ item.designacao }} <a href="#" @click.prevent="gotoItem(item.identificador)">({{ item.codigo }})<span><img :src="item.imagem" alt="image" height="250" /></span></a></li>
+        </div>
+    </ul> 
     
     <div class="text-wrapper-22">Description:</div>
     <p class="layer-a-crisp-white">
         {{descricao}}
     </p>
+    <button class="addBtn" @click="addItemsToCart">
+        Add Items To Cart
+    </button>
 
 </template>
 
@@ -18,22 +23,10 @@ export default {
     props:{
         descricao:String,
         items: Array,
-        idx:Number
-    },
-    data(){
-        return {
-            max:9,
-            limit:1
-        }
-    },
-    created(){
-        console.log(this.items);
-        if(this.items.length<this.max) this.limit = this.items.length;
-        else this.limit = this.max;
     },
     methods:{
-        expand(){
-            this.$emit('expand',this.idx);
+        gotoItem(id){
+            this.$router.push({path:'/items/'+id})
         }
     }
 }

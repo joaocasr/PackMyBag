@@ -16,7 +16,7 @@
 
 .client .line {
     width: 1117px;
-    top: 170px;
+    top: 200px;
     left: 221px;
     position: absolute;
     height: 1px;
@@ -25,12 +25,11 @@
 
 .client .text-wrapper {
     position: absolute;
-    top: 129px;
+    top: 155px;
     left: 263px;
-    font-family: "Abel-Regular", Helvetica;
     font-weight: 400;
-    color: #000000;
-    font-size: 32px;
+    color: #2c2c2c;
+    font-size: 28px;
     letter-spacing: 0;
     line-height: normal;
 }
@@ -51,6 +50,38 @@
     color: #000;
 }
 
+
+.client .group {
+    position: absolute;
+    width: 191px;
+    height: 39px;
+    top: 959px;
+    color: #000000;
+    font-family: "Abel-Regular", Helvetica;
+    font-size: 24px;
+    letter-spacing: 3.60px;
+    line-height: 39px;
+}
+.parent {
+    position: absolute;
+    top: 1758px;
+    left: 792px;
+    width: 177px;
+    height: 39px;
+    text-align: left;
+    font-size: 24px;
+}
+.dividx{
+    color: #000;
+}
+.group-child {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    background-color: #000;
+    width: 35px;
+    height: 35px;
+}
 .group-item1 {
     position: absolute;
     height: 35px;
@@ -72,21 +103,6 @@
     width: 40px;
     object-fit: contain;
 }
-
-.client .group {
-    position: absolute;
-    width: 191px;
-    height: 39px;
-    top: 959px;
-    left: 689px;
-    color: #000000;
-
-    font-family: "Abel-Regular", Helvetica;
-    font-size: 24px;
-    letter-spacing: 3.60px;
-    line-height: 39px;
-}
-
 
 .client .recommendation {
     position: absolute;

@@ -10,7 +10,7 @@ module.exports.getPedidosEstilista =  (username,page,number) =>{
     })
 }
 
-module.exports.getPedidosCliente =  (username) =>{
+module.exports.getPedidosCliente =  (username,page,number) =>{
     return axios.get(`${ap}/pedidosC/${username}?page=${page}&number=${number}`).then(pedidos=>{
         return pedidos.data;
     }).catch(err =>{

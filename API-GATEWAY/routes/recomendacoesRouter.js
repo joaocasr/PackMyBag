@@ -70,8 +70,7 @@ router.put('/addItem',async function(req,res,next){
     
     const nome = req.body.nome;
     const item = req.body.item;
-    console.log(nome);
-    console.log(item);
+
     try{
         let r = await recomendacoesService.addItemToPedido(nome,item)
         res.jsonp(r);
@@ -84,8 +83,7 @@ router.delete('/removeItem',async function(req,res,next){
     
     const nome = req.body.nome;
     const item = req.body.item;
-    console.log(nome);
-    console.log(item);
+
     try{
         let r = await recomendacoesService.removeItemFromPedido(nome,item)
         res.jsonp(r);
@@ -94,8 +92,8 @@ router.delete('/removeItem',async function(req,res,next){
     }
 })
 
-router.patch('/pedidosEditDescricaoOrComplete',function(req,res,next){
-    
+router.put('/pedidosEditDescricaoOrComplete',function(req,res,next){
+    console.log("hey")
     const nome = req.body.nome;
     const descricao = req.body.descricao;
     const status = req.body.status; // pending, PAYED, completed
@@ -109,7 +107,7 @@ router.patch('/pedidosEditDescricaoOrComplete',function(req,res,next){
     })
 })
 
-router.patch('/pedidos/changeStatus',function(req,res,next){
+router.put('/pedidos/changeStatus',function(req,res,next){
     const nome = req.body.nome;
     const status = req.body.status;// pending, PAYED, completed
 

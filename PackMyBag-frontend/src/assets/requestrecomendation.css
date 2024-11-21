@@ -29,6 +29,7 @@
     cursor: pointer;
     margin-top:-5px;
     transition: transform 0.2s ease;
+    margin-left: -369px;
 }
 
 .remove-button:hover {
@@ -223,19 +224,22 @@
     left: 286px;
 }
 
+.hover_img a { position:relative; }
+.hover_img a span { position:absolute; display:none; z-index:99; }
+.hover_img a:hover span { display:block;cursor: pointer; }
+
 .stylist-request .text-wrapper-11 {
     position: relative;
     width: fit-content;
-    margin-top: -1.00px;
+    margin-left: 280.00px;
     font-family: "Poppins-Regular", Helvetica;
-    font-weight: 400;
-    color: var(--text-2);
     font-size: 16px;
     letter-spacing: 0;
     line-height: 24px;
     white-space: nowrap;
-    color:#000000;
-}
+    color: #000000;
+    font-weight: bold;
+  }
 
 .stylist-request .frame-2 {
     position: relative;
@@ -244,6 +248,7 @@
     height: 201px;
     background-color: #ffffff;
     border-radius: 4px;
+    margin-left: 200px;
   
 }
 

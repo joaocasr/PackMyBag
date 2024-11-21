@@ -20,7 +20,9 @@
                 <div class="text-wrapper-10">
                     <div v-for="(item,index) in items">
                         <div class="item">
-                                <p v-if="index<limit">{{ item.designacao }}- {{  item.codigo }}</p>
+                                <div class="hover_img">
+                                    <a href="#" @click.prevent="goToItem(item.identificador)"><p v-if="index<limit">{{ item.designacao }}- {{  item.codigo }}</p><span><img :src="item.imagem" alt="image" height="250" /></span></a>
+                                </div>
                                 <button @click="removeItem(index)" class="remove-button" title="Remove item">✖</button>
 
                         </div> 
@@ -31,7 +33,7 @@
             <div class="text-wrapper-11">Description</div>
             <input v-model="mydescription" class="frame-2">{{descricao}}</input>
             </div>
-            <button class="text-wrapper-12">Complete Recommendation</button>
+            <button @click="completeRequest" class="text-wrapper-12">Complete Recommendation</button>
             </div>
             </div>
         </div>    
@@ -94,6 +96,51 @@ export default {
 					this.$swal.fire("Something went wrong! "+err, "", "error");
 				}
 			}
+        },
+        async completeRequest(){
+            if(this.items.length==0){
+                this.$swal.fire("You didn't insert any items to your recommendations! ", "", "error");
+                return;
+            }
+            if(this.mydescription===''){
+                this.$swal.fire("Insert a description to your recommendation! ", "", "error");
+                return;
+            }
+            const result = await this.$swal.fire({
+				title: "Are you sure you want send the recommendation "+ this.nome+ " ?",
+				showDenyButton: false,
+				showCancelButton: true,
+				confirmButtonText: "Yes"
+			});
+			if(result.isConfirmed){
+				const header = authHeader();
+				let config = {headers:header}
+				header['Content-Type'] = 'application/json';
+				try{
+                        console.log("entrou");
+                        console.log({
+                            "nome":this.nome,
+                            "descricao":this.mydescription,
+                            "status":"completed"
+                        });
+						let edit = await axios.put('http://localhost:8888/api/recomendacoesService/pedidosEditDescricaoOrComplete',
+						{
+                            "nome":this.nome,
+                            "descricao":this.mydescription,
+                            "status":"completed"
+                        }
+						,
+						config
+						);
+						console.log(edit);
+                        this.$emit('recommendation_completed',this.idx);
+					}catch(err){
+						this.$swal.fire("Something went wrong! "+err, "", "error");
+					}
+			}
+        },
+        goToItem(id){
+            this.$router.push({path:'/items/'+id})
         }
     }
 }

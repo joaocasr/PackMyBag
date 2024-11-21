@@ -512,7 +512,7 @@ export default {
 						let add = await axios.put('http://localhost:8888/api/recomendacoesService/addItem',
 						{
 							"nome": this.selectedPedidos[p],
-							"item": {"codigo":this.itemCode,"designacao":this.designacao,"idLoja":this.idLoja}
+							"item": {"codigo":this.itemCode,"designacao":this.designacao,"imagem":this.imgItem,"preco":this.preco,"identificador":this.idItem,"idLoja":this.idLoja}
 						},
 						config
 						);
@@ -530,6 +530,7 @@ export default {
 			axios.get('http://localhost:8888/api/recomendacoesService/pedidosEinfo/'+this.username)
             .then(requests=>{
                 this.pedidos = requests.data;
+				console.log("aquuuiiii")
                 console.log(this.pedidos);
             }).catch(err=>{
                 console.log(err);
