@@ -5,12 +5,10 @@
 
 package com.example.cartService.services;
 
-import com.example.cartService.dto.PagamentoDTO;
-
-import java.util.Comparator;
 import java.time.ZonedDateTime;
+import java.util.Comparator;
 
-import com.example.cartService.model.Pagamento;
+import com.example.cartService.dto.PagamentoDTO;
 
 
 class DateComparator implements Comparator<PagamentoDTO> {
@@ -25,7 +23,7 @@ class DateComparator implements Comparator<PagamentoDTO> {
         ZonedDateTime date1,date2;
         date1 = ZonedDateTime.parse(pg1.getDataGeracao());
         date2 = ZonedDateTime.parse(pg2.getDataGeracao());
-        return date1.compareTo(date2);
+        return date2.toInstant().compareTo(date1.toInstant());
         
     }
 }

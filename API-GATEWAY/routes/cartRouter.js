@@ -44,7 +44,9 @@ router.post("/clearCart", function(req, res, next) {
 
 /* Get User transactions */
 router.get("/transactions/:username", function(req, res, next) {
-  cartService.getTransactions(req.params.username).then(resp => {
+  const page = req.query.page;
+  const number = req.query.number;
+  cartService.getTransactions(req.params.username,page,number).then(resp => {
     res.jsonp(resp);
   }).catch(err => {
     res.status(404).jsonp(err);

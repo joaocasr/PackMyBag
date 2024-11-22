@@ -13,7 +13,46 @@
 
 .payment-container{
     position: relative;
+    overflow: hidden;
+    height: auto;
     margin-top: 240px;
+}
+.group-item1 {
+    position: absolute;
+    height: 35px;
+    top: 4%;
+    bottom: 30%;
+    left: calc(50% - 140px);
+    max-height: 100%;
+    width: 35px;
+    object-fit: contain;
+}
+
+.group-item2 {
+    position: absolute;
+    height: 40px;
+    top: 3%;
+    bottom: 30%;
+    left: calc(50% - 0px);
+    max-height: 100%;
+    width: 40px;
+    object-fit: contain;
+}
+.rectangle-parent {
+    position: absolute;
+    top: 2px;
+    left: 25px;
+    width: 35px;
+    height: 35px;
+}
+.parent {
+    position: absolute;
+    top: 1288px;
+    left: 792px;
+    width: 177px;
+    height: 39px;
+    text-align: left;
+    font-size: 24px;
 }
 
 .paymentspage {

@@ -156,6 +156,8 @@ body {
     justify-content: center;
     padding: 7px 12px 7px 20px;
 }
+
+
 .vector-icon {
     position: absolute;
     height: 56.25%;
@@ -259,18 +261,18 @@ body {
 }
 .search-component-set-parent {
     width: 300px;
-    height:60px;
+    height: 60px;
     display: flex;
     border-radius: 20px;
     flex-direction: row;
     align-items: center;
     gap: 24px;
-    border:0;
+    border: 0;
     font-size: 12px;
     font-family: Poppins;
     justify-content: center;
-    background: #d3d3d3 url("/NavBarIMG/Component 2.svg") no-repeat 7px 15px;
-    padding-left: 40px;
+    background: #d3d3d3 url("/NavBarIMG/Component 2.svg") no-repeat 14px 15px;
+    padding-left: 50px;
     padding-right: 60px;
 }
 

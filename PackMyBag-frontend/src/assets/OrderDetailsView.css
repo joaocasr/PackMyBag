@@ -219,3 +219,26 @@
     line-height: 100%;
 }
 
+
+.footer {
+    position: absolute;
+    height: 65%;
+    width: 100%;
+    top: 0%;
+    right: 0%;
+    bottom: 0%;
+    left: 0%;
+    background-color: #111827;
+    overflow: hidden;
+}
+.myfooter {
+    position: absolute;
+    top: 2669px;
+    left: 0px;
+    background-color: #f7f7f7;
+    width: 1535px;
+    height: 340px;
+    font-size: 16px;
+    color: #fff;
+    font-family: Poppins;
+}

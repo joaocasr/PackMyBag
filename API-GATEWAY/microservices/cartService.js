@@ -92,8 +92,8 @@ module.exports.getEncomendasByLojaID = (lojaid) => {
 }
 
 
-module.exports.getTransactions = (username) => {
-    return axios.get(`${ap}/transactions/${username}`).then(resp => {
+module.exports.getTransactions = (username,page,number) => {
+    return axios.get(`${ap}/transactions/${username}?page=${page}&number=${number}`).then(resp => {
         return resp.data;
     }).catch(err => {
         throw { error: err.response.data };

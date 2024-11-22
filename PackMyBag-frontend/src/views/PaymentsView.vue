@@ -18,6 +18,13 @@
                 ></PaymentComponent>
             </div>            
         </div>
+        <div class="parent">
+						<img v-if="current_page+1 > 1" @click="handlePage('previous')" class="group-item1" alt="" src="/CatalogueIMG/previousbtn.png">
+				<div v-if="payments.length>0" class="dividx">{{ current_page + 1}}</div>
+      			<div class="rectangle-parent">
+						<img v-if="payments.length>0" @click="handlePage('next')" class="group-item2" alt="" src="/CatalogueIMG/nextbtn.png">
+      			</div>
+		</div>
     </div>
 
     <FooterComponent></FooterComponent>
@@ -42,6 +49,7 @@ export default {
             nome:'',
             email:'',
             token:null,
+            current_page:0,
             payments:[]
         }
     },
@@ -59,7 +67,7 @@ export default {
 	},
     methods:{
         getPayments(){
-            axios.get('http://localhost:8888/api/cartService/transactions/'+this.username).then(payments=>{
+            axios.get('http://localhost:8888/api/cartService/transactions/'+this.username+"?page="+this.current_page+"&number=5").then(payments=>{
                 this.payments = payments.data;
                 console.log(this.payments);
             }).catch(err=>{
@@ -114,7 +122,12 @@ export default {
 				return err;
 			}
    
-        }
+        },
+        handlePage(action){
+			if(action=='next') this.current_page+=1;
+			else this.current_page-=1;
+			this.getPayments();
+		}
     }
 }
 </script>

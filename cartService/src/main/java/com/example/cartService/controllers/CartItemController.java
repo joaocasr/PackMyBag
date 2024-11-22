@@ -1,9 +1,7 @@
 package com.example.cartService.controllers;
 
 import java.util.List;
-import java.util.Set;
 
-import com.example.cartService.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,9 +10,19 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.cartService.model.Pagamento;
+import com.example.cartService.dto.CartItemChangeQuantityDTO;
+import com.example.cartService.dto.CartItemDTO;
+import com.example.cartService.dto.CartItemInsertDTO;
+import com.example.cartService.dto.CartItemRemoveDTO;
+import com.example.cartService.dto.CartPaymentDTO;
+import com.example.cartService.dto.CartPaymentStatusChangeDTO;
+import com.example.cartService.dto.ErrorResponse;
+import com.example.cartService.dto.FormPaymentDTO;
+import com.example.cartService.dto.PagamentoDTO;
+import com.example.cartService.dto.PagamentoEncomendaDTO;
 import com.example.cartService.services.CartService;
 
 @RestController
@@ -98,8 +106,8 @@ public class CartItemController {
     }
 
     @GetMapping("/transactions/{username}") //a funcionar
-    public Set<PagamentoDTO> getUserTransactions(@PathVariable String username) {
-        return cartService.getUserTransactions(username);
+    public List<PagamentoDTO> getUserTransactions(@PathVariable String username, @RequestParam int page, @RequestParam int number ) {
+        return cartService.getUserTransactions(username,page,number);
     }
 
     @GetMapping("/transaction/{code}") //a funcionar

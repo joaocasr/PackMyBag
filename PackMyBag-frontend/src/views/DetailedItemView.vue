@@ -255,10 +255,10 @@ export default {
 				this.subclasse = item.subclasse;
 				this.itemCode = item.codigo;
 				this.idLoja = item.loja.idloja;
-				if(this.disponibilidade!="Not Available"){
-					this.availabilityColor = "#3de469"
-				}else{
+				if(this.disponibilidade!=="In Stock"){
 					this.availabilityColor = "#f03c36"
+				}else{
+					this.availabilityColor = "#3de469"
 				}
 				let cores = this.cor.split("/");
 				this.colors= cores.map((x) => colorMap[x.toLowerCase()]);
@@ -448,6 +448,10 @@ export default {
 			}			
 		},
 		async addToCart(){
+			if(this.disponibilidade!=="In Stock"){
+				this.$swal.fire("The current item is unavailable!", "", "error");
+				return;
+			}
 			const header = authHeader();
 			let config = {headers:header}
 			header['Content-Type'] = 'application/json';
