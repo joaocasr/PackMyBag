@@ -51,7 +51,6 @@ router.get("/transactions/:username", function(req, res, next) {
   });
 });
 
-
 /* just payment */
 router.post("/newpayment", validate.verifyToken,  async function(req,res,next){
   try{
@@ -199,6 +198,70 @@ router.post("/pay", validate.verifyToken, async function(req,res,next){
   }
 })
 
+// // Rota para criar pagamento PayPal
+// router.post("/paypal/create",  async function(req, res, next) { //validate.verifyToken,
 
+//   try {
+//       const paymentData = {
+//           method: req.body.method,
+//           amount: req.body.amount,
+//           currency: req.body.currency,
+//           description: req.body.description
+//       };
+//       let response = await cartService.createPaypalPayment(paymentData);
+//       res.status(200).jsonp(response);
+//   } catch (err) {
+//       res.status(400).jsonp(err);
+//   }
+// });
+
+/* Create PayPal Payment */
+router.post("/paypal/create", async function(req, res, next) {
+  const method = req.body.method;
+  const amount = req.body.amount;
+  const currency = req.body.currency;
+  const description = req.body.description;
+
+  try {
+    let response = await cartService.createPaypalPayment(method, amount, currency, description);
+    console.log(response);
+    res.status(200).send(response);
+  } catch (err) {
+    res.status(400).jsonp(err);
+  }
+});
+
+
+// Rota para capturar pagamento PayPal
+router.get("/paypal/success", async function(req, res, next) {
+  try {
+      const paymentId = req.query.paymentId;
+      const payerId = req.query.PayerID;
+      let response = await cartService.capturePaypalPayment(paymentId, payerId);
+      res.status(200).jsonp(response);
+  } catch (err) {
+      res.status(400).jsonp(err);
+  }
+});
+
+// Rota para cancelar pagamento PayPal
+router.get("/paypal/cancel", async function(req, res, next) {
+  try {
+      let response = await cartService.cancelPaypalPayment();
+      res.status(200).jsonp(response);
+  } catch (err) {
+      res.status(400).jsonp(err);
+  }
+});
+
+// Rota para tratar erro de pagamento PayPal
+router.get("/paypal/error", async function(req, res, next) {
+  try {
+      let response = await cartService.errorPaypalPayment();
+      res.status(200).jsonp(response);
+  } catch (err) {
+      res.status(400).jsonp(err);
+  }
+});
 
 module.exports = router;

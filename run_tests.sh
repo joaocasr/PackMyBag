@@ -78,11 +78,11 @@ fi
 
 # abre a pasta do encomendaService e executa o script de populate-container.sh
 echo "Populando o banco de dados do encomendaService..."
-(cd encomendaService && ./populate.sh)
+(cd encomendaService && sudo sh ./populate.sh)
 
 # abre a pasta scripts e executa o script de populate.sh
 echo "Populando o banco de dados do utilizadoresService..."
-(cd scripts && ./populate.sh)
+(cd scripts && sudo sh ./populate.sh)
 
 # insere este utilizador no docker postgres
 # docker exec -it postgres psql -U postgres -d utilizadores -c "INSERT INTO cliente (idcliente, email, nome, password, profile_image, username)

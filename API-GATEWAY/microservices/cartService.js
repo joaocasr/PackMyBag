@@ -133,3 +133,93 @@ module.exports.createPayment = async (itemBody) => {
     } 
         
 }
+
+
+// // Método para criar pagamento
+// module.exports.createPaypalPayment = async (paymentData) => {
+//     try {
+//         let response = await axios.post(`${ap}/paypal/create`, paymentData, {
+//             headers: {
+//                 'Content-Type': 'application/x-www-form-urlencoded',
+//             }
+//         });
+//         return response.data;
+//     } catch (err) {
+//         if (err.response) {
+//             throw { error: err.response.data };
+//         } else {
+//             throw err;
+//         }
+//     }
+// };
+
+module.exports.createPaypalPayment = (method, amount, currency, description) => {
+    return axios.post(`${ap}/paypal/create`,
+        {
+            "method": method,
+            "amount": amount,
+            "currency": currency,
+            "description": description
+        },
+        {
+            headers: {
+                'Content-Type': 'application/json;charset=UTF-8',
+            }
+        }
+    ).then(resp => {
+        return resp.data;
+    }).catch(err => {
+        if (err.response) {
+            throw { error: err.response.data };
+        } else {
+            throw err;
+        }
+    });
+};
+
+// Método para capturar pagamento
+module.exports.capturePaypalPayment = async (paymentId, payerId) => {
+    try {
+        let response = await axios.get(`${ap}/paypal/success`, {
+            params: {
+                paymentId: paymentId,
+                PayerID: payerId
+            }
+        });
+        return response.data;
+    } catch (err) {
+        if (err.response) {
+            throw { error: err.response.data };
+        } else {
+            throw err;
+        }
+    }
+};
+
+// Método para cancelar pagamento
+module.exports.cancelPaypalPayment = async () => {
+    try {
+        let response = await axios.get(`${ap}/paypal/cancel`);
+        return response.data;
+    } catch (err) {
+        if (err.response) {
+            throw { error: err.response.data };
+        } else {
+            throw err;
+        }
+    }
+};
+
+// Método para tratar erro de pagamento
+module.exports.errorPaypalPayment = async () => {
+    try {
+        let response = await axios.get(`${ap}/paypal/error`);
+        return response.data;
+    } catch (err) {
+        if (err.response) {
+            throw { error: err.response.data };
+        } else {
+            throw err;
+        }
+    }
+};
