@@ -13,7 +13,10 @@
                 <div class="recommendation">
                     <UserRecomendationIndividual
                     :descricao="rec.descricao"
-                    :items="rec.conjunto">
+                    :items="rec.conjunto"
+					:username="username"
+					:email="email"
+					:nome="nome">
                     </UserRecomendationIndividual>
                 </div>
             </div>
@@ -68,6 +71,8 @@ export default {
 		if(token!=null){
 			this.token = token;
 			this.username=token.username;
+			this.nome=token.nome;
+			this.email=token.email;
 			this.getUserRecomendacoes();
 		}
 	},

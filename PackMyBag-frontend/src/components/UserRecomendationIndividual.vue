@@ -19,15 +19,47 @@
 </template>
 
 <script>
+import authService from '@/services/auth-service';
+import axios from 'axios';
+
 export default {
     props:{
         descricao:String,
         items: Array,
+        username:String,
+        nome:String,
+        email:String
     },
     methods:{
         gotoItem(id){
             this.$router.push({path:'/items/'+id})
-        }
+        },
+        async addItemsToCart(){
+			const header = authHeader();
+			let config = {headers:header}
+			header['Content-Type'] = 'application/json';
+            for(let p=0; p<this.items.length;p+=1){
+                try{
+                    let r = await axios.post('http://localhost:8888/api/cartService/addItem',
+                    {
+                        "codigo":this.items[p].codigo,
+                        "idLoja":this.items[p].idLoja,
+                        "username":this.username,
+                        "nome":this.nome,
+                        "email":this.email,
+                        "designacao":this.designacao,
+                        "imagem":this.items[p].imagem,
+                        "preco":this.items[p].preco,
+                        "quantidade":1
+                    },
+                    config
+                    );
+                    return r;
+                }catch(err){
+                    return err;
+                }
+            }
+		}
     }
 }
 </script>

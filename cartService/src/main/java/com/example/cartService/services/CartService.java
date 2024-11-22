@@ -1,6 +1,8 @@
 package com.example.cartService.services;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -305,9 +307,11 @@ public class CartService {
         if (cliente == null) {
             throw new NoClientException("Client not found with username: " + username);
         }
-        return cliente.getTransacoes().stream()
-            .map(x-> clientPagamentoMapper.toPagamentoDTO(x))
-            .collect(Collectors.toSet());
+        List<PagamentoDTO> pagamentoDTOs = cliente.getTransacoes().stream()
+            .map(x-> clientPagamentoMapper.toPagamentoDTO(x)).collect(Collectors.toList());
+        Collections.sort(pagamentoDTOs,new DateComparator());
+        return pagamentoDTOs.stream().collect(Collectors.toSet());
+        
     }
 
     public PagamentoEncomendaDTO getPagamentoByCode(String codigo){

@@ -10,9 +10,12 @@
         <div v-if="inicioAluguer!==''" class="arrival-20112024">Arrival: {{ inicioAluguer }}</div>
         <div v-if="fimAluguer!==''" class="departure-25112024">Departure: {{ fimAluguer }}</div>
         <button v-if="estado==='PENDING'" @click="finishPayment" class="finish-wrapper">FINISH</button>
+        <button v-if="estado==='PENDING' && modoPagamento==='PAYPAL'" @click="handlePayment" style="margin-top: 55px;" class="finish-wrapper">FINISH PAYPAL</button>
     </div>
 </template>
 <script>
+import axios from 'axios';
+
 export default {
     props:{
         codigo:String,
@@ -32,7 +35,46 @@ export default {
     methods:{
         finishPayment(){
             this.$emit('finishPayment',{"codigo":this.codigo, "total": this.total });
-        }
+        },
+        async handlePayment(){
+            if(this.begindate === '' || this.enddate === '' || this.modoPagamento === ''){
+                this.$swal.fire("Complete all the fields!", "", "error");
+                return;
+            } 
+            this.$swal.fire({
+                title: "Are you sure you want to pay with paypal?",
+                showDenyButton: false,
+                showCancelButton: true,
+                confirmButtonText: "Yes"
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    if(this.modoPagamento === 'PAYPAL'){
+                        try{
+                            // Enviar solicitação de pagamento PayPal
+                            const paymentData = {
+                                method: "paypal",
+                                currency: "EUR",
+                                description: "Compra na Pack My Bag",
+                                amount: this.total
+                            };
+                            let response = await axios.post('http://localhost:8888/api/cartService/paypal/create', paymentData);
+                            console.log(response);
+                            if (response.data) {
+                                window.location.href = response.data;
+                                this.$emit('finishPayment',{"codigo":this.codigo, "total": this.total });
+
+                            } else {
+                                this.$swal.fire(response.data.error || "Falha ao obter URL de aprovação do PayPal.", "", "error");
+                            }
+                        } catch(err){
+                            console.log(err);
+                            this.$swal.fire("Something went wrong!", "", "error");
+                            return;
+                        }
+                    }
+                }
+            });
+        },
     },
     computed:{
         getColor(){

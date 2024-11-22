@@ -77,10 +77,10 @@ minDate.setDate(minDate.getDate() + 5); // 5 dias de antecedencia
                     <p>PayPal</p>
                     <img width="20px" height="20px" src="/CartIMG/paypal.png" alt="PayPal" />
                 </div>
-                <!-- <div @click="paymentMode('credit')" class="payment-option" v-bind:style="{'border-color':paymentColor2,'border-width': paymentBorder2}">
+                <div @click="paymentMode('credit')" class="payment-option" v-bind:style="{'border-color':paymentColor2,'border-width': paymentBorder2}">
                     <p>Credit Card</p>
                     <img width="20px" height="20px" src="/CartIMG/creditcard.png" alt="Cartão de Crédito" />
-                </div> -->
+                </div>
                 </div>
             </div>
 
@@ -266,43 +266,39 @@ export default {
             console.log(this.itemsEncomenda);
         },
         async handlePayment(){
-            if(this.begindate === '' || this.enddate === '' || this.modoPagamento === ''){
+            if(this.begindate==='' || this.enddate==='' || this.modoPagamento===''){
                 this.$swal.fire("Complete all the fields!", "", "error");
                 return;
             } 
-            this.$swal.fire({
-                title: "Are you sure you want to proceed and generate the payment?",
-                showDenyButton: false,
-                showCancelButton: true,
-                confirmButtonText: "Yes"
-            }).then(async (result) => {
-                if (result.isConfirmed) {
-                    if(this.modoPagamento === 'PAYPAL'){
-                        try{
-                            // Enviar solicitação de pagamento PayPal
-                            const paymentData = {
-                                method: "paypal",
-                                currency: "EUR",
-                                description: "Compra na Pack My Bag",
-                                amount: 10.00,
-                            };
-                            let response = await axios.post('http://localhost:8888/api/cartService/paypal/create', paymentData);
-                            console.log(response);
-                            if (response.data) {
-                                window.location.href = response.data;
-                            } else {
-                                this.$swal.fire(response.data.error || "Falha ao obter URL de aprovação do PayPal.", "", "error");
+            const result = await this.$swal.fire({
+				title: "Are you sure you want to procede and generate the payment?",
+				showDenyButton: false,
+				showCancelButton: true,
+				confirmButtonText: "Yes"
+			});
+			if (result.isConfirmed) {
+                try{
+                    let r = await this.generatePayment();
+                    if (r && r.status == 200) {
+                            this.$swal.fire({
+                                title: "Success! A new payment was generated for your order.",
+                                type: "success",
+                                showConfirmButton: true,
+                                confirmButtonText:"Payments",
+                                showCancelButton:true
+                                }).then((result) => {
+                            if (result.isConfirmed) {
+                                this.$router.push({path:'/payments'});
                             }
-                        } catch(err){
-                            this.$swal.fire("Something went wrong!", "", "error");
-                            return;
-                        }
-                    } else if(this.modoPagamento === 'CREDIT'){
-                        // Proceder com pagamento via Cartão de Crédito
-                        this.generatePayment();
+                            });
+                        this.itemsEncomenda=[];
                     }
+                    
+                }catch(err){
+                    this.$swal.fire("Something went wrong!", "", "error");
+                    return;
                 }
-            });
+			}
         },
         async generatePayment(){
             const header = authHeader();
