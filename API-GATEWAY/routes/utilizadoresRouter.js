@@ -125,31 +125,44 @@ router.post('/updateImage', upload.single('profile_image'), async function(req,r
     }
 });
 
-router.post('/updateProfile', async (req, res) => {
+router.post('/updateProfile/normal', async (req, res) => {
     try {
-      const { username, ...updatedFields } = req.body;
-  
-      if (!username) {
-        return res.status(400).json({ error: 'Username is required.' });
-      }
-  
-      if (Object.keys(updatedFields).length === 0) {
-        return res.status(400).json({ error: 'No fields to update.' });
-      }
-  
-      // Assuming you have a `User` model with an `updateProfile` method
-      const result = await utilizadoresService.updateProfile(username, updatedFields);
-  
-      if (result) {
-        res.status(200).json({ message: 'Profile updated successfully.', updatedFields });
-      } else {
-        res.status(404).json({ error: 'User not found.' });
-      }
+        console.log('Forwarding payload for normal user:', req.body);
+        const result = await utilizadoresService.updateNormalProfile(req.body);
+        res.json(result);
     } catch (error) {
-      console.error('Error updating profile:', error);
-      res.status(500).json({ error: 'Internal Server Error.' });
+        console.error('Error forwarding to updateProfile for Normal user:', error);
+        res.status(error.status || 500).json({ error: error.message });
     }
   });
+  
+
+// Route for updating Estilista profile
+router.post('/updateProfile/estilista', async (req, res) => {
+    console.log('Forwarding payload for estilista user:', req.body);
+
+    try {
+        const result = await utilizadoresService.updateEstilistaProfile(req.body);
+        res.json(result);
+    } catch (error) {
+        console.error('Error forwarding to updateProfile for estilista user:', error);
+        res.status(error.status || 500).json({ error: error.message });
+    }
+});
+
+// Route for updating Tecnico profile
+router.post('/updateProfile/tecnico', async (req, res) => {
+    console.log('Forwarding payload for tecnico user:', req.body);
+
+    try {
+        const result = await utilizadoresService.updateTecnicoProfile(req.body);
+        res.json(result);
+    } catch (error) {
+        console.error('Error forwarding to updateProfile for tecnico user:', error);
+        res.status(error.status || 500).json({ error: error.message });
+    }
+});
+  
   
 
 module.exports = router;

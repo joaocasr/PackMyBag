@@ -174,23 +174,69 @@ module.exports.saveImage = async (form) => {
     }
   };
 
-module.exports.updateProfile  = async (data) => {
+  module.exports.updateNormalProfile = async (data) => {
     try {
-      console.log("Starting profile update...");
-      const resp = await axios.post(`${ap}/edit-profile`, data, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      console.log("Field update response:", resp.data);
-      return resp.data;
+        console.log("Starting normal profile update...");
+
+        // Send data to the '/edit-profile/normal' endpoint for Cliente (Normal User)
+        const resp = await axios.post(`${ap}/edit-profile/normal`, data);
+        console.log("Field update response for Cliente:", resp.data);
+        return resp.data;
     } catch (err) {
-      if (err.response) {
-        console.error("Field update error:", err.response.data);
-        throw { error: err.response.data, status: err.response.status };
-      } else {
-        console.error("Unknown error during field update");
-        throw { error: "Unknown error", status: 500 };
-      }
+        if (err.response) {
+            console.error("Field update error for Cliente:", err.response.data);
+            throw { error: err.response.data, status: err.response.status };
+        } else {
+            console.error("Unknown error during normal profile update");
+            throw { error: "Unknown error", status: 500 };
+        }
+    }
+};
+
+
+module.exports.updateEstilistaProfile = async (data) => {
+    try {
+        console.log("Starting estilista profile update...");
+
+        // Send data to the '/edit-profile/estilista' endpoint for Estilista
+        const resp = await axios.post(`${ap}/edit-profile/estilista`, data, {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        console.log("Field update response for Estilista:", resp.data);
+        return resp.data;
+    } catch (err) {
+        if (err.response) {
+            console.error("Field update error for Estilista:", err.response.data);
+            throw { error: err.response.data, status: err.response.status };
+        } else {
+            console.error("Unknown error during estilista profile update");
+            throw { error: "Unknown error", status: 500 };
+        }
+    }
+};
+
+
+module.exports.updateTecnicoProfile = async (data) => {
+    try {
+        console.log("Starting tecnico profile update...");
+
+        // Send data to the '/edit-profile/tecnico' endpoint for Tecnico
+        const resp = await axios.post(`${ap}/edit-profile/tecnico`, data, {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        console.log("Field update response for Tecnico:", resp.data);
+        return resp.data;
+    } catch (err) {
+        if (err.response) {
+            console.error("Field update error for Tecnico:", err.response.data);
+            throw { error: err.response.data, status: err.response.status };
+        } else {
+            console.error("Unknown error during tecnico profile update");
+            throw { error: "Unknown error", status: 500 };
+        }
     }
 };

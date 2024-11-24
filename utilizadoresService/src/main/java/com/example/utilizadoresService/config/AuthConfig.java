@@ -34,7 +34,9 @@ public class AuthConfig {
                         .requestMatchers(HttpMethod.POST, "/api/utilizadores/signup/estilista").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/utilizadores/image/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/utilizadores/userinfo/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/utilizadores/edit-profile").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/utilizadores/edit-profile/normal").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/utilizadores/edit-profile/estilista").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/utilizadores/edit-profile/tecnico").permitAll()
                         .anyRequest().authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

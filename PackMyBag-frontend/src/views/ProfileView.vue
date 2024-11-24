@@ -233,23 +233,102 @@ export default {
             console.log(err);
         })
     },
-  saveField(field) {
+    saveField(field) {
+      // Prepare the data to send as JSON
       const data = {
         username: this.username,
-        [field]: this.profile[field],
       };
 
-      axios
-        .post('http://localhost:8888/api/utilizadoresService/updateProfile', data)
-        .then((response) => {
-          console.log(response.data);
-          this.editMode[field] = false; 
-          alert('Field updated successfully!');
+      // Add the relevant field based on the role
+      if (this.role === "Cliente") {
+        if (field === "name") {
+          data.newName = this.profile.name;
+        } else if (field === "email") {
+          data.newEmail = this.profile.email;
+        } else if (field === "address") {
+          data.newAddress = this.profile.address;
+        } else if (field === "phone") {
+          data.newPhone = this.profile.phone;
+        } else if (field === "gender") {
+          data.newGender = this.profile.gender;
+        }
+        console.log(data);
+        // Send to the appropriate endpoint for Cliente
+        axios.post('http://localhost:8888/api/utilizadoresService/updateProfile/normal', data, {
+          headers: {
+            'Content-Type': 'application/json',
+            // Include any other necessary headers, such as authentication tokens
+            'Authorization': `Bearer ${this.authToken}`
+          }
         })
-        .catch((error) => {
-          console.error(error);
-          alert('Failed to update the field.');
-        });
+          .then((response) => {
+            console.log(response.data);
+            this.editMode[field] = false;  // Exit edit mode for the field
+            alert('Field updated successfully!');
+          })
+          .catch((error) => {
+            console.error(error);
+            alert('Failed to update the field.');
+          });
+
+      } else if (this.role === "Estilista") {
+        if (field === "name") {
+          data.newName = this.profile.name;
+        } else if (field === "email") {
+          data.newEmail = this.profile.email;
+        } else if (field === "bio") {
+          data.newBio = this.profile.bio;
+        } else if (field === "gender") {
+          data.newGender = this.profile.gender;
+        }
+
+        // Send to the appropriate endpoint for Estilista
+        axios.post('http://localhost:8888/api/utilizadoresService/updateProfile/estilista', data, {
+          headers: {
+            'Content-Type': 'application/json'  // Sending JSON data
+          }
+        })
+          .then((response) => {
+            console.log(response.data);
+            this.editMode[field] = false;  // Exit edit mode for the field
+            alert('Field updated successfully!');
+          })
+          .catch((error) => {
+            console.error(error);
+            alert('Failed to update the field.');
+          });
+
+      } else if (this.role === "Tecnico") {
+        if (field === "name") {
+          data.newName = this.profile.name;
+        } else if (field === "email") {
+          data.newEmail = this.profile.email;
+        } else if (field === "department") {
+          data.newDepartment = this.profile.department;
+        } else if (field === "gender") {
+          data.newGender = this.profile.gender;
+        }
+
+        // Send to the appropriate endpoint for Tecnico
+        axios.post('http://localhost:8888/api/utilizadoresService/updateProfile/tecnico', data, {
+          headers: {
+            'Content-Type': 'application/json'  // Sending JSON data
+          }
+        })
+          .then((response) => {
+            console.log(response.data);
+            this.editMode[field] = false;  // Exit edit mode for the field
+            alert('Field updated successfully!');
+          })
+          .catch((error) => {
+            console.error(error);
+            alert('Failed to update the field.');
+          });
+
+      } else {
+        alert("Invalid role or field.");
+        return;
+      }
     },
   },
   

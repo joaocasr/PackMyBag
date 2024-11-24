@@ -12,6 +12,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.example.utilizadoresService.dtos.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.UrlResource;
@@ -25,11 +26,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.utilizadoresService.Exceptions.InexistentLojaException;
 import com.example.utilizadoresService.Exceptions.InvalidJwtException;
-import com.example.utilizadoresService.dtos.EstilistaDto;
-import com.example.utilizadoresService.dtos.SignUpEstilistaDto;
-import com.example.utilizadoresService.dtos.SignUpTecnicoDto;
-import com.example.utilizadoresService.dtos.SignUpUserDto;
-import com.example.utilizadoresService.dtos.UploadProfileImageDto;
 import com.example.utilizadoresService.mapper.EstilistaMapper;
 import com.example.utilizadoresService.model.Cliente;
 import com.example.utilizadoresService.model.Estilista;
@@ -167,36 +163,61 @@ public class AuthService implements UserDetailsService {
 
 
 
-    public UserDetails editProfile(String username, String newName, String newEmail, String newProfileImage, Map<String, Object> additionalFields) {
-        Optional<Cliente> userOptional = Optional.ofNullable(clienteRepository.getClienteByUsername(username));
+    public NormalCliente editNormalClienteProfile(EditUserProfileDto data) {
+        Optional<NormalCliente> userOptional = Optional.ofNullable((NormalCliente) clienteRepository.getClienteByUsername(data.username()));
         if (userOptional.isEmpty()) {
-            throw new UsernameNotFoundException("User not found with username: " + username);
+            throw new UsernameNotFoundException("User not found with username: " + data.username());
         }
 
-        Cliente user = userOptional.get();
+        NormalCliente user = userOptional.get();
 
-        // Common fields for all users
-        user.setNome(newName != null ? newName : user.getNome());
-        user.setEmail(newEmail != null ? newEmail : user.getEmail());
-        user.setProfileImage(newProfileImage != null ? newProfileImage : user.getProfileImage());
+        // Update fields for NormalCliente
+        user.setNome(data.newName() != null ? data.newName() : user.getNome());
+        user.setEmail(data.newEmail() != null ? data.newEmail() : user.getEmail());
+        user.setProfileImage(data.newProfileImage() != null ? data.newProfileImage().getOriginalFilename() : user.getProfileImage());
+        user.setMorada(data.morada() != null ? data.morada() : user.getMorada());
+        user.setNrTelemovel(data.nrTelemovel() != null ? data.nrTelemovel() : user.getNrTelemovel());
+        user.setGenero(data.genero() != null ? data.genero() : user.getGenero());
 
-        // Handle type-specific fields
-        if (user instanceof Tecnico tecnico) {
-            if (additionalFields.containsKey("lojaId")) {
-                Long lojaId = (Long) additionalFields.get("lojaId");
-                Loja loja = lojaRepository.findById(Math.toIntExact(lojaId)).orElseThrow(() -> new IllegalArgumentException("Invalid Loja ID"));
-                tecnico.setLoja(loja);
-            }
-        } else if (user instanceof NormalCliente normalCliente) {
-            normalCliente.setMorada((String) additionalFields.getOrDefault("morada", normalCliente.getMorada()));
-            normalCliente.setNrTelemovel((String) additionalFields.getOrDefault("nrTelemovel", normalCliente.getNrTelemovel()));
-            normalCliente.setGenero((String) additionalFields.getOrDefault("genero", normalCliente.getGenero()));
-        } else if (user instanceof Estilista estilista) {
-            estilista.setBio((String) additionalFields.getOrDefault("bio", estilista.getBio()));
-            estilista.setGenero((String) additionalFields.getOrDefault("genero", estilista.getGenero()));
-        }
         return clienteRepository.save(user);
     }
+
+    public Estilista editEstilistaProfile(EditEstilistaProfileDto data) {
+        Optional<Estilista> userOptional = Optional.ofNullable((Estilista) clienteRepository.getClienteByUsername(data.username()));
+        if (userOptional.isEmpty()) {
+            throw new UsernameNotFoundException("User not found with username: " + data.username());
+        }
+
+        Estilista user = userOptional.get();
+
+        // Update fields for Estilista
+        user.setNome(data.newName() != null ? data.newName() : user.getNome());
+        user.setEmail(data.newEmail() != null ? data.newEmail() : user.getEmail());
+        user.setProfileImage(data.newProfileImage() != null ? data.newProfileImage().getOriginalFilename() : user.getProfileImage());
+        user.setBio(data.bio() != null ? data.bio() : user.getBio());
+
+
+        return clienteRepository.save(user);
+    }
+
+
+    public Tecnico editTecnicoProfile(EditTecnicoProfileDto data) {
+        Optional<Tecnico> userOptional = Optional.ofNullable((Tecnico) clienteRepository.getClienteByUsername(data.username()));
+        if (userOptional.isEmpty()) {
+            throw new UsernameNotFoundException("User not found with username: " + data.username());
+        }
+
+        Tecnico user = userOptional.get();
+
+        // Update fields for Tecnico
+        user.setNome(data.newName() != null ? data.newName() : user.getNome());
+        user.setEmail(data.newEmail() != null ? data.newEmail() : user.getEmail());
+        user.setProfileImage(data.newProfileImage() != null ? data.newProfileImage().getOriginalFilename() : user.getProfileImage());
+
+
+        return clienteRepository.save(user);
+    }
+
 
 
     public Cliente getUserInfo(String username) {
