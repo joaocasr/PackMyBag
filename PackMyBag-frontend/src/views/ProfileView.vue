@@ -139,6 +139,7 @@
 import NavBarComponent from '@/components/NavBarComponent.vue';
 import FooterComponent from '@/components/FooterComponent.vue';
 import authService from '@/services/auth-service';
+import authHeader from '@/services/auth-header';
 import axios from 'axios';
 export default {
     components:{
@@ -246,21 +247,19 @@ export default {
         } else if (field === "email") {
           data.newEmail = this.profile.email;
         } else if (field === "address") {
-          data.newAddress = this.profile.address;
+          data.morada = this.profile.address;
         } else if (field === "phone") {
-          data.newPhone = this.profile.phone;
+          data.nrTelemovel = this.profile.phone;
         } else if (field === "gender") {
-          data.newGender = this.profile.gender;
+          data.genero = this.profile.gender;
         }
         console.log(data);
         // Send to the appropriate endpoint for Cliente
-        axios.post('http://localhost:8888/api/utilizadoresService/updateProfile/normal', data, {
-          headers: {
-            'Content-Type': 'application/json',
-            // Include any other necessary headers, such as authentication tokens
-            'Authorization': `Bearer ${this.authToken}`
-          }
-        })
+        const header = authHeader();
+	  		let config = {headers:header}
+  			header['Content-Type'] = 'application/json';
+
+        axios.post('http://localhost:8888/api/utilizadoresService/updateProfile/normal', data,config)
           .then((response) => {
             console.log(response.data);
             this.editMode[field] = false;  // Exit edit mode for the field
@@ -277,18 +276,11 @@ export default {
         } else if (field === "email") {
           data.newEmail = this.profile.email;
         } else if (field === "bio") {
-          data.newBio = this.profile.bio;
-        } else if (field === "gender") {
-          data.newGender = this.profile.gender;
+          data.bio = this.profile.bio;
         }
 
         // Send to the appropriate endpoint for Estilista
-        axios.post('http://localhost:8888/api/utilizadoresService/updateProfile/estilista', data, {
-          headers: {
-            'Content-Type': 'application/json'  // Sending JSON data
-          }
-        })
-          .then((response) => {
+        axios.post('http://localhost:8888/api/utilizadoresService/updateProfile/estilista', data,config).then((response) => {
             console.log(response.data);
             this.editMode[field] = false;  // Exit edit mode for the field
             alert('Field updated successfully!');
@@ -310,12 +302,7 @@ export default {
         }
 
         // Send to the appropriate endpoint for Tecnico
-        axios.post('http://localhost:8888/api/utilizadoresService/updateProfile/tecnico', data, {
-          headers: {
-            'Content-Type': 'application/json'  // Sending JSON data
-          }
-        })
-          .then((response) => {
+        axios.post('http://localhost:8888/api/utilizadoresService/updateProfile/tecnico', data,config).then((response) => {
             console.log(response.data);
             this.editMode[field] = false;  // Exit edit mode for the field
             alert('Field updated successfully!');

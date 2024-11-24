@@ -1,0 +1,14 @@
+---
+# Playbook to deploy catalogo service
+- name: catalogo deploy
+  shell: kubectl apply -f roles/catalogo_deploy/k8s/deploy.yml --validate=false
+
+- name: catalogo service
+  shell: kubectl apply -f roles/catalogo_deploy/k8s/service.yml --validate=false
+
+- name: Wait for catalogo service objects to be ready
+  command: kubectl get pods
+  register: kubectl_get_pods
+  until: "{{ kubectl_get_pods.stdout_lines[1:] | select('search', '1/1') | list | length == kubectl_get_pods.stdout_lines[1:] | length }}"
+  retries: 30
+  delay: 5

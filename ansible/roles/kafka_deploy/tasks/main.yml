@@ -1,0 +1,14 @@
+---
+# Playbook to deploy kafka service
+- name: kafka deploy
+  shell: kubectl apply -f roles/kafka_deploy/k8s/deploy.yml --validate=false
+
+- name: kafka service
+  shell: kubectl apply -f roles/kafka_deploy/k8s/service.yml --validate=false
+
+- name: Wait for kafka service objects to be ready
+  command: kubectl get pods
+  register: kubectl_get_pods
+  until: "{{ kubectl_get_pods.stdout_lines[1:] | select('search', '1/1') | list | length == kubectl_get_pods.stdout_lines[1:] | length }}"
+  retries: 30
+  delay: 5

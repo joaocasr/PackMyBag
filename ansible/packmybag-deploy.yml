@@ -4,7 +4,15 @@
 - name: Deploy PackMyBag
   hosts: localhost
   roles:
+    - zookeeper_deploy
+    - kafka_deploy
     - packmybagDB_deploy
+    - catalogo_deploy
+    - favoritos_deploy
+    - encomendas_deploy
+    - cesto_deploy
+    - recomendacoes_deploy
+    - notificacoes_deploy
     - utilizadores_deploy
     - apigateway_deploy
     - frontend_deploy

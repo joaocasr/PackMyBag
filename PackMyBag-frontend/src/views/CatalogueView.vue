@@ -177,6 +177,10 @@ export default {
 			this.current_page = 0;
 			if(newvalue==undefined) this.selectedOption='';
 			this.getItemsperTypeAndPrice(this.selectedOption,this.value[0],this.value[1]);
+		},
+		'$route.query.q':function(newvalue,oldvalue){
+			console.log(newvalue);
+			this.getQueryResult(newvalue);
 		}
 	}
 }

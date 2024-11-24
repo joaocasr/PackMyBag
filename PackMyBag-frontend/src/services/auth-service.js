@@ -1,7 +1,8 @@
 import axios from 'axios';
 import { jwtDecode } from "jwt-decode";
 import { auth } from '@/store/auth-module';
-//const API_URL = "http://apigateway-service/api/utilizadoresService/"
+import { API_URL_DOMAIN } from "../config";
+
 
 const headers = {
     'Content-Type': 'application/json',
@@ -9,7 +10,7 @@ const headers = {
 
 class AuthService{
     constructor() {
-        this.API_URL = import.meta.env.VITE_GATEWAY_DOMAIN + "/api/utilizadoresService/"
+        this.API_URL = API_URL_DOMAIN + "/api/utilizadoresService/"
     }
     async login(user){
         let response = await axios.post(this.API_URL+"signin",

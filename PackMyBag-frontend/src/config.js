@@ -1,0 +1,1 @@
+export const API_URL_DOMAIN = window.VUE_API_DOMAIN || "http://localhost:8888";

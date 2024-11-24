@@ -1,0 +1,14 @@
+---
+# Playbook to deploy cart service
+- name: cart deploy
+  shell: kubectl apply -f roles/cesto_deploy/k8s/deploy.yml --validate=false
+
+- name: cart service
+  shell: kubectl apply -f roles/cesto_deploy/k8s/service.yml --validate=false
+
+- name: Wait for cart service objects to be ready
+  command: kubectl get pods
+  register: kubectl_get_pods
+  until: "{{ kubectl_get_pods.stdout_lines[1:] | select('search', '1/1') | list | length == kubectl_get_pods.stdout_lines[1:] | length }}"
+  retries: 30
+  delay: 5

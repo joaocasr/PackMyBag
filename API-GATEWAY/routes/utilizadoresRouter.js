@@ -125,10 +125,10 @@ router.post('/updateImage', upload.single('profile_image'), async function(req,r
     }
 });
 
-router.post('/updateProfile/normal', async (req, res) => {
+router.post('/updateProfile/normal',validate.verifyToken, async (req, res) => {
     try {
         console.log('Forwarding payload for normal user:', req.body);
-        const result = await utilizadoresService.updateNormalProfile(req.body);
+        const result = await utilizadoresService.updateNormalProfile(req.token,req.body);
         res.json(result);
     } catch (error) {
         console.error('Error forwarding to updateProfile for Normal user:', error);
@@ -138,11 +138,11 @@ router.post('/updateProfile/normal', async (req, res) => {
   
 
 // Route for updating Estilista profile
-router.post('/updateProfile/estilista', async (req, res) => {
+router.post('/updateProfile/estilista',validate.verifyToken, async (req, res) => {
     console.log('Forwarding payload for estilista user:', req.body);
 
     try {
-        const result = await utilizadoresService.updateEstilistaProfile(req.body);
+        const result = await utilizadoresService.updateEstilistaProfile(req.token,req.body);
         res.json(result);
     } catch (error) {
         console.error('Error forwarding to updateProfile for estilista user:', error);
@@ -151,11 +151,11 @@ router.post('/updateProfile/estilista', async (req, res) => {
 });
 
 // Route for updating Tecnico profile
-router.post('/updateProfile/tecnico', async (req, res) => {
+router.post('/updateProfile/tecnico',validate.verifyToken, async (req, res) => {
     console.log('Forwarding payload for tecnico user:', req.body);
 
     try {
-        const result = await utilizadoresService.updateTecnicoProfile(req.body);
+        const result = await utilizadoresService.updateTecnicoProfile(req.token,req.body);
         res.json(result);
     } catch (error) {
         console.error('Error forwarding to updateProfile for tecnico user:', error);

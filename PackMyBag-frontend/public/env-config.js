@@ -1,0 +1,1 @@
+window.VUE_API_DOMAIN = "";

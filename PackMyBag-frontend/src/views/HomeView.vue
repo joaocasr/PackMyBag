@@ -5,7 +5,7 @@
 				<img class="icon" alt="" src="/HomeViewIMG/1104046 1.png">
 				<div class="clothing-rental-for-container">
 				<p class="clothing-rental-for">Clothing rental for travel lovers</p>
-				<p class="clothing-rental-for">Leave your bags behind and sign up now</p>
+				<p class="clothing-rental-for">Leave your bags behind and sign up now {{ envip }}</p>
 				</div>
 				<div class="explore-collection-wrapper" id="frameContainer">
 				</div>

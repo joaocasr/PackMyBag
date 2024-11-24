@@ -1,6 +1,5 @@
 package com.example.utilizadoresService.config;
 
-import com.example.utilizadoresService.config.auth.SecurityFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,6 +13,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import com.example.utilizadoresService.config.auth.SecurityFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -34,9 +35,6 @@ public class AuthConfig {
                         .requestMatchers(HttpMethod.POST, "/api/utilizadores/signup/estilista").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/utilizadores/image/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/utilizadores/userinfo/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/utilizadores/edit-profile/normal").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/utilizadores/edit-profile/estilista").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/utilizadores/edit-profile/tecnico").permitAll()
                         .anyRequest().authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

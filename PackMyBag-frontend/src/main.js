@@ -2,6 +2,7 @@ import './assets/main.css';
 
 
 import { createApp } from 'vue'
+import { API_URL_DOMAIN } from "./config";
 
 import PrimeVue from 'primevue/config';
 import Aura from '@primevue/themes/aura';
@@ -25,6 +26,6 @@ app.use(PrimeVue, {
 app.use(VueSweetalert2);
 app.use(VuePhoneNumberInput);
 
-app.config.globalProperties.$apiGatewayUrl = import.meta.env.VITE_GATEWAY_DOMAIN;
+app.config.globalProperties.$apiGatewayUrl = API_URL_DOMAIN;
 
 app.mount('#app')

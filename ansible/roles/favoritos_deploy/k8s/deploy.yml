@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: favoritos-deployment
+spec:
+  selector:
+    matchLabels:
+      app: favoritos
+  template:
+    metadata:
+      labels:
+        app: favoritos
+    spec:
+      containers:
+      - name: favoritos-container
+        image: joaoppc2002/favoritos:latest
+        ports:
+        - containerPort: 8082
+        env:
+        - name: SPRING_DATASOURCE_URL
+          value: "jdbc:postgresql://postgres-service:5432/favoritos"
+        - name: SPRING_DATASOURCE_USERNAME
+          value: "postgres"
+        - name: SPRING_DATASOURCE_PASSWORD
+          value: "postgres"

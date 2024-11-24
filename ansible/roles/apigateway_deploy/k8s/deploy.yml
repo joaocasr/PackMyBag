@@ -15,6 +15,18 @@ spec:
         - name: apigatewaycontainer
           image: joaoppc2002/apigateway:latest
           env:
+            - name: CATALOGO_SERVICE_URL
+              value: "http://catalogo-service:8081/api/catalogo"
+            - name: FAVORITOS_SERVICE_URL
+              value: "http://favoritos-service:8082/api/favoritos"
+            - name: ENCOMENDA_SERVICE_URL
+              value: "http://encomendas-service:8083/api/encomendas"
+            - name: RECOMENDACOES_SERVICE_URL
+              value: "http://recomendacoes-service:8084/api/recomendacoes"
+            - name: CESTO_SERVICE_URL
+              value: "http://cart-service:8085/api/cart"
+            - name: NOTIFICACOES_SERVICE_URL
+              value: "http://notificacoes-service:8086/api/notificacoes"
             - name: UTILIZADORES_SERVICE_URL
               value: "http://utilizadores-service:8087/api/utilizadores"
           ports:

@@ -16,7 +16,7 @@ all:
 
   # APP variables
   app_ip: app_ip # Needs to be updated everytime
-  gateway_ip: 34.41.73.84
+  gateway_ip: 34.171.120.109 # Needs to be updated everytime
   app_port: 80 # Needs to be updated
   numthreads: 50
 
