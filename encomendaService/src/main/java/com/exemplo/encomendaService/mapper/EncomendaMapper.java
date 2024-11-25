@@ -81,6 +81,7 @@ public class EncomendaMapper {
         EncomendaStatusDTO statusDTO = new EncomendaStatusDTO();
         statusDTO.setCodigoEncomenda(encomenda.getCodigoEncomenda());
         statusDTO.setStatus(encomenda.getStatus());
+        statusDTO.setUsername(encomenda.getCliente().getUsername());
         return statusDTO;
     }
 

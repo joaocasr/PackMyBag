@@ -85,18 +85,29 @@ public class NotificationsService implements NotificationCallback {
     @Transactional
     @Override
     public void handleNewNotification(Notificacao n) {
-        String gatewayUrl = "http://localhost:8888/api/notificacoesService/getnotifications/"+n.getCliente().getUsername();
+        // aqui se nao estiver dentro do dockercompose vai dar erro o apigatewayservice tem de ser localhost
+        String gatewayUrl = "http://apigatewayservice:8888/api/notificacoesService/getnotifications/"+n.getCliente().getUsername();
         restTemplate.postForObject(gatewayUrl, new NotificationMSG(n.getTipo(),n.getDescricao(),n.getData(),n.getCliente().getUsername()), String.class);
         notificacaoRepository.save(n);
     }
 
     @Transactional
-    public void notifyOrderStatus(String codigoEncomenda, String status) {
+    public void notifyOrderStatus(String codigoEncomenda, String status, String username) {
         Optional<Encomenda> e = encomendaRepository.getEncomendabyCode(codigoEncomenda);
         Encomenda encomenda =null;
         if(e.isPresent()) {
             encomenda = e.get();
             encomenda.setStatus(status);
+            encomendaRepository.save(encomenda);
+            encomenda.notifyObservers("STATUS", this);
+        }else { 
+            Optional<Cliente> c = clienteRepository.getClienteByUsername(username);
+            Cliente cliente = null;
+            if(c.isPresent()){
+                cliente = c.get();
+                clienteRepository.save(cliente);
+            }
+            encomenda = new Encomenda(cliente, codigoEncomenda, status, 1);
             encomendaRepository.save(encomenda);
             encomenda.notifyObservers("STATUS", this);
         }
@@ -175,7 +186,7 @@ public class NotificationsService implements NotificationCallback {
     public void consumeEncomendaStatus(String statusDTO) {
         System.out.println(statusDTO);
         String [] attrs = statusDTO.split(",");
-        this.notifyOrderStatus(attrs[1], attrs[2]);
+        this.notifyOrderStatus(attrs[1], attrs[2], attrs[3]);
     }
 
     @Transactional

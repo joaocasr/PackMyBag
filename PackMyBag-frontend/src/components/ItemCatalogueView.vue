@@ -1,6 +1,9 @@
 <template>
             <div class="itemContainer">
                 <div class="itemImg">
+						<div v-if="this.role=='Tecnico'" @click="handleItemRemove()">
+							<img class="icon-cancel" alt="" src="/FavouritesIMG/icon-cancel.svg">
+						</div>	
         				<img class="imageIcon" alt="" :src="imgSrc">
       			</div>
                 <div class="container-descricao">
@@ -26,11 +29,13 @@ export default {
 		descricao: String,
 		preco: Number,
 		cor: String,
-		iditem:Number
+		iditem:Number,
+		role: String,
   	},
 	data(){
 		return{
-			colorMap : {}
+			colorMap : {},
+			role: '',
 		}
 	},
 	computed:{
@@ -40,6 +45,38 @@ export default {
 			let colors= cores.map((x) => colorMap[x.toLowerCase()]);
 
 			return colors;
+		}
+	},
+	methods:{
+		async handleItemRemove(){
+            const result = await this.$swal.fire({
+				title: "Do you want to remove the item '" + this.nome.toLowerCase() + "' from your store?",
+				showDenyButton: false,
+				showCancelButton: true,
+				confirmButtonText: "Remove"
+			});
+			if (result.isConfirmed) {
+				let r = await this.removeItem();
+				if (r && r.status == 200) {
+					this.$swal.fire("Removed! The item was removed from your store.", "", "success");
+                    this.$emit('itemRemoved',this.index)
+				} else {
+					let msg="";
+					if(r.response) msg = r.response.data.message;
+					this.$swal.fire("Something went wrong! "+msg, "", "error");
+				}
+			}
+        },
+		removeItem(){
+			return axios.delete(`/deleteItem`,{
+				data: {
+					code: this.iditem,
+					lojaId: this.lojaId
+				},
+				headers: {
+					Authorization: `Bearer ${this.token}`
+				}
+			})
 		}
 	}
 }

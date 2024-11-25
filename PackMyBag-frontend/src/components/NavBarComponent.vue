@@ -13,7 +13,7 @@
           					<div v-if="this.role=='Cliente'" @click="gotoStylists()" class="stylists1">
             						<div class="stylists1">Stylists</div>
           					</div>
-          					<div v-if="this.role=='Tecnico'" class="stylists1">
+          					<div v-if="this.role=='Tecnico'" @click="gotoStore()" class="stylists1">
             						<div class="stylists1">Store</div>
           					</div>
 
@@ -136,6 +136,9 @@ export default {
 		},
 		goTorders(){
 			this.$router.push({path:'/orders'})
+		},
+		gotoStore(){
+			this.$router.push({path:'/store'})
 		},
 		logout(){
 			this.$store.dispatch('auth/logout').then(()=>{

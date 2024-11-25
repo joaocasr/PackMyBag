@@ -29,7 +29,7 @@ minDate.setDate(minDate.getDate() + 5); // 5 dias de antecedencia
                     :image = "item.imagem"
                     :quantidade = "item.nraquisicoes"
                     :idloja = "item.idloja"
-                    :username = this.username
+                    :username = "username"
                     :index = key
                     @newQuantity="changeQuantity($event,key)"
                     @itemRemoved="removeItem($event,key)">
@@ -131,7 +131,7 @@ export default {
             preCheck:true,
             zoom:5,
 			token:null,
-			username:String,
+			username:'',
             color:"red",
             begindate:'',
             enddate:'',
@@ -167,8 +167,9 @@ export default {
         if(token!=null){
 			this.token = token;
 			this.username=token.username;
+            this.getCartItems();
 		}
-        this.getCartItems();
+        
         //this.loadMap();
     },
     watch:{

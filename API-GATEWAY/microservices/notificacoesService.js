@@ -38,7 +38,7 @@ module.exports.getMyNotifications = async (username,page,number) =>{
     }
 }
 
-module.exports.removeMyNotification = async (username, id) =>{
+module.exports.removeNotificationFromClientByID = async (username, id) =>{
     try{
         data = {}
         headers = {

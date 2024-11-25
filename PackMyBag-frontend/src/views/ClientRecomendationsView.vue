@@ -82,11 +82,19 @@ export default {
 
 			axios.get('http://localhost:8888/api/recomendacoesService/pedidos/cliente/'+this.username+"?page="+this.current_page+"&number=3")
 			.then(resp=>{
-				this.recommendations = resp.data;
-				if(this.recommendations.length==0) this.showbtnnext=false;
-				console.log(this.recommendations);
+				if (resp.status != 400 || resp.status != 404 || resp.status != 500) {
+					this.recommendations = resp.data;
+					if(this.recommendations.length==0) this.showbtnnext=false;
+					console.log(this.recommendations);
+					console.log("Sucess getting recommendations");
+				}
+				
 			}).catch(error=>{
 				console.log(error);
+				console.log("No recommendations found");
+				this.recommendations = [];
+				this.showbtnnext=false;
+			
 			})
 		},
 	

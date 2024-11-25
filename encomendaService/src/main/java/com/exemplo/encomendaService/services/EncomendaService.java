@@ -191,8 +191,7 @@ public class EncomendaService {
 
     // Método para salvar uma nova encomenda
     public void saveEncomenda(EncomendaDTO encomendaDTO) {
-        System.out.println("aqui");
-        System.out.println(encomendaDTO);
+        //System.out.println(encomendaDTO);
         Cliente c;
         Optional<Cliente> cliente = clienteRepository.findByUsername(encomendaDTO.getClienteUsername());
         if(cliente.isEmpty()) {
@@ -265,7 +264,7 @@ public class EncomendaService {
             if (horaAtual.isAfter(horaLimite) && diasRestantes <= 3) {
                 // Notificar via Kafka
                 EncomendaDateReturnDTO devolucaoDTO = EncomendaMapper.toEncomendaDateReturnDTO(updatedEncomenda,diasRestantes);
-                //kafkaProducerService.sendMessage(devolucaoDTO, "EncomendaDateReturn");
+                kafkaProducerService.sendMessage(devolucaoDTO.toString(), "EncomendaDateReturn");
                 }
             }
 
@@ -343,7 +342,8 @@ public class EncomendaService {
             //encomendaRepository.save(encomenda);
 
             // Enviar mensagem pelo Kafka
-            //kafkaProducerService.sendMessage(EncomendaMapper.toEncomendaStatusDTO(encomenda).toString(), "EncomendaStatus");
+            System.out.println("Enviando mensagem para o Kafka" + EncomendaMapper.toEncomendaStatusDTO(encomenda).toString());
+            kafkaProducerService.sendMessage(EncomendaMapper.toEncomendaStatusDTO(encomenda).toString(), "EncomendaStatus");
         }   
     
         return EncomendaMapper.toEncomendaStatusDTO(encomenda);

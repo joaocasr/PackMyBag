@@ -131,7 +131,7 @@ public class Cliente implements Observer, Serializable {
 		this.notificacoes.remove(n);
 	}
 	
-	public void removeNotificationByID(Integer id){
+	public void removeNotificationByID(int id){
 		this.notificacoes.removeIf(n -> n.getORMID() == id);
 	}
 	

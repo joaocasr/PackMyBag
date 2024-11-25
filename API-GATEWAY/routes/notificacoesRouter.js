@@ -101,6 +101,7 @@ router.delete('/removeMyNotification/:username/:id', async function(req,res,next
         const resp = await notificacoesService.removeNotificationFromClientByID(username,id);
         res.jsonp(resp);
     } catch (err) {
+        console.log(err);
         res.status(err.status || 500).jsonp(err);
     }
 });

@@ -310,6 +310,9 @@ public class CartService {
         }
         List<PagamentoDTO> pagamentoDTOs = cliente.getTransacoes().stream()
             .map(x-> clientPagamentoMapper.toPagamentoDTO(x)).collect(Collectors.toList());
+        
+        if (idx_final > pagamentoDTOs.size()) idx_final = pagamentoDTOs.size();
+
         return pagamentoDTOs.stream().sorted(new DateComparator()).collect(Collectors.toList()).subList(idx_inicial, idx_final);
         
     }
@@ -358,12 +361,12 @@ public class CartService {
                 System.out.println(p);
                 if(p.getStatus().equals("PENDING") && p.getCodigo().startsWith("CART")) {
                     pagamentoRepository.deleteById(p.getORMID());
-                    String gatewayUrl = "http://localhost:8888/api/catalogoService/freeItems";
+                    String gatewayUrl = "http://apigatewayservice:8888/api/catalogoService/freeItems";
                     restTemplate.postForObject(gatewayUrl, new FreeResourcesDTO(p.getitens().stream().map(x->new ItemDTO(x.getCodigo(),x.getIdLoja(),x.getQuantidade())).toList()), String.class);
                 }
                 if(p.getStatus().equals("PENDING") && p.getCodigo().startsWith("FORM")) {
                     pagamentoRepository.deleteById(p.getORMID());
-                    String gatewayUrl = "http://localhost:8888/api/recomendacoesService/removePedido";
+                    String gatewayUrl = "http://apigatewayservice:8888/api/recomendacoesService/removePedido";
                     restTemplate.postForObject(gatewayUrl, new RequestDTO(p.getCodigo(),"DELETED"), String.class);
                 }
                 /*
