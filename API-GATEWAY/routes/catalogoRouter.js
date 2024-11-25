@@ -84,7 +84,7 @@ router.post("/items/:id/addreview",validate.verifyToken, function(req, res, next
 });  
 
 /*Remover Review*/
-router.delete("/items/:id/delreview/:username",function(req,res,next){
+router.delete("/items/:id/delreview/:username",validate.verifyToken,function(req,res,next){
   const id = req.params.id;
   const username = req.params.username;
   catalogoService.removeReview(id,username).then(resp=>{

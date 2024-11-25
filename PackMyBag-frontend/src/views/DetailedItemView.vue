@@ -65,7 +65,8 @@
 				 :username="review.username"
 				 :profileImg="review.profileImg"
 				 :idItem="idItem"
-				 :timestamp="review.timestamp"></ReviewComponent>	
+				 :timestamp="review.timestamp"
+				 @deleteReview="removeReview"></ReviewComponent>	
 				 
 			</div>
     		<div class="reviews1">REVIEWS</div>
@@ -279,6 +280,9 @@ export default {
 			}).catch(erro=>{
 				console.log(erro)
 			})
+		},
+		removeReview(){
+			this.reviews = this.reviews.filter((r) => r.username !== this.username);
 		},
 		publishReview(){
 			if(this.myrate==0) return;

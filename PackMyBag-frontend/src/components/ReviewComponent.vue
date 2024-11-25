@@ -22,6 +22,7 @@
 <script>
 import axios from 'axios';
 import Rating from 'primevue/rating';
+import authHeader from '@/services/auth-header';
 export default {
 	props:{
 		classificacao:0,
@@ -63,8 +64,14 @@ export default {
 			this.optionsOpened=false;
 		},
 		deleteReview(){
-			axios.delete('http://localhost:8888/api/catalogoService/items/'+this.idItem+'/delreview/'+this.username).then(resp=>{
+			let data = {};
+			const header = authHeader();
+			header['Content-Type'] = 'application/json';
+			axios.delete('http://localhost:8888/api/catalogoService/items/'+this.idItem+'/delreview/'+this.username,
+				{ data, headers: header }
+			).then(resp=>{
 				console.log(resp);
+				this.$emit('deleteReview');
 			})
 		}
 	}

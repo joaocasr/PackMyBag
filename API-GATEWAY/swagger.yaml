@@ -1,0 +1,1029 @@
+openapi: 3.0.0
+info:
+  title: Pack My Bag - API Gateway Documentation
+  description: This is the documentation of all the api gateway routes redirecting to each of one of the 7 microservices.
+  version: 0.1.9
+servers:
+  - url: http://localhost:8888
+    description: (development server url)
+paths:
+  /api/catalogoService/:
+    get:
+      tags:
+        - Catalogo Service
+      summary: Get items by page
+      parameters:
+        - name: page
+          in: query
+          required: true
+          schema:
+            type: integer
+        - name: number
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: List of items
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/CatalogoItemDTO"
+        '404':
+          description: Items not found
+  /api/catalogoService/allitems:
+    get:
+      tags:
+        - Catalogo Service
+      summary: Get items with similar name by page
+      parameters:
+        - name: designacao
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: page
+          in: query
+          required: true
+          schema:
+            type: integer
+        - name: number
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: List of items
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/CatalogoItemDTO"
+        '404':
+          description: Items not found
+  /api/catalogoService/all:
+    get:
+      tags:
+        - Catalogo Service
+      summary: Get all items.
+      responses:
+        '200':
+          description: List of items
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/CatalogoItemDTO"
+        '404':
+          description: Items not found
+  /api/catalogoService/random:
+    get:
+      tags:
+        - Catalogo Service
+      summary: Get random items to show on home page.
+      responses:
+        '200':
+          description: List of items
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/CatalogoItemDTO"
+        '404':
+          description: Items not found
+  /api/catalogoService/items/{id}:
+    get:
+      tags:
+        - Catalogo Service
+      summary: Get details of an item.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: List of items
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: "#/components/schemas/FullDetailedItemDTO"
+        '404':
+          description: Item not found.
+  /api/catalogoService/items/{id}/reviews:
+    get:
+      tags:
+        - Catalogo Service
+      summary: Get reviews associated to an item.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: id of the item.
+          schema:
+            type: integer
+        - name: page
+          in: query
+          required: true
+          schema:
+            type: integer
+        - name: number
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: List of reviews.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ReviewDTO"
+        '404':
+          description: Reviews not found
+  /api/catalogoService/items/{id}/addreview:
+    post:
+      tags:
+        - Catalogo Service
+      summary: Add a review for an item
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            description: The ID of the item to which the review will be added.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  description: The username of the reviewer.
+                profileImg:
+                  type: string
+                  description: URL or path to the profile image of the reviewer.
+                texto:
+                  type: string
+                  description: The review text or content.
+                timestamp:
+                  type: string
+                  format: date-time
+                  description: The timestamp of the review in "dd-MM-yyyy HH:mm" format.
+                rating:
+                  type: integer
+                  description: The rating given by the reviewer.
+                  minimum: 1
+                  maximum: 5
+              required:
+                - username
+                - texto
+                - timestamp
+                - rating
+              example:
+                username: "johnny"
+                profileImg: "http://localhost:8888/api/utilizadoresService/profileImg/johnny"
+                texto: "I loved wearing that t-shirt. "
+                timestamp: "17-10-2024 21:40"
+                rating: 3
+      responses:
+        '200':
+          description: Review added successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReviewDTO"
+        '403':
+          description: Forbidden. Review could not be added.
+  /api/catalogoService/items/{id}/delreview/{username}:
+    delete:
+      tags:
+        - Catalogo Service
+      summary: Delete a review for an item
+      description: Deletes a review for a specific item based on the item's ID and the username of the reviewer. Authorization is required.
+      security:
+        - bearerAuth: []  # Enforces the Authorization header
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            description: The ID of the item from which the review will be deleted.
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+            description: The username of the reviewer whose review will be deleted.
+      responses:
+        '200':
+          description: Review deleted successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: string
+                    description: Indicates if the deletion was successful.
+                example:
+                  "removido com sucesso"
+        '403':
+          description: Forbidden. Review could not be deleted due to insufficient permissions or an error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /freeItems:
+    post:
+      tags:
+        - Catalogo Service
+      summary: Free reserved items from a canceled order
+      description: Frees up resources for the items included in a canceled order by processing the provided `EncomendaDTO` payload.
+      requestBody:
+        description: A list of items to be freed, wrapped in an `EncomendaDTO`.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EncomendaDTO"
+            example:
+              itens:
+                - codigo: "P1234"
+                  idloja: 1
+                  quantidade: 2
+                - codigo: "P5678"
+                  idloja: 2
+                  quantidade: 5
+      responses:
+        '200':
+          description: The items were successfully freed.
+          content:
+            application/json:
+              schema:
+                type: string
+                example:
+                  "Items da encomenda foram libertados."
+        '404':
+          description: Unable to free the items. Item details may be invalid or not found.
+          content:
+            application/json:
+              schema:
+                type: string
+                example: 
+                  "BAD REQUEST"
+  /api/catalogoService/lojas/{lojaid}:
+    get:
+      tags:
+        - Catalogo Service
+      summary: Get items by page from a shop given its id
+      parameters:
+        - name: lojaid
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: page
+          in: query
+          required: true
+          schema:
+            type: integer
+        - name: number
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: List of items
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/CatalogoItemDTO"
+        '404':
+          description: Items not found
+  /api/catalogoService/type/{type}:
+    get:
+      tags:
+        - Catalogo Service
+      summary: Get items by type gender (male,female,child)
+      parameters:
+        - name: type
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: page
+          in: query
+          required: true
+          schema:
+            type: integer
+        - name: number
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: List of items
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/CatalogoItemDTO"
+        '404':
+          description: Items not found
+  /api/catalogoService/price:
+    get:
+      tags:
+        - Catalogo Service
+      summary: Get items within a price range min and max and by pagination
+      parameters:
+        - name: min
+          in: query
+          required: true
+          schema:
+            type: integer
+        - name: max
+          in: query
+          required: true
+          schema:
+            type: integer
+        - name: page
+          in: query
+          required: true
+          schema:
+            type: integer
+        - name: number
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: List of items
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/CatalogoItemDTO"
+        '404':
+          description: Items not found
+  /api/catalogoService/type/{type}/price:
+    get:
+      tags:
+        - Catalogo Service
+      summary: Get items within a price range min and max, and of a certain type (male,female,child) and by pagination
+      parameters:
+        - name: type
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: min
+          in: query
+          required: true
+          schema:
+            type: integer
+        - name: max
+          in: query
+          required: true
+          schema:
+            type: integer
+        - name: page
+          in: query
+          required: true
+          schema:
+            type: integer
+        - name: number
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: List of items
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/CatalogoItemDTO"
+        '404':
+          description: Items not found
+  /api/catalogoService/type/{type}/price/{name}:
+    get:
+      tags:
+        - Catalogo Service
+      summary: Get items within a price range min and max, of a certain type (male,female,child), designation name and by pagination
+      parameters:
+        - name: type
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: min
+          in: query
+          required: true
+          schema:
+            type: integer
+        - name: max
+          in: query
+          required: true
+          schema:
+            type: integer
+        - name: page
+          in: query
+          required: true
+          schema:
+            type: integer
+        - name: number
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: List of items
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/CatalogoItemDTO"
+        '404':
+          description: Items not found
+  /api/catalogoService/price/{name}:
+    get:
+      tags:
+        - Catalogo Service
+      summary: Get items within a price range min and max, and designation name and by pagination
+      parameters:
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: min
+          in: query
+          required: true
+          schema:
+            type: integer
+        - name: max
+          in: query
+          required: true
+          schema:
+            type: integer
+        - name: page
+          in: query
+          required: true
+          schema:
+            type: integer
+        - name: number
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: List of items
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/CatalogoItemDTO"
+        '404':
+          description: Items not found
+  /api/catalogoService/addItem/Peca:
+    post:
+      tags:
+        - Catalogo Service
+      summary: Add a Peça
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                codigo:
+                  type: string
+                  description: The item code.
+                designacao:
+                  type: string
+                  description: The designation name of the item.
+                preco:
+                  type: float
+                  description: The price of the item.
+                estilo:
+                  type: string
+                  description: The item style.
+                cores:
+                  type: array
+                  description: The item colors.
+                tamanho:
+                  type: integer
+                  description: The item size.
+                tipo:
+                  type: string
+                  description: The item type (male,female,child).
+                disponibilidade:
+                  type: string
+                  description: The item availability.
+                imagem:
+                  type: string
+                  description: The item image.
+                idLoja:
+                  type: integer
+                  description: The shop id associated.
+              required:
+                - codigo
+                - designacao
+                - preco
+                - estilo
+                - cores
+                - tamanho
+                - tipo
+                - disponibilidade
+                - imagem
+                - idLoja
+              example:
+                codigo: "JPN4"
+                designacao: "Vestido azul"
+                preco: 23.45
+                estilo: "casual"
+                cores: ["Azul"]
+                tamanho: 35
+                tipo: "Male"
+                disponibilidade: "In Stock"
+                imagem: "https://ericeirasurfskate.pt/pub/media/catalog/product/cache/e4d64343b1bc593f1c5348fe05efa4a6/l/v/lv1pt0100_f0002_3.jpg"
+                idLoja: 1
+      responses:
+        '200':
+          description: Peça inserted successfully
+        '403':
+          description: Forbidden. Review could not be added.
+  /api/catalogoService/addItem/Set:
+    post:
+      tags:
+        - Catalogo Service
+      summary: Add a Set
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                codigo:
+                  type: string
+                  description: The item code.
+                designacao:
+                  type: string
+                  description: The designation name of the item.
+                preco:
+                  type: float
+                  description: The price of the item.
+                estilo:
+                  type: string
+                  description: The item style.
+                cores:
+                  type: array
+                  description: The item colors.
+                tamanho:
+                  type: string
+                  description: The set size.
+                tipo:
+                  type: string
+                  description: The item type (male,female,child).
+                disponibilidade:
+                  type: string
+                  description: The item availability.
+                imagem:
+                  type: string
+                  description: The item image.
+                idLoja:
+                  type: integer
+                  description: The shop id associated.
+                codigoPecas:
+                  type: array
+                  description: The items codes of the set .
+              required:
+                - codigo
+                - designacao
+                - preco
+                - estilo
+                - cores
+                - tamanho
+                - tipo
+                - disponibilidade
+                - imagem
+                - idLoja
+                - codigoPecas
+              example:
+                codigo: "JP22"
+                designacao: "TOP"
+                preco: 23.45
+                estilo: "casual"
+                cores: ["Azul"]
+                tamanho: "M"
+                tipo: "Female"
+                disponibilidade: "In Stock"
+                imagem: "https://ericeirasurfskate.pt/pub/media/catalog/product/cache/e4d64343b1bc593f1c5348fe05efa4a6/l/v/lv1pt0100_f0002_3.jpg"
+                idLoja: 1
+                codigoPecas: ["P1","P2"]
+      responses:
+        '200':
+          description: Set inserted successfully
+        '403':
+          description: Forbidden. Review could not be added.
+  /api/catalogoService/addItem/Calcado:
+    post:
+      tags:
+        - Catalogo Service
+      summary: Add a Calçado
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                codigo:
+                  type: string
+                  description: The item code.
+                designacao:
+                  type: string
+                  description: The designation name of the item.
+                preco:
+                  type: float
+                  description: The price of the item.
+                estilo:
+                  type: string
+                  description: The item style.
+                cores:
+                  type: array
+                  description: The item colors.
+                tamanho:
+                  type: integer
+                  description: The calcado size.
+                tipo:
+                  type: string
+                  description: The item type (male,female,child).
+                disponibilidade:
+                  type: string
+                  description: The item availability.
+                imagem:
+                  type: string
+                  description: The item image.
+                idLoja:
+                  type: integer
+                  description: The shop id associated.
+                nrdisponiveis:
+                  type: integer
+                  description: The number of available .
+              required:
+                - codigo
+                - designacao
+                - preco
+                - estilo
+                - cores
+                - tamanho
+                - tipo
+                - disponibilidade
+                - imagem
+                - idLoja
+                - nrdisponiveis
+              example:
+                codigo: "CC22"
+                designacao: "sapatos"
+                preco: 23.45
+                estilo: "casual"
+                cores: ["Preto"]
+                tamanho: "M"
+                tipo: "Male"
+                disponibilidade: "In Stock"
+                imagem: "https://ericeirasurfskate.pt/pub/media/catalog/product/cache/e4d64343b1bc593f1c5348fe05efa4a6/l/v/lv1pt0100_f0002_3.jpg"
+                idLoja: 1
+                nrdisponiveis: 2
+      responses:
+        '200':
+          description: Set inserted successfully
+        '403':
+          description: Forbidden. Review could not be added.
+    delete:
+      tags:
+        - Catalogo Service
+      summary: Delete an item
+      description: Deletes an item.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  description: The username of the reviewer.
+                profileImg:
+                  type: string
+                  description: URL or path to the profile image of the reviewer.
+              required:
+                - username
+                - texto
+              example:
+                username: "johnny"
+                profileImg: "http://localhost:8888/api/utilizadoresService/profileImg/johnny"
+      responses:
+        '200':
+          description: Review deleted successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: string
+                    description: Indicates if the deletion was successful.
+                example:
+                  "removido com sucesso"
+        '403':
+          description: Forbidden. Review could not be deleted due to insufficient permissions or an error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /api/catalogoService/deleteItem:
+    delete:
+      tags:
+        - Catalogo Service
+      summary: Delete an item.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                code:
+                  type: string
+                  description: The code of the item.
+                lojaid:
+                  type: integer
+                  description: The id from the shop.
+              required:
+                - code
+                - lojaid
+              example:
+                code: "JP34"
+                lojaid: 1
+      responses:
+        '200':
+          description: Review added successfully.
+        '400':
+          description: Bad Request.
+
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    CatalogoItemDTO:
+      type: object
+      properties:
+        designacao:
+          type: string
+        preco:
+          type: float
+        cor:
+          type: string
+        imagem:
+          type: string
+        tipo:
+          type: string
+        iditem:
+          type: integer
+        imagem:
+          type: string
+      example:
+        id: 10
+        designacao: "T-SHIRT JACQUARD RISCAS"
+        preco: 25.95
+        cor: "castanho/branco"
+        imagem: "https://static.zara.net/assets/public/49a8/2bbe/839b43859745/5162690045dd/01887331017-a1/01887331017-a1.jpg?ts=1728463824846&w=315&f=auto"
+        tipo: "Male"
+        iditem: 2
+    FullDetailedItemDTO:
+      type: object
+      properties:
+        IDItem:
+          type: integer
+          description: The unique ID of the item.
+        codigo:
+          type: string
+          description: The item code.
+        designacao:
+          type: string
+          description: The designation or name of the item.
+        preco:
+          type: number
+          format: double
+          description: The price of the item.
+        cor:
+          type: string
+          description: The color of the item.
+        imagem:
+          type: string
+          format: uri
+          description: The image URL of the item.
+        tipo:
+          type: string
+          description: The type or category of the item.
+        tamanho:
+          type: string
+          description: The size of the item.
+        disponibilidade:
+          type: string
+          description: The availability status of the item.
+        averageRating:
+          type: integer
+          description: The average rating of the item.
+        nrReviews:
+          type: integer
+          description: The number of reviews for the item.
+        subclasse:
+          type: string
+          description: The subclass or specific type within the category.
+        relacionados:
+          type: array
+          description: List of related items.
+          items:
+            $ref: '#/components/schemas/RelacionadosDTO'
+        loja:
+          $ref: '#/components/schemas/Loja'
+      example:
+        IDItem: 1199
+        codigo: "P1199"
+        designacao: "CONJUNTO DE SWEATSHIRT E CALÇÕES"
+        preco: 23
+        cor: "Cinzento-vigoré"
+        imagem: "https://static.zara.net/assets/public/0787/d3ea/ee9e43b6b1ae/430a36f18718/00085813803-p/00085813803-p.jpg?ts=1723653193714&w=316&f=auto"
+        tipo: "Male"
+        tamanho: "XL"
+        disponibilidade: "In Stock"
+        averageRating: 0
+        nrReviews: 0
+        subclasse: "Set"
+        relacionados:
+          - itemID: 1201
+            designacao: "CALÇÕES BERMUDA DE FELPA COM MENSAGEM"
+            imagem: "https://static.zara.net/assets/public/c12c/0b30/a89e4fe8ad7f/868bbb61f6fa/00085813803-e1/00085813803-e1.jpg?ts=1723645758775&w=316&f=auto"
+          - itemID: 1200
+            designacao: "SWEATSHIRT COM TEXTO EM EFEITO RELEVO"
+            imagem: "https://static.zara.net/assets/public/4f68/4575/6246451ebb9a/c75ae7bdf3c9/00085815803-e1/00085815803-e1.jpg?ts=1723648495694&w=316&f=auto"
+        loja:
+          nome: "Os Criadores"
+          marca: "Independente"
+          localizacao: "Braga"
+          ormid: 1
+          idloja: 1
+    Loja:
+      type: object
+      properties:
+        IDLoja:
+          type: integer
+          description: The unique ID of the store.
+        nome:
+          type: string
+          description: The name of the store.
+        marca:
+          type: string
+          description: The brand associated with the store.
+        localizacao:
+          type: string
+          description: The location of the store.
+    RelacionadosDTO:
+      type: object
+      properties:
+        itemID:
+          type: integer
+          description: The unique ID of the related item.
+        designacao:
+          type: string
+          description: The designation or name of the related item.
+        imagem:
+          type: string
+          format: uri
+          description: The image URL of the related item.
+    ReviewDTO:
+      type: object
+      properties:
+        classificacao:
+          type: integer
+          description: The rating given by the user.
+        username:
+          type: string
+          description: The username of the reviewer.
+        descricao:
+          type: string
+          description: The review text or description.
+        profileImg:
+          type: string
+          description: URL or path to the profile image of the reviewer.
+        timestamp:
+          type: string
+          format: date-time
+          description: The timestamp of the review in "dd-MM-yyyy HH:mm" format.
+      example:
+        classificacao: 3
+        username: "johnny"
+        descricao: "I loved wearing that t-shirt. "
+        profileImg: "http://localhost:8888/api/utilizadoresService/profileImg/johnny"
+        timestamp: "17-10-2024 21:40"
+    ErrorResponse:
+      type: object
+      description: A structured error response with details about the error.
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+          description: The time when the error occurred.
+          example: "25-11-2024 14:35:00"
+        status:
+          type: integer
+          format: int32
+          description: The HTTP status code of the error.
+          example: 403
+        statusMsg:
+          type: string
+          description: The HTTP status message corresponding to the status code.
+          example: "FORBIDDEN"
+        message:
+          type: string
+          description: A descriptive message explaining the error.
+          example: "Forbidden: You do not have permission to perform this action."
+    EncomendaDTO:
+      type: object
+      description: A DTO containing a list of items from an order.
+      properties:
+        itens:
+          type: array
+          items:
+            $ref: "#/components/schemas/ItemEncomenda"
+      required:
+        - itens
+      example:
+        itens:
+          - codigo: "P1234"
+            idloja: 1
+            quantidade: 2
+          - codigo: "P5678"
+            idloja: 2
+            quantidade: 5
+    ItemEncomenda:
+      type: object
+      description: Details of an item in the order.
+      properties:
+        codigo:
+          type: string
+          description: Unique code for the item.
+          example: "P1234"
+        idloja:
+          type: integer
+          description: ID of the shop to which the item belongs.
+          example: 1
+        quantidade:
+          type: integer
+          description: Quantity of the item to be freed.
+          example: 2

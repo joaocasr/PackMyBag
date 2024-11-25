@@ -3,7 +3,11 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-const cors = require('cors')
+const cors = require('cors');
+const swaggerUi = require('swagger-ui-express');
+const YAML = require('yamljs');
+const swaggerDocument = YAML.load('./swagger.yaml');
+
 const dotenv = require('dotenv');
 dotenv.config();
 
@@ -41,6 +45,7 @@ app.use(APINotificacoes, notificacoesRouter);
 app.use(APIencomenda, encomendaRouter);
 app.use(APIrecomendacoes, recomendacoesRouter);
 
+app.use('/documentation', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
