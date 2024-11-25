@@ -100,7 +100,6 @@ router.get("/lojas/:lojaid",function(req,res,next){
   const page = req.query.page;
   const number = req.query.number;
   catalogoService.getItemsByShop(lojaid,page,number).then(items=>{
-    console.log(items)
     res.jsonp(items)
   }).catch(err=>{
     res.status(404).jsonp(err);
@@ -257,10 +256,8 @@ router.post("/addItem/Calcado", function(req, res, next) {
 });
 
 /*Remover item*/
-router.delete("/deleteItem",function(req,res,next){
-  const code = req.body.code;
-  const lojaid = req.body.lojaid;
-  catalogoService.removeItem(code,lojaid).then(resp=>{
+router.delete("/deleteItem/:itemID",validate.verifyToken,function(req,res,next){
+  catalogoService.removeItem(req.params.itemID).then(resp=>{
     res.jsonp(resp);
   }).catch(err=>{
     res.status(400).jsonp(err);

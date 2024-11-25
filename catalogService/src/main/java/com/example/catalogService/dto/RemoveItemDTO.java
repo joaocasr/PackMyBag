@@ -1,30 +1,20 @@
 package com.example.catalogService.dto;
 
 public class RemoveItemDTO {
-    private String code;
-    private int lojaid;
+    private int itemID;
 
     public RemoveItemDTO() {
     }
 
-    public RemoveItemDTO(String code, int lojaid) {
-        this.code = code;
-        this.lojaid = lojaid;
+    public RemoveItemDTO(int itemID) {
+        this.itemID = itemID;
     }
 
-    public String getCode() {
-        return code;
+    public int getIDItem() {
+        return itemID;
     }
 
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public int getLojaid() {
-        return lojaid;
-    }
-
-    public void setLojaid(int lojaid) {
-        this.lojaid = lojaid;
+    public void setIDItem(int itemID) {
+        this.itemID = itemID;
     }
 }

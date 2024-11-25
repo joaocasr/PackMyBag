@@ -191,14 +191,10 @@ public class ItemController {
     }
 
 
-    @DeleteMapping("/deleteItem")
-    public ResponseEntity<?> deleteItem(@RequestBody RemoveItemDTO removeItemDTO) {
-        try{
-            itemService.removeItem(removeItemDTO);
-            return ResponseEntity.status(200).body("Item eliminado com sucesso!");
-        }catch (InexistentItemCodeException i){
-            return new ResponseEntity<>(new ErrorResponse(HttpStatus.NOT_FOUND,i.getMessage()),HttpStatus.NOT_FOUND);
-        }
+    @DeleteMapping("/deleteItem/{id}")
+    public ResponseEntity<?> deleteItem(@PathVariable int id) {
+        itemService.removeItem(id);
+        return ResponseEntity.status(200).body("Item eliminado com sucesso!");
     }
 
     @PutMapping("/editItem")

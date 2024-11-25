@@ -20,7 +20,9 @@
 						:descricao="item.designacao"
 						:preco="item.preco"
 						:cor="item.cor"
-						:iditem="item.iditem"></ItemCatalogueView>
+						:itemID="item.itemID"
+						:iditem="item.iditem"
+						:role="''"></ItemCatalogueView>
 					</div>
 				</div>
 			</div>

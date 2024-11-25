@@ -321,18 +321,15 @@ module.exports.adicionaCalcado = (codigo,designacao,
 }
 
 
-module.exports.removeItem = (code,lojaid) => {
+module.exports.removeItem = (itemID) => {
     
-    data = {
-        "code":code,
-        "lojaid":lojaid
-        }
+    data = {}
     headers = {
         headers: {
             'Content-Type': 'application/json;charset=UTF-8',
         }
     }
-    return axios.delete(`${ap}/deleteItem`,
+    return axios.delete(`${ap}/deleteItem/${itemID}`,
         {
             data,
             headers

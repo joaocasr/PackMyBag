@@ -22,7 +22,6 @@ import com.example.catalogService.dto.FullDetailedItemDTO;
 import com.example.catalogService.dto.InsertReviewDTO;
 import com.example.catalogService.dto.ItemEncomenda;
 import com.example.catalogService.dto.PecaInsertDTO;
-import com.example.catalogService.dto.RemoveItemDTO;
 import com.example.catalogService.dto.ReviewDTO;
 import com.example.catalogService.dto.SetInsertDTO;
 import com.example.catalogService.dto.TrendingItemDTO;
@@ -180,23 +179,29 @@ public class ItemService {
 
     }
 
-    public void removeItem(RemoveItemDTO removeItemDTO) throws InexistentItemCodeException{
-        Optional<Item> itemOptional = checkIfItemCodeAlreadyExists(removeItemDTO.getCode(),removeItemDTO.getLojaid());
-        if(itemOptional.isEmpty()) throw new InexistentItemCodeException(removeItemDTO.getCode());
-        Item i=itemOptional.get();
-        if(i instanceof Peca){
-            for(Set s : ((Peca) i).getSets()){
-                s.removePeca(i.getCodigo());
-                itemRepository.save(s);
+    public void removeItem(int id){
+        try{
+            Optional<Item> iOptional = itemRepository.findById(id);
+            if(iOptional.isPresent()){
+                Item i = iOptional.get();
+                if(i instanceof Peca){
+                    for(Set s : ((Peca) i).getSets()){
+                        s.removePeca(i.getCodigo());
+                        itemRepository.save(s);
+                    }
+                }
+                if(i instanceof Set){
+                    for(Peca p : ((Set) i).getPecas()){
+                        p.removeSet(i.getCodigo());
+                        itemRepository.save(p);
+                    }
+                }
+                itemRepository.deleteItemByID(id);
             }
         }
-        if(i instanceof Set){
-            for(Peca p : ((Set) i).getPecas()){
-                p.removeSet(i.getCodigo());
-                itemRepository.save(p);
-            }
+        catch( Exception e){
+            System.out.println(e.getMessage());
         }
-        itemRepository.deleteItemCodeShop(i.getCodigo(),i.getLoja().getIDLoja());
     }
 
 

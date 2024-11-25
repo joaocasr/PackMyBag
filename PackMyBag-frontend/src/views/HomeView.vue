@@ -4,8 +4,14 @@
 			<div class="homeimage">
 				<img class="icon" alt="" src="/HomeViewIMG/1104046 1.png">
 				<div class="clothing-rental-for-container">
-				<p class="clothing-rental-for">Clothing rental for travel lovers</p>
-				<p class="clothing-rental-for">Leave your bags behind and sign up now {{ envip }}</p>
+
+				<div v-if="this.role=='Cliente' || this.role==''">
+					<p class="clothing-rental-for">Clothing rental for travel lovers</p>
+					<p class="clothing-rental-for">Leave your bags behind and sign up now {{ envip }}</p>
+				</div>	
+				<div v-if="this.role=='Estilista'">
+					<p class="clothing-rental-for">Explore our vast collection of clothes to serve our clients.</p>
+				</div>					
 				</div>
 				<div class="explore-collection-wrapper" id="frameContainer">
 				</div>
@@ -73,6 +79,7 @@
 					<b class="circular-economy">Circular Economy</b>
 					<b class="eco-friendly">Eco-Friendly</b>
 					<b class="water-conservation">Water Conservation</b>
+						
 					<div class="reduce-clothing-waste">Reduce clothing waste and your carbon footprint.</div>
 					<div class="participate-in-a">Participate in a more sustainable fashion cycle.</div>
 					<div class="help-save-water">Help save water used in clothing production.</div>
@@ -85,6 +92,7 @@
 import NavBarComponent from '@/components/NavBarComponent.vue';
 import FooterComponent from '@/components/FooterComponent.vue';
 import ItemCatalogueView from '@/components/ItemCatalogueView.vue';
+import authService from '@/services/auth-service';
 import axios from 'axios';
 export default {
 	components:{
@@ -94,10 +102,15 @@ export default {
 	},
 	data(){
 		return {
-			randomItems:[]
+			randomItems:[],
+			role:''
 		}
 	}
 	,created(){
+		let token = authService.getToken();
+		if(token!=null){
+			this.role = token.role;
+		}
 		this.getRandomItems();
 	},
 	methods:{

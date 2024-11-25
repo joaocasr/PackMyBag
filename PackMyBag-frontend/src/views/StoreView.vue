@@ -16,12 +16,15 @@
 					<div class="noitemsclass" v-if="items.length==0">No items for the specified parameters.</div>
 					<div v-for="item in items">
 						<ItemCatalogueView
-						:imgSrc="item.imagem"
-						:descricao="item.designacao"
-						:preco="item.preco"
-						:cor="item.cor"
-						:iditem="item.iditem"
-						:role="this.role"
+							:imgSrc="item.imagem"
+							:descricao="item.designacao"
+							:preco="item.preco"
+							:cor="item.cor"
+							:codigo="item.codigo"
+							:iditem="item.iditem"
+							:role="this.role"
+							:itemID="item.iditem"
+							@item_delete="removeItem"
 					></ItemCatalogueView>
 					</div>
 				</div>
@@ -74,6 +77,7 @@ import VueSelect from "vue3-select-component";
 import axios from 'axios';
 import { useRoute } from 'vue-router';
 import authService from '@/services/auth-service';
+import authHeader from '@/services/auth-header';
 
 export default {
 	data(){
@@ -122,6 +126,7 @@ export default {
 			axios.get('http://localhost:8888/api/catalogoService/lojas/' + this.idloja + '?page='+this.current_page+"&number=12")
 			.then(resp=>{
 				this.items = resp.data;
+				console.log(this.items);
 			}).catch(err=>{
 				console.log(err)
 			})
@@ -183,6 +188,42 @@ export default {
 		searchItems(){
 			this.current_page = 0;
 			this.getItemsperTypeAndPrice(this.selectedOption,this.value[0],this.value[1])
+		},
+		async removeItem(id){
+			console.log(id);
+            const result = await this.$swal.fire({
+				title: "Do you want to remove the item from your store?",
+				showDenyButton: false,
+				showCancelButton: true,
+				confirmButtonText: "Remove"
+			});
+			if (result.isConfirmed) {
+				let r = await this.deleteItem(id);
+				if (r && r.status == 200) {
+					this.$swal.fire("Removed! The item was removed from your store.", "", "success");
+                    this.$emit('itemRemoved',this.index)
+				} else {
+					let msg="";
+					if(r.response) msg = r.response.data.message;
+					this.$swal.fire("Something went wrong! "+msg, "", "error");
+				}
+			}
+        },
+		async deleteItem(id) {
+			try {
+				let data = {};
+				const header = authHeader();
+				header['Content-Type'] = 'application/json';
+
+				const resp = await axios.delete('http://localhost:8888/api/catalogoService/deleteItem/'+id,
+				{ data, headers: header }
+				);
+				this.items = this.items.filter((i) => i.iditem !== id);
+				return resp;
+			} catch (err) {
+				console.log(err);
+				return err;
+			}
 		}
 
 	},

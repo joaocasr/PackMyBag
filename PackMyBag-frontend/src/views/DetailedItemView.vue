@@ -37,7 +37,7 @@
 						<button v-bind:style="{ 'background-image': 'url(' + bellImage + ')' }" @click="changeBell()" class="button-bell"></button>
       			</div>
     		</div>
-    		<div @click="handleAddToCart()" class="addtocartbutton">
+    		<div v-if="this.role==='Cliente'" @click="handleAddToCart()" class="addtocartbutton">
 				<img class="bag-outline-icon" alt="" src="/DetailedItemIMG/Bag.svg">
       			<div class="div">Add to cart</div>
       			<div class="arrowright">

@@ -21,6 +21,9 @@ public interface ItemRepository extends JpaRepository<Item,Integer> {
     @Query("select i FROM Item i where i.tipo= :tipo")
     Page<Item> getItemsByType(@Param("tipo") String tipo, PageRequest pageable);
 
+    @Query("select i FROM Item i where i.IDItem = :id")
+    Item getItemByID(@Param("id") int id);
+
     @Query("select i FROM Item i where i.preco>= :min AND i.preco<= :max")
     Page<Item> getItemsByPrice(@Param("min") int min, @Param("max") int max, PageRequest pageable);
 
@@ -38,10 +41,10 @@ public interface ItemRepository extends JpaRepository<Item,Integer> {
 
     @Transactional
     @Modifying
-    @Query("delete FROM Item i where i.codigo = :codigo and i.loja.IDLoja=:idloja")
-    void deleteItemCodeShop(@Param("codigo") String codigo, @Param("idloja") int idloja);
+    @Query("delete FROM Item i where i.IDItem = :id")
+    void deleteItemByID(@Param("id") int id);
 
-    @Query("select i FROM Item i where i.loja.IDLoja = :idloja ORDER BY i.nraquisicoes LIMIT 4")
+    @Query("select i FROM Item i where i.loja.IDLoja = :idloja ORDER BY i.nraquisicoes DESC LIMIT 4")
     Set<Item> getTopItems(@Param("idloja") int idloja);
 
     @Query("select i FROM Item i where i.designacao LIKE CONCAT('%',:name,'%')")

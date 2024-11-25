@@ -9,15 +9,13 @@
         <div class="tamanho-m">Cor: {{ cor }}</div>
         <div class="cdigo-do-artigo">Código do artigo: {{ codigoArtigo }}</div>
       </div>
-      <div class="escrever-um-comentrio" @click="goToCommentPage">ESCREVER UM COMENTÁRIO</div>
+      <!--<div class="escrever-um-comentrio" @click="goToCommentPage">ESCREVER UM COMENTÁRIO</div>-->
     </div>
   </template>
 <script>
 import NavBarComponent from '@/components/NavBarComponent.vue';
 import FooterComponent from '@/components/FooterComponent.vue';
 import OrderComponentView from '@/components/OrderComponentView.vue';
-import axios from 'axios';
-import authService from '@/services/auth-service'; 
 
 export default {
     components: {
@@ -57,7 +55,7 @@ export default {
     },
     methods: {
         goToCommentPage() {
-        this.$router.push({ name: 'CommentPage', params: { codigoArtigo: this.codigoArtigo } });
+          this.$router.push({ name: 'CommentPage', params: { codigoArtigo: this.codigoArtigo } });
         }
     }
 }
