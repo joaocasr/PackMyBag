@@ -12,8 +12,8 @@ spec:
         app: apigateway
     spec:
       containers:
-        - name: apigatewaycontainer
-          image: joaoppc2002/apigateway:latest
+        - name: apigateway-container
+          image: packmybag/webplataform:apigateway
           env:
             - name: CATALOGO_SERVICE_URL
               value: "http://catalogo-service:8081/api/catalogo"

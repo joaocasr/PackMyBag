@@ -115,7 +115,7 @@ export default {
 	},
 	methods:{
 		getRandomItems(){
-			axios.get(this.$apiGatewayUrl+'/api/catalogoService/random')
+			axios.get('http://localhost:8888/api/catalogoService/random')
 			.then(items =>{
 				console.log(items.data);
 				this.randomItems = items.data;

@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
       - name: recomendacoes-container
-        image: joaoppc2002/recomendacoes:latest
+        image: packmybag/webplataform:recomendacoes
         ports:
         - containerPort: 8084
         env:

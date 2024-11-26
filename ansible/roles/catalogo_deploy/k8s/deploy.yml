@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
       - name: catalogo-container
-        image: joaoppc2002/catalogo:latest
+        image: packmybag/webplataform:catalogo
         ports:
         - containerPort: 8081
         env:

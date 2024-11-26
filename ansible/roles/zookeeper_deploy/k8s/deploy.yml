@@ -15,11 +15,11 @@ spec:
     spec:
       containers:
       - name: zookeeper-container
-	      image: confluentinc/cp-zookeeper:7.4.0
-	      ports:
-	      - containerPort: 2181
-	      env:
-	      - name: ZOOKEEPER_CLIENT_PORT
-	        value: "2181"
-	      - name: ZOOKEEPER_TICK_TIME
-	        value: "2000"
+        image: confluentinc/cp-zookeeper:7.4.0
+        ports:
+        - containerPort: 2181
+        env:
+        - name: ZOOKEEPER_CLIENT_PORT
+          value: "2181"
+        - name: ZOOKEEPER_TICK_TIME
+          value: "2000"

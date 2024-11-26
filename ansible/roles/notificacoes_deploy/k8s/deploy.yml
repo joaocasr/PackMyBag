@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
       - name: notificacoes-container
-        image: joaoppc2002/notificacoes:latest
+        image: packmybag/webplataform:notificacoes
         ports:
         - containerPort: 8086
         env:

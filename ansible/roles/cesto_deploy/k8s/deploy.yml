@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
       - name: cart-container
-        image: joaoppc2002/cart:latest
+        image: packmybag/webplataform:cart
         ports:
         - containerPort: 8085
         env:

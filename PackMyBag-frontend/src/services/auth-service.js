@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { jwtDecode } from "jwt-decode";
 import { auth } from '@/store/auth-module';
-import { API_URL_DOMAIN } from "../config";
 
 
 const headers = {
@@ -10,7 +9,7 @@ const headers = {
 
 class AuthService{
     constructor() {
-        this.API_URL = API_URL_DOMAIN + "/api/utilizadoresService/"
+        this.API_URL = "http://localhost:8888/api/utilizadoresService/"
     }
     async login(user){
         let response = await axios.post(this.API_URL+"signin",

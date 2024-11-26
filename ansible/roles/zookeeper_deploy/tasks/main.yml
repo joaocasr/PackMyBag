@@ -1,10 +1,10 @@
 ---
 # Playbook to deploy zookeper service
 - name: zookeper deploy
-  shell: kubectl apply -f roles/zookeper_deploy/k8s/deploy.yml --validate=false
+  shell: kubectl apply -f roles/zookeeper_deploy/k8s/deploy.yml --validate=false
 
 - name: zookeper service
-  shell: kubectl apply -f roles/zookeper_deploy/k8s/service.yml --validate=false
+  shell: kubectl apply -f roles/zookeeper_deploy/k8s/service.yml --validate=false
 
 - name: Wait for zookeper service objects to be ready
   command: kubectl get pods

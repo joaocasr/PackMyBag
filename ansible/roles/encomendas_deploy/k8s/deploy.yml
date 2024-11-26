@@ -12,8 +12,8 @@ spec:
         app: encomendas
     spec:
       containers:
-      - name: catalogo-container
-        image: joaoppc2002/catalogo:latest
+      - name: encomendas-container
+        image: packmybag/webplataform:encomendas
         ports:
         - containerPort: 8083
         env:

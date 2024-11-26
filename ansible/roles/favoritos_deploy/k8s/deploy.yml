@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
       - name: favoritos-container
-        image: joaoppc2002/favoritos:latest
+        image: packmybag/webplataform:favoritos
         ports:
         - containerPort: 8082
         env:
