@@ -5,7 +5,12 @@ ENV NODE_ENV=$MODE
 
 WORKDIR /app
 COPY package*.json ./
+
+# para rodar na cloud, temos de adaptar as dependencias a arm64 , ou seja estas duas abaixo tem de ficar descomentadas
+# RUN npm install @rollup/rollup-linux-x64-musl 
+# RUN npm install esbuild@0.21.5
 RUN npm install
+
 COPY . .
 
 #RUN npm run build -- --mode $MODE

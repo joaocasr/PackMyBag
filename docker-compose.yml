@@ -31,6 +31,9 @@ services:
       context: ./PackMyBag-frontend
       args:
         MODE: ${MODE}
+      platforms:
+        - linux/amd64
+        - linux/arm64
     container_name: frontend-container
     restart: always
     ports: 
@@ -41,7 +44,11 @@ services:
       - packmybag
 
   apigatewayservice:
-    build: ./API-GATEWAY
+    build: 
+      context: ./API-GATEWAY
+      platforms:
+        - linux/amd64
+        - linux/arm64
     container_name: apigateway-container
     restart: always
     ports: 
@@ -66,7 +73,11 @@ services:
       - packmybag
 
   catalogoservice:
-    build: ./catalogService
+    build: 
+      context: ./catalogService
+      platforms:
+        - linux/amd64
+        - linux/arm64
     container_name: catalogo-container
     restart: always
     ports: 
@@ -83,7 +94,11 @@ services:
       - packmybag
 
   encomendasservice:
-    build: ./encomendaService
+    build: 
+      context: ./encomendaService
+      platforms:
+        - linux/amd64
+        - linux/arm64
     container_name: encomendas-container
     restart: always
     ports: 
@@ -100,7 +115,11 @@ services:
       - packmybag
 
   favoritosservice:
-    build: ./favoritosService
+    build: 
+      context: ./favoritosService
+      platforms:
+        - linux/amd64
+        - linux/arm64
     container_name: favoritos-container
     restart: always
     ports: 
@@ -115,7 +134,11 @@ services:
       - packmybag
 
   cartservice:
-    build: ./cartService
+    build: 
+      context: ./cartService
+      platforms:
+        - linux/amd64
+        - linux/arm64
     container_name: cart-container
     restart: always
     ports: 
@@ -130,7 +153,11 @@ services:
       - packmybag
 
   recomendacoesservice:
-    build: ./recomendacoesservice
+    build: 
+      context: ./recomendacoesservice
+      platforms:
+        - linux/amd64
+        - linux/arm64
     container_name: recomendacoes-container
     restart: always
     ports: 
@@ -145,7 +172,11 @@ services:
       - packmybag
 
   notificacoesservice:
-    build: ./notificacoesService
+    build: 
+      context: ./notificacoesService
+      platforms:
+        - linux/amd64
+        - linux/arm64
     container_name: notificacoes-container
     restart: always
     ports: 
@@ -164,7 +195,11 @@ services:
       - packmybag
 
   utilizadoresservice:
-    build: ./utilizadoresService
+    build: 
+      context: ./utilizadoresService
+      platforms:
+        - linux/amd64
+        - linux/arm64
     container_name: utilizadores-container
     restart: always
     ports: 
