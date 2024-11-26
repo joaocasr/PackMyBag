@@ -70,7 +70,7 @@ export default {
 	},
 	methods:{
 		getNotifications(){
-			axios.get('http://localhost:8888/api/notificacoesService/getmyNotifications/'+this.username+"?page="+this.current_page+"&number=6")
+			axios.get(this.$apiGatewayUrl+'/api/notificacoesService/getmyNotifications/'+this.username+"?page="+this.current_page+"&number=6")
 			.then(resp=>{
 				this.notifications = resp.data;
 			}).catch(err=>{
@@ -84,7 +84,7 @@ export default {
 			header['Content-Type'] = 'application/json';
 
 
-			axios.delete('http://localhost:8888/api/notificacoesService/removeMyNotification/'+this.username+"/"+myid,
+			axios.delete(this.$apiGatewayUrl+'/api/notificacoesService/removeMyNotification/'+this.username+"/"+myid,
 				{ data, headers: header }
 			)
 			.then(resp=>{
@@ -94,7 +94,7 @@ export default {
 			})
 		},
 		clearNotifications(){
-			axios.delete('http://localhost:8888/api/notificacoesService/clearMyNotifications/'+this.username)
+			axios.delete(this.$apiGatewayUrl+'/api/notificacoesService/clearMyNotifications/'+this.username)
 			.then(resp=>{
 				this.notifications = [];
 			}).catch(err=>{

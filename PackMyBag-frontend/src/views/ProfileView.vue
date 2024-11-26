@@ -206,7 +206,7 @@ export default {
         form.append('username', this.username);
         form.append('profile_image', this.newAvatarFile);
 
-        axios.postForm('http://localhost:8888/api/utilizadoresService/updateImage',
+        axios.postForm(this.$apiGatewayUrl+'/api/utilizadoresService/updateImage',
             form
         ).then(resp=>{
             console.log(resp.data);
@@ -221,7 +221,7 @@ export default {
       this.editMode[field] = !this.editMode[field];
     },
     getUserInfo(){
-        axios.get('http://localhost:8888/api/utilizadoresService/profileInfo/'+this.username)
+        axios.get(this.$apiGatewayUrl+'/api/utilizadoresService/profileInfo/'+this.username)
         .then(resp=>{
             console.log(resp.data);
             if(this.role==="Cliente"){
@@ -259,7 +259,7 @@ export default {
 	  		let config = {headers:header}
   			header['Content-Type'] = 'application/json';
 
-        axios.post('http://localhost:8888/api/utilizadoresService/updateProfile/normal', data,config)
+        axios.post(this.$apiGatewayUrl+'/api/utilizadoresService/updateProfile/normal', data,config)
           .then((response) => {
             console.log(response.data);
             this.editMode[field] = false;  // Exit edit mode for the field
@@ -280,7 +280,7 @@ export default {
         }
 
         // Send to the appropriate endpoint for Estilista
-        axios.post('http://localhost:8888/api/utilizadoresService/updateProfile/estilista', data,config).then((response) => {
+        axios.post(this.$apiGatewayUrl+'/api/utilizadoresService/updateProfile/estilista', data,config).then((response) => {
             console.log(response.data);
             this.editMode[field] = false;  // Exit edit mode for the field
             alert('Field updated successfully!');
@@ -302,7 +302,7 @@ export default {
         }
 
         // Send to the appropriate endpoint for Tecnico
-        axios.post('http://localhost:8888/api/utilizadoresService/updateProfile/tecnico', data,config).then((response) => {
+        axios.post(this.$apiGatewayUrl+'/api/utilizadoresService/updateProfile/tecnico', data,config).then((response) => {
             console.log(response.data);
             this.editMode[field] = false;  // Exit edit mode for the field
             alert('Field updated successfully!');

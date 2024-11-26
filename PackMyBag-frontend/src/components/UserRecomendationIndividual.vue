@@ -41,7 +41,7 @@ export default {
             let response = 0;
             for(let p=0; p<this.items.length;p+=1){
                 try{
-                    let r = await axios.post('http://localhost:8888/api/cartService/addItem',
+                    let r = await axios.post(this.$apiGatewayUrl+'/api/cartService/addItem',
                     {
                         "codigo":this.items[p].codigo,
                         "idLoja":this.items[p].idLoja,

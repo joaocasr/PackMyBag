@@ -405,7 +405,7 @@ methods:{
         let itens = [];
 
         try{
-            let r = await axios.post('http://localhost:8888/api/recomendacoesService/pedidos',
+            let r = await axios.post(this.$apiGatewayUrl+'/api/recomendacoesService/pedidos',
                 {
                     "usernameCliente": this.username, 
                     "usernameEstilista": this.usernameEstilista,   
@@ -448,7 +448,7 @@ methods:{
 
         try{
 
-            let r = await axios.post('http://localhost:8888/api/cartService/newpayment',
+            let r = await axios.post(this.$apiGatewayUrl+'/api/cartService/newpayment',
                 {
                     "username":this.username,
                     "itensObj":itensObj,

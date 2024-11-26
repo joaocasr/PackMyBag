@@ -123,7 +123,7 @@ export default {
 	methods: {
 		getCatalogueItems(){
 			console.log("fecth items normally")
-			axios.get('http://localhost:8888/api/catalogoService/lojas/' + this.idloja + '?page='+this.current_page+"&number=12")
+			axios.get(this.$apiGatewayUrl+'/api/catalogoService/lojas/' + this.idloja + '?page='+this.current_page+"&number=12")
 			.then(resp=>{
 				this.items = resp.data;
 				console.log(this.items);
@@ -132,7 +132,7 @@ export default {
 			})
 		},
 		getQueryResult(name){
-			axios.get('http://localhost:8888/api/catalogoService/allitems?designacao='+name+'&page='+this.current_page+"&number=12")
+			axios.get(this.$apiGatewayUrl+'/api/catalogoService/allitems?designacao='+name+'&page='+this.current_page+"&number=12")
 			.then(resp=>{
 				this.items = resp.data;
 			}).catch(err=>{
@@ -146,7 +146,7 @@ export default {
 		},
 		getItemsperTypeAndPrice(tipo,min,max){
 			if(tipo!='' && this.isquery===false){
-				axios.get('http://localhost:8888/api/catalogoService/type/'+tipo+'/price?min='+min+'&max='+max+'&page='+this.current_page+"&number=12")
+				axios.get(this.$apiGatewayUrl+'/api/catalogoService/type/'+tipo+'/price?min='+min+'&max='+max+'&page='+this.current_page+"&number=12")
 				.then(resp=>{
 					this.items = resp.data;
 					console.log(this.items)
@@ -156,7 +156,7 @@ export default {
 				return;
 			}
 			if(tipo!='' && this.isquery===true){
-				axios.get('http://localhost:8888/api/catalogoService/type/'+tipo+'/price/'+ this.queryname +'?min='+min+'&max='+max+'&page='+this.current_page+"&number=12")
+				axios.get(this.$apiGatewayUrl+'/api/catalogoService/type/'+tipo+'/price/'+ this.queryname +'?min='+min+'&max='+max+'&page='+this.current_page+"&number=12")
 				.then(resp=>{
 					this.items = resp.data;
 					console.log(this.items)
@@ -167,7 +167,7 @@ export default {
 			}
 			if(this.isquery===true){
 				console.log("entrou bem")
-				axios.get('http://localhost:8888/api/catalogoService/price/'+this.queryname+'?min='+min+'&max='+max+'&page='+this.current_page+"&number=12")
+				axios.get(this.$apiGatewayUrl+'/api/catalogoService/price/'+this.queryname+'?min='+min+'&max='+max+'&page='+this.current_page+"&number=12")
 				.then(resp=>{
 					this.items = resp.data;
 				}).catch(err=>{
@@ -176,7 +176,7 @@ export default {
 				return;
 			}
 			if(this.isquery===false){
-				axios.get('http://localhost:8888/api/catalogoService/price?min='+min+'&max='+max+'&page='+this.current_page+"&number=12")
+				axios.get(this.$apiGatewayUrl+'/api/catalogoService/price?min='+min+'&max='+max+'&page='+this.current_page+"&number=12")
 				.then(resp=>{
 					this.items = resp.data;
 				}).catch(err=>{
@@ -215,7 +215,7 @@ export default {
 				const header = authHeader();
 				header['Content-Type'] = 'application/json';
 
-				const resp = await axios.delete('http://localhost:8888/api/catalogoService/deleteItem/'+id,
+				const resp = await axios.delete(this.$apiGatewayUrl+'/api/catalogoService/deleteItem/'+id,
 				{ data, headers: header }
 				);
 				this.items = this.items.filter((i) => i.iditem !== id);

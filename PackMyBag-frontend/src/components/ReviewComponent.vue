@@ -67,7 +67,7 @@ export default {
 			let data = {};
 			const header = authHeader();
 			header['Content-Type'] = 'application/json';
-			axios.delete('http://localhost:8888/api/catalogoService/items/'+this.idItem+'/delreview/'+this.username,
+			axios.delete(this.$apiGatewayUrl+'/api/catalogoService/items/'+this.idItem+'/delreview/'+this.username,
 				{ data, headers: header }
 			).then(resp=>{
 				console.log(resp);

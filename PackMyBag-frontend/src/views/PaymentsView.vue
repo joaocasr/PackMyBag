@@ -67,7 +67,7 @@ export default {
 	},
     methods:{
         getPayments(){
-            axios.get('http://localhost:8888/api/cartService/transactions/'+this.username+"?page="+this.current_page+"&number=5").then(payments=>{
+            axios.get(this.$apiGatewayUrl+'/api/cartService/transactions/'+this.username+"?page="+this.current_page+"&number=5").then(payments=>{
                 this.payments = payments.data;
                 console.log(this.payments);
             }).catch(err=>{

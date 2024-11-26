@@ -241,7 +241,7 @@ export default {
             }
         },
         getCartItems(){
-            axios.get('http://localhost:8888/api/cartService/'+this.username).then(items=>{
+            axios.get(this.$apiGatewayUrl+'/api/cartService/'+this.username).then(items=>{
                 this.itemsEncomenda = items.data;
                 console.log(this.itemsEncomenda)
             }).catch(err=>{
@@ -315,7 +315,7 @@ export default {
             }
             let dataGeracao = new Date();
             try{
-                let r = await axios.post('http://localhost:8888/api/cartService/order',
+                let r = await axios.post(this.$apiGatewayUrl+'/api/cartService/order',
                     {
                         "username":this.username,
                         "itensObj":itensObj,

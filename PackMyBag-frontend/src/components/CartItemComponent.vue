@@ -64,7 +64,7 @@ export default {
 			let config = {headers:header}
 			header['Content-Type'] = 'application/json';
             try{
-                let r = await axios.post('http://localhost:8888/api/cartService/removeItem',
+                let r = await axios.post(this.$apiGatewayUrl+'/api/cartService/removeItem',
                     {
                         "codigo":this.codigo,
                         "idloja":this.idloja,

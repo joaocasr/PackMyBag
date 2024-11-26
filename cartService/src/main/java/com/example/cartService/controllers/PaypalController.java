@@ -34,8 +34,8 @@ public class PaypalController {
     @PostMapping("/paypal/create")
     public ResponseEntity<?> createPayment(@RequestBody PaymentRequest paymentRequest) {
         try {
-            String cancelUrl = "http://localhost:8888/paypal/cancel";
-            String successUrl = "http://localhost:8888/paypal/success";
+            String cancelUrl = "http://apigatewayservice:8888/paypal/cancel";
+            String successUrl = "http://apigatewayservice:8888/paypal/success";
             Payment payment = paypalService.createPayment(
                     Double.valueOf(paymentRequest.getAmount()),
                     paymentRequest.getCurrency(),

@@ -85,7 +85,7 @@ export default {
             const header = authHeader();
 			let config = {headers:header}
 			header['Content-Type'] = 'application/json';
-            axios.get('http://localhost:8888/api/utilizadoresService/estilistas?page='+this.current_page+"&number=2",config).then(stylists=>{
+            axios.get(this.$apiGatewayUrl+'/api/utilizadoresService/estilistas?page='+this.current_page+"&number=2",config).then(stylists=>{
                 this.estilistas = stylists.data;
                 if(this.estilistas.length==0) this.showbtnnext=false;
                 console.log(this.estilistas);

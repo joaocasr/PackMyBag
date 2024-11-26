@@ -72,7 +72,7 @@ export default {
 			this.$router.push('/addset');
 		},	
 		getTopItems(){
-			axios.get('http://localhost:8888/api/catalogoService/trending/'+this.idloja).then(items=>{
+			axios.get(this.$apiGatewayUrl+'/api/catalogoService/trending/'+this.idloja).then(items=>{
 				console.log(items.data);
 				this.topItems = items.data;
 			}).catch(err=>{

@@ -52,7 +52,7 @@ export default {
 				const header = authHeader();
 				header['Content-Type'] = 'application/json';
 
-				const resp = await axios.delete('http://localhost:8888/api/favoritosService/removeItem',
+				const resp = await axios.delete(this.$apiGatewayUrl+'/api/favoritosService/removeItem',
 				{ data, headers: header }
 				);
 				console.log(resp);

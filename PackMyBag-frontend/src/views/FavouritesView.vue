@@ -113,7 +113,7 @@ export default {
 	},
 	methods:{
 		getFavourites(){
-			axios.get('http://localhost:8888/api/favoritosService/'+this.username+"?page="+this.current_page+"&number=3")
+			axios.get(this.$apiGatewayUrl+'/api/favoritosService/'+this.username+"?page="+this.current_page+"&number=3")
 			.then(resp=>{
 				this.favourites = resp.data;
 				if(this.favourites.length==0) this.showbtnnext=false;
@@ -144,7 +144,7 @@ export default {
 			}
 		},
 		getFavouritesPerPrice(){
-			axios.get('http://localhost:8888/api/favoritosService/price/'+this.username+"?min="+this.value[0]+"&max="+this.value[1]+"&page="+this.current_page+"&number=3")
+			axios.get(this.$apiGatewayUrl+'/api/favoritosService/price/'+this.username+"?min="+this.value[0]+"&max="+this.value[1]+"&page="+this.current_page+"&number=3")
 			.then(resp=>{
 				console.log(resp)
 				this.favourites = resp.data;
@@ -153,7 +153,7 @@ export default {
 			})
 		},
 		getFavouritesByGender(tipo){
-			axios.get('http://localhost:8888/api/favoritosService/genero/'+this.username+"?gender="+tipo+"&page="+this.current_page+"&number=3")
+			axios.get(this.$apiGatewayUrl+'/api/favoritosService/genero/'+this.username+"?gender="+tipo+"&page="+this.current_page+"&number=3")
 			.then(resp=>{
 				console.log(resp)
 				this.favourites = resp.data;
@@ -162,7 +162,7 @@ export default {
 			})
 		},
 		getFavouritesBySize(size){
-			axios.get('http://localhost:8888/api/favoritosService/size/'+this.username+"?size="+size+"&page="+this.current_page+"&number=3")
+			axios.get(this.$apiGatewayUrl+'/api/favoritosService/size/'+this.username+"?size="+size+"&page="+this.current_page+"&number=3")
 			.then(resp=>{
 				console.log(resp)
 				this.favourites = resp.data;

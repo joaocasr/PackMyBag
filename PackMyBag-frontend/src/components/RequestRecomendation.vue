@@ -86,7 +86,7 @@ export default {
 				header['Content-Type'] = 'application/json';
                 let data = {"nome": this.nome,"item": {"codigo":this.items[index].codigo,"designacao":this.items[index].designacao,"idLoja":this.items[index].idLoja}}
 				try{
-						let remove = await axios.delete('http://localhost:8888/api/recomendacoesService/removeItem',
+						let remove = await axios.delete(this.$apiGatewayUrl+'/api/recomendacoesService/removeItem',
                         { data, headers: header });
 						if(remove.status===200) {
                             this.items.splice(index,1);
@@ -123,7 +123,7 @@ export default {
                             "descricao":this.mydescription,
                             "status":"completed"
                         });
-						let edit = await axios.put('http://localhost:8888/api/recomendacoesService/pedidosEditDescricaoOrComplete',
+						let edit = await axios.put(this.$apiGatewayUrl+'/api/recomendacoesService/pedidosEditDescricaoOrComplete',
 						{
                             "nome":this.nome,
                             "descricao":this.mydescription,

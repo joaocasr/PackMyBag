@@ -141,7 +141,7 @@ export default {
 			cores.push(this.otherColor.trim());
 		}
 		const payload = { ...this.form, cores };
-		axios.post('http://localhost:8888/api/catalogoService/addItem/Calcado', payload)
+		axios.post(this.$apiGatewayUrl+'/api/catalogoService/addItem/Calcado', payload)
 		.then(response => {
 			console.log('Peça adicionada com sucesso:', response.data);
 			alert('Peça adicionada com sucesso.');

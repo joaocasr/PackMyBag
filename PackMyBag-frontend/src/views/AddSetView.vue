@@ -147,7 +147,7 @@ export default {
 
 			//console.log('Payload enviado para o backend:', payload);
 
-			axios.post('http://localhost:8888/api/catalogoService/addItem/Set', payload)
+			axios.post(this.$apiGatewayUrl+'/api/catalogoService/addItem/Set', payload)
 				.then(response => {
 					console.log('Set adicionada com sucesso:', response.data);
 					alert('Set adicionada com sucesso.');

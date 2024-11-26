@@ -241,7 +241,7 @@ export default {
 	},
 	methods:{
 		getItemInfo(id){
-			axios.get('http://localhost:8888/api/catalogoService/items/'+id).then(resp=>{
+			axios.get(this.$apiGatewayUrl+'/api/catalogoService/items/'+id).then(resp=>{
 				let item = resp.data;
 				this.imgItem = item.imagem;
 				this.designacao = item.designacao;
@@ -269,7 +269,7 @@ export default {
 			})
 		},
 		getReviews(id){
-			axios.get('http://localhost:8888/api/catalogoService/items/'+id+'/reviews?page='+this.current_page+"&number=2")
+			axios.get(this.$apiGatewayUrl+'/api/catalogoService/items/'+id+'/reviews?page='+this.current_page+"&number=2")
 			.then(resp=>{	
 				if(resp.data.length==0) {
 					this.showNext=false;
@@ -292,7 +292,7 @@ export default {
 
 			var d = new Date,
 			dformat = [d.getDate(),d.getMonth()+1,d.getFullYear()].join('-')+' '+[d.getHours(),d.getMinutes()].join(':');
-			axios.post('http://localhost:8888/api/catalogoService/items/'+this.idItem+'/addreview',
+			axios.post(this.$apiGatewayUrl+'/api/catalogoService/items/'+this.idItem+'/addreview',
 				{
 					"username" : this.username,
 					"profileImg" : this.profileImg,
@@ -359,7 +359,7 @@ export default {
 			let dimensao = this.tamanho;
 			if (this.subclasse == "Calcado") dimensao = dimensao.toString();
 			try {
-				const resp = await axios.post('http://localhost:8888/api/favoritosService/addItem',
+				const resp = await axios.post(this.$apiGatewayUrl+'/api/favoritosService/addItem',
 					{
 						codigoItem: this.itemCode,
 						idLoja: this.idLoja,
@@ -460,7 +460,7 @@ export default {
 			let config = {headers:header}
 			header['Content-Type'] = 'application/json';
 			try{
-				let r = await axios.post('http://localhost:8888/api/cartService/addItem',
+				let r = await axios.post(this.$apiGatewayUrl+'/api/cartService/addItem',
 				{
 					"codigo":this.itemCode,
 					"idLoja":this.idLoja,
@@ -517,7 +517,7 @@ export default {
 
 				for(p=0;p<this.selectedPedidos.length;p+=1){
 					try{
-						let add = await axios.put('http://localhost:8888/api/recomendacoesService/addItem',
+						let add = await axios.put(this.$apiGatewayUrl+'/api/recomendacoesService/addItem',
 						{
 							"nome": this.selectedPedidos[p],
 							"item": {"codigo":this.itemCode,"designacao":this.designacao,"imagem":this.imgItem,"preco":this.preco,"identificador":this.idItem,"idLoja":this.idLoja}
@@ -535,7 +535,7 @@ export default {
 			this.togglePopup(); 
 		},
 		getPedidos(){
-			axios.get('http://localhost:8888/api/recomendacoesService/pedidosEinfo/'+this.username)
+			axios.get(this.$apiGatewayUrl+'/api/recomendacoesService/pedidosEinfo/'+this.username)
             .then(requests=>{
                 this.pedidos = requests.data;
 				console.log("aquuuiiii")

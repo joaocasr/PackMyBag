@@ -80,7 +80,7 @@ export default {
 		getUserRecomendacoes(){
             // falta ir buscar as recomendaçoes do cliente
 
-			axios.get('http://localhost:8888/api/recomendacoesService/pedidos/cliente/'+this.username+"?page="+this.current_page+"&number=3")
+			axios.get(this.$apiGatewayUrl+'/api/recomendacoesService/pedidos/cliente/'+this.username+"?page="+this.current_page+"&number=3")
 			.then(resp=>{
 				if (resp.status != 400 || resp.status != 404 || resp.status != 500) {
 					this.recommendations = resp.data;

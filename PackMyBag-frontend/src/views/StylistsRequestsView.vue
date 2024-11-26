@@ -91,7 +91,7 @@ export default {
             this.isPopupVisible = false;
         },
         getRequests(){
-            axios.get('http://localhost:8888/api/recomendacoesService/pedidos/estilistas/'+this.usernameEstilista+'?page='+this.current_page+'&number=5')
+            axios.get(this.$apiGatewayUrl+'/api/recomendacoesService/pedidos/estilistas/'+this.usernameEstilista+'?page='+this.current_page+'&number=5')
             .then(requests=>{
                 this.pedidos = requests.data;
                 console.log(this.pedidos);

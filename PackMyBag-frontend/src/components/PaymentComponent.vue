@@ -57,7 +57,7 @@ export default {
                                 description: "Compra na Pack My Bag",
                                 amount: this.total
                             };
-                            let response = await axios.post('http://localhost:8888/api/cartService/paypal/create', paymentData);
+                            let response = await axios.post(this.$apiGatewayUrl+'/api/cartService/paypal/create', paymentData);
                             console.log(response);
                             if (response.data) {
                                 window.location.href = response.data;

@@ -67,9 +67,9 @@ export default {
 			}
 		},
 		fetchEncomendas() {
-			let url = 'http://localhost:8888/api/encomendaService/cliente/username/' + this.username;
+			let url = this.$apiGatewayUrl+'/api/encomendaService/cliente/username/' + this.username;
 			if (this.token.role === 'Tecnico') {
-				url = 'http://localhost:8888/api/encomendaService/loja/nome/'+this.nomeLoja; 
+				url = this.$apiGatewayUrl+'/api/encomendaService/loja/nome/'+this.nomeLoja; 
 			}
 			axios.get(url)
 				.then(response => {
