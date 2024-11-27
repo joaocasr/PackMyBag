@@ -15,7 +15,7 @@ spec:
       - name: favoritos-container
         image: packmybag/webplataform:favoritos
         ports:
-        - containerPort: 8082
+        - containerPort: 8083
         env:
         - name: SPRING_DATASOURCE_URL
           value: "jdbc:postgresql://postgres-service:5432/favoritos"

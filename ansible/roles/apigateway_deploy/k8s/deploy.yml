@@ -17,10 +17,10 @@ spec:
           env:
             - name: CATALOGO_SERVICE_URL
               value: "http://catalogo-service:8081/api/catalogo"
-            - name: FAVORITOS_SERVICE_URL
-              value: "http://favoritos-service:8082/api/favoritos"
             - name: ENCOMENDA_SERVICE_URL
-              value: "http://encomendas-service:8083/api/encomendas"
+              value: "http://encomendas-service:8082/api/encomendas"
+            - name: FAVORITOS_SERVICE_URL
+              value: "http://favoritos-service:8083/api/favoritos"
             - name: RECOMENDACOES_SERVICE_URL
               value: "http://recomendacoes-service:8084/api/recomendacoes"
             - name: CESTO_SERVICE_URL

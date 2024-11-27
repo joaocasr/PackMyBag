@@ -15,7 +15,7 @@ spec:
       - name: encomendas-container
         image: packmybag/webplataform:encomendas
         ports:
-        - containerPort: 8083
+        - containerPort: 8082
         env:
         - name: SPRING_DATASOURCE_URL
           value: "jdbc:postgresql://postgres-service:5432/encomenda"
