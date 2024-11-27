@@ -84,7 +84,7 @@ export default {
 			header['Content-Type'] = 'application/json';
             console.log("going to pay...")
 			try{
-				const r = await axios.post("http://localhost:8888/api/cartService/pay",
+				const r = await axios.post(this.$apiGatewayUrl+ '/api/cartService/pay',
 					{
 						"codigo":payment.codigo,
 						"total":payment.total,

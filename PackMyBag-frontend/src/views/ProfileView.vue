@@ -152,7 +152,7 @@ export default {
             this.token = token;
             this.username = this.token.username;
             this.role = this.token.role;
-			if(token.profileImage!=="") this.avatarUrl = "http://localhost:8888/api/utilizadoresService/profileImg/"+this.username;
+			if(token.profileImage!=="") this.avatarUrl = this.$apiGatewayUrl+ '/api/utilizadoresService/profileImg/'+this.username;
             this.getUserInfo();
         }
         else this.$router.push({path:'/login'})

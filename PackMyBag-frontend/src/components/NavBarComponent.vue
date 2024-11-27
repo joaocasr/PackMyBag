@@ -90,7 +90,7 @@ export default {
 		if(token!=null){
 			this.token = token;
 			this.username = token.username;
-			if(token.profileImage!=="") this.profileImg = "url(http://localhost:8888/api/utilizadoresService/profileImg/"+this.username+")";
+			if(token.profileImage!=="") this.profileImg = "url("+this.$apiGatewayUrl+"/api/utilizadoresService/profileImg/"+this.username+")";
 			this.role = token.role;
 		}
 	}

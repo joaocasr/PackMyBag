@@ -97,7 +97,7 @@ export default {
         this.$router.push({ name: 'ordersdetails', params: { orderCode: this.orderCode } });
       },
       updateStatus() {
-        axios.put(`http://localhost:8888/api/encomendaService/status/${this.orderCode}/${this.newStatus}`)
+        axios.put(this.$apiGatewayUrl+ `/api/encomendaService/status/${this.orderCode}/${this.newStatus}`)
           .then(response => {
             console.log('Status atualizado:', response.data);
             window.location.reload(); // Refresh the page

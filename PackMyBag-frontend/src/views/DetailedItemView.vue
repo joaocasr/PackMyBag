@@ -186,7 +186,7 @@ export default {
 		if(token!=null){
 			this.token = token;
 			this.username=token.username;
-			if(token.profileImage!=="") this.profileImg = "http://localhost:8888/api/utilizadoresService/profileImg/"+this.username;
+			if(token.profileImage!=="") this.profileImg = this.$apiGatewayUrl+ '/api/utilizadoresService/profileImg/' +this.username;
 			this.nome=token.nome;
 			this.role = token.role;
 			this.email=token.email;
@@ -408,7 +408,7 @@ export default {
 			let config = {headers:header}
 			header['Content-Type'] = 'application/json';
 			try{
-				const r = await axios.post("http://localhost:8888/api/notificacoesService/addInterested",
+				const r = await axios.post(this.$apiGatewayUrl+ '/api/notificacoesService/addInterested',
 					{
 						"codigo":this.itemCode,
 						"designacao":this.designacao,

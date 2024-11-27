@@ -33,7 +33,7 @@ export default {
   methods: {
     getNotifications() {
       console.log("Connecting to notification stream...");
-      const eventSource = new EventSource(`http://localhost:8888/api/notificacoesService/notifications/retrieve/${this.username}`);
+      const eventSource = new EventSource(this.$apiGatewayUrl+ `/api/notificacoesService/notifications/retrieve/${this.username}`);
       let id = 1;
       eventSource.onopen = () => {
         console.log("EventSource connection established.");
