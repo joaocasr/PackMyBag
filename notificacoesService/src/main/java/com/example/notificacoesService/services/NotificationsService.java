@@ -106,6 +106,9 @@ public class NotificationsService implements NotificationCallback {
             if(c.isPresent()){
                 cliente = c.get();
                 clienteRepository.save(cliente);
+            }else{
+                cliente = new Cliente("","",username);
+                clienteRepository.save(cliente);
             }
             encomenda = new Encomenda(cliente, codigoEncomenda, status, 1);
             encomendaRepository.save(encomenda);
