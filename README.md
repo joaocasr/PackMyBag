@@ -84,7 +84,7 @@ Porta: http://localhost:5173
 
 Para iniciar toda a aplicação de forma simplificada utilizando Docker Compose, siga os passos abaixo:
 
-1. Certifique-se de que o Docker está em execução.
+1. Certifique-se de que o Docker está em execução e que tem os **.jar** de todos os microserviços.
 
 2. Executar Docker Compose:
 
@@ -99,6 +99,36 @@ Este comando irá construir as imagens Docker e iniciar todos os contêineres ne
 **Portas dos Microserviços com Docker Compose:**
 
 - Frontend: http://localhost:3000
+
+### Executar a Aplicação com o `build_and_run.sh` 
+
+Uma maneira mais fácil de compilar todos os microserviços e iniciar a aplicação é utilizar o script `build_and_run.sh`. Este script automatiza o processo de compilação dos microserviços e a execução do Docker Compose, simplificando significativamente o fluxo de trabalho.
+
+#### Passos para Utilizar o Script
+
+1. **Certifique-se de que o Docker está em execução e que você possui os arquivos `.jar` de todos os microserviços.**
+
+2. **Tornar o Script Executável (se necessário):**
+
+    Se o script `build_and_run.sh` não tiver permissões de execução, você pode torná-lo executável com o seguinte comando:
+
+    ```bash
+    chmod +x build_and_run.sh
+    ```
+
+3. **Executar o Script:**
+
+    Na raiz do projeto, execute o seguinte comando para compilar todos os microserviços e iniciar os contêineres Docker:
+
+    ```bash
+    ./build_and_run.sh
+    ```
+
+    Este comando realizará as seguintes ações:
+    
+    - **Compilação dos Microserviços:** Navega para cada diretório de microserviço e executa `mvn clean install` para compilar os projetos Java Spring Boot.
+    
+    - **Início dos Contêineres Docker:** Após a compilação, executa `docker-compose up --build` para construir as imagens Docker e iniciar todos os contêineres necessários para a aplicação.
 
 ## Verificação
 
