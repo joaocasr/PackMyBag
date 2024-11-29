@@ -44,7 +44,7 @@ Execute o script `setup_db.sh` para iniciar o PostgreSQL no Docker e criar os ba
 1. Clonar o Repositório e Navegar para a Raiz:
 
 ```bash
-git clone <repository-url>
+git clone git@github.com:joaocasr/PackMyBag.git
 cd packmybag
 ```
 
