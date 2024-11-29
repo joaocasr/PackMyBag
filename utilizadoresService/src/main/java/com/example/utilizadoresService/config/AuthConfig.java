@@ -35,6 +35,8 @@ public class AuthConfig {
                         .requestMatchers(HttpMethod.POST, "/api/utilizadores/signup/estilista").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/utilizadores/image/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/utilizadores/userinfo/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/swagger-ui/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/v3/api-docs*/**").permitAll()
                         .anyRequest().authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
