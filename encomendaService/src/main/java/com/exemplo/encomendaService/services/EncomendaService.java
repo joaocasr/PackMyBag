@@ -191,7 +191,6 @@ public class EncomendaService {
 
     // Método para salvar uma nova encomenda
     public void saveEncomenda(EncomendaDTO encomendaDTO) {
-        //System.out.println(encomendaDTO);
         Cliente c;
         Optional<Cliente> cliente = clienteRepository.findByUsername(encomendaDTO.getClienteUsername());
         if(cliente.isEmpty()) {
@@ -242,13 +241,6 @@ public class EncomendaService {
         EncomendaMapper.updateEntityFromDTO(existingEncomenda, encomendaDTO, cliente);
 
         Encomenda updatedEncomenda = encomendaRepository.save(existingEncomenda);
-
-        // Verificar se o status foi atualizado
-        if (!existingEncomenda.getStatus().equals(updatedEncomenda.getStatus())) {
-            // Notificar via Kafka
-            EncomendaStatusDTO statusDTO = EncomendaMapper.toEncomendaStatusDTO(updatedEncomenda);
-            //afkaProducerService.sendMessage(statusDTO, "EncomendaStatus");
-        }
 
         // Verificar se a dataDevolucao foi atualizada
         if (!existingEncomenda.getDataDevolucao().equals(updatedEncomenda.getDataDevolucao())) {
@@ -306,7 +298,6 @@ public class EncomendaService {
     @Scheduled(cron = "0 0 9 * * ?")  // Executa todos os dias às 9 da manhã
     public void verifydate() {
         LocalDate hoje = LocalDate.now();  // Define a data atual
-        //LocalDate dataLimite = hoje.plusDays(3);  // Define a data limite como 3 dias a partir da data atual
     
         List<Encomenda> encomendas = encomendaRepository.findAll();  // Recupera todas as encomendas do repositório
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");  // Formato para interpretar as datas como String
@@ -337,12 +328,9 @@ public class EncomendaService {
         }
     
         if (!encomenda.getStatus().equals(novoStatus)) {
-            //encomenda.setStatus(novoStatus);
             encomendaRepository.updateStatusByCodigo(encomenda.getCodigoEncomenda(), novoStatus);
-            //encomendaRepository.save(encomenda);
 
             // Enviar mensagem pelo Kafka
-            System.out.println("Enviando mensagem para o Kafka" + EncomendaMapper.toEncomendaStatusDTO(encomenda).toString());
             kafkaProducerService.sendMessage(EncomendaMapper.toEncomendaStatusDTO(encomenda).toString(), "EncomendaStatus");
         }   
     

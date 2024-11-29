@@ -48,7 +48,6 @@ public class PaypalController {
 
             for (Links links: payment.getLinks()) {
                 if (links.getRel().equals("approval_url")) {
-                    System.out.println(links.getHref());
                     return ResponseEntity.ok(links.getHref());
                 }
             }

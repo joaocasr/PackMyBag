@@ -339,7 +339,6 @@ public class ItemService {
             Optional<Item> itemOptional = checkIfItemCodeAlreadyExists(i.getCodigo(),i.getIdloja());
             if(itemOptional.isEmpty()) throw new InexistentItemCodeException(i.getCodigo());
             Item oldItem = itemOptional.get();
-            System.out.println("updating item "+oldItem.getCodigo());
             int newavailable = oldItem.getNrDisponiveis()+i.getQuantidade();
             oldItem.setNrDisponiveis(newavailable);
             oldItem.setDisponibilidade("In Stock");

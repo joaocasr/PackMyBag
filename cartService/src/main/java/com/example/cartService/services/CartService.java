@@ -248,7 +248,7 @@ public class CartService {
         cliente.addTransaction(payment);
 
         clientCartRepository.save(cliente);
-        System.out.println("saving:"+cliente);
+        
         this.checkPayment(payment.getCodigo());
     }
 
@@ -284,20 +284,13 @@ public class CartService {
                         payment::addItemEncomenda
                     );
         
-        System.out.println("Payment info: " + paymentInfo);
-        System.out.println("Payment: " + payment);
 
         // Add payment to client's transactions
         cliente.addTransaction(payment);
 
-        System.out.println("Client's transactions: " + cliente.getTransacoes());
-        System.out.println("Nº of Client's transactions: " + cliente.getTransacoes().size());
         // Save changes
         clientCartRepository.save(cliente);
-        //pagamentoRepository.save(payment);
 
-        // Clear the cart after payment
-        //clearCart(paymentInfo.getUsername());
         this.checkPayment(payment.getCodigo());
     }
 
@@ -355,10 +348,8 @@ public class CartService {
         Thread t = new Thread(() -> {
             try {
                 Thread.sleep(100000);
-                System.out.println(codigo);
                 Pagamento p = pagamentoRepository.findByCode(codigo);
                 if(p==null) p = pagamentoRepository.findByCodeForm(codigo);
-                System.out.println(p);
                 if(p.getStatus().equals("PENDING") && p.getCodigo().startsWith("CART")) {
                     pagamentoRepository.deleteById(p.getORMID());
                     String gatewayUrl = "http://apigatewayservice:8888/api/catalogoService/freeItems";
@@ -369,10 +360,6 @@ public class CartService {
                     String gatewayUrl = "http://apigatewayservice:8888/api/recomendacoesService/removePedido";
                     restTemplate.postForObject(gatewayUrl, new RequestDTO(p.getCodigo(),"DELETED"), String.class);
                 }
-                /*
-                if(p.getStatus().equals("PAYED")){
-                    pagamentoRepository.deleteById(p.getIDPagamento());
-                }*/
                 this.paymentThreads.removeIf((x)->x.getName().equals(codigo));
 
             } catch (Exception e) {
@@ -385,39 +372,4 @@ public class CartService {
         t.start();
     }
 
-
-
-    /*
-    public String processPayPalPayment(CartPaymentPaypalDTO paymentInfo) throws NoClientException, IOException {
-        // Verify the client and cart
-        Cliente cliente = clientCartRepository.getClienteByUsername(paymentInfo.getUsername());
-        if (cliente == null) {
-            throw new NoClientException("Client not found with username: " + paymentInfo.getUsername());
-        }
-
-        Cart cart = cliente.getCart();
-        if (cart == null || cart.getItens().isEmpty()) {
-            throw new NoCartException("Cart is empty for client: " + paymentInfo.getUsername());
-        }
-
-        // Capture the PayPal order
-        OrdersCaptureRequest request = new OrdersCaptureRequest(paymentInfo.getPaypalOrderId());
-        HttpResponse<Order> response = payPalClient.execute(request);
-        
-        if (response.result().status().equals("COMPLETED")) {
-            // Create payment record
-            CartPaymentDTO newpaymentInfo = new CartPaymentDTO();
-            newpaymentInfo.setUsername(paymentInfo.getUsername());
-            newpaymentInfo.setCodigo(paymentInfo.getCodigo());
-            newpaymentInfo.setModoPagamento("PAYPAL");
-            newpaymentInfo.setStatus("PAID");
-            
-            // Use existing createPayment method to save the transaction
-            createPayment(newpaymentInfo);
-            
-            return "Payment processed successfully";
-        } else {
-            throw new RuntimeException("PayPal payment failed with status: " + response.result().status());
-        }
-    }*/
 }

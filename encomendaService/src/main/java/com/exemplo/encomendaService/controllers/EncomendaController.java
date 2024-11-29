@@ -158,7 +158,6 @@ public class EncomendaController {
             return new ResponseEntity<>("Encomendas saved in shops", HttpStatus.CREATED); // Retorna status 201 Created
         }catch(Exception e){
             e.printStackTrace();
-            System.out.println("Erro ao criar encomenda: " + e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

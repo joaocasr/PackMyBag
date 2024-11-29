@@ -142,7 +142,6 @@ public class NotificationsService implements NotificationCallback {
         if(c.isPresent()){
             Cliente cliente = c.get();
             cliente.removeNotificationByID(codigo);
-            System.out.println(cliente);
             clienteRepository.save(cliente);
             notificacaoRepository.deleteById(codigo);
         }
@@ -178,7 +177,6 @@ public class NotificationsService implements NotificationCallback {
     @Transactional
     @KafkaListener(topics = "ItemUpdate", groupId = "notificacoesService")
     public void handleMsgfromBroker(String msg){
-        System.out.println(msg);
         String [] attrs = msg.split(",");
         this.notifyItemChange(new ItemUpdate(Integer.parseInt(attrs[2]),attrs[1],attrs[3]));
 
@@ -187,7 +185,6 @@ public class NotificationsService implements NotificationCallback {
     @Transactional
     @KafkaListener(topics = "EncomendaStatus", groupId = "notificacoesService")
     public void consumeEncomendaStatus(String statusDTO) {
-        System.out.println(statusDTO);
         String [] attrs = statusDTO.split(",");
         this.notifyOrderStatus(attrs[1], attrs[2], attrs[3]);
     }
@@ -195,7 +192,6 @@ public class NotificationsService implements NotificationCallback {
     @Transactional
     @KafkaListener(topics = "EncomendaDateReturn", groupId = "notificacoesService")
     public void consumeEncomendaDateReturn(String dateReturnDTO) {
-        System.out.println(dateReturnDTO);
         String [] attrs = dateReturnDTO.split(",");
         notifyClientAboutReturnDate(attrs[1], Integer.parseInt(attrs[6]));
     }

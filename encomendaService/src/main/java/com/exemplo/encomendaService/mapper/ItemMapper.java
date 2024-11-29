@@ -22,7 +22,6 @@ public class ItemMapper {
 
     // Converte de DTO para Entidade
     public static Item toEntity(ItemDTO dto) {
-        System.out.println("aquiii");
 
         Item item = new Item();
         item.setCodigo(dto.getCodigo());
@@ -31,7 +30,6 @@ public class ItemMapper {
         item.setDesignacao(dto.getDesignacao());
         item.setImagemUrl(dto.getImagem());
         item.setPreco(dto.getPreco());
-        System.out.println(item);
 
         return item;
     }

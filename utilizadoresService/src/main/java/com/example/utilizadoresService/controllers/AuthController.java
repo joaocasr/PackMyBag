@@ -152,7 +152,6 @@ public class AuthController {
     @PostMapping("/edit-profile/normal")
     public ResponseEntity<?> editNormalProfile(@RequestBody EditUserProfileDto data) {
         try {
-            System.out.println(data);
             NormalCliente updatedUser = service.editNormalClienteProfile(data);
             return ResponseEntity.ok("Normal user profile updated successfully for: " + updatedUser.getUsername());
         } catch (Exception e) {
