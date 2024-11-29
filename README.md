@@ -1,5 +1,114 @@
 # PackMyBag
 
+# Informações
+
+Para testar a aplicação **Pack My Bag**, certifique-se de que as seguintes dependências estão instaladas no seu sistema:
+
+- **Docker** (versão 20.10 ou superior)
+- **Docker Compose**
+- **Maven** (versão 3.6.0 ou superior)
+- **NPM** (versão 6.14 ou superior)
+- **Java JDK** (versão 11 ou superior)
+
+> **Nota:** O backend é implementado em **Java Spring Boot**, portanto, é necessário ter o Java JDK instalado no seu sistema.
+
+## Preparação
+
+O repositório não inclui os arquivos **.jar** devido ao seu tamanho esceder o permitido pelo github. Portanto, é necessário compilar todos os microserviços antes de testar a aplicação.
+
+Além disso, os microserviços Java Spring Boot dependem de uma base de dados PostgreSQL em execução no Docker. Sem ela, os serviços não conseguirão criar as tabelas necessárias e poderão gerar erros.
+
+
+### Configurar a Base de Dados PostgreSQL
+
+Execute o script `setup.sh` para iniciar o PostgreSQL no Docker e criar os bancos de dados necessários:
+
+```bash
+./scripts/setup.sh
+```
+
+### Compilar e Executar Microserviços Individualmente
+
+1. Clonar o Repositório e Navegar para a Raiz:
+
+```bash
+git clone <repository-url>
+cd packmybag
+```
+
+2. Compilar Microserviços Java Spring Boot:
+
+```bash
+mvn clean install
+mvn spring-boot:run
+```
+
+Para cada microserviço (por exemplo, `catalogService`, `encomendaService`, etc.), navegue para a pasta correspondente e execute os comandos acima.
+
+**Portas dos Microserviços:**
+
+- `catalogService`: http://localhost:8081
+- `encomendaService`: http://localhost:8082
+- `favoritosService`: http://localhost:8083
+- `recomendacoesservice`: http://localhost:8084
+- `cartService`: http://localhost:8085
+- `notificacoesService`: http://localhost:8086
+- `utilizadoresService`: http://localhost:8087
+
+### Compilar e Executar o API Gateway:
+
+Navegue para a pasta `API-GATEWAY` e execute:
+
+```bash
+cd API-GATEWAY
+npm install
+npm start
+```
+
+Porta: http://localhost:8888
+
+### Compilar e Executar o Frontend:
+
+Navegue para a pasta `PackMyBag-frontend` e execute:
+
+```bash
+cd PackMyBag-frontend
+npm install
+npm run dev
+```
+
+Porta: http://localhost:5173
+
+
+## Executar a Aplicação com Docker Compose
+
+Para iniciar toda a aplicação de forma simplificada utilizando Docker Compose, siga os passos abaixo:
+
+1. Certifique-se de que o Docker está em execução.
+
+2. Executar Docker Compose:
+
+Na raiz do projeto, execute:
+
+```bash
+docker-compose up --build
+```
+
+Este comando irá construir as imagens Docker e iniciar todos os contêineres necessários para a aplicação.
+
+**Portas dos Microserviços com Docker Compose:**
+
+- Frontend: http://localhost:3000
+
+## Verificação
+
+Após a execução, acesse o frontend via navegador:
+
+- Modo Individual: http://localhost:5173
+- Com Docker Compose: http://localhost:3000
+
+# Arquitetura da aplicação e de cada microserviço
+
 ## Modelo de Use Cases atual
 
 <img src="/modeling/Use Case Diagram.jpg" width="450px" />
