@@ -57,7 +57,6 @@ export default {
 	methods: {
 		getUsername() {
 			let token = authService.getToken();
-			console.log(token);
 			if (token != null) {
 				this.token = token;
 				this.username = token.username;
@@ -73,7 +72,6 @@ export default {
 			}
 			axios.get(url)
 				.then(response => {
-					console.log('Dados recebidos do Axios:', response.data);
 					this.encomendas = response.data;
 				})
 				.catch(error => {

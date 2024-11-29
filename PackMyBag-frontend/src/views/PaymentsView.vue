@@ -55,7 +55,6 @@ export default {
     },
     created(){
 		let token = authService.getToken();
-		console.log(token);
 		if(token!=null){
 			this.token = token;
 			this.username=token.username;
@@ -69,20 +68,17 @@ export default {
         getPayments(){
             axios.get(this.$apiGatewayUrl+'/api/cartService/transactions/'+this.username+"?page="+this.current_page+"&number=5").then(payments=>{
                 this.payments = payments.data;
-                console.log(this.payments);
             }).catch(err=>{
                 console.log(err);
             })
         },
         async completePayment(payment){
-            console.log(payment);
             let paymentType = payment.codigo.substring(0,4);
             let ptype = "CART";
             if(paymentType==="FORM") ptype = "FORM";
             const header = authHeader();
 			let config = {headers:header}
 			header['Content-Type'] = 'application/json';
-            console.log("going to pay...")
 			try{
 				const r = await axios.post(this.$apiGatewayUrl+ '/api/cartService/pay',
 					{

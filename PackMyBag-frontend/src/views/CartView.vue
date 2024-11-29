@@ -213,7 +213,6 @@ export default {
             this.itemsEncomenda[key].nraquisicoes = event;
         },
         getSubTotal(idx){
-            console.log(idx);
             let t = 0;
             t = this.itemsEncomenda[idx].nraquisicoes * this.itemsEncomenda[idx].price;
             return t;
@@ -243,7 +242,6 @@ export default {
         getCartItems(){
             axios.get(this.$apiGatewayUrl+'/api/cartService/'+this.username).then(items=>{
                 this.itemsEncomenda = items.data;
-                console.log(this.itemsEncomenda)
             }).catch(err=>{
                 console.log(err)
             })
@@ -257,14 +255,12 @@ export default {
                 this.centermap=[latitude,longitude];
                 this.zoom = 14;
                 this.markCoords = [latitude,longitude];
-                console.log(resp.data);
             }).catch(err=>{
                 console.log(err);
             })
         },
         removeItem(event,idx){
             this.itemsEncomenda = this.itemsEncomenda.filter((item,index) => index !== idx);
-            console.log(this.itemsEncomenda);
         },
         async handlePayment(){
             if(this.begindate==='' || this.enddate==='' || this.modoPagamento===''){
@@ -328,7 +324,6 @@ export default {
                     },
                     config
                 );
-                console.log(r);
                 return r;
             }catch(err){
                 let msg="";

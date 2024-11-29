@@ -106,7 +106,6 @@ export default {
 	},
 	methods: {
 		getCatalogueItems(){
-			console.log("fecth items normally")
 			axios.get(this.$apiGatewayUrl+'/api/catalogoService/?page='+this.current_page+"&number=12")
 			.then(resp=>{
 				this.items = resp.data;
@@ -132,7 +131,6 @@ export default {
 				axios.get(this.$apiGatewayUrl+'/api/catalogoService/type/'+tipo+'/price?min='+min+'&max='+max+'&page='+this.current_page+"&number=12")
 				.then(resp=>{
 					this.items = resp.data;
-					console.log(this.items)
 				}).catch(err=>{
 					console.log(err);
 				})
@@ -142,14 +140,12 @@ export default {
 				axios.get(this.$apiGatewayUrl+'/api/catalogoService/type/'+tipo+'/price/'+ this.queryname +'?min='+min+'&max='+max+'&page='+this.current_page+"&number=12")
 				.then(resp=>{
 					this.items = resp.data;
-					console.log(this.items)
 				}).catch(err=>{
 					console.log(err);
 				})
 				return;
 			}
 			if(this.isquery===true){
-				console.log("entrou bem")
 				axios.get(this.$apiGatewayUrl+'/api/catalogoService/price/'+this.queryname+'?min='+min+'&max='+max+'&page='+this.current_page+"&number=12")
 				.then(resp=>{
 					this.items = resp.data;
@@ -181,7 +177,6 @@ export default {
 			this.getItemsperTypeAndPrice(this.selectedOption,this.value[0],this.value[1]);
 		},
 		'$route.query.q':function(newvalue,oldvalue){
-			console.log(newvalue);
 			this.getQueryResult(newvalue);
 		}
 	}

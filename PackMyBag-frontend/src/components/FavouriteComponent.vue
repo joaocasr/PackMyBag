@@ -55,10 +55,8 @@ export default {
 				const resp = await axios.delete(this.$apiGatewayUrl+'/api/favoritosService/removeItem',
 				{ data, headers: header }
 				);
-				console.log(resp);
 				return resp;
 			} catch (err) {
-				console.log(err);
 				return err;
 			}
 		}

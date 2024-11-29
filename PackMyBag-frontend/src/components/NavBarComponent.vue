@@ -85,8 +85,6 @@ export default {
     },
 	created(){
 		let token = authService.getToken();
-		console.log("nav");
-		console.log(token);
 		if(token!=null){
 			this.token = token;
 			this.username = token.username;

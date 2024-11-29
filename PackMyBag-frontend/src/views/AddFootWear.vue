@@ -98,7 +98,6 @@ export default {
 	},
 	created(){
 		let token = authService.getToken();
-		console.log(token);
 		if(token!=null){
 			this.token = token;
 			this.idloja=token.idloja; 
@@ -143,7 +142,6 @@ export default {
 		const payload = { ...this.form, cores };
 		axios.post(this.$apiGatewayUrl+'/api/catalogoService/addItem/Calcado', payload)
 		.then(response => {
-			console.log('Peça adicionada com sucesso:', response.data);
 			alert('Peça adicionada com sucesso.');
 			this.resetForm();
 		})

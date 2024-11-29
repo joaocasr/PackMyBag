@@ -85,15 +85,12 @@ export default {
 		};
 	},
 	created() {
-		//this.myordercode = this.$route.params.orderCode;
-		console.log(this.myordercode);
 		this.getUsername(); 
 		this.fetchEncomendas(); 
 	},
 	methods: {
 		getUsername() {
 			let token = authService.getToken();
-			console.log(token);
 			if (token != null) {
 				this.token = token;
 				this.username = token.username;
@@ -107,7 +104,6 @@ export default {
 			}
 			axios.get(url)
 				.then(response => {
-					console.log('Dados recebidos do Axios:', response.data);
 					this.encomenda = response.data;
 				})
 				.catch(error => {

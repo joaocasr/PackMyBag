@@ -39,17 +39,14 @@ export default {
     },
     methods:{
         async doLogin(){
-            console.log(this.user);
             try{
                let resp = await this.$store.dispatch('auth/login',this.user)
-                //console.log(resp);
                 this.$swal({
                     icon: "success",
                     title: "Success!",
                     text: "You are logged in."});
                 this.$router.push({path:'/'})
             }catch(err){
-                console.log(err)
                 let m = "Error!";
                 if(err.response) m = err.response.data.message;
                 this.$swal({

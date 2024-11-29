@@ -223,7 +223,6 @@ export default {
     getUserInfo(){
         axios.get(this.$apiGatewayUrl+'/api/utilizadoresService/profileInfo/'+this.username)
         .then(resp=>{
-            console.log(resp.data);
             if(this.role==="Cliente"){
                 this.profile.name = resp.data.nome;
                 this.profile.address = resp.data.morada;
@@ -253,7 +252,6 @@ export default {
         } else if (field === "gender") {
           data.genero = this.profile.gender;
         }
-        console.log(data);
         // Send to the appropriate endpoint for Cliente
         const header = authHeader();
 	  		let config = {headers:header}
@@ -261,7 +259,6 @@ export default {
 
         axios.post(this.$apiGatewayUrl+'/api/utilizadoresService/updateProfile/normal', data,config)
           .then((response) => {
-            console.log(response.data);
             this.editMode[field] = false;  // Exit edit mode for the field
             alert('Field updated successfully!');
           })
@@ -281,7 +278,6 @@ export default {
 
         // Send to the appropriate endpoint for Estilista
         axios.post(this.$apiGatewayUrl+'/api/utilizadoresService/updateProfile/estilista', data,config).then((response) => {
-            console.log(response.data);
             this.editMode[field] = false;  // Exit edit mode for the field
             alert('Field updated successfully!');
           })
@@ -303,7 +299,6 @@ export default {
 
         // Send to the appropriate endpoint for Tecnico
         axios.post(this.$apiGatewayUrl+'/api/utilizadoresService/updateProfile/tecnico', data,config).then((response) => {
-            console.log(response.data);
             this.editMode[field] = false;  // Exit edit mode for the field
             alert('Field updated successfully!');
           })

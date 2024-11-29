@@ -154,7 +154,6 @@ module.exports.getProfileInfo = async (username) =>{
 
 module.exports.saveImage = async (form) => {
     try {
-      console.log("cheguei aqui");
       const resp = await axios.post(`${ap}/image`, 
         form, 
         {
@@ -163,7 +162,6 @@ module.exports.saveImage = async (form) => {
             }
         }    
     );
-      console.log(resp);
       return resp.data;
     } catch (err) {
       if (err.response) {
@@ -176,7 +174,6 @@ module.exports.saveImage = async (form) => {
 
   module.exports.updateNormalProfile = async (token,data) => {
     try {
-        console.log("Starting normal profile update...");
 
         // Send data to the '/edit-profile/normal' endpoint for Cliente (Normal User)
         const resp = await axios.post(`${ap}/edit-profile/normal`, data,
@@ -202,8 +199,6 @@ module.exports.saveImage = async (form) => {
 
 module.exports.updateEstilistaProfile = async (token,data) => {
     try {
-        console.log("Starting estilista profile update...");
-
         // Send data to the '/edit-profile/estilista' endpoint for Estilista
         const resp = await axios.post(`${ap}/edit-profile/estilista`, data,
             {
@@ -228,8 +223,6 @@ module.exports.updateEstilistaProfile = async (token,data) => {
 
 module.exports.updateTecnicoProfile = async (token,data) => {
     try {
-        console.log("Starting tecnico profile update...");
-
         // Send data to the '/edit-profile/tecnico' endpoint for Tecnico
         const resp = await axios.post(`${ap}/edit-profile/tecnico`, data,
             {

@@ -41,7 +41,6 @@ export default {
 	computed:{
 		getColors(){
 			let cores = this.cor.split("/");
-			//console.log(cores)
 			let colors= cores.map((x) => colorMap[x.toLowerCase()]);
 
 			return colors;
@@ -49,8 +48,6 @@ export default {
 	},
 	methods:{
 		handleItemRemove(){
-			console.log("here")
-			console.log(this.itemID);
         	this.$emit('item_delete',this.itemID);	
 		}
 	}

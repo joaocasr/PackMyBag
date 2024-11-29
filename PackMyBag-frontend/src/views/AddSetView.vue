@@ -89,7 +89,6 @@ export default {
 	},
     created(){
 		let token = authService.getToken();
-		console.log(token);
 		if(token!=null){
 			this.token = token;
 			this.idloja=token.idloja; 
@@ -145,11 +144,8 @@ export default {
 				codigoPecas: uniquePecas
 			};
 
-			//console.log('Payload enviado para o backend:', payload);
-
 			axios.post(this.$apiGatewayUrl+'/api/catalogoService/addItem/Set', payload)
 				.then(response => {
-					console.log('Set adicionada com sucesso:', response.data);
 					alert('Set adicionada com sucesso.');
 					this.resetForm();
 				})

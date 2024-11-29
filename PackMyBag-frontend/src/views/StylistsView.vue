@@ -73,7 +73,6 @@ export default {
     },
     created(){
         let token = authService.getToken();
-		console.log(token);
 		if(token!=null){
 			this.token = token;
 			this.username=token.username;
@@ -88,7 +87,6 @@ export default {
             axios.get(this.$apiGatewayUrl+'/api/utilizadoresService/estilistas?page='+this.current_page+"&number=2",config).then(stylists=>{
                 this.estilistas = stylists.data;
                 if(this.estilistas.length==0) this.showbtnnext=false;
-                console.log(this.estilistas);
             }).catch(err=>{
                 console.log(err);
             })

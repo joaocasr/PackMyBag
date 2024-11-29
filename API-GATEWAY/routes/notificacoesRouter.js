@@ -17,8 +17,6 @@ router.post('/getnotifications/:username', function(req,res,next){
     }
     const newNotification = req.body;
 
-
-    console.log(notifications.get(username));
     if (clients.has(username)) {
         const res = clients.get(username);
         res.write(`data: ${JSON.stringify(newNotification)}\n\n`);
@@ -42,13 +40,10 @@ router.get('/notifications/retrieve/:username', (req, res) => {
     res.setHeader('Transfer-Encoding', 'identity');
     res.flushHeaders();
 
-    console.log("Checking notifications for client: " + username);
     const userNotifications = notifications.get(username);
 
     if (userNotifications && userNotifications.length > 0) {
         userNotifications.forEach(notificacao => {
-            console.log("Sending notification to client...");
-            console.log(notificacao);
             res.write(`data: ${JSON.stringify(notificacao)}\n\n`);
         });
         notifications.set(username,[])
@@ -60,7 +55,6 @@ router.get('/notifications/retrieve/:username', (req, res) => {
     clients.set(username, res);
 
     req.on('close', () => {
-        console.log("Connection closed for client: " + username);
         clients.delete(username);
     });
 });
@@ -101,7 +95,6 @@ router.delete('/removeMyNotification/:username/:id', async function(req,res,next
         const resp = await notificacoesService.removeNotificationFromClientByID(username,id);
         res.jsonp(resp);
     } catch (err) {
-        console.log(err);
         res.status(err.status || 500).jsonp(err);
     }
 });

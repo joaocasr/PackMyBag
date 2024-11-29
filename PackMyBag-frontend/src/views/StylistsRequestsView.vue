@@ -63,7 +63,6 @@ export default {
     },
     created(){
 		let token = authService.getToken();
-		console.log(token);
 		if(token!=null){
 			this.token = token;
 			this.usernameEstilista=token.username;
@@ -82,8 +81,6 @@ export default {
     },
     methods:{
         showPopUp(i){
-            console.log("showing the request:")
-            console.log(i);
             this.popUpRequest = i;
             this.isPopupVisible = true;
         },
@@ -94,7 +91,6 @@ export default {
             axios.get(this.$apiGatewayUrl+'/api/recomendacoesService/pedidos/estilistas/'+this.usernameEstilista+'?page='+this.current_page+'&number=5')
             .then(requests=>{
                 this.pedidos = requests.data;
-                console.log(this.pedidos);
             }).catch(err=>{
                 console.log(err);
             });

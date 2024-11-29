@@ -179,7 +179,6 @@ router.get("/price/:name",function(req,res,next){
 /* Libertar recursos reservados de uma encomenda cancelada. */
 router.post("/freeItems", function(req, res, next) {
   const items = req.body;
-  console.log(items);
   catalogoService.freeItems(items).then(resp => {
       res.jsonp(resp);
   }).catch(err => {

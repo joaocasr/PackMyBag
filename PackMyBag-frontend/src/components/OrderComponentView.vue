@@ -86,12 +86,10 @@ export default {
     methods: {
       getUsername() {
         let token = authService.getToken();
-        console.log(token);
         if (token != null) {
           this.token = token;
           this.role = token.role;
         }
-        console.log('Role:', this.role);
       },
       goToOrderDetails() {
         this.$router.push({ name: 'ordersdetails', params: { orderCode: this.orderCode } });
@@ -99,7 +97,6 @@ export default {
       updateStatus() {
         axios.put(this.$apiGatewayUrl+ `/api/encomendaService/status/${this.orderCode}/${this.newStatus}`)
           .then(response => {
-            console.log('Status atualizado:', response.data);
             window.location.reload(); // Refresh the page
           })
           .catch(error => {

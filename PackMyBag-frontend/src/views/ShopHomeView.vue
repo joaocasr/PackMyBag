@@ -53,7 +53,6 @@ export default {
 	},
 	created(){
 		let token = authService.getToken();
-		console.log(token);
 		if(token!=null){
 			this.token = token;
 			this.username=token.username;
@@ -73,7 +72,6 @@ export default {
 		},	
 		getTopItems(){
 			axios.get(this.$apiGatewayUrl+'/api/catalogoService/trending/'+this.idloja).then(items=>{
-				console.log(items.data);
 				this.topItems = items.data;
 			}).catch(err=>{
 				console.log(err);

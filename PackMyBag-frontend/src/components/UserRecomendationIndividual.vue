@@ -55,17 +55,14 @@ export default {
                     },
                     config
                     );
-                    console.log(r);
                 }catch(err){
                     response = 1;
                     console.log(err);
                 }
             }
             if(response==0){
-                console.log("hy1")
                 this.$swal.fire("All the items were inserted to your cart! ", "", "success");
             }else{
-                console.log("hy2")
                 this.$swal.fire("Something went wrong while inserting the items to your cart! Try again later.", "", "error");
             }
 		}

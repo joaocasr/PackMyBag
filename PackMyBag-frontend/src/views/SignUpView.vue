@@ -134,7 +134,6 @@ export default {
         doSignUp(){
             if(this.isActiveTab1==true){
                 this.$store.dispatch('auth/signUpUser', this.user).then(resp => {
-                    console.log(this.user);
                     this.$swal({
                         icon: "success",
                         title: "Success!",
@@ -152,7 +151,6 @@ export default {
             };
             if(this.isActiveTab2==true){
                 this.$store.dispatch('auth/signUpEstilista', this.estilista).then(resp => {
-                    console.log(this.estilista);
                     this.$swal({
                         icon: "success",
                         title: "Success!",
@@ -170,7 +168,6 @@ export default {
             };
             if(this.isActiveTab3==true){
                 this.$store.dispatch('auth/signUpTecnico', this.tecnico).then(resp => {
-                    console.log(this.tecnico);
                     this.$swal({
                         icon: "success",
                         title: "Success!",

@@ -286,7 +286,6 @@ data(){
 
 created(){
 		let token = authService.getToken();
-		console.log(token);
 		if(token!=null){
 			this.token = token;
 			this.username = token.username;
@@ -420,11 +419,9 @@ methods:{
                 },
                 config
             );
-            console.log(r);
             return r;
 
         }catch(err){
-            console.log(err);
             let msg="";
             if(err.response) msg = err.response.data.error.message;
             this.$swal.fire("Something went wrong! "+msg, "", "error");
@@ -462,10 +459,8 @@ methods:{
                 },
                 config
             );
-            console.log(r);
             if(r.status===200){
                 let resp = await this.insertPedidoPending(codigo);
-                console.log(resp);
             }
             this.$router.push({path:'/payments'})
             return r;

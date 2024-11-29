@@ -104,7 +104,6 @@ export default {
 	},
 	created(){
 		let token = authService.getToken();
-		console.log(token);
 		if(token!=null){
 			this.token = token;
 			this.username=token.username;
@@ -117,13 +116,11 @@ export default {
 			.then(resp=>{
 				this.favourites = resp.data;
 				if(this.favourites.length==0) this.showbtnnext=false;
-				console.log(this.favourites);
 			}).catch(error=>{
 				console.log(error);
 			})
 		},
 		updateFavourite(id){
-			console.log(id);
 			this.favourites = this.favourites.filter((x)=> x.identificador !== id)
 		},
 		handlePage(action){
@@ -146,7 +143,6 @@ export default {
 		getFavouritesPerPrice(){
 			axios.get(this.$apiGatewayUrl+'/api/favoritosService/price/'+this.username+"?min="+this.value[0]+"&max="+this.value[1]+"&page="+this.current_page+"&number=3")
 			.then(resp=>{
-				console.log(resp)
 				this.favourites = resp.data;
 			}).catch(err=>{
 				console.log(err);
@@ -155,7 +151,6 @@ export default {
 		getFavouritesByGender(tipo){
 			axios.get(this.$apiGatewayUrl+'/api/favoritosService/genero/'+this.username+"?gender="+tipo+"&page="+this.current_page+"&number=3")
 			.then(resp=>{
-				console.log(resp)
 				this.favourites = resp.data;
 			}).catch(err=>{
 				console.log(err);
@@ -164,7 +159,6 @@ export default {
 		getFavouritesBySize(size){
 			axios.get(this.$apiGatewayUrl+'/api/favoritosService/size/'+this.username+"?size="+size+"&page="+this.current_page+"&number=3")
 			.then(resp=>{
-				console.log(resp)
 				this.favourites = resp.data;
 			}).catch(err=>{
 				console.log(err);

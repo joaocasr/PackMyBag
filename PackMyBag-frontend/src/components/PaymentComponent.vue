@@ -58,7 +58,6 @@ export default {
                                 amount: this.total
                             };
                             let response = await axios.post(this.$apiGatewayUrl+'/api/cartService/paypal/create', paymentData);
-                            console.log(response);
                             if (response.data) {
                                 window.location.href = response.data;
                                 this.$emit('finishPayment',{"codigo":this.codigo, "total": this.total });
@@ -67,7 +66,6 @@ export default {
                                 this.$swal.fire(response.data.error || "Falha ao obter URL de aprovação do PayPal.", "", "error");
                             }
                         } catch(err){
-                            console.log(err);
                             this.$swal.fire("Something went wrong!", "", "error");
                             return;
                         }

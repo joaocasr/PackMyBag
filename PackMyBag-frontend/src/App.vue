@@ -32,15 +32,12 @@ export default {
 	},
   methods: {
     getNotifications() {
-      console.log("Connecting to notification stream...");
       const eventSource = new EventSource(this.$apiGatewayUrl+ `/api/notificacoesService/notifications/retrieve/${this.username}`);
       let id = 1;
       eventSource.onopen = () => {
-        console.log("EventSource connection established.");
       };
 
       eventSource.onmessage = (event) => {
-        console.log("Notification received:", event.data);
         try {
           const notification = JSON.parse(event.data);
           notification['id'] = id;
@@ -57,7 +54,6 @@ export default {
       };
   },
   closeNotif(idx){
-    console.log("here: "+idx);
     this.notificacoes = this.notificacoes.filter( (n)=> n.id !== idx);
 
   }

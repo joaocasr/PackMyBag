@@ -93,7 +93,6 @@ router.delete('/removeItem',async function(req,res,next){
 })
 
 router.put('/pedidosEditDescricaoOrComplete',function(req,res,next){
-    console.log("hey")
     const nome = req.body.nome;
     const descricao = req.body.descricao;
     const status = req.body.status; // pending, PAYED, completed

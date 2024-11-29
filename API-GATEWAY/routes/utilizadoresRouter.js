@@ -12,11 +12,9 @@ router.post('/signin', async function(req,res,next){
     const password = req.body.password;
     try {
         const resp = await utilizadoresService.signIn(username, password);
-        //console.log(resp.response);
         if(resp.response) res.status(resp.response.status).jsonp(resp);
         else res.jsonp(resp);
     } catch (err) {
-        //console.log(err);
         res.status(err.status || 500).jsonp(err.error || "Internal Server Error");
     }
 });
@@ -49,10 +47,8 @@ router.post('/signup/estilista', async function(req,res,next){
 
     try {
         const resp = await utilizadoresService.signUpEstilista(username, nome, password, email,genero,bio);
-        console.log(resp);
         res.jsonp(resp);
     } catch (err) {
-        console.log(err);
         res.status(err.status || 500).jsonp(err.error || "Internal Server Error");
     }
 });
@@ -116,9 +112,7 @@ router.post('/updateImage', upload.single('profile_image'), async function(req,r
             contentType: req.file.mimetype   
         });
         form.append('username', req.body.username);
-        console.log(form);
         const resp = await utilizadoresService.saveImage(form);
-        console.log(resp);
         res.send(resp); 
     } catch (err) {
         res.status(err.status || 500).jsonp(err.error || "Internal Server Error");
@@ -127,7 +121,6 @@ router.post('/updateImage', upload.single('profile_image'), async function(req,r
 
 router.post('/updateProfile/normal',validate.verifyToken, async (req, res) => {
     try {
-        console.log('Forwarding payload for normal user:', req.body);
         const result = await utilizadoresService.updateNormalProfile(req.token,req.body);
         res.json(result);
     } catch (error) {
@@ -139,7 +132,6 @@ router.post('/updateProfile/normal',validate.verifyToken, async (req, res) => {
 
 // Route for updating Estilista profile
 router.post('/updateProfile/estilista',validate.verifyToken, async (req, res) => {
-    console.log('Forwarding payload for estilista user:', req.body);
 
     try {
         const result = await utilizadoresService.updateEstilistaProfile(req.token,req.body);
@@ -152,7 +144,6 @@ router.post('/updateProfile/estilista',validate.verifyToken, async (req, res) =>
 
 // Route for updating Tecnico profile
 router.post('/updateProfile/tecnico',validate.verifyToken, async (req, res) => {
-    console.log('Forwarding payload for tecnico user:', req.body);
 
     try {
         const result = await utilizadoresService.updateTecnicoProfile(req.token,req.body);

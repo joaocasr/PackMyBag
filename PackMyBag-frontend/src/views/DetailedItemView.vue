@@ -263,7 +263,6 @@ export default {
 				}
 				let cores = this.cor.split("/");
 				this.colors= cores.map((x) => colorMap[x.toLowerCase()]);
-				console.log(item);
 			}).catch(err=>{
 				console.log(err);
 			})
@@ -276,7 +275,6 @@ export default {
 					return;
 				}
 				this.reviews = resp.data;
-				console.log(this.reviews);
 			}).catch(erro=>{
 				console.log(erro)
 			})
@@ -375,7 +373,6 @@ export default {
 					},
 					config
 				);
-				console.log(resp);
 				return resp;
 			} catch (err) {
 				console.log(err);
@@ -422,7 +419,6 @@ export default {
 				)
 				return r;
 			}catch(err){
-				console.log(err);
 				return err;
 			}
 		},
@@ -434,9 +430,7 @@ export default {
 				confirmButtonText: "Yes"
 			});
 			if(result.isConfirmed){
-				console.log("confirmado");
 				let r = await this.addInterested();
-				console.log(r);
 				this.bellImage="/DetailedItemIMG/bellactive.jpg";
 				if (r && r.status == 200) {
 					this.$swal.fire("You will receive notifications on this item soon.", "", "success");
@@ -501,8 +495,7 @@ export default {
 			this.isPopupVisible = !this.isPopupVisible;
 		},
 		async confirmSelection() {
-			console.log(this.selectedPedidos);
-			
+
 			const result = await this.$swal.fire({
 				title: "Are you sure you want to save this item to the recommendation(s)?",
 				showDenyButton: false,
@@ -524,7 +517,6 @@ export default {
 						},
 						config
 						);
-						console.log(add);
 					}catch(err){
 						this.$swal.fire("Something went wrong! "+err.data, "", "error");
 					}
@@ -538,8 +530,6 @@ export default {
 			axios.get(this.$apiGatewayUrl+'/api/recomendacoesService/pedidosEinfo/'+this.username)
             .then(requests=>{
                 this.pedidos = requests.data;
-				console.log("aquuuiiii")
-                console.log(this.pedidos);
             }).catch(err=>{
                 console.log(err);
             });

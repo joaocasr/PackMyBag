@@ -65,7 +65,6 @@ export default {
         }
     },
     created(){
-        console.log(this.items);
         if(this.items.length<this.max) this.limit = this.items.length;
         else this.limit = this.max;
     },
@@ -117,7 +116,6 @@ export default {
 				let config = {headers:header}
 				header['Content-Type'] = 'application/json';
 				try{
-                        console.log("entrou");
                         console.log({
                             "nome":this.nome,
                             "descricao":this.mydescription,
@@ -132,7 +130,6 @@ export default {
 						,
 						config
 						);
-						console.log(edit);
                         this.$emit('recommendation_completed',this.idx);
 					}catch(err){
 						this.$swal.fire("Something went wrong! "+err, "", "error");

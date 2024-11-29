@@ -54,7 +54,6 @@ module.exports.removeNotificationFromClientByID = async (username, id) =>{
         );
         return resp.data;
     }catch(err){
-        console.log(err);
         if (err.response) {
             throw { error: err.response.data, status: err.response.status };
         } else {

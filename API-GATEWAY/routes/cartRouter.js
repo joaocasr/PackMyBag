@@ -82,11 +82,8 @@ router.post("/order", validate.verifyToken, async function(req,res,next){
   const itensObj = req.body.itensObj;
   const username = req.body.username;
   try{
-    console.log(itensObj);
     const result = await catalogoService.verifyAvailability(itensObj);
     if(result.status==200){
-          console.log("passou")
-          console.log(username)
     
           const codigo = "CART"+username.toUpperCase()+Date.now();
           const payment = {
@@ -101,7 +98,6 @@ router.post("/order", validate.verifyToken, async function(req,res,next){
                             "status": "PENDING",
                             "items":itensObj.itens
                           }
-          console.log(payment);
           try{
             let r = await cartService.createPayment(payment); // create payment
             res.status(200).jsonp(r);
@@ -118,7 +114,6 @@ router.post("/order", validate.verifyToken, async function(req,res,next){
 
 /* actually pay */
 router.post("/pay", validate.verifyToken, async function(req,res,next){
-  console.log("let's pay");
   try{
 
       if(req.body.ptype==="FORM"){
@@ -130,8 +125,6 @@ router.post("/pay", validate.verifyToken, async function(req,res,next){
                 "status":"PAYED"
           }  
           let resp1 = await cartService.changePaymentStatus(statusPayment);
-          console.log("resp 1")
-          console.log(resp1);
           if(resp1.status===200){ 
 
             try{
@@ -153,18 +146,13 @@ router.post("/pay", validate.verifyToken, async function(req,res,next){
                 "status":"PAYED"
           }  
           let resp1 = await cartService.changePaymentStatus(statusPayment);
-          console.log("resp 1")
-          console.log(resp1);
           if(resp1.status===200){ //get dos items associados ao pagamento
 
             try{  
               
-                    let resp2 = await cartService.getpayment(req.body.codigo); 
-                    console.log("resp 2");
-                    console.log(resp2);         
+                    let resp2 = await cartService.getpayment(req.body.codigo);      
                     let paymentInfoItems = resp2;
 
-                    console.log("a imprimir a nova encomenda")
                     const encomenda = {
                       "codigoEncomenda":req.body.codigo,
                       "dataEntrega": paymentInfoItems.inicioAluguer,
@@ -178,7 +166,6 @@ router.post("/pay", validate.verifyToken, async function(req,res,next){
                       "preco": req.body.total,
                       "taxaEntrega": 6.0
                     }
-                    console.log(encomenda);
                     try{
                       let resp3 = await encomendaService.createEncomenda(encomenda);
                       res.status(200).jsonp(resp3);
@@ -226,7 +213,6 @@ router.post("/paypal/create", async function(req, res, next) {
 
   try {
     let response = await cartService.createPaypalPayment(method, amount, currency, description);
-    console.log(response);
     res.status(200).send(response);
   } catch (err) {
     res.status(400).jsonp(err);
