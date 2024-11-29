@@ -5,7 +5,15 @@ const validate = require('../middleware/index')
 const multer = require('multer');
 const FormData = require('form-data');
 const fs = require('fs');
-const upload = multer();
+const path = require('path');
+
+
+const uploadDir = path.join(__dirname, 'uploads');
+if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir);
+}
+
+const upload = multer({ dest: 'uploads/' });
 
 router.post('/signin', async function(req,res,next){
     const username = req.body.username;
@@ -105,22 +113,28 @@ router.get('/profileInfo/:username', async function(req,res,next){
 });
 
 
-router.post('/updateImage', upload.single('profile_image'), async function(req,res,next){
+router.post('/updateImage', upload.single('profile_image'), async function(req, res, next) {
     try {
-        if (!req.file || !req.body.username) { throw new Error("Missing file or username"); }
+        if (!req.file || !req.body.username) {
+            throw new Error("Missing file or username");
+        }
+
+        // Log the file path
+        console.log('File path:', req.file.path);
 
         const form = new FormData();
-        
-        form.append('profile_image', fs.createReadStream(req.file.originalname), {
-            filename: req.file.originalname, 
-            contentType: req.file.mimetype   
+        form.append('profile_image', fs.createReadStream(req.file.path), {
+            filename: req.file.originalname,
+            contentType: req.file.mimetype
         });
         form.append('username', req.body.username);
         console.log(form);
+
         const resp = await utilizadoresService.saveImage(form);
         console.log(resp);
-        res.send(resp); 
+        res.send(resp);
     } catch (err) {
+        console.error('Error:', err);
         res.status(err.status || 500).jsonp(err.error || "Internal Server Error");
     }
 });
