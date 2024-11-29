@@ -1,6 +1,18 @@
 # PackMyBag
 
+Startup que oferece um serviço de aluguer de roupas diretamente no destino de viagem, eliminando a necessidade de transportar malas. A solução promove sustentabilidade e conveniência para viajantes.
+
 # Informações
+
+## Branches do Repositório
+
+O repositório do **PackMyBag** possui dois branches principais:
+
+- **main**: Destinado ao desenvolvimento contínuo. Todas as novas funcionalidades e melhorias são integradas neste branch antes de serem testadas e preparadas para produção.
+- **production**: Configurado para deploy em ambiente de produção através da cloud. Este branch contém o código estável e pronto para ser utilizado pelos utilizadores finais.
+
+> **Nota:** Recomenda-se utilizar o branch **main** para desenvolvimento e testes locais, e o branch **production** para deploy na nuvem.
+
 
 Para testar a aplicação **Pack My Bag**, certifique-se de que as seguintes dependências estão instaladas no seu sistema:
 
@@ -136,6 +148,9 @@ Após a execução, acesse o frontend via navegador:
 
 - Modo Individual: http://localhost:5173
 - Com Docker Compose: http://localhost:3000
+
+
+
 
 # Arquitetura da aplicação e de cada microserviço
 
