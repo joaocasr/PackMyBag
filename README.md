@@ -54,6 +54,8 @@ cd packmybag
 mvn clean install
 mvn spring-boot:run
 ```
+#### Info
+Todas as chamadas que são feitas à API a partir dos microserviços, o domínio tem de ser alterado para localhost, visto que o código está orientado para a execução com o docker compose e por isso está descrito o nome do serviço apigatewayservice.
 
 Para cada microserviço (por exemplo, `catalogService`, `encomendaService`, etc.), navegue para a pasta correspondente e execute os comandos acima.
 
