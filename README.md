@@ -33,10 +33,10 @@ Além disso, os microserviços Java Spring Boot dependem de uma base de dados Po
 
 ### Configurar a Base de Dados PostgreSQL
 
-Execute o script `setup.sh` para iniciar o PostgreSQL no Docker e criar os bancos de dados necessários:
+Execute o script `setup_db.sh` para iniciar o PostgreSQL no Docker e criar os bancos de dados necessários:
 
 ```bash
-./scripts/setup.sh
+./scripts/setup_db.sh
 ```
 
 ### Compilar e Executar Microserviços Individualmente

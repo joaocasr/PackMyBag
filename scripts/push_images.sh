@@ -1,7 +1,5 @@
 #!/bin/bash
 
-echo "packmybag2425" | docker login -u packmybag --password-stdin
-
 # Criar um builder:
 #docker buildx create --use
 # Verificar se o builder foi criado e se suporta a plataform
@@ -12,15 +10,15 @@ PLATFORMS="linux/amd64"
 #PLATFORMS="linux/amd64,linux/arm64"
 
 # Construir e enviar imagens multiplataforma com os caminhos corretos
-docker buildx build --no-cache --platform $PLATFORMS --build-arg MODE=production -t packmybag/webplataform:frontend ./PackMyBag-frontend --push
-docker buildx build --platform $PLATFORMS -t packmybag/webplataform:apigateway ./API-GATEWAY --push
-docker buildx build --platform $PLATFORMS -t packmybag/webplataform:recomendacoes ./recomendacoesservice --push
-docker buildx build --platform $PLATFORMS -t packmybag/webplataform:notificacoes ./notificacoesService --push
-docker buildx build --platform $PLATFORMS -t packmybag/webplataform:cart ./cartService --push
-docker buildx build --platform $PLATFORMS -t packmybag/webplataform:catalogo ./catalogService --push
-docker buildx build --platform $PLATFORMS -t packmybag/webplataform:utilizadores ./utilizadoresService --push
-docker buildx build --platform $PLATFORMS -t packmybag/webplataform:favoritos ./favoritosService --push
-docker buildx build --platform $PLATFORMS -t packmybag/webplataform:encomendas ./encomendaService --push
+docker buildx build --no-cache --platform $PLATFORMS -t packmybag/webplataform:frontend ./PackMyBag-frontend --push
+docker buildx build --no-cache --platform $PLATFORMS -t packmybag/webplataform:apigateway ./API-GATEWAY --push
+docker buildx build --no-cache --platform $PLATFORMS -t packmybag/webplataform:recomendacoes ./recomendacoesservice --push
+docker buildx build --no-cache --platform $PLATFORMS -t packmybag/webplataform:notificacoes ./notificacoesService --push
+docker buildx build --no-cache --platform $PLATFORMS -t packmybag/webplataform:cart ./cartService --push
+docker buildx build --no-cache --platform $PLATFORMS -t packmybag/webplataform:catalogo ./catalogService --push
+docker buildx build --no-cache --platform $PLATFORMS -t packmybag/webplataform:utilizadores ./utilizadoresService --push
+docker buildx build --no-cache --platform $PLATFORMS -t packmybag/webplataform:favoritos ./favoritosService --push
+docker buildx build --no-cache --platform $PLATFORMS -t packmybag/webplataform:encomendas ./encomendaService --push
 
 
 # docker tag packmybag-frontend:latest packmybag/webplataform:frontend
