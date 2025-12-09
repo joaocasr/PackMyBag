@@ -156,6 +156,10 @@ Após a execução, acesse o frontend via navegador:
 
 # Arquitetura da aplicação e de cada microserviço
 
+## Arquitetura da infraestrutura da aplicação na cloud
+
+<img src="/docs/cloudinfrastructure.JPG" width="600px" width="700px" />
+
 ## Modelo de Use Cases atual
 
 <img src="/modeling/Use Case Diagram.jpg" width="450px" />
